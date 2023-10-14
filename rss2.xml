@@ -9,8 +9,35 @@
     <atom:link href="http://example.com/rss2.xml" rel="self" type="application/rss+xml"/>
     
     <description>选择大于努力</description>
-    <pubDate>Sat, 14 Oct 2023 07:23:59 GMT</pubDate>
+    <pubDate>Sat, 14 Oct 2023 07:33:59 GMT</pubDate>
     <generator>http://hexo.io/</generator>
+    
+    <item>
+      <title>My First Blog</title>
+      <link>http://example.com/2023/10/14/%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/</link>
+      <guid>http://example.com/2023/10/14/%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/</guid>
+      <pubDate>Sat, 14 Oct 2023 07:28:54 GMT</pubDate>
+      
+        
+        
+      <description>&lt;p&gt;source&amp;#x2F;_posts：里面放的就是文章，要写文章就加一篇上去；&lt;/p&gt;
+&lt;p&gt;文章的分类和标签在上面加上去就行；&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;全部改完之后，在 Blog 文件夹打开 git bash，执行下面命令：&lt;br&gt;hexo clean&lt;br&gt;hexo g</description>
+        
+      
+      
+      
+      <content:encoded><![CDATA[<p>source&#x2F;_posts：里面放的就是文章，要写文章就加一篇上去；</p><p>文章的分类和标签在上面加上去就行；</p><hr><p>全部改完之后，在 Blog 文件夹打开 git bash，执行下面命令：<br>hexo clean<br>hexo g<br>hexo d</p>]]></content:encoded>
+      
+      
+      <category domain="http://example.com/categories/%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/">使用指南</category>
+      
+      
+      
+      <comments>http://example.com/2023/10/14/%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/#disqus_thread</comments>
+      
+    </item>
     
     <item>
       <title>第一篇文章</title>
