@@ -9,8 +9,30 @@
     <atom:link href="http://example.com/rss2.xml" rel="self" type="application/rss+xml"/>
     
     <description>选择大于努力</description>
-    <pubDate>Tue, 17 Oct 2023 13:32:03 GMT</pubDate>
+    <pubDate>Tue, 17 Oct 2023 13:36:35 GMT</pubDate>
     <generator>http://hexo.io/</generator>
+    
+    <item>
+      <title></title>
+      <link>http://example.com/2023/10/17/%E5%B7%A5%E4%BD%9C%E7%AC%94%E8%AE%B0/</link>
+      <guid>http://example.com/2023/10/17/%E5%B7%A5%E4%BD%9C%E7%AC%94%E8%AE%B0/</guid>
+      <pubDate>Tue, 17 Oct 2023 13:33:04 GMT</pubDate>
+      
+        
+        
+      <description>&lt;h1 id=&quot;记录一下工作&quot;&gt;&lt;a href=&quot;#记录一下工作&quot; class=&quot;headerlink&quot; title=&quot;记录一下工作&quot;&gt;&lt;/a&gt;记录一下工作&lt;/h1&gt;&lt;h2 id=&quot;2023-10-17&quot;&gt;&lt;a href=&quot;#2023-10-17&quot; class=&quot;headerli</description>
+        
+      
+      
+      
+      <content:encoded><![CDATA[<h1 id="记录一下工作"><a href="#记录一下工作" class="headerlink" title="记录一下工作"></a>记录一下工作</h1><h2 id="2023-10-17"><a href="#2023-10-17" class="headerlink" title="2023.10.17"></a>2023.10.17</h2><p>今天入职了，做的是UE4开发；（ps：办公环境不错）</p><p>今天的任务是用蓝图写个小功能…没接触过蓝图，今天懵逼了一天；</p><p>赶紧回来补补。</p><hr>]]></content:encoded>
+      
+      
+      
+      
+      <comments>http://example.com/2023/10/17/%E5%B7%A5%E4%BD%9C%E7%AC%94%E8%AE%B0/#disqus_thread</comments>
+      
+    </item>
     
     <item>
       <title>UE 学习笔记</title>
