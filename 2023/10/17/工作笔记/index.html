@@ -30,7 +30,7 @@
 <meta property="og:description" content="记录一下工作 以及 遇到的不会的东西 UE 困难记录先放大招： UE蓝图基础_@大宁字的博客-CSDN博客 UE蓝图进阶_@大宁字的博客-CSDN博客 下面是一些小知识点： [如何将unreal engine 4 从中文版设置为英文版_百度知道 (baidu.com)](https:&#x2F;&#x2F;zhidao.baidu.com&#x2F;question&#x2F;1574910021930854660.html#:~:te">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-10-17T13:33:04.590Z">
-<meta property="article:modified_time" content="2023-10-18T14:01:32.466Z">
+<meta property="article:modified_time" content="2023-10-18T14:27:35.265Z">
 <meta property="article:author" content="FJBQ">
 <meta property="article:tag" content="工作">
 <meta name="twitter:card" content="summary">
@@ -205,7 +205,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-10-18 22:01:32" itemprop="dateModified" datetime="2023-10-18T22:01:32+08:00">2023-10-18</time>
+                <time title="修改时间：2023-10-18 22:27:35" itemprop="dateModified" datetime="2023-10-18T22:27:35+08:00">2023-10-18</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -263,13 +263,14 @@
 <li>事件分发器<ul>
 <li>这个其实是一种常用的方法了，比较重要；思想比较简单，但是在蓝图中感觉比较奇怪…</li>
 <li>它是一种 <strong>发布者 &#x2F; 订阅者</strong> 模式，当发布者往事件分发器里面call的时候，绑定在这个事件分发器上的订阅者都能收到消息，从而执行对应的逻辑；也就是说发布者并不知道具体会做啥，只需要 call 就行，订阅者需要去关注；</li>
-<li>具体做法就是：<strong>发布者</strong>创建一个<strong>事件分发器（event dispatchers）</strong>，然后对于<strong>订阅者</strong>，需要自行<strong>订阅这个事件分发器</strong>（称为bind）（同样也需要获取到发布者的蓝图类，从而获取到这个分发器），然后在发布者的蓝图逻辑中，在需要时 call 一下这个事件分发器就行了。</li>
+<li>具体做法就是：<strong>发布者</strong>创建一个<strong>事件分发器（event dispatchers）</strong>，然后对于<strong>订阅者</strong>，需要自行<strong>订阅这个事件分发器</strong>（称为bind）（同样也需要获取到发布者的蓝图类，从而获取到这个分发器），同时实现一下订阅者收到 call 的时候需要执行的事件就行。然后在发布者的蓝图逻辑中，在需要时 call 一下这个事件分发器就行了。</li>
 </ul>
 </li>
 </ul>
 <p>那么这里会遇到一个问题，我在关卡蓝图中定义了一个事件分发器，然后需要在UI中bind这个分发器，如何才能找到这个关卡蓝图呢？（这个不太会…）</p>
 <p>同时，今天还有一个东西没学，就是 GamePlay 框架，现在学一下…</p>
 <p>今天就是这两个东西没搞，明天开始写c++了…</p>
+<p>两天速成蓝图时间太紧了…有时间的话还是需要系统深入的学一下蓝图…</p>
 <hr>
 
     </div>
@@ -459,7 +460,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共2.5k字</span>
+  <span class="post-count">博客全站共2.6k字</span>
 </div>
 
 
