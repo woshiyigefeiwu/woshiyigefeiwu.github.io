@@ -22,12 +22,12 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"manual","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="选择大于努力">
+  <meta name="description" content="坚定 坚持 坚强 \n 选择大于努力">
 <meta property="og:type" content="website">
 <meta property="og:title" content="FJBQ">
 <meta property="og:url" content="http://example.com/index.html">
 <meta property="og:site_name" content="FJBQ">
-<meta property="og:description" content="选择大于努力">
+<meta property="og:description" content="坚定 坚持 坚强 \n 选择大于努力">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:author" content="FJBQ">
 <meta name="twitter:card" content="summary">
@@ -170,12 +170,98 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/10/21/UE4%20%E5%B0%8F%E7%9F%A5%E8%AF%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="FJBQ">
+      <meta itemprop="description" content="坚定 坚持 坚强 \n 选择大于努力">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FJBQ">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/10/21/UE4%20%E5%B0%8F%E7%9F%A5%E8%AF%86/" class="post-title-link" itemprop="url">UE4 小知识</a>
+        </h2>
+
+        <div class="post-meta">
+          
+            <i class="fa fa-thumb-tack"></i>
+            <font color=7D26CD>置顶</font>
+            <span class="post-meta-divider">|</span>
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-10-21 22:45:56 / 修改时间：23:07:48" itemprop="dateCreated datePublished" datetime="2023-10-21T22:45:56+08:00">2023-10-21</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/UE/" itemprop="url" rel="index"><span itemprop="name">UE</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="记录一些-UE4-常用的知识"><a href="#记录一些-UE4-常用的知识" class="headerlink" title="记录一些 UE4 常用的知识"></a>记录一些 UE4 常用的知识</h1><h2 id="从-c-中加载-UI"><a href="#从-c-中加载-UI" class="headerlink" title="从 c++ 中加载 UI"></a>从 c++ 中加载 UI</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 方法1：</span></span><br><span class="line">FString HUDClassLoadPath = <span class="built_in">FString</span>(<span class="built_in">TEXT</span>(<span class="string">&quot;Blueprint&#x27;/Game/Blueprints/HUD.HUD_C&#x27;&quot;</span>));</span><br><span class="line"><span class="keyword">auto</span> MyUIClass = <span class="built_in">LoadClass</span>&lt;UUserWidget&gt;(<span class="literal">NULL</span>, *HUDClassLoadPath);</span><br><span class="line"><span class="keyword">if</span> (MyUIClass != <span class="literal">nullptr</span>)</span><br><span class="line">&#123;</span><br><span class="line">    UUserWidget* MyUI = <span class="built_in">CreateWidget</span>&lt;UUserWidget&gt;(<span class="built_in">GetWorld</span>(), MyUIClass);</span><br><span class="line">    <span class="keyword">if</span> (MyUI != <span class="literal">nullptr</span>) MyUI-&gt;<span class="built_in">AddToViewport</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 方法2：</span></span><br><span class="line">FString UiPath = <span class="built_in">TEXT</span>(<span class="string">&quot;/Script/UMGEditor.WidgetBlueprint&#x27;/Game/Blueprints/HUD.HUD_C&#x27;&quot;</span>);<span class="comment">//动态加载UI 类</span></span><br><span class="line">UClass* MyUIClass = <span class="built_in">LoadClass</span>&lt;UUserWidget&gt;(<span class="literal">nullptr</span>, *UiPath);</span><br><span class="line"><span class="keyword">if</span> (MyUIClass)</span><br><span class="line">&#123;</span><br><span class="line">	UUserWidget* MyUI = UWidgetBlueprintLibrary::<span class="built_in">Create</span>(GWorld, MyUIClass, <span class="literal">nullptr</span>);<span class="comment">//创建蓝图添加到窗口</span></span><br><span class="line">	MyUI-&gt;<span class="built_in">AddToViewport</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">注意：</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">1. 需要包含头文件：</span></span><br><span class="line"><span class="comment">#include &quot;Blueprint/UserWidget.h&quot;</span></span><br><span class="line"><span class="comment">#include &quot;Blueprint/WidgetBlueprintLibrary.h&quot;</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">2. 两种方法都得在当前项目的 .Build.cs 文件中检查是否有包含 &quot;UMG&quot; 模块，没有的话需要添加上去，这样才能编译通过；</span></span><br><span class="line"><span class="comment">PublicDependencyModuleNames.AddRange(new string[] &#123; &quot;Core&quot;, &quot;CoreUObject&quot;, &quot;Engine&quot;, &quot;InputCore&quot;, &quot;HeadMountedDisplay&quot;, &quot;UMG&quot; &#125;);</span></span><br><span class="line"><span class="comment">（看到最后一个没有~）</span></span><br><span class="line"><span class="comment">*/</span> </span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2023/10/17/%E5%B7%A5%E4%BD%9C%E7%AC%94%E8%AE%B0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
       <meta itemprop="name" content="FJBQ">
-      <meta itemprop="description" content="选择大于努力">
+      <meta itemprop="description" content="坚定 坚持 坚强 \n 选择大于努力">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -202,7 +288,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-10-18 22:27:35" itemprop="dateModified" datetime="2023-10-18T22:27:35+08:00">2023-10-18</time>
+                <time title="修改时间：2023-10-21 19:28:06" itemprop="dateModified" datetime="2023-10-21T19:28:06+08:00">2023-10-21</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -229,6 +315,8 @@
 <h2 id="UE-困难记录"><a href="#UE-困难记录" class="headerlink" title="UE 困难记录"></a>UE 困难记录</h2><p><strong>先放大招</strong>：</p>
 <p><a target="_blank" rel="noopener" href="https://blog.csdn.net/HeElLose/article/details/130712417">UE蓝图基础_@大宁字的博客-CSDN博客</a></p>
 <p><a target="_blank" rel="noopener" href="https://blog.csdn.net/HeElLose/article/details/130730431?ops_request_misc=&request_id=&biz_id=102&utm_term=%E5%A6%82%E4%BD%95%E5%9C%A8%E5%85%B3%E5%8D%A1%E8%93%9D%E5%9B%BE%E4%B8%AD%E5%AE%9E%E4%BE%8B%E5%8C%96%E8%93%9D%E5%9B%BE%E7%B1%BB%EF%BC%9F&utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduweb~default-0-130730431.142%5Ev96%5Econtrol&spm=1018.2226.3001.4187">UE蓝图进阶_@大宁字的博客-CSDN博客</a></p>
+<p><a target="_blank" rel="noopener" href="https://dev.epicgames.com/community/learning/paths/p0z/unreal-engine-03de02">新手指南 | Epic Developer Community (epicgames.com)</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.zhihu.com/people/fjz13">(12 封私信 &#x2F; 85 条消息) 大钊 - 知乎 (zhihu.com)</a></p>
 <p><strong>下面是一些小知识点</strong>：</p>
 <p>[如何将unreal engine 4 从中文版设置为英文版_百度知道 (baidu.com)](<a target="_blank" rel="noopener" href="https://zhidao.baidu.com/question/1574910021930854660.html#:~:text=%E9%80%80%E5%87%BA%E5%BD%93%E5%89%8D%E7%99%BB%E9%99%86%E7%9A%84%E8%B4%A6%E5%8F%B7%EF%BC%8C%E5%9C%A8Unreal">https://zhidao.baidu.com/question/1574910021930854660.html#:~:text=退出当前登陆的账号，在Unreal</a> Engine 4 最新版，打开 Epic,Games Launcher 登陆，在这个登陆面板的右上角有个下拉菜单（圆圈）点进去，里面可以选择语言，只要选中 English 再登陆，进去以后的整个界面就全是英文了。 7)</p>
 <p>[UE4蓝图基础——蓝图实现物体移动和物体旋转_ue4蓝图控制物体移动_liang_704959721的博客-CSDN博客](<a target="_blank" rel="noopener" href="https://blog.csdn.net/liang_704959721/article/details/114156075?ops_request_misc=%7B%22request_id%22:%22169755190716800186552911%22,%22scm%22:%2220140713.130102334.pc_all.%22%7D&request_id=169755190716800186552911&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~first_rank_ecpm_v1~rank_v31_ecpm-1-114156075-null-null.142%5Ev96%5Econtrol&utm_term=UE4">https://blog.csdn.net/liang_704959721/article/details/114156075?ops_request_misc=%7B%22request%5Fid%22%3A%22169755190716800186552911%22%2C%22scm%22%3A%2220140713.130102334.pc%5Fall.%22%7D&amp;request_id=169755190716800186552911&amp;biz_id=0&amp;utm_medium=distribute.pc_search_result.none-task-blog-2~all~first_rank_ecpm_v1~rank_v31_ecpm-1-114156075-null-null.142^v96^control&amp;utm_term=UE4</a> 蓝图如何让物体旋转？&amp;spm&#x3D;1018.2226.3001.4187)</p>
@@ -262,6 +350,32 @@
 <p>今天就是这两个东西没搞，明天开始写c++了…</p>
 <p>两天速成蓝图时间太紧了…有时间的话还是需要系统深入的学一下蓝图…</p>
 <hr>
+<h2 id="2023-10-20"><a href="#2023-10-20" class="headerlink" title="2023.10.20"></a>2023.10.20</h2><p><strong>关键词：UE C++</strong></p>
+<p>这几天很抑郁，其他小伙伴都收到了中大厂的offer，不少从游戏转到互连网的，都劝我放弃游戏…</p>
+<p>我也开始怀疑我选择的这条道路的真确性了，真的有点崩溃… 不过还是坚持自己的内心吧，<strong>坚定 坚持 坚强</strong>。</p>
+<p>19，20 号这两天开始做另一个实习项目了，任务是用 UE C++ 实现实习项目1（之前是纯蓝图写的）</p>
+<p>好像还没说过实习项目是啥… </p>
+<p>具体就是实现一个功能，以第三人称游戏模式创建项目，地图上会随机刷出宝箱，角色移动碰撞到宝箱后会拾取宝箱，同时宝箱销毁，播一个特效，当地图上的宝箱被捡完之后又会刷新宝箱，同时还要显示剩余宝箱数量和已检宝箱数量。（就是这么简单我还做了这么久…）（听说后面还有很多个实习项目，不过刚好也能快速成长了）</p>
+<p>今天是21号，搞完了这个实习项目。感觉东西还是很多很多的，越做越发现这东西水很深，需要静下心来学习一段时间。</p>
+<p>虽然遇到的只是一个小问题，但是解决的问题的方式有很多… 会牵扯出一大块知识，包括架构的理解等等；</p>
+<p>主要是下面几类大问题：（等我全部总结完之后，会把每个模块都写一下博客）</p>
+<ol>
+<li><strong>类之间的相互调用</strong><ul>
+<li>c++类 和 蓝图类</li>
+<li>蓝图类之间</li>
+<li>c++ 类之间（包括 GameMode，GameState，GamePlayer 等）</li>
+</ul>
+</li>
+<li><strong>碰撞检测</strong><ul>
+<li>Hit</li>
+<li>Overlap</li>
+</ul>
+</li>
+<li><strong>事件分发器（委托 &#x2F; 代理）</strong></li>
+<li><strong>宏定义</strong></li>
+<li><strong>对 UE GamePlay 架构的理解，UE 程序启动的流程（函数执行的顺序）</strong></li>
+</ol>
+<p>所以后面的博客，我打算这个搞，首先有一篇杂的UE小知识（记录一下一写获取方法等的小知识），然后对于每个模块总结后发一篇，便于以后的查找和翻阅。希望以后也能够称为 UE 大佬。</p>
 
       
     </div>
@@ -286,7 +400,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
       <meta itemprop="name" content="FJBQ">
-      <meta itemprop="description" content="选择大于努力">
+      <meta itemprop="description" content="坚定 坚持 坚强 \n 选择大于努力">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -415,7 +529,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
       <meta itemprop="name" content="FJBQ">
-      <meta itemprop="description" content="选择大于努力">
+      <meta itemprop="description" content="坚定 坚持 坚强 \n 选择大于努力">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -539,21 +653,21 @@
     <img class="site-author-image" itemprop="image" alt="FJBQ"
       src="/images/avatar.png">
   <p class="site-author-name" itemprop="name">FJBQ</p>
-  <div class="site-description" itemprop="description">选择大于努力</div>
+  <div class="site-description" itemprop="description">坚定 坚持 坚强 \n 选择大于努力</div>
 </div>
 <div class="site-state-wrap motion-element">
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-count">4</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-count">5</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -597,7 +711,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共2.6k字</span>
+  <span class="post-count">博客全站共3.4k字</span>
 </div>
 
 
