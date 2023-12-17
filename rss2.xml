@@ -9,8 +9,38 @@
     <atom:link href="http://example.com/rss2.xml" rel="self" type="application/rss+xml"/>
     
     <description>坚定 坚持 坚强</description>
-    <pubDate>Sat, 04 Nov 2023 12:17:16 GMT</pubDate>
+    <pubDate>Sun, 17 Dec 2023 02:49:07 GMT</pubDate>
     <generator>http://hexo.io/</generator>
+    
+    <item>
+      <title>Programming in Lua 读书笔记</title>
+      <link>http://example.com/2023/12/17/Programming%20in%20Lua%20%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/</link>
+      <guid>http://example.com/2023/12/17/Programming%20in%20Lua%20%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/</guid>
+      <pubDate>Sun, 17 Dec 2023 02:39:59 GMT</pubDate>
+      
+        
+        
+      <description>&lt;p&gt;&lt;strong&gt;这篇文章记录一下阅读 Programming in Lua 时的一些注意点，以及一些重要的模块。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;ps：页数指的是书中的页数，不是 PDF 目录的页数；&lt;/p&gt;
+&lt;p&gt;P14&lt;/p&gt;
+&lt;p&gt;P16 研究一下&lt;/p&gt;
+&lt;p&gt;P2</description>
+        
+      
+      
+      
+      <content:encoded><![CDATA[<p><strong>这篇文章记录一下阅读 Programming in Lua 时的一些注意点，以及一些重要的模块。</strong></p><p>ps：页数指的是书中的页数，不是 PDF 目录的页数；</p><p>P14</p><p>P16 研究一下</p><p>P21</p><p>p22<br>（这里面讲到了，尽量不要改变控制变量的值…）</p><p>p27：unpack()，可变参数</p><p>p32：闭包</p><p>p37，尾调用</p><p>p40</p><p><img src="D:__Blog\source\pic\lua_1.png"></p><p>图片中的程序怎么理解？</p>]]></content:encoded>
+      
+      
+      <category domain="http://example.com/categories/Lua/">Lua</category>
+      
+      
+      <category domain="http://example.com/tags/Lua/">Lua</category>
+      
+      
+      <comments>http://example.com/2023/12/17/Programming%20in%20Lua%20%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/#disqus_thread</comments>
+      
+    </item>
     
     <item>
       <title>GAMES 104 随笔</title>
