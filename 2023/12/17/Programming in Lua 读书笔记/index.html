@@ -32,7 +32,7 @@
 <meta property="og:image" content="http://example.com/images/Programming-in-Lua-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/1.jpg">
 <meta property="og:image" content="http://example.com/images/Programming-in-Lua-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/2.png">
 <meta property="article:published_time" content="2023-12-17T02:39:59.819Z">
-<meta property="article:modified_time" content="2023-12-21T14:57:45.506Z">
+<meta property="article:modified_time" content="2023-12-21T15:06:57.354Z">
 <meta property="article:author" content="FJBQ">
 <meta property="article:tag" content="Lua">
 <meta name="twitter:card" content="summary">
@@ -208,7 +208,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-12-21 22:57:45" itemprop="dateModified" datetime="2023-12-21T22:57:45+08:00">2023-12-21</time>
+                <time title="修改时间：2023-12-21 23:06:57" itemprop="dateModified" datetime="2023-12-21T23:06:57+08:00">2023-12-21</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -355,32 +355,32 @@
 </li>
 </ul>
 <h1 id="第-18-章-数学库"><a href="#第-18-章-数学库" class="headerlink" title="第 18 章 数学库"></a>第 18 章 数学库</h1><ul>
-<li>y &#x3D; math.rad(x)<ul>
+<li><strong>y &#x3D; math.rad(x)</strong><ul>
 <li>将 角度 x 转化为 弧度 y</li>
 </ul>
 </li>
-<li>x &#x3D; math.deg(y)<ul>
+<li><strong>x &#x3D; math.deg(y)</strong><ul>
 <li>将 弧度 y 转换为 角度 x</li>
 </ul>
 </li>
-<li>math.random<ul>
+<li><strong>math.random</strong><ul>
 <li>生成随机数（可以带 0&#x2F;1&#x2F;2 个参数）</li>
 </ul>
 </li>
-<li>math.randomseed(os.time())<ul>
+<li><strong>math.randomseed(os.time())</strong><ul>
 <li>设置随机种子（通过系统时间）</li>
 </ul>
 </li>
 </ul>
 <h1 id="第-19-章-table-库"><a href="#第-19-章-table-库" class="headerlink" title="第 19 章 table 库"></a>第 19 章 table 库</h1><h2 id="p136（数组大小）"><a href="#p136（数组大小）" class="headerlink" title="p136（数组大小）"></a>p136（数组大小）</h2><ul>
-<li>table.getn() 在 lua 5.0 以上已经被废弃了</li>
+<li><strong>table.getn()</strong> 在 lua 5.0 以上已经被废弃了</li>
 </ul>
 <figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">table</span>.<span class="built_in">getn</span>() 等价于 #t</span><br><span class="line"></span><br><span class="line">t = &#123;n = <span class="number">10</span>&#125;</span><br><span class="line"><span class="built_in">print</span>(#t)		<span class="comment">-- 输出：0</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 下面做一个有意思的实验</span></span><br><span class="line"><span class="keyword">local</span> t = &#123;<span class="literal">nil</span>&#125;</span><br><span class="line"><span class="built_in">print</span>(#t)       <span class="comment">-- 输出：0</span></span><br><span class="line"></span><br><span class="line">t = &#123;<span class="number">1</span>, <span class="literal">nil</span>&#125;</span><br><span class="line"><span class="built_in">print</span>(#t)       <span class="comment">-- 输出：1</span></span><br><span class="line"></span><br><span class="line">t = &#123;<span class="literal">nil</span>,<span class="number">1</span>&#125;</span><br><span class="line"><span class="built_in">print</span>(#t)       <span class="comment">-- 输出：2</span></span><br><span class="line"></span><br><span class="line">t = &#123;<span class="literal">nil</span>,<span class="literal">nil</span>,<span class="number">1</span>&#125;</span><br><span class="line"><span class="built_in">print</span>(#t)       <span class="comment">-- 输出：3</span></span><br><span class="line"></span><br><span class="line">t = &#123;<span class="number">1</span>,<span class="literal">nil</span>,<span class="number">2</span>&#125;</span><br><span class="line"><span class="built_in">print</span>(#t)       <span class="comment">-- 输出：3</span></span><br><span class="line"></span><br><span class="line">t = &#123;<span class="number">1</span>,<span class="literal">nil</span>,<span class="number">2</span>,<span class="literal">nil</span>&#125;</span><br><span class="line"><span class="built_in">print</span>(#t)       <span class="comment">-- 输出：1</span></span><br><span class="line"></span><br><span class="line">t = &#123;<span class="number">1</span>,<span class="literal">nil</span>,<span class="number">2</span>,<span class="literal">nil</span>,<span class="number">3</span>&#125;</span><br><span class="line"><span class="built_in">print</span>(#t)       <span class="comment">-- 输出：5</span></span><br><span class="line"></span><br><span class="line">t = &#123;<span class="number">1</span>,<span class="literal">nil</span>,<span class="number">2</span>,<span class="literal">nil</span>,<span class="number">3</span>,<span class="literal">nil</span>&#125;</span><br><span class="line"><span class="built_in">print</span>(#t)       <span class="comment">-- 输出：3</span></span><br></pre></td></tr></table></figure>
 
 <p>是不是懵逼了… 我也没搞懂… 具体看这：</p>
 <p><a target="_blank" rel="noopener" href="https://www.runoob.com/w3cnote/lua-table-length.html">lua 中求 table 长度 | 菜鸟教程 (runoob.com)</a></p>
 <ul>
-<li>另外 table.setn() 好像也没了… 直接没有这个方法了</li>
+<li>另外 <strong>table.setn()</strong> 好像也没了… 直接没有这个方法了</li>
 </ul>
 <h2 id="p137-插入删除"><a href="#p137-插入删除" class="headerlink" title="p137 插入删除"></a>p137 插入删除</h2><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">t = &#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">table</span>.<span class="built_in">insert</span>(t,<span class="number">4</span>);      <span class="comment">-- 默认在最后插入</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">unpack</span>(t))        <span class="comment">-- 输出：1 2 3 4</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">table</span>.<span class="built_in">insert</span>(t,<span class="number">2</span>,<span class="number">5</span>);    <span class="comment">-- 在位置2插入值为5</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">unpack</span>(t))        <span class="comment">-- 输出：1 5 2 3 4</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> v = <span class="built_in">table</span>.<span class="built_in">remove</span>(t)         <span class="comment">-- 默认在最后删除（并返回）</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">unpack</span>(t))        <span class="comment">-- 输出：1 5 2 3</span></span><br><span class="line"></span><br><span class="line">v = <span class="built_in">table</span>.<span class="built_in">remove</span>(t,<span class="number">1</span>)       <span class="comment">-- 删除位置为1的值（并返回）</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">unpack</span>(t))        <span class="comment">-- 输出：5 2 3</span></span><br></pre></td></tr></table></figure>
 
@@ -390,53 +390,53 @@
 <li>排序讲的很清楚了，注意到最后一个例子又用到了闭包（迭代器）</li>
 </ul>
 <h1 id="第-20-章-String-库"><a href="#第-20-章-String-库" class="headerlink" title="第 20 章 String 库"></a>第 20 章 String 库</h1><h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><ul>
-<li>string.len(s)<ul>
+<li><strong>string.len(s)</strong><ul>
 <li>返回字符串长度</li>
 </ul>
 </li>
-<li>string.rep(s,n)<ul>
+<li><strong>string.rep(s,n)</strong><ul>
 <li>返回重复了n次s的字符串</li>
 </ul>
 </li>
-<li>string.lower(s)<ul>
+<li><strong>string.lower(s)</strong><ul>
 <li>将 s 中的大写字母转换成小写</li>
 </ul>
 </li>
-<li>string.upper(s)<ul>
+<li><strong>string.upper(s)</strong><ul>
 <li>将小写转换成大写</li>
 </ul>
 </li>
-<li>string.sub(s,i,j)<ul>
+<li><strong>string.sub(s,i,j)</strong><ul>
 <li>截取字符串，可以是负数，表示倒着数的第几个；</li>
 <li>lua 中的字符串不会改变，所有操作之后是返回一个新的字符串；</li>
 </ul>
 </li>
-<li>string.char(97，98，99)<ul>
+<li><strong>string.char(97，98，99)</strong><ul>
 <li>将数字num转化为字符</li>
 </ul>
 </li>
-<li>string.byte(s,i)<ul>
+<li><strong>string.byte(s,i)</strong><ul>
 <li>将字符串s的第i个字符转化为数字，i默认为1，i可以为负数</li>
 </ul>
 </li>
-<li>string.format()<ul>
+<li><strong>string.format()</strong><ul>
 <li>格式化字符串，和printf一样…</li>
 <li>%d 十进制；%x 十六进制；%o 八进制</li>
 </ul>
 </li>
-<li>st，en &#x3D; string.find(s, p, i)<ul>
+<li><strong>st，en &#x3D; string.find(s, p, i)</strong><ul>
 <li>字符串查找（基于模式匹配，不是posix规范的正则表达式）</li>
 <li>从 s 的 i 位置开始，在 s 中找 p ，找到返回 开始st和结束下标en，找不到返回 nil；</li>
 </ul>
 </li>
-<li>s，count &#x3D; string.gsub(s, p1, p2，times)<ul>
+<li><strong>s，count &#x3D; string.gsub(s, p1, p2，times)</strong><ul>
 <li>全局字符串替换（基于模式匹配，不是posix规范的正则表达式）</li>
 <li>从 s 中 找 p1，并替换成 p2（全部替换）</li>
 <li>times 是限制要替换几次；</li>
 <li>count 是一共替换了几次；</li>
 </ul>
 </li>
-<li>string.gfind()<ul>
+<li><strong>string.gfind()</strong><ul>
 <li>全局字符串查找（基于模式匹配，不是posix规范的正则表达式）</li>
 </ul>
 </li>
@@ -452,15 +452,15 @@
 </li>
 </ul>
 <h1 id="第-21-章-IO库"><a href="#第-21-章-IO库" class="headerlink" title="第 21 章 IO库"></a>第 21 章 IO库</h1><h2 id="p157-简单IO模式"><a href="#p157-简单IO模式" class="headerlink" title="p157 简单IO模式"></a>p157 简单IO模式</h2><ul>
-<li>io.input(filename)<ul>
+<li><strong>io.input(filename)</strong><ul>
 <li>打开给定的文件，并将其设置为当前输入文件；</li>
 </ul>
 </li>
-<li>io.output()<ul>
+<li><strong>io.output()</strong><ul>
 <li>设置当前的输出文件；</li>
 </ul>
 </li>
-<li>io.read()<ul>
+<li><strong>io.read()</strong><ul>
 <li>从当前输入文件读取字符串</li>
 <li>“*all”：读取整个文件</li>
 <li>“*line” ：读取下一行</li>
@@ -468,7 +468,7 @@
 <li>num ：读取 num 个字符到串</li>
 </ul>
 </li>
-<li>io.lines()<ul>
+<li><strong>io.lines()</strong><ul>
 <li>io读取当前文件的迭代器</li>
 </ul>
 </li>
@@ -476,26 +476,26 @@
 <h2 id="p160-完全IO模式"><a href="#p160-完全IO模式" class="headerlink" title="p160 完全IO模式"></a>p160 完全IO模式</h2><ul>
 <li><p>通过文件句柄</p>
 </li>
-<li><p>f &#x3D; io.open()</p>
+<li><p><strong>f &#x3D; io.open()</strong></p>
 <ul>
 <li>打开文件，获得一个文件句柄，失败返回nil</li>
 </ul>
 </li>
-<li><p>f:read()</p>
+<li><p><strong>f:read()</strong></p>
 <ul>
 <li>读取文件f</li>
 </ul>
 </li>
 <li><p>预定义的流句柄：</p>
 <ul>
-<li>io.stdin</li>
-<li>io.stdout</li>
-<li>io.stderr</li>
+<li><strong>io.stdin</strong></li>
+<li><strong>io.stdout</strong></li>
+<li><strong>io.stderr</strong></li>
 </ul>
 </li>
 <li><p>IO优化</p>
 <ul>
-<li>local lines, rest &#x3D; f:read(BUFSIZE, “*line”) </li>
+<li>*<em>local lines, rest &#x3D; f:read(BUFSIZE, “<em>line”)</em></em> </li>
 <li>读取整个文件时，避免对行进行分割；</li>
 <li>代码中的 rest 就保存了任何可能被段划分切断的行。</li>
 <li>具体使用看书</li>
@@ -517,12 +517,12 @@ assert(out:close())
 这样运行时，相当于是吧file.dos file.unix 当作参数传进去了；
 arg[1] = file.dos
 arg[2] = file.unix
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">  - 然后就是一些具体的例子了</span><br><span class="line"></span><br><span class="line">- 其他文件操作（知道一下，用到时具体查）</span><br><span class="line"></span><br><span class="line">  - tmpfile</span><br><span class="line">    - 返回临时文件句柄（rw），用完自动清除；</span><br><span class="line">  - flush</span><br><span class="line">    - 对文件进行修改</span><br><span class="line">  - filehandle:seek(whence,offset)</span><br><span class="line">    - 用来设置和获取一个文件当前的存取位置</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 第 22 章 操作系统库</span><br><span class="line"></span><br><span class="line">- os.time() </span><br><span class="line"></span><br><span class="line">  - 单位：秒</span><br><span class="line">  - 返回当前时钟的数值</span><br><span class="line">  - 可以带参数，表示距离参数设定的日期的时间（有默认值，可以看一下书）</span><br><span class="line"></span><br><span class="line">- os.date( “ ”，seconds)</span><br><span class="line"></span><br><span class="line">  - 可以理解为time函数的反函数；</span><br><span class="line"></span><br><span class="line">  - 这个好高级啊，通过第一个参数设置不同的格式，输出不同的内容：</span><br><span class="line"></span><br><span class="line">    ```lua</span><br><span class="line">    %a		abbreviated weekday name (e.g., Wed) </span><br><span class="line">    %A		full weekday name (e.g., Wednesday) </span><br><span class="line">    %b 		abbreviated month name (e.g., Sep) </span><br><span class="line">    %B 		full month name (e.g., September) </span><br><span class="line">    %c 		date and time (e.g., 09/16/98 23:48:10) </span><br><span class="line">    %d 		day of the month (16) [01-31] </span><br><span class="line">    %H 		hour, using a 24-hour clock (23) [00-23] </span><br><span class="line">    %I 		hour, using a 12-hour clock (11) [01-12] </span><br><span class="line">    %M 		minute (48) [00-59] </span><br><span class="line">    %m 		month (09) [01-12] </span><br><span class="line">    %p 		either &quot;am&quot; or &quot;pm&quot; (pm) </span><br><span class="line">    %S 		second (10) [00-61] </span><br><span class="line">    %w 		weekday (3) [0-6 = Sunday-Saturday] </span><br><span class="line">    %x 		date (e.g., 09/16/98) </span><br><span class="line">    %X 		time (e.g., 23:48:10)</span><br><span class="line">    %Y		full year (1998) </span><br><span class="line">    %y 		two-digit year (98) [00-99] </span><br><span class="line">    %% 		the character &#x27;%&#x27;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">  - 然后就是一些具体的例子了</span><br><span class="line"></span><br><span class="line">- 其他文件操作（知道一下，用到时具体查）</span><br><span class="line"></span><br><span class="line">  - **tmpfile**</span><br><span class="line">    - 返回临时文件句柄（rw），用完自动清除；</span><br><span class="line">  - **flush**</span><br><span class="line">    - 对文件进行修改</span><br><span class="line">  - **filehandle:seek(whence,offset)**</span><br><span class="line">    - 用来设置和获取一个文件当前的存取位置</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 第 22 章 操作系统库</span><br><span class="line"></span><br><span class="line">- **os.time()** </span><br><span class="line"></span><br><span class="line">  - 单位：秒</span><br><span class="line">  - 返回当前时钟的数值</span><br><span class="line">  - 可以带参数，表示距离参数设定的日期的时间（有默认值，可以看一下书）</span><br><span class="line"></span><br><span class="line">- **os.date( “ ”，seconds)**</span><br><span class="line"></span><br><span class="line">  - 可以理解为time函数的反函数；</span><br><span class="line"></span><br><span class="line">  - 这个好高级啊，通过第一个参数设置不同的格式，输出不同的内容：</span><br><span class="line"></span><br><span class="line">    ```lua</span><br><span class="line">    %a		abbreviated weekday name (e.g., Wed) </span><br><span class="line">    %A		full weekday name (e.g., Wednesday) </span><br><span class="line">    %b 		abbreviated month name (e.g., Sep) </span><br><span class="line">    %B 		full month name (e.g., September) </span><br><span class="line">    %c 		date and time (e.g., 09/16/98 23:48:10) </span><br><span class="line">    %d 		day of the month (16) [01-31] </span><br><span class="line">    %H 		hour, using a 24-hour clock (23) [00-23] </span><br><span class="line">    %I 		hour, using a 12-hour clock (11) [01-12] </span><br><span class="line">    %M 		minute (48) [00-59] </span><br><span class="line">    %m 		month (09) [01-12] </span><br><span class="line">    %p 		either &quot;am&quot; or &quot;pm&quot; (pm) </span><br><span class="line">    %S 		second (10) [00-61] </span><br><span class="line">    %w 		weekday (3) [0-6 = Sunday-Saturday] </span><br><span class="line">    %x 		date (e.g., 09/16/98) </span><br><span class="line">    %X 		time (e.g., 23:48:10)</span><br><span class="line">    %Y		full year (1998) </span><br><span class="line">    %y 		two-digit year (98) [00-99] </span><br><span class="line">    %% 		the character &#x27;%&#x27;</span><br></pre></td></tr></table></figure>
 </code></pre>
 </li>
 </ul>
 </li>
-<li><p>os.clock()</p>
+<li><p><strong>os.clock()</strong></p>
 <ul>
 <li><p>返回执行该程序 CPU 花去的时钟秒数。</p>
 </li>
@@ -530,24 +530,24 @@ arg[2] = file.unix
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">local x = os.clock()</span><br><span class="line"></span><br><span class="line">做一些操作...</span><br><span class="line"></span><br><span class="line">print(string.format(&quot;elapsed time: %.2f\n&quot;, os.clock() - x))</span><br></pre></td></tr></table></figure></li>
 </ul>
 </li>
-<li><p>os.exit()</p>
+<li><p><strong>os.exit()</strong></p>
 <ul>
 <li>终止一个程序</li>
 </ul>
 </li>
-<li><p>os.getnv(“”)</p>
+<li><p><strong>os.getnv(“”)</strong></p>
 <ul>
 <li>得到“环境变量”的值。以“变量名”作为参数，返回该变量值的字符串：</li>
 </ul>
 </li>
-<li><p>os.execute( “ “ )</p>
+<li><p><strong>os.execute( “ “ )</strong></p>
 <ul>
 <li><p>执行一个系统命令（和 C 中的 system</p>
 <p>函数等价）</p>
 </li>
 </ul>
 </li>
-<li><p>os.setlocale()</p>
+<li><p><strong>os.setlocale()</strong></p>
 <ul>
 <li>设定 Lua程序所使用的区域（locale）。</li>
 <li>这个比较高级…</li>
@@ -613,7 +613,7 @@ arg[2] = file.unix
 <li>简单来说，就是lua中有一些事件触发的时机，我们可以用sethook()将函数绑定到事件上面，这样当事件发生时会调用这个函数；</li>
 </ul>
 <h2 id="profiler"><a href="#profiler" class="headerlink" title="profiler"></a>profiler</h2><ul>
-<li>高级东西…</li>
+<li>好高级东西…</li>
 </ul>
 <h1 id="第-24-章-C-API-纵览"><a href="#第-24-章-C-API-纵览" class="headerlink" title="第 24 章 C API 纵览"></a>第 24 章 C API 纵览</h1><ul>
 <li>这一部分主要是 lua  和 c 的交互吧</li>
