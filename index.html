@@ -370,7 +370,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-12-23 18:12:53" itemprop="dateModified" datetime="2023-12-23T18:12:53+08:00">2023-12-23</time>
+                <time title="修改时间：2023-12-23 20:51:17" itemprop="dateModified" datetime="2023-12-23T20:51:17+08:00">2023-12-23</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -911,6 +911,20 @@ lua_rawgeti(L, LUA_REGISTRYINDEX, r);
 <p>这儿的关键在于__index 元方法（metamethod）的使用。对于表来说，不管什么时候只要找不到给定的 key，这个元方法就会被调用。</p>
 <h2 id="28-5-Light-Userdata"><a href="#28-5-Light-Userdata" class="headerlink" title="28.5 Light Userdata"></a>28.5 Light Userdata</h2><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/595959126">《Lua5.4 源码剖析——基本数据类型 之 UserData》 - 知乎 (zhihu.com)</a></p>
 <p>Light userdata 真正的用处在于可以表示不同类型的对象。当 full userdata 是一个对象的时候，它等于对象自身；另一方面，light userdata 表示的是一个指向对象的指针，同样的，它等于指针指向的任何类型的 userdata。所以，我们在 Lua 中使用 light userdata表示 C 对象。</p>
+<h1 id="Lua-垃圾回收"><a href="#Lua-垃圾回收" class="headerlink" title="Lua 垃圾回收"></a>Lua 垃圾回收</h1><p><a target="_blank" rel="noopener" href="https://www.runoob.com/lua/lua-garbage-collection.html">Lua 垃圾回收 | 菜鸟教程 (runoob.com)</a></p>
+<p>Lua 实现了一个增量标记-扫描收集器。 它使用这两个数字来控制垃圾收集循环：</p>
+<ul>
+<li>垃圾收集器间歇率<ul>
+<li>控制着收集器需要在开启新的循环前要等待多久。</li>
+<li>增大这个值会减少收集器的积极性。</li>
+</ul>
+</li>
+<li>垃圾收集器步进倍率<ul>
+<li>控制着收集器运作速度相对于内存分配速度的倍率。 </li>
+<li>增大这个值不仅会让收集器更加积极，还会增加每个增量步骤的长度。</li>
+</ul>
+</li>
+</ul>
 
       
     </div>
@@ -1745,7 +1759,7 @@ lua_rawgeti(L, LUA_REGISTRYINDEX, r);
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共11.9k字</span>
+  <span class="post-count">博客全站共12k字</span>
 </div>
 
 
