@@ -9,7 +9,7 @@
     <atom:link href="http://example.com/rss2.xml" rel="self" type="application/rss+xml"/>
     
     <description>坚定 坚持 坚强</description>
-    <pubDate>Sat, 30 Dec 2023 13:54:27 GMT</pubDate>
+    <pubDate>Sat, 30 Dec 2023 14:00:18 GMT</pubDate>
     <generator>http://hexo.io/</generator>
     
     <item>
@@ -18,10 +18,20 @@
       <guid>http://example.com/2023/12/30/GAMES%20101%20%E9%9A%8F%E7%AC%94/</guid>
       <pubDate>Sat, 30 Dec 2023 13:22:39 GMT</pubDate>
       
+        
+        
+      <description>&lt;p&gt;sdsda&lt;/p&gt;
+&lt;p&gt;asd&lt;/p&gt;
+&lt;p&gt;asd&lt;/p&gt;
+</description>
+        
       
       
       
-      <category domain="http://example.com/categories/Games-%E7%B3%BB%E5%88%97/">Games 系列</category>
+      <content:encoded><![CDATA[<p>sdsda</p><p>asd</p><p>asd</p>]]></content:encoded>
+      
+      
+      <category domain="http://example.com/categories/GAMES-%E7%B3%BB%E5%88%97/">GAMES 系列</category>
       
       
       <category domain="http://example.com/tags/GAMES-%E7%B3%BB%E5%88%97/">GAMES 系列</category>
