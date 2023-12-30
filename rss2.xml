@@ -9,32 +9,30 @@
     <atom:link href="http://example.com/rss2.xml" rel="self" type="application/rss+xml"/>
     
     <description>坚定 坚持 坚强</description>
-    <pubDate>Sat, 30 Dec 2023 14:00:18 GMT</pubDate>
+    <pubDate>Sat, 30 Dec 2023 14:03:22 GMT</pubDate>
     <generator>http://hexo.io/</generator>
     
     <item>
-      <title>Games 101</title>
+      <title>Games 101 随笔</title>
       <link>http://example.com/2023/12/30/GAMES%20101%20%E9%9A%8F%E7%AC%94/</link>
       <guid>http://example.com/2023/12/30/GAMES%20101%20%E9%9A%8F%E7%AC%94/</guid>
       <pubDate>Sat, 30 Dec 2023 13:22:39 GMT</pubDate>
       
         
         
-      <description>&lt;p&gt;sdsda&lt;/p&gt;
-&lt;p&gt;asd&lt;/p&gt;
-&lt;p&gt;asd&lt;/p&gt;
+      <description>&lt;p&gt;&lt;strong&gt;准备学一下 Games 101&lt;/strong&gt;&lt;/p&gt;
 </description>
         
       
       
       
-      <content:encoded><![CDATA[<p>sdsda</p><p>asd</p><p>asd</p>]]></content:encoded>
+      <content:encoded><![CDATA[<p><strong>准备学一下 Games 101</strong></p>]]></content:encoded>
       
       
-      <category domain="http://example.com/categories/GAMES-%E7%B3%BB%E5%88%97/">GAMES 系列</category>
+      <category domain="http://example.com/categories/Games-%E7%B3%BB%E5%88%97/">Games 系列</category>
       
       
-      <category domain="http://example.com/tags/GAMES-%E7%B3%BB%E5%88%97/">GAMES 系列</category>
+      <category domain="http://example.com/tags/Games-%E7%B3%BB%E5%88%97/">Games 系列</category>
       
       
       <comments>http://example.com/2023/12/30/GAMES%20101%20%E9%9A%8F%E7%AC%94/#disqus_thread</comments>
@@ -121,7 +119,7 @@
     </item>
     
     <item>
-      <title>GAMES 104 随笔</title>
+      <title>Games 104 随笔</title>
       <link>http://example.com/2023/12/30/GAMES%20104%20%E9%9A%8F%E7%AC%94/</link>
       <guid>http://example.com/2023/12/30/GAMES%20104%20%E9%9A%8F%E7%AC%94/</guid>
       <pubDate>Sat, 30 Dec 2023 13:09:55 GMT</pubDate>
@@ -139,10 +137,10 @@
       <content:encoded><![CDATA[<p><strong>这篇文章是 GAMES 104 随笔</strong></p><p>主要是暂时没那么多时间去详细记录，等以后有时间二刷了再细细总结；</p><p>这个是 Games104 的官网，做的是真的好！</p><p><a href="https://games104.boomingtech.com/sc/">GAMES104 - 现代游戏引擎入门必修课 (boomingtech.com)</a></p><h1 id="第二节-引擎架构的分层"><a href="#第二节-引擎架构的分层" class="headerlink" title="第二节 引擎架构的分层"></a>第二节 引擎架构的分层</h1><p>这里直接搬了别人的，侵删。</p><p><a href="https://zhuanlan.zhihu.com/p/613887146">Games104学习笔记（2） - 知乎 (zhihu.com)</a></p><p><a href="https://zhuanlan.zhihu.com/p/598348720">GAMES104：现代游戏引擎架构分层 - 知乎 (zhihu.com)</a></p>]]></content:encoded>
       
       
-      <category domain="http://example.com/categories/GAMES-%E7%B3%BB%E5%88%97/">GAMES 系列</category>
+      <category domain="http://example.com/categories/Games-%E7%B3%BB%E5%88%97/">Games 系列</category>
       
       
-      <category domain="http://example.com/tags/GAMES-%E7%B3%BB%E5%88%97/">GAMES 系列</category>
+      <category domain="http://example.com/tags/Games-%E7%B3%BB%E5%88%97/">Games 系列</category>
       
       
       <comments>http://example.com/2023/12/30/GAMES%20104%20%E9%9A%8F%E7%AC%94/#disqus_thread</comments>
