@@ -370,7 +370,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-01-07 13:06:13" itemprop="dateModified" datetime="2024-01-07T13:06:13+08:00">2024-01-07</time>
+                <time title="修改时间：2024-01-07 13:08:03" itemprop="dateModified" datetime="2024-01-07T13:08:03+08:00">2024-01-07</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -401,6 +401,7 @@
 <p><a target="_blank" rel="noopener" href="https://eigen.tuxfamily.org/dox/">Eigen: Main Page</a></p>
 <p><a target="_blank" rel="noopener" href="https://blog.csdn.net/hongge_smile/article/details/107296658">Eigen库学习教程(全)_find_package(eigen3 3 required)-CSDN博客</a></p>
 <p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/293023673">快速入门矩阵运算——开源库Eigen - 知乎 (zhihu.com)</a></p>
+<p><strong>ps：做起来真的感觉不简单啊！</strong></p>
 <h1 id="作业0：虚拟机的使用"><a href="#作业0：虚拟机的使用" class="headerlink" title="作业0：虚拟机的使用"></a>作业0：虚拟机的使用</h1><p>配环境…</p>
 <p>真的是一波三折啊，捣鼓了好久…</p>
 <p>还好虚拟机里面什么都有了</p>
@@ -485,7 +486,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-01-02 21:42:41" itemprop="dateModified" datetime="2024-01-02T21:42:41+08:00">2024-01-02</time>
+                <time title="修改时间：2024-01-07 15:49:00" itemprop="dateModified" datetime="2024-01-07T15:49:00+08:00">2024-01-07</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -510,6 +511,9 @@
       
           <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>**准备学一下 Games 101, 这一篇记录一下学习笔记 ; **</p>
 <p><strong>对应的应该还有 Games 101 作业 ( 希望能够坚持 ! )</strong></p>
+<p>ps：</p>
+<p>感觉把所有东西都写在一篇文章里面有点乱…</p>
+<p>等有时间了，我整理一下，分成多篇文章吧，不然找起来很乱…</p>
 <h1 id="Lecture-01-Overview-of-Computer-Graphics"><a href="#Lecture-01-Overview-of-Computer-Graphics" class="headerlink" title="Lecture 01: Overview of Computer Graphics"></a>Lecture 01: Overview of Computer Graphics</h1><p>计算机图形学下关于“实时”的定义：&gt;30fps，&lt;30fps称为离线</p>
 <p><img src="/images/Games101/01/01.png"></p>
 <p>model：真实模型<br>image：图像</p>
@@ -952,6 +956,85 @@
 <li>这么规则的分割像素，极大增加了计算量（实际生活中我们用的不是那么规则的分割，可以说是一种优化）</li>
 </ul>
 <p>扩展，除了MSAA，还有其他的抗锯齿的做法：<br><img src="/images/Games101/06/28.png"></p>
+<h1 id="Lecture-7：Shading-1-Illumination-Shading-and-Graphics-Pipeline"><a href="#Lecture-7：Shading-1-Illumination-Shading-and-Graphics-Pipeline" class="headerlink" title="Lecture 7：Shading 1 (Illumination, Shading and Graphics Pipeline)"></a>Lecture 7：Shading 1 (Illumination, Shading and Graphics Pipeline)</h1><h2 id="概述-1"><a href="#概述-1" class="headerlink" title="概述"></a>概述</h2><p><img src="/images/Games101/07/01.png"></p>
+<ul>
+<li><p>可见性 &#x2F; 遮挡问题</p>
+<ul>
+<li>深度缓存</li>
+</ul>
+</li>
+<li><p>着色</p>
+<ul>
+<li>光照和阴影</li>
+<li>图形管线</li>
+</ul>
+</li>
+</ul>
+<h2 id="可见性-遮挡"><a href="#可见性-遮挡" class="headerlink" title="可见性 &#x2F; 遮挡"></a>可见性 &#x2F; 遮挡</h2><h3 id="画家算法"><a href="#画家算法" class="headerlink" title="画家算法"></a>画家算法</h3><blockquote>
+<p>画家算法：先画后面的，再画前面的；（要严格规定前后顺序才不会出现问题）</p>
+<p><img src="/images/Games101/07/02.png"></p>
+<p>缺点：</p>
+<ul>
+<li>要定义深度不容易…</li>
+<li>对这些东西要按照深度排序，时间复杂度较高</li>
+<li>特定情况失效（无法对定义深度）</li>
+<li><img src="/images/Games101/07/03.png"></li>
+</ul>
+</blockquote>
+<h2 id="Z-Buffer（深度缓存）"><a href="#Z-Buffer（深度缓存）" class="headerlink" title="Z-Buffer（深度缓存）"></a>Z-Buffer（深度缓存）</h2><h3 id="概述-2"><a href="#概述-2" class="headerlink" title="概述"></a>概述</h3><blockquote>
+<p>对于每个像素，记录最浅的深度；</p>
+<p><img src="/images/Games101/07/04.png"></p>
+<p>同步生成两个图：一个是渲染后的图，一个是深度图；</p>
+<p>深度图中，离相机越进，反应出来的颜色越黑，越远越白；</p>
+</blockquote>
+<h3 id="整体做法"><a href="#整体做法" class="headerlink" title="整体做法"></a>整体做法</h3><blockquote>
+<p>每个像素维护一个最小深度</p>
+<p><img src="/images/Games101/07/05.png"></p>
+<p><img src="/images/Games101/07/06.png"></p>
+<p><strong>算法分析</strong>： </p>
+<p><img src="/images/Games101/07/07.png"></p>
+<p>但是无法处理透明物体</p>
+</blockquote>
+<h2 id="着色"><a href="#着色" class="headerlink" title="着色"></a>着色</h2><h3 id="概述-3"><a href="#概述-3" class="headerlink" title="概述"></a>概述</h3><blockquote>
+<p><strong>定义</strong>：对不同的物体，应用不同的材质 的过程；</p>
+<p>（不同的材质对于光的反应不同）</p>
+<p><img src="/images/Games101/07/08.png"></p>
+<p>看个例子：</p>
+<p><img src="/images/Games101/07/09.png"></p>
+<p><strong>Specular highlights：镜面反射（表面光滑）</strong></p>
+<p><strong>Diffuse reflection：漫反射（表面粗糙）</strong></p>
+<p><strong>Ambient lighting：间接反射</strong></p>
+</blockquote>
+<h3 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h3><h4 id="一些概念的定义"><a href="#一些概念的定义" class="headerlink" title="一些概念的定义"></a>一些概念的定义</h4><blockquote>
+<p><img src="/images/Games101/07/10.png"></p>
+<p>着色只考虑自己，不考虑阴影的情况：</p>
+<p><img src="/images/Games101/07/11.png"></p>
+</blockquote>
+<h4 id="漫反射模型"><a href="#漫反射模型" class="headerlink" title="漫反射模型"></a>漫反射模型</h4><blockquote>
+<p>着色点显示的亮度（能量）和光照之间的夹角是有关的：</p>
+<p><img src="/images/Games101/07/12.png"></p>
+<p>其次，我们接受到的能量和光源的距离是有关的：</p>
+<p><img src="/images/Games101/07/13.png"></p>
+<p>那么通过上面这两个结论，我们就能够分析漫反射时，我们能看到着色点多少能量（以明暗的形式表示出来）</p>
+<p><img src="/images/Games101/07/14.png"></p>
+<p><strong>看到着色点的能量 &#x3D; 到达着色点的能量 x 着色点接收了多少能量</strong></p>
+<hr>
+<p><strong>这里有个问题：</strong></p>
+<ul>
+<li><p>上面式子中的 <strong>Kd</strong> 是什么？？？</p>
+</li>
+<li><p>着色点为什么会有颜色？？？</p>
+</li>
+</ul>
+<p>我们知道，物体之所以有能量是因为它吸收了一部分能量，反射出它不吸收的能量，从而看到了颜色；</p>
+<p>所以这里我们用一个系数 Kd（漫反射系数）来描述能量的吸收程度：</p>
+<ul>
+<li>1：表示不吸收能量</li>
+<li>0：表示吸收全部能量</li>
+</ul>
+<p><strong>漫反射</strong>是从不同的角度看同一个点，看到的结果是相同的。</p>
+<p>从公式上也能看出这一点，<strong>和观察的方向没有关系</strong>；</p>
+</blockquote>
 
       
     </div>
@@ -2462,7 +2545,7 @@ size_t lua_strlen (lua_State *L, int index);
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共19.5k字</span>
+  <span class="post-count">博客全站共20.1k字</span>
 </div>
 
 
