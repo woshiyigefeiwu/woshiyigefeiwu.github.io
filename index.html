@@ -338,6 +338,75 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/01/07/games101/Lec%2010/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="FJBQ">
+      <meta itemprop="description" content="坚定 坚持 坚强">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FJBQ">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/01/07/games101/Lec%2010/" class="post-title-link" itemprop="url">Games 101 -- Lecture 10</a>
+        </h2>
+
+        <div class="post-meta">
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2024-01-07 18:15:11 / 修改时间：18:16:54" itemprop="dateCreated datePublished" datetime="2024-01-07T18:15:11+08:00">2024-01-07</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">Games 系列</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>尝试分文件写…</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2024/01/01/Games%20101%20%E4%BD%9C%E4%B8%9A/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -486,7 +555,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-01-07 15:49:00" itemprop="dateModified" datetime="2024-01-07T15:49:00+08:00">2024-01-07</time>
+                <time title="修改时间：2024-01-07 18:14:29" itemprop="dateModified" datetime="2024-01-07T18:14:29+08:00">2024-01-07</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -511,9 +580,11 @@
       
           <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>**准备学一下 Games 101, 这一篇记录一下学习笔记 ; **</p>
 <p><strong>对应的应该还有 Games 101 作业 ( 希望能够坚持 ! )</strong></p>
-<p>ps：</p>
+<p><strong>ps：</strong></p>
 <p>感觉把所有东西都写在一篇文章里面有点乱…</p>
 <p>等有时间了，我整理一下，分成多篇文章吧，不然找起来很乱…</p>
+<p><strong>参考：</strong></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43399489?type=blog">Magic__Conch-CSDN博客</a></p>
 <h1 id="Lecture-01-Overview-of-Computer-Graphics"><a href="#Lecture-01-Overview-of-Computer-Graphics" class="headerlink" title="Lecture 01: Overview of Computer Graphics"></a>Lecture 01: Overview of Computer Graphics</h1><p>计算机图形学下关于“实时”的定义：&gt;30fps，&lt;30fps称为离线</p>
 <p><img src="/images/Games101/01/01.png"></p>
 <p>model：真实模型<br>image：图像</p>
@@ -1035,6 +1106,239 @@
 <p><strong>漫反射</strong>是从不同的角度看同一个点，看到的结果是相同的。</p>
 <p>从公式上也能看出这一点，<strong>和观察的方向没有关系</strong>；</p>
 </blockquote>
+<h1 id="Lecture-8：Shading-2-Shading-Pipeline-and-Texture-Mapping"><a href="#Lecture-8：Shading-2-Shading-Pipeline-and-Texture-Mapping" class="headerlink" title="Lecture 8：Shading 2 (Shading, Pipeline and Texture Mapping)"></a>Lecture 8：Shading 2 (Shading, Pipeline and Texture Mapping)</h1><p><img src="/images/Games101/08/01.png"></p>
+<p><img src="/images/Games101/08/02.png"></p>
+<h2 id="Blinn-Phong-模型的后两种"><a href="#Blinn-Phong-模型的后两种" class="headerlink" title="Blinn-Phong 模型的后两种"></a>Blinn-Phong 模型的后两种</h2><h3 id="高光像（高光反射-镜面反射）"><a href="#高光像（高光反射-镜面反射）" class="headerlink" title="高光像（高光反射 &#x2F; 镜面反射）"></a>高光像（高光反射 &#x2F; 镜面反射）</h3><blockquote>
+<p>当我们<strong>观察方向</strong>和<strong>光线反射的方向</strong>很接近的时候，那么就会产生镜面反射；</p>
+<p><img src="/images/Games101/08/03.png"></p>
+<p>怎么算？？</p>
+<p>Blinn-Phong 模型中做了一个改进，它发现了，<strong>观察方向和光线反射的方向很接近 &lt;&#x3D;&gt; 平面的法向量和半程向量很接近</strong>，所以考虑下面的计算方法：</p>
+<p><img src="/images/Games101/08/04.png"></p>
+<p><strong>指数 p 的一个作用：控制高光的衰减大小</strong></p>
+<p><img src="/images/Games101/08/05.png"></p>
+<p><img src="/images/Games101/08/06.png"></p>
+</blockquote>
+<h3 id="环境反射（间接反射）"><a href="#环境反射（间接反射）" class="headerlink" title="环境反射（间接反射）"></a>环境反射（间接反射）</h3><blockquote>
+<p>大胆假设：任何一个点接收到环境的光是一样的！</p>
+<p><img src="/images/Games101/08/07.png"></p>
+<p><strong>Ia：表示来自环境的光强</strong><br><strong>Ka：系数</strong></p>
+<p>所以可以看到，环境光是一个<strong>常数</strong>，和观测方向无关！</p>
+</blockquote>
+<h3 id="Blinn-Phong-模型-小结："><a href="#Blinn-Phong-模型-小结：" class="headerlink" title="Blinn-Phong 模型 小结："></a>Blinn-Phong 模型 小结：</h3><p>把所有的光加起来就是最终结果：</p>
+<p><img src="/images/Games101/08/08.png"></p>
+<p>所以：</p>
+<p><strong>Blinn-Phong 模型</strong> &#x3D; <strong>漫反射模型</strong> + <strong>高光反射&#x2F;镜面反射</strong> + <strong>环境反射</strong></p>
+<h2 id="着色频率"><a href="#着色频率" class="headerlink" title="着色频率"></a>着色频率</h2><h3 id="着色模型"><a href="#着色模型" class="headerlink" title="着色模型"></a>着色模型</h3><blockquote>
+<p>着色频率不同产生不同的效果：</p>
+<p><img src="/images/Games101/08/09.png"></p>
+<hr>
+<p><strong>第一种：对每个三角形的平面进行着色；</strong><br>（求法线）</p>
+<p><img src="/images/Games101/08/10.png"></p>
+<hr>
+<p><strong>第二种：对于每个顶点求一个法线，然后进行着色；</strong></p>
+<p><img src="/images/Games101/08/11.png"></p>
+<hr>
+<p><strong>第三种：对于每个像素我们都去着色；</strong></p>
+<p>（对每个像素都去求一个法线）</p>
+<p><img src="/images/Games101/08/12.png"></p>
+<hr>
+<p>要看情况使用不同的着色频率，当我们的物体的平面比较多的时候（模型足够复杂），这时候我们就可以直接用简单的着色模型了，最终的效果也不会差。</p>
+<p><img src="/images/Games101/08/13.png"></p>
+</blockquote>
+<h3 id="定义一些东西"><a href="#定义一些东西" class="headerlink" title="定义一些东西"></a>定义一些东西</h3><blockquote>
+<p><strong>定义每个顶点的法向量</strong></p>
+<p><img src="/images/Games101/08/14.png"></p>
+<p><strong>顶点的法向量 &#x3D; 相关的面的法向量的加权平均值</strong></p>
+<hr>
+<p><strong>定义每个像素的法向量</strong></p>
+<p><img src="/images/Games101/08/15.png"></p>
+<p><strong>像素的法向量 &#x3D; 顶点法向量平面的重心坐标</strong></p>
+</blockquote>
+<h2 id="图形管线（实时渲染管线）"><a href="#图形管线（实时渲染管线）" class="headerlink" title="图形管线（实时渲染管线）"></a>图形管线（实时渲染管线）</h2><blockquote>
+<p><strong>Graphics (Real-time Rendering) Pipeline</strong></p>
+<p><strong>定义：如何从 一个场景 -&gt; 一张图 的过程</strong></p>
+<p>就是一些列不同的操作：</p>
+<p><img src="/images/Games101/08/16.png"></p>
+<ol start="0">
+<li><strong>3D模型</strong></li>
+<li><strong>顶点处理</strong></li>
+<li><strong>三角形处理</strong></li>
+<li><strong>光栅化</strong></li>
+<li><strong>着色</strong></li>
+<li><strong>输出</strong></li>
+</ol>
+<hr>
+<p>现代GPU允许我们自己定义这些操作，所以也叫做 <strong>可编程渲染管线</strong>（也就是我们讲的<strong>Shader</strong>）</p>
+<p>具体的讲：</p>
+<p>对于一个顶点或者一个像素，我们可以自己编程计算，自己规定这个点或者像素最后显示的颜色；（只用统一写一次，应用于每一个点）</p>
+<p><strong>顶点着色器</strong>：给每个点写一个着色的程序</p>
+<p><strong>像素着色器 &#x2F; 片元着色器</strong>：给每个像素写一个着色的程序 </p>
+<p><img src="/images/Games101/08/17.png"></p>
+<p><img src="/images/Games101/08/18.png"></p>
+</blockquote>
+<h2 id="现代图形学发展"><a href="#现代图形学发展" class="headerlink" title="现代图形学发展"></a>现代图形学发展</h2><p><img src="/images/Games101/08/19.png"></p>
+<h2 id="纹理映射（Texture-Mapping）"><a href="#纹理映射（Texture-Mapping）" class="headerlink" title="纹理映射（Texture Mapping）"></a>纹理映射（Texture Mapping）</h2><blockquote>
+<p><strong>定义一个点的不同属性</strong>，具体讲，对于一个三维空间，我们都可以把它展开成二维平面，从而和图像对于；</p>
+<p><img src="/images/Games101/08/20.png"></p>
+<p>那么现在我们要解决的问题就是，我们如何<strong>将一张图像（纹理）贴到三维的物体</strong>上面？（这个过程就是纹理映射）</p>
+<p><img src="/images/Games101/08/21.png"></p>
+<p>其实问题就是，对于物体上的三角形，我们要怎么映射到纹理上的三角形。</p>
+<p>这个问题比较复杂…这里我们规定已经是映射好了的。</p>
+<p><strong>纹理的坐标</strong>：</p>
+<p><img src="/images/Games101/08/22.png"></p>
+<p><img src="/images/Games101/08/23.png"></p>
+<p>U V 都在 0~1 之内</p>
+</blockquote>
+<hr>
+<p><strong>思考：</strong></p>
+<ul>
+<li><p>假设我们知道了三角形三个点对应的纹理坐标，我们如何知道三角形内部任意一点的纹理坐标（U V）？</p>
+</li>
+<li><p>在三角形的三个顶点有各自不同的属性，如何在三角形内部做一个平滑的过渡，使得我们能快速知道三角形内部任意一点通过插值之后的属性是多少？（<strong>重心坐标</strong>）</p>
+</li>
+</ul>
+<h1 id="Lecture-9：Shading-3-Texture-Mapping-cont"><a href="#Lecture-9：Shading-3-Texture-Mapping-cont" class="headerlink" title="Lecture 9：Shading 3 (Texture Mapping cont.)"></a>Lecture 9：Shading 3 (Texture Mapping cont.)</h1><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43399489/article/details/120977488?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522168588406216800186534765%2522%252C%2522scm%2522%253A%252220140713.130102334.pc%255Fall.%2522%257D&request_id=168588406216800186534765&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~first_rank_ecpm_v1~rank_v31_ecpm-1-120977488-null-null.142%5Ev88%5Econtrol_2,239%5Ev2%5Einsert_chatgpt&utm_term=mipmap%20%E5%92%8C%20%E4%B8%89%E7%BA%BF%E6%80%A7%E6%8F%92%E5%80%BC%20%E7%9A%84%E5%85%B3%E7%B3%BB&spm=1018.2226.3001.4187">图形学笔记（八）着色2 —— 纹理映射、重心坐标、双线性插值、Mipmap、三线性插值、各向异性过滤、纹理的应用（环境贴图、法线贴图等)</a></p>
+<p><strong>上面是笔记，记得贼全。</strong></p>
+<p><img src="/images/Games101/09/01.png"></p>
+<p><img src="/images/Games101/09/02.png"></p>
+<h2 id="概述-4"><a href="#概述-4" class="headerlink" title="概述"></a>概述</h2><blockquote>
+<p><strong>问题</strong>：<strong>如何在三角形内部进行任何属性的插值？</strong></p>
+<p><img src="/images/Games101/09/03.png"></p>
+<p><strong>什么是插值？</strong></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_46053880/article/details/113449866?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522168587213516800225589517%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&request_id=168587213516800225589517&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduend~default-1-113449866-null-null.142%5Ev88%5Econtrol_2,239%5Ev2%5Einsert_chatgpt&utm_term=%E4%BB%80%E4%B9%88%E6%98%AF%E6%8F%92%E5%80%BC%EF%BC%9F&spm=1018.2226.3001.4187">插值算法</a></p>
+<p><strong>为什么要插值？</strong></p>
+<p>是因为我们想要在三角形内部得到一个平滑的过渡。</p>
+<p><strong>插值什么</strong>？</p>
+<p>插值的东西是很广泛的（任意属性），比如说 <strong>颜色</strong>（三个点有三个不同的颜色，那么通过对颜色进行插值使得三角形内部的颜色有平滑的过渡）；<strong>位置</strong>（我们知道了三角形的三个顶点对应纹理上的三个顶点，然后通过对顶点位置进行插值，从而确定三角形内部每个点的位置）等等。</p>
+</blockquote>
+<h2 id="如何插值？"><a href="#如何插值？" class="headerlink" title="如何插值？"></a>如何插值？</h2><h3 id="重心坐标"><a href="#重心坐标" class="headerlink" title="重心坐标"></a>重心坐标</h3><blockquote>
+<p><img src="/images/Games101/09/04.png"></p>
+<p>且三个系数非负</p>
+<p>满足上面条件的就叫<strong>重心坐标（是三角形内的点的意思）</strong>；</p>
+<p>这里一定要注意：<strong>重心 和 重心坐标 是两个完全不同的概念！！</strong></p>
+<ul>
+<li><strong>重心：</strong>指一个三角形内部的特殊点，该点与三角形的三个顶点的连线平分三角形的三条中线。</li>
+<li><strong>重心坐标：</strong>是一种表示点在三角形内部位置的方式。<ul>
+<li>对于一个给定的三角形ABC，点P在三角形内部的位置可以由三个重心坐标（u,v,w）表示，满足以下条件：u+v+w&#x3D;1，且每个重心坐标都是点P到对应顶点的距离与三角形对边长度之比。</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<blockquote>
+<hr>
+<p><strong>任意一点的重心坐标：</strong></p>
+<p><img src="/images/Games101/09/05.png"></p>
+<p><img src="/images/Games101/09/06.png"></p>
+<hr>
+<p><strong>三角形的重心</strong>：</p>
+<p><img src="/images/Games101/09/07.png"></p>
+<hr>
+<p><strong>重心坐标的规范公式</strong>：</p>
+<p><img src="/images/Games101/09/08.png"></p>
+<hr>
+<p><strong>重心坐标的作用</strong>：</p>
+<p>既然我们知道了重心坐标的计算，那么我们就能通过重心来对三角形内部一点的属性进行插值：</p>
+<p><img src="/images/Games101/09/09.png"></p>
+<hr>
+<p>缺点：</p>
+<p>当三角形被投影到其他平面上面去的时候，三角形三个顶点的位置可能发生变换，从而导致重心坐标发生变化；</p>
+<p>也就是说，<strong>三维空间中的物体，我们不能计算投影后的重心坐标，而应该在三维空间中进行插值算出三维的重心坐标！</strong></p>
+</blockquote>
+<h2 id="应用纹理"><a href="#应用纹理" class="headerlink" title="应用纹理"></a>应用纹理</h2><h3 id="纹理太小的问题（双线性插值）"><a href="#纹理太小的问题（双线性插值）" class="headerlink" title="纹理太小的问题（双线性插值）"></a>纹理太小的问题（双线性插值）</h3><blockquote>
+<p>问题1：<strong>纹理太小的问题</strong>；</p>
+<p>当我们的图像比较大，纹理比较小的时候，做纹理映射后纹理会被拉大，导致对应纹理位置的不是一个整数值；</p>
+<p><img src="/images/Games101/09/10.png"></p>
+<p>导致下面Nearest的情况：</p>
+<p><img src="/images/Games101/09/11.png"></p>
+<p>但是我们想要上面 Bilinear，Bicubic 的情况；</p>
+<p>当一个像素对应的纹理坐标不是整数值时，我们如何去设置这个值？？？（<strong>双线性插值</strong>）</p>
+<ol>
+<li>首选对于像素点，取周围四个点的纹理坐标</li>
+</ol>
+<p><img src="/images/Games101/09/12.png"></p>
+<ol start="2">
+<li>用U00，U10插值得到U0，用U01，U11插值得到U1。</li>
+</ol>
+<p><img src="/images/Games101/09/13.png"></p>
+<ol start="3">
+<li>用U0和U1进行插值得到红色点</li>
+</ol>
+<p><img src="/images/Games101/09/14.png"></p>
+<p><img src="/images/Games101/09/15.png"></p>
+</blockquote>
+<hr>
+<h3 id="纹理太大的问题（Mipmap解决范围平均值查询-三线性插值）"><a href="#纹理太大的问题（Mipmap解决范围平均值查询-三线性插值）" class="headerlink" title="纹理太大的问题（Mipmap解决范围平均值查询 + 三线性插值）"></a>纹理太大的问题（Mipmap解决范围平均值查询 + 三线性插值）</h3><blockquote>
+<p>问题2：<strong>纹理太大的问题，导致走样，出现摩尔纹；</strong></p>
+<p>本质原因就是<strong>一个像素点包含了太多个纹理</strong>，导致当我们用普通的纹理映射的时候，这个像素点的重心代表了整个区域，从而导致了走样；</p>
+<p><img src="/images/Games101/09/16.png"></p>
+<p>那么首先能想到的就是反走样方法：用多个像素点采样取平均值（但是计算量太大了）</p>
+<p>换一种算法思路：<strong>不采样，直接对于每个像素点，我们可以直接知道这个像素点的平均值</strong>！</p>
+<p><img src="/images/Games101/09/17.png"></p>
+<p><strong>Point Query（点查询）</strong>：给一个点求值（插值）</p>
+<p><strong>Range Query（范围查询(平均值)）</strong>：给一个区域，我们能立刻得到区域中的平均值。</p>
+</blockquote>
+<hr>
+<blockquote>
+<p><strong>怎么实现范围查询？？？</strong></p>
+<p>引入 <strong>Mipmap</strong>，特点：</p>
+<ul>
+<li><strong>快</strong></li>
+<li><strong>近似的</strong></li>
+<li><strong>方形查询</strong></li>
+</ul>
+<p><img src="/images/Games101/09/18.png"></p>
+<p>原理是：<strong>二进制！！！</strong></p>
+<hr>
+<p>Mipmap 具体做法步骤：</p>
+<p>对于给定的一张图，我们先拆分成不同分辨率的图像（每次向下除二）：</p>
+<p><img src="/images/Games101/09/19.png"></p>
+<p><img src="/images/Games101/09/20.png"></p>
+<p>记住上面这个操作：</p>
+<p>接着，对于每个像素点（在原图上面找的），我们取它周围的像素点，同时把这些点在纹理图上的纹理坐标也找出来：</p>
+<p><img src="/images/Games101/09/21.png"></p>
+<p>接着，我们通过计算，近似的算出这个像素点在纹理坐标上大概占多少区域（不规则）</p>
+<p><img src="/images/Games101/09/22.png"></p>
+<p>然后我们把这个不规则的区域再近似的规则成一个正方形（为什么要规则成正方形下面就知道了）</p>
+<p>且是2的幂次</p>
+<p><img src="/images/Games101/09/23.png"></p>
+<p>那么对于每个正方形区域，我们就能快速（O(1)）的在第log2 L层去查询就行了（因为上面预处理好了！）</p>
+</blockquote>
+<blockquote>
+<p><strong>问题分析</strong></p>
+<p>但是这样会有，因为只预处理了2的幂次，我们并不知道1.5层是怎样的，所以导致不连续了；</p>
+<p><img src="/images/Games101/09/24.png"></p>
+<p>怎么解决？</p>
+<p>仍然是<strong>插值</strong>！</p>
+<p>比如说，对于1.5层，我们可以选第1层和第2层，分别在层内进行 Mipmap 范围查询，然后再对这两个结果进行层与层之间的插值：（这就是<strong>三线性插值</strong>）</p>
+<p><img src="/images/Games101/09/25.png"></p>
+</blockquote>
+<hr>
+<blockquote>
+<p><strong>但是还是有问题：</strong></p>
+<p><img src="/images/Games101/09/26.png"></p>
+<p>可以发现远处细节都被模糊了…</p>
+<p>原因是 <strong>mipmap 只考虑正方形</strong>，而有些像素对应的纹理其实可能是不规则的，从而导致模糊；</p>
+<p><img src="/images/Games101/09/27.png"></p>
+</blockquote>
+<hr>
+<blockquote>
+<p><strong>解决方法：</strong></p>
+<ul>
+<li><strong>各向异性过滤</strong></li>
+</ul>
+<p><img src="/images/Games101/09/28.png"></p>
+<p>引入矩形查询的区域，但是不规则咋办…</p>
+<hr>
+<ul>
+<li><strong>EWA 过滤</strong></li>
+</ul>
+<p><img src="/images/Games101/09/29.png"></p>
+<p>对于不规则形状，我们可以通过圆形的多次查询来确定；</p>
+<p>缺点：多次查询，开销较大…</p>
+</blockquote>
+<hr>
+<h2 id="纹理的应用"><a href="#纹理的应用" class="headerlink" title="纹理的应用"></a>纹理的应用</h2><p>靠，真的复杂…看这个笔记：</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43399489/article/details/120977488?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522168588406216800186534765%2522%252C%2522scm%2522%253A%252220140713.130102334.pc%255Fall.%2522%257D&request_id=168588406216800186534765&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~first_rank_ecpm_v1~rank_v31_ecpm-1-120977488-null-null.142%5Ev88%5Econtrol_2,239%5Ev2%5Einsert_chatgpt&utm_term=mipmap%20%E5%92%8C%20%E4%B8%89%E7%BA%BF%E6%80%A7%E6%8F%92%E5%80%BC%20%E7%9A%84%E5%85%B3%E7%B3%BB&spm=1018.2226.3001.4187">图形学笔记（八）着色2 —— 纹理映射、重心坐标、双线性插值、Mipmap、三线性插值、各向异性过滤、纹理的应用（环境贴图、法线贴图等)</a></p>
 
       
     </div>
@@ -2198,236 +2502,11 @@ size_t lua_strlen (lua_State *L, int index);
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/12/30/%E3%80%90UE4%E3%80%91%E5%AE%8F/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="FJBQ">
-      <meta itemprop="description" content="坚定 坚持 坚强">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="FJBQ">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/12/30/%E3%80%90UE4%E3%80%91%E5%AE%8F/" class="post-title-link" itemprop="url">【UE4】宏</a>
-        </h2>
-
-        <div class="post-meta">
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2023-12-30 21:09:55" itemprop="dateCreated datePublished" datetime="2023-12-30T21:09:55+08:00">2023-12-30</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-12-17 11:23:34" itemprop="dateModified" datetime="2023-12-17T11:23:34+08:00">2023-12-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/UE4/" itemprop="url" rel="index"><span itemprop="name">UE4</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><strong>分享一下查阅到的资料，总结的太好了！</strong></p>
-<p><a target="_blank" rel="noopener" href="https://benui.ca/unreal/uproperty/">UPROPERTY()</a></p>
-<p><a target="_blank" rel="noopener" href="https://benui.ca/unreal/ufunction/">UFUNCTION()</a></p>
-<p><a target="_blank" rel="noopener" href="https://benui.ca/unreal/uclass/">UCLASS()</a></p>
-<p><a target="_blank" rel="noopener" href="https://benui.ca/unreal/ustruct/">USTRUCT()</a></p>
-<p><a target="_blank" rel="noopener" href="https://benui.ca/unreal/uinterface/">UINTERFACE()</a></p>
-<p><a target="_blank" rel="noopener" href="https://benui.ca/unreal/uparam/">UPPARAM()</a></p>
-<p><a target="_blank" rel="noopener" href="https://benui.ca/unreal/uenum-umeta/">UENUM() 、UMETA()</a></p>
-<p>下面是自己总结自用的，感觉有些不常用的我就没列出来了，可以看看原文，写的真的详细，还有图片展示。</p>
-<h1 id="UPROPERTY"><a href="#UPROPERTY" class="headerlink" title="UPROPERTY()"></a>UPROPERTY()</h1><p>主要有一下相关分类：</p>
-<ul>
-<li>编辑器</li>
-<li>数据修饰的</li>
-<li>序列化</li>
-<li>蓝图逻辑</li>
-<li>网络</li>
-<li>UMG</li>
-<li>数据表</li>
-<li>蓝图</li>
-<li>Console</li>
-<li>脚本</li>
-<li>资产注册</li>
-<li>配置文件</li>
-<li>动画</li>
-<li>材质</li>
-<li>C++</li>
-</ul>
-<p>实在是太多了…</p>
-<p>下面是选项：</p>
-<h2 id="VisibleAnywhere"><a href="#VisibleAnywhere" class="headerlink" title="VisibleAnywhere"></a>VisibleAnywhere</h2><ul>
-<li><p>编辑器可见（不可编辑），蓝图不可见；</p>
-</li>
-<li><p>不兼容：</p>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://benui.ca/unreal/uproperty/#visibledefaultsonly"><code>VisibleDefaultsOnly</code></a></li>
-<li><a target="_blank" rel="noopener" href="https://benui.ca/unreal/uproperty/#visibleinstanceonly"><code>VisibleInstanceOnly</code></a></li>
-<li><a target="_blank" rel="noopener" href="https://benui.ca/unreal/uproperty/#editanywhere"><code>EditAnywhere</code></a></li>
-<li><a target="_blank" rel="noopener" href="https://benui.ca/unreal/uproperty/#editdefaultsonly"><code>EditDefaultsOnly</code></a></li>
-<li><a target="_blank" rel="noopener" href="https://benui.ca/unreal/uproperty/#editinstanceonly"><code>EditInstanceOnly</code></a></li>
-</ul>
-</li>
-</ul>
-<h2 id="VisibleDefaultsOnly"><a href="#VisibleDefaultsOnly" class="headerlink" title="VisibleDefaultsOnly"></a>VisibleDefaultsOnly</h2><ul>
-<li>蓝图 <strong>类</strong> 的 <strong>Details</strong> 面板中可见（只读），实例中不可见。</li>
-<li>不兼容：<ul>
-<li><a target="_blank" rel="noopener" href="https://benui.ca/unreal/uproperty/#visibleanywhere"><code>VisibleAnywhere</code></a></li>
-<li><a target="_blank" rel="noopener" href="https://benui.ca/unreal/uproperty/#visibleinstanceonly"><code>VisibleInstanceOnly</code></a></li>
-<li><a target="_blank" rel="noopener" href="https://benui.ca/unreal/uproperty/#editanywhere"><code>EditAnywhere</code></a></li>
-<li><a target="_blank" rel="noopener" href="https://benui.ca/unreal/uproperty/#editdefaultsonly"><code>EditDefaultsOnly</code></a></li>
-<li><a target="_blank" rel="noopener" href="https://benui.ca/unreal/uproperty/#editinstanceonly"><code>EditInstanceOnly</code></a></li>
-</ul>
-</li>
-</ul>
-<h2 id="VisibleInstanceOnly"><a href="#VisibleInstanceOnly" class="headerlink" title="VisibleInstanceOnly"></a>VisibleInstanceOnly</h2><ul>
-<li>蓝图实例的 <strong>Details</strong> 面板中可见，蓝图中不可见。</li>
-<li>不兼容：<ul>
-<li><a target="_blank" rel="noopener" href="https://benui.ca/unreal/uproperty/#visibleanywhere"><code>VisibleAnywhere</code></a></li>
-<li><a target="_blank" rel="noopener" href="https://benui.ca/unreal/uproperty/#visibledefaultsonly"><code>VisibleDefaultsOnly</code></a></li>
-<li><a target="_blank" rel="noopener" href="https://benui.ca/unreal/uproperty/#editanywhere"><code>EditAnywhere</code></a></li>
-<li><a target="_blank" rel="noopener" href="https://benui.ca/unreal/uproperty/#editdefaultsonly"><code>EditDefaultsOnly</code></a></li>
-<li><a target="_blank" rel="noopener" href="https://benui.ca/unreal/uproperty/#editinstanceonly"><code>EditInstanceOnly</code></a></li>
-</ul>
-</li>
-</ul>
-<h2 id="EditAnywhere"><a href="#EditAnywhere" class="headerlink" title="EditAnywhere"></a>EditAnywhere</h2><ul>
-<li>蓝图 <strong>类</strong> 和 <strong>实例</strong> 的 <strong>Details</strong> 面板中可见（只读）。</li>
-<li>不兼容：<ul>
-<li><a target="_blank" rel="noopener" href="https://benui.ca/unreal/uproperty/#editdefaultsonly"><code>EditDefaultsOnly</code></a></li>
-<li><a target="_blank" rel="noopener" href="https://benui.ca/unreal/uproperty/#editinstanceonly"><code>EditInstanceOnly</code></a></li>
-<li><a target="_blank" rel="noopener" href="https://benui.ca/unreal/uproperty/#visibleanywhere"><code>VisibleAnywhere</code></a></li>
-<li><a target="_blank" rel="noopener" href="https://benui.ca/unreal/uproperty/#visibledefaultsonly"><code>VisibleDefaultsOnly</code></a></li>
-<li><a target="_blank" rel="noopener" href="https://benui.ca/unreal/uproperty/#visibleinstanceonly"><code>VisibleInstanceOnly</code></a></li>
-</ul>
-</li>
-</ul>
-<h2 id="EditInstanceOnly"><a href="#EditInstanceOnly" class="headerlink" title="EditInstanceOnly"></a>EditInstanceOnly</h2><ul>
-<li>蓝图 细节面板 可以编辑，蓝图图表中 不行；</li>
-</ul>
-<h2 id="EditDefaultsOnly"><a href="#EditDefaultsOnly" class="headerlink" title="EditDefaultsOnly"></a>EditDefaultsOnly</h2><ul>
-<li>细节面板可编辑</li>
-<li>不兼容：<ul>
-<li><a target="_blank" rel="noopener" href="https://benui.ca/unreal/uproperty/#editanywhere"><code>EditAnywhere</code></a></li>
-<li><a target="_blank" rel="noopener" href="https://benui.ca/unreal/uproperty/#visibleanywhere"><code>VisibleAnywhere</code></a></li>
-<li><a target="_blank" rel="noopener" href="https://benui.ca/unreal/uproperty/#visibledefaultsonly"><code>VisibleDefaultsOnly</code></a></li>
-<li><a target="_blank" rel="noopener" href="https://benui.ca/unreal/uproperty/#visibleinstanceonly"><code>VisibleInstanceOnly</code></a></li>
-</ul>
-</li>
-</ul>
-<h2 id="meta-HideInDetailPanel"><a href="#meta-HideInDetailPanel" class="headerlink" title="meta&#x3D;(HideInDetailPanel)"></a>meta&#x3D;(HideInDetailPanel)</h2><ul>
-<li>显然，隐藏</li>
-</ul>
-<h2 id="meta-ShowOnlyInnerProperties"><a href="#meta-ShowOnlyInnerProperties" class="headerlink" title="meta&#x3D;(ShowOnlyInnerProperties)"></a>meta&#x3D;(ShowOnlyInnerProperties)</h2><ul>
-<li>用于修饰结构体成员变量，意思就是，被修饰的结构体会被展开，但是不能点击（编辑），而且被嵌套在里面的结构体不会被展开！可以用于隐藏结构。</li>
-</ul>
-<h2 id="Category-“abc”"><a href="#Category-“abc”" class="headerlink" title="Category &#x3D; “abc”"></a>Category &#x3D; “abc”</h2><ul>
-<li>分类，把被同一 Category 修饰的属性在细节面板中分类在一起；</li>
-<li>可以嵌套分类：<ul>
-<li>Animals<ul>
-<li>Animals|Birds</li>
-<li>Animals|Dogs</li>
-</ul>
-</li>
-<li>Animals 类别下又有两类：Birds，Dogs。</li>
-</ul>
-</li>
-</ul>
-<h2 id="meta-DisplayName-”abc”"><a href="#meta-DisplayName-”abc”" class="headerlink" title="meta&#x3D;(DisplayName&#x3D;”abc”)"></a>meta&#x3D;(DisplayName&#x3D;”abc”)</h2><ul>
-<li>将被修饰的属性改名字为 abc，配合 EditAnywhere 一起用；</li>
-</ul>
-<h2 id="meta-ToolTip-“abc”"><a href="#meta-ToolTip-“abc”" class="headerlink" title="meta&#x3D;(ToolTip&#x3D;“abc”)"></a>meta&#x3D;(ToolTip&#x3D;“abc”)</h2><ul>
-<li>将鼠标悬停在属性上时，显示包含此文本的工具提示（abc）。</li>
-</ul>
-<h2 id="AdvancedDisplay"><a href="#AdvancedDisplay" class="headerlink" title="AdvancedDisplay"></a>AdvancedDisplay</h2><ul>
-<li>将属性折叠起来，需要点击箭头才能展开</li>
-<li>不兼容：<a target="_blank" rel="noopener" href="https://benui.ca/unreal/uproperty/#simpledisplay"><code>SimpleDisplay</code></a></li>
-</ul>
-<h2 id="SimpleDisplay"><a href="#SimpleDisplay" class="headerlink" title="SimpleDisplay"></a>SimpleDisplay</h2><ul>
-<li>和上面是相反的属性修饰</li>
-</ul>
-<h2 id="InlineEditConditionToggle"><a href="#InlineEditConditionToggle" class="headerlink" title="InlineEditConditionToggle"></a>InlineEditConditionToggle</h2><ul>
-<li>将一个 bool 类型的成员变量，附在被 InlineEditConditionToggle 修饰的属性的左边，也就是两个属性合在一起；bool 不会单独显示；</li>
-</ul>
-<h2 id="DisplayAfter"><a href="#DisplayAfter" class="headerlink" title="DisplayAfter"></a>DisplayAfter</h2><ul>
-<li>用于定义属性在编辑器展示的先后顺序，详细看原文；</li>
-</ul>
-<h2 id="DisplayPriority"><a href="#DisplayPriority" class="headerlink" title="DisplayPriority"></a>DisplayPriority</h2><ul>
-<li>这个更牛，给编号，按编号从小到大排序属性；</li>
-</ul>
-<p>然后是一些限制编辑操作的：<br><a target="_blank" rel="noopener" href="https://benui.ca/unreal/uproperty/#numeric">数值上的</a></p>
-<h2 id="meta-AllowedClasses-“Texture”"><a href="#meta-AllowedClasses-“Texture”" class="headerlink" title="meta &#x3D; (AllowedClasses &#x3D; “Texture”)"></a>meta &#x3D; (AllowedClasses &#x3D; “Texture”)</h2><ul>
-<li>限制一下类类型</li>
-</ul>
-<h2 id="BlueprintAssignable"><a href="#BlueprintAssignable" class="headerlink" title="BlueprintAssignable"></a>BlueprintAssignable</h2><ul>
-<li>定义委托的时候声明这个，表示蓝图可以使用该委托</li>
-</ul>
-<h1 id="UFUNCTION"><a href="#UFUNCTION" class="headerlink" title="UFUNCTION"></a>UFUNCTION</h1><p>下面是相关的分类：</p>
-<ul>
-<li>蓝图逻辑</li>
-<li>编辑器</li>
-<li>常规</li>
-<li>c++</li>
-<li>Console</li>
-<li>外观</li>
-<li>Debug</li>
-<li>网络</li>
-<li>…</li>
-</ul>
-<p>常用的就是前面几个蓝图逻辑</p>
-<h2 id="BlueprintCallable"><a href="#BlueprintCallable" class="headerlink" title="BlueprintCallable"></a>BlueprintCallable</h2><p>蓝图可调用</p>
-<h2 id="BlueprintNativeEvent-和-BlueprintImplementableEvent"><a href="#BlueprintNativeEvent-和-BlueprintImplementableEvent" class="headerlink" title="BlueprintNativeEvent 和 BlueprintImplementableEvent"></a>BlueprintNativeEvent 和 BlueprintImplementableEvent</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/luomogenhaoqi/article/details/89311695">UE4函数标记BlueprintImplementableEvent和BlueprintNativeEvent区别-CSDN博客</a></p>
-<p>后面还有好多 …</p>
-<p>这下知道为什么 UE 好资料比较少了… </p>
-<p>一拉就是一大块，又多又杂又难…</p>
-<p>没有时间和毅力真的很难坚持…</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+  </nav>
 
 
 
@@ -2494,7 +2573,7 @@ size_t lua_strlen (lua_State *L, int index);
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-count">11</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -2545,7 +2624,7 @@ size_t lua_strlen (lua_State *L, int index);
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共20.1k字</span>
+  <span class="post-count">博客全站共22.6k字</span>
 </div>
 
 
