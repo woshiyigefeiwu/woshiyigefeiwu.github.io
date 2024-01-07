@@ -22,18 +22,31 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"manual","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="尝试分文件写…">
+  <meta name="description" content="Lecture 10：Geometry 1 (Introduction)这节课主要讲：  纹理的应用（放在上一篇文章了） 几何的表示方法  几何的表示方法 隐式的几何表示 显示的几何表示  隐式的几何表示（Implicit）概述简单的讲就是，在空间中找到满足特定关系的点，用坐标公式表达一下；  优点：  很容易判断点是否在面上。（将点代入f(x,y,z)，正数表示点在图形外，负数表示点在图形内，0">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Games 101 -- Lecture 10">
+<meta property="og:title" content="【Games 101】Lec 10：几何 1 （入门）">
 <meta property="og:url" content="http://example.com/2024/01/07/games101/Lec%2010/index.html">
 <meta property="og:site_name" content="FJBQ">
-<meta property="og:description" content="尝试分文件写…">
+<meta property="og:description" content="Lecture 10：Geometry 1 (Introduction)这节课主要讲：  纹理的应用（放在上一篇文章了） 几何的表示方法  几何的表示方法 隐式的几何表示 显示的几何表示  隐式的几何表示（Implicit）概述简单的讲就是，在空间中找到满足特定关系的点，用坐标公式表达一下；  优点：  很容易判断点是否在面上。（将点代入f(x,y,z)，正数表示点在图形外，负数表示点在图形内，0">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/images/Games101/10/01.png">
+<meta property="og:image" content="http://example.com/images/Games101/10/02.png">
+<meta property="og:image" content="http://example.com/images/Games101/10/03.png">
+<meta property="og:image" content="http://example.com/images/Games101/10/04.png">
+<meta property="og:image" content="http://example.com/images/Games101/10/05.png">
+<meta property="og:image" content="http://example.com/images/Games101/10/06.png">
+<meta property="og:image" content="http://example.com/images/Games101/10/07.png">
+<meta property="og:image" content="http://example.com/images/Games101/10/08.png">
+<meta property="og:image" content="http://example.com/images/Games101/10/09.png">
+<meta property="og:image" content="http://example.com/images/Games101/10/10.png">
+<meta property="og:image" content="http://example.com/images/Games101/10/11.png">
 <meta property="article:published_time" content="2024-01-07T10:15:11.896Z">
-<meta property="article:modified_time" content="2024-01-07T10:16:54.462Z">
+<meta property="article:modified_time" content="2024-01-07T13:59:10.559Z">
 <meta property="article:author" content="FJBQ">
 <meta property="article:tag" content="Games 系列">
+<meta property="article:tag" content="Games 101">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/Games101/10/01.png">
 
 <link rel="canonical" href="http://example.com/2024/01/07/games101/Lec%2010/">
 
@@ -48,7 +61,7 @@
   };
 </script>
 
-  <title>Games 101 -- Lecture 10 | FJBQ</title>
+  <title>【Games 101】Lec 10：几何 1 （入门） | FJBQ</title>
   
 
 
@@ -187,7 +200,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Games 101 -- Lecture 10
+          【Games 101】Lec 10：几何 1 （入门）
         </h1>
 
         <div class="post-meta">
@@ -199,7 +212,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2024-01-07 18:15:11 / 修改时间：18:16:54" itemprop="dateCreated datePublished" datetime="2024-01-07T18:15:11+08:00">2024-01-07</time>
+              <time title="创建时间：2024-01-07 18:15:11 / 修改时间：21:59:10" itemprop="dateCreated datePublished" datetime="2024-01-07T18:15:11+08:00">2024-01-07</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -208,6 +221,10 @@
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/Games-%E7%B3%BB%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">Games 系列</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/Games-101/" itemprop="url" rel="index"><span itemprop="name">Games 101</span></a>
                 </span>
             </span>
 
@@ -229,7 +246,89 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>尝试分文件写…</p>
+        <h1 id="Lecture-10：Geometry-1-Introduction"><a href="#Lecture-10：Geometry-1-Introduction" class="headerlink" title="Lecture 10：Geometry 1 (Introduction)"></a>Lecture 10：Geometry 1 (Introduction)</h1><p>这节课主要讲：</p>
+<ul>
+<li>纹理的应用（放在上一篇文章了）</li>
+<li>几何的表示方法</li>
+</ul>
+<h2 id="几何的表示方法"><a href="#几何的表示方法" class="headerlink" title="几何的表示方法"></a>几何的表示方法</h2><ul>
+<li><strong>隐式</strong>的几何表示</li>
+<li><strong>显示</strong>的几何表示</li>
+</ul>
+<h3 id="隐式的几何表示（Implicit）"><a href="#隐式的几何表示（Implicit）" class="headerlink" title="隐式的几何表示（Implicit）"></a>隐式的几何表示（Implicit）</h3><h4 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h4><p>简单的讲就是，在空间中找到满足特定关系的点，用坐标公式表达一下；</p>
+<p><img src="/images/Games101/10/01.png"></p>
+<p><strong>优点：</strong></p>
+<ul>
+<li>很容易判断点是否在面上。（将点代入f(x,y,z)，正数表示点在图形外，负数表示点在图形内，0表示点在图形上。）</li>
+<li>表述起来很容易（对存储很有利）。</li>
+<li>容易做面与光线求交。</li>
+<li>容易描述和处理拓扑结构。</li>
+</ul>
+<p><strong>缺点：</strong></p>
+<ul>
+<li>不好描述复杂的形状；</li>
+<li>不好知道这个面上有哪些点；</li>
+<li>很难从式子中看出表示的是什么形状。</li>
+</ul>
+<p><strong>分类：</strong></p>
+<ul>
+<li><strong>构造立体几何 CSG（Constructive Solid Geometry）（Implict）</strong></li>
+<li><strong>距离函数 Distance Function（Implict）</strong></li>
+<li><strong>水平集 Level Set Methods(Implict)</strong></li>
+<li><strong>分形 Fractals(Implict)</strong></li>
+</ul>
+<h4 id="构造立体几何-CSG（Constructive-Solid-Geometry）"><a href="#构造立体几何-CSG（Constructive-Solid-Geometry）" class="headerlink" title="构造立体几何 CSG（Constructive Solid Geometry）"></a>构造立体几何 CSG（Constructive Solid Geometry）</h4><p>通过一系列基本几何的基本布尔运算来定义新的几何。</p>
+<p><img src="/images/Games101/10/02.png"></p>
+<h4 id="距离函数-Distance-Function"><a href="#距离函数-Distance-Function" class="headerlink" title="距离函数 Distance Function"></a>距离函数 Distance Function</h4><p>给出任何一个位置到物体的最短距离。对一个点不描述表面，而是描述点到表面的最近距离。</p>
+<p>把两个物体的距离函数都算出来然后把两个距离函数做融合（blending）</p>
+<p>这个挺妙的；</p>
+<p><img src="/images/Games101/10/03.png"></p>
+<p>比如：混合一个移动的边界</p>
+<p><img src="/images/Games101/10/04.png"></p>
+<p>通过blend两个SDF可以得到移动后的边界。</p>
+<p>分别求出两个物体对应的距离函数， 然后把他们blend起来，然后恢复成原本的面（找出SDF 的值为0的位置）</p>
+<h4 id="水平集-Level-Set-Methods"><a href="#水平集-Level-Set-Methods" class="headerlink" title="水平集 Level Set Methods"></a>水平集 Level Set Methods</h4><p>封闭形式的方程很难描述复杂的形状，所以选择一种替代方案：</p>
+<p><strong>存储一个值近似函数的网格（可以是二维的也可以是三维的）</strong></p>
+<p>通过找到插值为0的位置来找到表面，它具有一个对形状更加显示的控制。</p>
+<p><img src="/images/Games101/10/05.png"></p>
+<p><strong>eg：</strong>如果有一个三维的纹理表示人体不同位置的骨密度，可以让密度函数&#x3D;某个具体的值，然后找到所有满足这个等式的位置，就可以得到一个表面。</p>
+<p><img src="/images/Games101/10/06.png"></p>
+<h4 id="分形-Fractals"><a href="#分形-Fractals" class="headerlink" title="分形 Fractals"></a>分形 Fractals</h4><p>局部和整体相似，一直递归；</p>
+<p>eg：雪花，西兰花等；</p>
+<p>这些类型的几何在渲染时会造成强烈的走样。</p>
+<p><img src="/images/Games101/10/07.png"></p>
+<h3 id="显示的几何表示（Explicit）"><a href="#显示的几何表示（Explicit）" class="headerlink" title="显示的几何表示（Explicit）"></a>显示的几何表示（Explicit）</h3><h4 id="概述-1"><a href="#概述-1" class="headerlink" title="概述"></a>概述</h4><p>所有的点直接给出，或通过参数映射定义表面。</p>
+<p><img src="/images/Games101/10/08.png"></p>
+<p><strong>优点：</strong>对于表示形状很容易。</p>
+<p><strong>缺点：</strong>不好判断点是否在表面上（或内、外）。</p>
+<p><strong>分类：</strong></p>
+<ul>
+<li><strong>点云 （Point Cloud）</strong></li>
+<li><strong>多边形网格（Polygon Mesh）</strong></li>
+</ul>
+<h4 id="点云（Point-Cloud）"><a href="#点云（Point-Cloud）" class="headerlink" title="点云（Point Cloud）"></a>点云（Point Cloud）</h4><ul>
+<li>简单的表示为点的列表(x,y,z)</li>
+<li>可以简单的表示任何一种几何图形</li>
+<li>对于表示大数据集是很有用的（&gt;&gt;1 point&#x2F;pixel）</li>
+<li>经常被转换成多边形网格</li>
+<li>难以在采样不足的区域画出来</li>
+</ul>
+<p><img src="/images/Games101/10/09.png"></p>
+<h4 id="多边形网格（Polygon-Mesh）"><a href="#多边形网格（Polygon-Mesh）" class="headerlink" title="多边形网格（Polygon Mesh）"></a>多边形网格（Polygon Mesh）</h4><ul>
+<li>存储点和多边形（通常是三角形或四边形）</li>
+<li>容易去处理&#x2F;模拟，进行自适应采样</li>
+<li>数据结构比较复杂</li>
+<li>图形学中最常用的表示</li>
+</ul>
+<p><img src="/images/Games101/10/10.png"></p>
+<p><strong>表示方式：The Wavefront Object File（.obj）格式</strong></p>
+<p>它是一个文本文件，由指定的顶点、法线、纹理坐标和它们的连接组成。</p>
+<p>如下图表示了一个立方体：</p>
+<p>v是顶点坐标</p>
+<p>vn是法线（多了两条是因为建模误差）</p>
+<p>vt是纹理坐标</p>
+<p>f(face)表示面，比如f 5&#x2F;1&#x2F;1 1&#x2F;2&#x2F;1 4&#x2F;3&#x2F;1 表示这个三角形面是由第5、1、4个顶点组成的，三个点的纹理坐标是第1、2、3对应的纹理坐标，这个面的法线是第一条法线。</p>
+<p><img src="/images/Games101/10/11.png"></p>
 
     </div>
 
@@ -245,7 +344,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://example.com/2024/01/07/games101/Lec%2010/" title="Games 101 -- Lecture 10">http://example.com/2024/01/07/games101/Lec 10/</a>
+    <a href="http://example.com/2024/01/07/games101/Lec%2010/" title="【Games 101】Lec 10：几何 1 （入门）">http://example.com/2024/01/07/games101/Lec 10/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
@@ -276,6 +375,7 @@
       <footer class="post-footer">
           <div class="post-tags">
               <a href="/tags/Games-%E7%B3%BB%E5%88%97/" rel="tag"># Games 系列</a>
+              <a href="/tags/Games-101/" rel="tag"># Games 101</a>
           </div>
 
         
@@ -351,6 +451,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Lecture-10%EF%BC%9AGeometry-1-Introduction"><span class="nav-number">1.</span> <span class="nav-text">Lecture 10：Geometry 1 (Introduction)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%87%A0%E4%BD%95%E7%9A%84%E8%A1%A8%E7%A4%BA%E6%96%B9%E6%B3%95"><span class="nav-number">1.1.</span> <span class="nav-text">几何的表示方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9A%90%E5%BC%8F%E7%9A%84%E5%87%A0%E4%BD%95%E8%A1%A8%E7%A4%BA%EF%BC%88Implicit%EF%BC%89"><span class="nav-number">1.1.1.</span> <span class="nav-text">隐式的几何表示（Implicit）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9E%84%E9%80%A0%E7%AB%8B%E4%BD%93%E5%87%A0%E4%BD%95-CSG%EF%BC%88Constructive-Solid-Geometry%EF%BC%89"><span class="nav-number">1.1.1.2.</span> <span class="nav-text">构造立体几何 CSG（Constructive Solid Geometry）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%B7%9D%E7%A6%BB%E5%87%BD%E6%95%B0-Distance-Function"><span class="nav-number">1.1.1.3.</span> <span class="nav-text">距离函数 Distance Function</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B0%B4%E5%B9%B3%E9%9B%86-Level-Set-Methods"><span class="nav-number">1.1.1.4.</span> <span class="nav-text">水平集 Level Set Methods</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%86%E5%BD%A2-Fractals"><span class="nav-number">1.1.1.5.</span> <span class="nav-text">分形 Fractals</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%98%BE%E7%A4%BA%E7%9A%84%E5%87%A0%E4%BD%95%E8%A1%A8%E7%A4%BA%EF%BC%88Explicit%EF%BC%89"><span class="nav-number">1.1.2.</span> <span class="nav-text">显示的几何表示（Explicit）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0-1"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%82%B9%E4%BA%91%EF%BC%88Point-Cloud%EF%BC%89"><span class="nav-number">1.1.2.2.</span> <span class="nav-text">点云（Point Cloud）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A4%9A%E8%BE%B9%E5%BD%A2%E7%BD%91%E6%A0%BC%EF%BC%88Polygon-Mesh%EF%BC%89"><span class="nav-number">1.1.2.3.</span> <span class="nav-text">多边形网格（Polygon Mesh）</span></a></li></ol></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -373,13 +474,13 @@
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-count">6</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-count">5</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -417,7 +518,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共22.6k字</span>
+  <span class="post-count">博客全站共23.5k字</span>
 </div>
 
 

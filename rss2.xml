@@ -9,30 +9,33 @@
     <atom:link href="http://example.com/rss2.xml" rel="self" type="application/rss+xml"/>
     
     <description>坚定 坚持 坚强</description>
-    <pubDate>Sun, 07 Jan 2024 10:16:54 GMT</pubDate>
+    <pubDate>Sun, 07 Jan 2024 13:59:10 GMT</pubDate>
     <generator>http://hexo.io/</generator>
     
     <item>
-      <title>Games 101 -- Lecture 10</title>
+      <title>【Games 101】Lec 10：几何 1 （入门）</title>
       <link>http://example.com/2024/01/07/games101/Lec%2010/</link>
       <guid>http://example.com/2024/01/07/games101/Lec%2010/</guid>
       <pubDate>Sun, 07 Jan 2024 10:15:11 GMT</pubDate>
       
         
         
-      <description>&lt;p&gt;尝试分文件写…&lt;/p&gt;
-</description>
+      <description>&lt;h1 id=&quot;Lecture-10：Geometry-1-Introduction&quot;&gt;&lt;a href=&quot;#Lecture-10：Geometry-1-Introduction&quot; class=&quot;headerlink&quot; title=&quot;Lecture 10：Geometry 1 (I</description>
         
       
       
       
-      <content:encoded><![CDATA[<p>尝试分文件写…</p>]]></content:encoded>
+      <content:encoded><![CDATA[<h1 id="Lecture-10：Geometry-1-Introduction"><a href="#Lecture-10：Geometry-1-Introduction" class="headerlink" title="Lecture 10：Geometry 1 (Introduction)"></a>Lecture 10：Geometry 1 (Introduction)</h1><p>这节课主要讲：</p><ul><li>纹理的应用（放在上一篇文章了）</li><li>几何的表示方法</li></ul><h2 id="几何的表示方法"><a href="#几何的表示方法" class="headerlink" title="几何的表示方法"></a>几何的表示方法</h2><ul><li><strong>隐式</strong>的几何表示</li><li><strong>显示</strong>的几何表示</li></ul><h3 id="隐式的几何表示（Implicit）"><a href="#隐式的几何表示（Implicit）" class="headerlink" title="隐式的几何表示（Implicit）"></a>隐式的几何表示（Implicit）</h3><h4 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h4><p>简单的讲就是，在空间中找到满足特定关系的点，用坐标公式表达一下；</p><p><img src="/images/Games101/10/01.png"></p><p><strong>优点：</strong></p><ul><li>很容易判断点是否在面上。（将点代入f(x,y,z)，正数表示点在图形外，负数表示点在图形内，0表示点在图形上。）</li><li>表述起来很容易（对存储很有利）。</li><li>容易做面与光线求交。</li><li>容易描述和处理拓扑结构。</li></ul><p><strong>缺点：</strong></p><ul><li>不好描述复杂的形状；</li><li>不好知道这个面上有哪些点；</li><li>很难从式子中看出表示的是什么形状。</li></ul><p><strong>分类：</strong></p><ul><li><strong>构造立体几何 CSG（Constructive Solid Geometry）（Implict）</strong></li><li><strong>距离函数 Distance Function（Implict）</strong></li><li><strong>水平集 Level Set Methods(Implict)</strong></li><li><strong>分形 Fractals(Implict)</strong></li></ul><h4 id="构造立体几何-CSG（Constructive-Solid-Geometry）"><a href="#构造立体几何-CSG（Constructive-Solid-Geometry）" class="headerlink" title="构造立体几何 CSG（Constructive Solid Geometry）"></a>构造立体几何 CSG（Constructive Solid Geometry）</h4><p>通过一系列基本几何的基本布尔运算来定义新的几何。</p><p><img src="/images/Games101/10/02.png"></p><h4 id="距离函数-Distance-Function"><a href="#距离函数-Distance-Function" class="headerlink" title="距离函数 Distance Function"></a>距离函数 Distance Function</h4><p>给出任何一个位置到物体的最短距离。对一个点不描述表面，而是描述点到表面的最近距离。</p><p>把两个物体的距离函数都算出来然后把两个距离函数做融合（blending）</p><p>这个挺妙的；</p><p><img src="/images/Games101/10/03.png"></p><p>比如：混合一个移动的边界</p><p><img src="/images/Games101/10/04.png"></p><p>通过blend两个SDF可以得到移动后的边界。</p><p>分别求出两个物体对应的距离函数， 然后把他们blend起来，然后恢复成原本的面（找出SDF 的值为0的位置）</p><h4 id="水平集-Level-Set-Methods"><a href="#水平集-Level-Set-Methods" class="headerlink" title="水平集 Level Set Methods"></a>水平集 Level Set Methods</h4><p>封闭形式的方程很难描述复杂的形状，所以选择一种替代方案：</p><p><strong>存储一个值近似函数的网格（可以是二维的也可以是三维的）</strong></p><p>通过找到插值为0的位置来找到表面，它具有一个对形状更加显示的控制。</p><p><img src="/images/Games101/10/05.png"></p><p><strong>eg：</strong>如果有一个三维的纹理表示人体不同位置的骨密度，可以让密度函数&#x3D;某个具体的值，然后找到所有满足这个等式的位置，就可以得到一个表面。</p><p><img src="/images/Games101/10/06.png"></p><h4 id="分形-Fractals"><a href="#分形-Fractals" class="headerlink" title="分形 Fractals"></a>分形 Fractals</h4><p>局部和整体相似，一直递归；</p><p>eg：雪花，西兰花等；</p><p>这些类型的几何在渲染时会造成强烈的走样。</p><p><img src="/images/Games101/10/07.png"></p><h3 id="显示的几何表示（Explicit）"><a href="#显示的几何表示（Explicit）" class="headerlink" title="显示的几何表示（Explicit）"></a>显示的几何表示（Explicit）</h3><h4 id="概述-1"><a href="#概述-1" class="headerlink" title="概述"></a>概述</h4><p>所有的点直接给出，或通过参数映射定义表面。</p><p><img src="/images/Games101/10/08.png"></p><p><strong>优点：</strong>对于表示形状很容易。</p><p><strong>缺点：</strong>不好判断点是否在表面上（或内、外）。</p><p><strong>分类：</strong></p><ul><li><strong>点云 （Point Cloud）</strong></li><li><strong>多边形网格（Polygon Mesh）</strong></li></ul><h4 id="点云（Point-Cloud）"><a href="#点云（Point-Cloud）" class="headerlink" title="点云（Point Cloud）"></a>点云（Point Cloud）</h4><ul><li>简单的表示为点的列表(x,y,z)</li><li>可以简单的表示任何一种几何图形</li><li>对于表示大数据集是很有用的（&gt;&gt;1 point&#x2F;pixel）</li><li>经常被转换成多边形网格</li><li>难以在采样不足的区域画出来</li></ul><p><img src="/images/Games101/10/09.png"></p><h4 id="多边形网格（Polygon-Mesh）"><a href="#多边形网格（Polygon-Mesh）" class="headerlink" title="多边形网格（Polygon Mesh）"></a>多边形网格（Polygon Mesh）</h4><ul><li>存储点和多边形（通常是三角形或四边形）</li><li>容易去处理&#x2F;模拟，进行自适应采样</li><li>数据结构比较复杂</li><li>图形学中最常用的表示</li></ul><p><img src="/images/Games101/10/10.png"></p><p><strong>表示方式：The Wavefront Object File（.obj）格式</strong></p><p>它是一个文本文件，由指定的顶点、法线、纹理坐标和它们的连接组成。</p><p>如下图表示了一个立方体：</p><p>v是顶点坐标</p><p>vn是法线（多了两条是因为建模误差）</p><p>vt是纹理坐标</p><p>f(face)表示面，比如f 5&#x2F;1&#x2F;1 1&#x2F;2&#x2F;1 4&#x2F;3&#x2F;1 表示这个三角形面是由第5、1、4个顶点组成的，三个点的纹理坐标是第1、2、3对应的纹理坐标，这个面的法线是第一条法线。</p><p><img src="/images/Games101/10/11.png"></p>]]></content:encoded>
       
       
       <category domain="http://example.com/categories/Games-%E7%B3%BB%E5%88%97/">Games 系列</category>
       
+      <category domain="http://example.com/categories/Games-%E7%B3%BB%E5%88%97/Games-101/">Games 101</category>
+      
       
       <category domain="http://example.com/tags/Games-%E7%B3%BB%E5%88%97/">Games 系列</category>
+      
+      <category domain="http://example.com/tags/Games-101/">Games 101</category>
       
       
       <comments>http://example.com/2024/01/07/games101/Lec%2010/#disqus_thread</comments>
