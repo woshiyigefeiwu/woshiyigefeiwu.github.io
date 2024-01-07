@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"manual","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Lecture 06 : Rasterization 2 (Antialiasing and Z-Buffering)光栅化：深度测试 和 抗锯齿（反走样） 问题描述会有锯齿状… Aliasing：走样  采样会有一些问题&#x2F;瑕疵(Artifacts)：  锯齿   摩尔纹   车轮效应    本质原因： 信号函数变换的速度太快了，导致采样的速度跟不上信号变换的速度。 解决方法方法：反走样">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【Games 101】Lec 06：光栅化2（抗锯齿 和 深度缓冲）">
+<meta property="og:url" content="http://example.com/2024/01/07/games101/Lec%2006/index.html">
+<meta property="og:site_name" content="FJBQ">
+<meta property="og:description" content="Lecture 06 : Rasterization 2 (Antialiasing and Z-Buffering)光栅化：深度测试 和 抗锯齿（反走样） 问题描述会有锯齿状… Aliasing：走样  采样会有一些问题&#x2F;瑕疵(Artifacts)：  锯齿   摩尔纹   车轮效应    本质原因： 信号函数变换的速度太快了，导致采样的速度跟不上信号变换的速度。 解决方法方法：反走样">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/images/Games101/06/01.png">
+<meta property="og:image" content="http://example.com/images/Games101/06/02.png">
+<meta property="og:image" content="http://example.com/images/Games101/06/03.png">
+<meta property="og:image" content="http://example.com/images/Games101/06/04.png">
+<meta property="og:image" content="http://example.com/images/Games101/06/05.png">
+<meta property="og:image" content="http://example.com/images/Games101/06/06.png">
+<meta property="og:image" content="http://example.com/images/Games101/06/07.png">
+<meta property="og:image" content="http://example.com/images/Games101/06/08.png">
+<meta property="og:image" content="http://example.com/images/Games101/06/09.png">
+<meta property="og:image" content="http://example.com/images/Games101/06/10.png">
+<meta property="og:image" content="http://example.com/images/Games101/06/11.png">
+<meta property="og:image" content="http://example.com/images/Games101/06/12.png">
+<meta property="og:image" content="http://example.com/images/Games101/06/13.png">
+<meta property="og:image" content="http://example.com/images/Games101/06/14.png">
+<meta property="og:image" content="http://example.com/images/Games101/06/15.png">
+<meta property="og:image" content="http://example.com/images/Games101/06/16.png">
+<meta property="og:image" content="http://example.com/images/Games101/06/17.png">
+<meta property="og:image" content="http://example.com/images/Games101/06/18.png">
+<meta property="og:image" content="http://example.com/images/Games101/06/19.png">
+<meta property="og:image" content="http://example.com/images/Games101/06/20.png">
+<meta property="og:image" content="http://example.com/images/Games101/06/21.png">
+<meta property="og:image" content="http://example.com/images/Games101/06/22.png">
+<meta property="og:image" content="http://example.com/images/Games101/06/23.png">
+<meta property="og:image" content="http://example.com/images/Games101/06/24.png">
+<meta property="og:image" content="http://example.com/images/Games101/06/25.png">
+<meta property="og:image" content="http://example.com/images/Games101/06/26.png">
+<meta property="og:image" content="http://example.com/images/Games101/06/27.png">
+<meta property="og:image" content="http://example.com/images/Games101/06/28.png">
+<meta property="article:published_time" content="2024-01-07T14:28:29.009Z">
+<meta property="article:modified_time" content="2024-01-07T14:39:53.014Z">
+<meta property="article:author" content="FJBQ">
+<meta property="article:tag" content="Games 系列">
+<meta property="article:tag" content="Games 101">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/Games101/06/01.png">
+
+<link rel="canonical" href="http://example.com/2024/01/07/games101/Lec%2006/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>【Games 101】Lec 06：光栅化2（抗锯齿 和 深度缓冲） | FJBQ</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/rss2.xml" title="FJBQ" type="application/rss+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">FJBQ</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-resources">
+
+    <a href="/resources/" rel="section"><i class="fa fa-download fa-fw"></i>资源</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/01/07/games101/Lec%2006/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="FJBQ">
+      <meta itemprop="description" content="坚定 坚持 坚强">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FJBQ">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          【Games 101】Lec 06：光栅化2（抗锯齿 和 深度缓冲）
+        </h1>
+
+        <div class="post-meta">
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2024-01-07 22:28:29 / 修改时间：22:39:53" itemprop="dateCreated datePublished" datetime="2024-01-07T22:28:29+08:00">2024-01-07</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">Games 系列</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/Games-101/" itemprop="url" rel="index"><span itemprop="name">Games 101</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Lecture-06-Rasterization-2-Antialiasing-and-Z-Buffering"><a href="#Lecture-06-Rasterization-2-Antialiasing-and-Z-Buffering" class="headerlink" title="Lecture 06 : Rasterization 2 (Antialiasing and Z-Buffering)"></a>Lecture 06 : Rasterization 2 (Antialiasing and Z-Buffering)</h1><p>光栅化：<strong>深度测试</strong> 和 <strong>抗锯齿（反走样）</strong></p>
+<h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h2><p>会有锯齿状…</p>
+<p>Aliasing：走样</p>
+<p><img src="/images/Games101/06/01.png"></p>
+<p><strong>采样会有一些问题&#x2F;瑕疵(Artifacts)：</strong></p>
+<ul>
+<li><p>锯齿</p>
+<p><img src="/images/Games101/06/02.png"></p>
+</li>
+<li><p>摩尔纹</p>
+<p><img src="/images/Games101/06/03.png"></p>
+</li>
+<li><p>车轮效应</p>
+<p><img src="/images/Games101/06/04.png"></p>
+</li>
+</ul>
+<p><strong>本质原因：</strong></p>
+<p><strong>信号函数变换的速度太快了，导致采样的速度跟不上信号变换的速度。</strong></p>
+<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><h3 id="方法："><a href="#方法：" class="headerlink" title="方法："></a>方法：</h3><p><strong>反走样（抗锯齿）：</strong></p>
+<ul>
+<li><strong>先对信号进行模糊；</strong></li>
+<li><strong>再采样；</strong></li>
+</ul>
+<p><img src="/images/Games101/06/05.png"></p>
+<p><strong>注意：这两个步骤的顺序不能反着来！！！</strong></p>
+<h3 id="思考问题："><a href="#思考问题：" class="headerlink" title="思考问题："></a><strong>思考问题：</strong></h3><p><strong>那么问题来了：</strong></p>
+<ul>
+<li><p><strong>为什么这么做可以反走样呢？</strong></p>
+</li>
+<li><p><strong>为什么不能反着来呢？</strong></p>
+</li>
+</ul>
+<h3 id="具体分析："><a href="#具体分析：" class="headerlink" title="具体分析："></a>具体分析：</h3><h4 id="首先总结一下走样原因："><a href="#首先总结一下走样原因：" class="headerlink" title="首先总结一下走样原因："></a><strong>首先总结一下走样原因</strong>：</h4><p><strong>采样的频率跟不上信号变化的频率；</strong></p>
+<p><strong>从而导致，同样一个采样频率，采样两个信号函数，会导致相同的采样结果；</strong></p>
+<p>从而出现 “<strong>走样</strong>”。</p>
+<h4 id="走样原因分析："><a href="#走样原因分析：" class="headerlink" title="走样原因分析："></a>走样原因分析：</h4><p>首先解释为什么信号变换很快的时候，采样速度跟不上会导致走样的情况？</p>
+<p><img src="/images/Games101/06/06.png"></p>
+<p>看上面这幅图，当信号变换越来越快的时候，说明信号函数的频率很快也就是比较密，图中虚线表示采样时刻，那么我们可以发现，当变换越来越快的时候，采样出来的点组成的函数越无法表现真实的函数！</p>
+<p>接着我们看下面这张图：</p>
+<p><img src="/images/Games101/06/07.png"></p>
+<p>可以发现，对于相同的采样方式，对蓝色的函数和黑色的函数进行采样，得到的是相同的结果！</p>
+<p>因此这就是<strong>走样</strong>！</p>
+<h4 id="傅里叶变换的作用："><a href="#傅里叶变换的作用：" class="headerlink" title="傅里叶变换的作用："></a>傅里叶变换的作用：</h4><p><strong>滤波</strong>：过滤掉一些特定的频率</p>
+<p><img src="/images/Games101/06/08.png"></p>
+<p>傅里叶变换可以<strong>把一个函数从时域变成频域</strong>！</p>
+<p>也就是说：傅里叶变换能够让我们看到任何信号在各个频率下长什么样。（频谱）</p>
+<p><img src="/images/Games101/06/09.png"></p>
+<p>上面这张图是原始图像</p>
+<p>（左边是<strong>时域</strong>下的，右边是<strong>频域</strong>下的，<strong>表示的是同一张图哦！</strong>）</p>
+<p>在频域的表示形式下，我们用亮度来表示信息的图像多少（在这个频率亮度越亮，表示这个频率的信息越多）</p>
+<p>其实我们可以发现，很多图像的信息都集中在低频处。</p>
+<p>接着，我们看下面这几个例子：</p>
+<ul>
+<li>当图像通过<strong>高通滤波</strong>后变成下面这样：</li>
+</ul>
+<p>边界的地方是高频的（因为突然发生了变化），通过高通滤波（只让高频的通过），就保留了边界</p>
+<p><img src="/images/Games101/06/10.png"></p>
+<ul>
+<li><strong>低通滤波</strong></li>
+</ul>
+<p>模糊了边界</p>
+<p><img src="/images/Games101/06/11.png"></p>
+<ul>
+<li><strong>某一段特定频率</strong></li>
+</ul>
+<p><img src="/images/Games101/06/12.png"></p>
+<h4 id="滤波"><a href="#滤波" class="headerlink" title="滤波"></a>滤波</h4><p>滤波 &#x3D; 卷积（&#x3D; 平均）</p>
+<blockquote>
+<p><strong>首先理解一下卷积</strong></p>
+<p>图像处理中的卷积我们可以简单理解为下面的情况：</p>
+<p>首先我们有一个<strong>滤波模板（滤波器）</strong>，模板里面有对应的值（<strong>概率</strong>）；<br>然后对于每个像素值，我们都通过这个模板去计算一下，生成的值填到中心位置上。（和 数学上的卷积有所不同）</p>
+<p><img src="/images/Games101/06/13.png"></p>
+</blockquote>
+<blockquote>
+<p><strong>定理：</strong></p>
+<p><strong>时域的卷积 &#x3D; 频域的乘积</strong></p>
+<p><strong>时域的乘积 &#x3D; 频域的卷积</strong></p>
+<p><img src="/images/Games101/06/14.png"></p>
+<p><strong>看一个例子解释</strong>：</p>
+<p><img src="/images/Games101/06/15.png"></p>
+<p>上面这张图，通过<strong>时域</strong>范围内的<strong>卷积</strong>可以得到一张模糊的图像；等价于，我们首先将原图像和卷积模板（滤波器）通过傅里叶变换从时域转换为频域，然后将这两图像相乘，最后通过傅里叶逆变换把结果从频域转换为时域；</p>
+<p><strong>逻辑分析</strong>：可以看到，通过滤波器的乘积过后，原图像只保留的低频信息，也就是高频（边界）被丢弃了，导致了模糊。</p>
+<p>同时我们也可以知道，当（滤波器）越大，一个像素将受到越多其他像素的影响，导致图像越模糊，高频信息越加被丢失！</p>
+</blockquote>
+<blockquote>
+<p><strong>从频谱角度理解 采样：</strong></p>
+<p>首先，<strong>采样</strong>就是在<strong>重复原始信号的频谱</strong>；</p>
+<p><img src="/images/Games101/06/16.png"></p>
+<p><strong>采样越少</strong>，对于这频谱就越密，就可能发生<strong>混叠现象</strong>，也就是<strong>走样</strong>。</p>
+<p><img src="/images/Games101/06/17.png"></p>
+</blockquote>
+<h2 id="反走样"><a href="#反走样" class="headerlink" title="反走样"></a>反走样</h2><h3 id="怎么做？"><a href="#怎么做？" class="headerlink" title="怎么做？"></a>怎么做？</h3><ol>
+<li>先做模糊（把高频信息去除，就叫做模糊）</li>
+<li>再采样</li>
+</ol>
+<h3 id="为什么？"><a href="#为什么？" class="headerlink" title="为什么？"></a>为什么？</h3><p>看下面这张图就知道了！</p>
+<p><img src="/images/Games101/06/18.png"></p>
+<p>把高频的去除后发现不会混叠了！</p>
+<p><img src="/images/Games101/06/19.png"></p>
+<h3 id="如何做？"><a href="#如何做？" class="headerlink" title="如何做？"></a>如何做？</h3><p>那么<strong>怎么把图像模糊呢</strong>？？？</p>
+<p>很简单啊，前面不是分析嘛，用一个 <strong>低通滤波器</strong> 和 <strong>原图像</strong> 做个<strong>卷积</strong>就行了！！！</p>
+<p><img src="/images/Games101/06/20.png"></p>
+<p><img src="/images/Games101/06/21.png"></p>
+<p>但是但是，这一步很难…</p>
+<p>所以我们搞了一个近似的做法：MSAA</p>
+<p>就是说，对于每个像素，我们把它分成更小的像素点，通过更多样本来近似了模糊的过程；看下面的例子（它把每个像素点分成了2x2的小像素，然后计算概率）：</p>
+<p><img src="/images/Games101/06/22.png"></p>
+<p><img src="/images/Games101/06/23.png"></p>
+<p><img src="/images/Games101/06/24.png"></p>
+<p><img src="/images/Games101/06/25.png"></p>
+<p><img src="/images/Games101/06/26.png"></p>
+<p><img src="/images/Games101/06/27.png"></p>
+<p>然后采样就行！</p>
+<p><strong>总结：MSAA 不是通过提高采样率，而是通过模糊操</strong>作来 实现反走样；</p>
+<h2 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h2><p><strong>缺点：</strong></p>
+<ul>
+<li>这么规则的分割像素，极大增加了计算量（实际生活中我们用的不是那么规则的分割，可以说是一种优化）</li>
+</ul>
+<p>扩展，除了MSAA，还有其他的抗锯齿的做法：<br><img src="/images/Games101/06/28.png"></p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>FJBQ
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://example.com/2024/01/07/games101/Lec%2006/" title="【Games 101】Lec 06：光栅化2（抗锯齿 和 深度缓冲）">http://example.com/2024/01/07/games101/Lec 06/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Games-%E7%B3%BB%E5%88%97/" rel="tag"># Games 系列</a>
+              <a href="/tags/Games-101/" rel="tag"># Games 101</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2024/01/07/games101/Lec%2007/" rel="prev" title="【Games 101】Lec 07：渲染1（光照 阴影 和 图形管线）">
+      <i class="fa fa-chevron-left"></i> 【Games 101】Lec 07：渲染1（光照 阴影 和 图形管线）
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2024/01/07/games101/Lec%2005/" rel="next" title="【Games 101】Lec 05：光栅化1（三角形）">
+      【Games 101】Lec 05：光栅化1（三角形） <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC81OTA5Ni8zNTU1OA=="></div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Lecture-06-Rasterization-2-Antialiasing-and-Z-Buffering"><span class="nav-number">1.</span> <span class="nav-text">Lecture 06 : Rasterization 2 (Antialiasing and Z-Buffering)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E6%8F%8F%E8%BF%B0"><span class="nav-number">1.1.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95"><span class="nav-number">1.2.</span> <span class="nav-text">解决方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%EF%BC%9A"><span class="nav-number">1.2.1.</span> <span class="nav-text">方法：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%9D%E8%80%83%E9%97%AE%E9%A2%98%EF%BC%9A"><span class="nav-number">1.2.2.</span> <span class="nav-text">思考问题：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B7%E4%BD%93%E5%88%86%E6%9E%90%EF%BC%9A"><span class="nav-number">1.2.3.</span> <span class="nav-text">具体分析：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%A6%96%E5%85%88%E6%80%BB%E7%BB%93%E4%B8%80%E4%B8%8B%E8%B5%B0%E6%A0%B7%E5%8E%9F%E5%9B%A0%EF%BC%9A"><span class="nav-number">1.2.3.1.</span> <span class="nav-text">首先总结一下走样原因：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%B5%B0%E6%A0%B7%E5%8E%9F%E5%9B%A0%E5%88%86%E6%9E%90%EF%BC%9A"><span class="nav-number">1.2.3.2.</span> <span class="nav-text">走样原因分析：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%82%85%E9%87%8C%E5%8F%B6%E5%8F%98%E6%8D%A2%E7%9A%84%E4%BD%9C%E7%94%A8%EF%BC%9A"><span class="nav-number">1.2.3.3.</span> <span class="nav-text">傅里叶变换的作用：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%BB%A4%E6%B3%A2"><span class="nav-number">1.2.3.4.</span> <span class="nav-text">滤波</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%8D%E8%B5%B0%E6%A0%B7"><span class="nav-number">1.3.</span> <span class="nav-text">反走样</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%8E%E4%B9%88%E5%81%9A%EF%BC%9F"><span class="nav-number">1.3.1.</span> <span class="nav-text">怎么做？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">1.3.2.</span> <span class="nav-text">为什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%81%9A%EF%BC%9F"><span class="nav-number">1.3.3.</span> <span class="nav-text">如何做？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%80%83"><span class="nav-number">1.4.</span> <span class="nav-text">思考</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="FJBQ"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">FJBQ</p>
+  <div class="site-description" itemprop="description">坚定 坚持 坚强</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">21</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2023-10 – 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">FJBQ</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共31.5k字</span>
+</div>
+
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <span id="busuanzi_container_site_pv">总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+    <span class="post-meta-divider">|</span>
+    <span id="busuanzi_container_site_uv">总访客数<span id="busuanzi_value_site_uv"></span>人</span>
+    <span class="post-meta-divider">|</span>
+<!-- 不蒜子计数初始值纠正 -->
+<script>
+$(document).ready(function() {
+
+    var int = setInterval(fixCount, 50);  // 50ms周期检测函数
+    var countOffset = 20000;  // 初始化首次数据
+
+    function fixCount() {            
+       if (document.getElementById("busuanzi_container_site_pv").style.display != "none")
+        {
+            $("#busuanzi_value_site_pv").html(parseInt($("#busuanzi_value_site_pv").html()) + countOffset); 
+            clearInterval(int);
+        }                  
+        if ($("#busuanzi_container_site_pv").css("display") != "none")
+        {
+            $("#busuanzi_value_site_uv").html(parseInt($("#busuanzi_value_site_uv").html()) + countOffset); // 加上初始数据 
+            clearInterval(int); // 停止检测
+        }  
+    }
+       	
+});
+</script> 
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+<script>
+NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"left","width":150,"height":225,"hOffset":-15,"vOffset":-15},"mobile":{"show":false},"react":{"opacity":1},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

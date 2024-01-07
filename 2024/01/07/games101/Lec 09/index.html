@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"manual","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Lecture 9：Shading 3 (Texture Mapping cont.)图形学笔记（八）着色2 —— 纹理映射、重心坐标、双线性插值、Mipmap、三线性插值、各向异性过滤、纹理的应用（环境贴图、法线贴图等) 上面是笔记，记得贼全。   概述 问题：如何在三角形内部进行任何属性的插值？  什么是插值？ 插值算法 为什么要插值？ 是因为我们想要在三角形内部得到一个平滑的过渡。 插值什么">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【Games 101】Lec 09：渲染3（纹理映射（续））">
+<meta property="og:url" content="http://example.com/2024/01/07/games101/Lec%2009/index.html">
+<meta property="og:site_name" content="FJBQ">
+<meta property="og:description" content="Lecture 9：Shading 3 (Texture Mapping cont.)图形学笔记（八）着色2 —— 纹理映射、重心坐标、双线性插值、Mipmap、三线性插值、各向异性过滤、纹理的应用（环境贴图、法线贴图等) 上面是笔记，记得贼全。   概述 问题：如何在三角形内部进行任何属性的插值？  什么是插值？ 插值算法 为什么要插值？ 是因为我们想要在三角形内部得到一个平滑的过渡。 插值什么">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/images/Games101/09/01.png">
+<meta property="og:image" content="http://example.com/images/Games101/09/02.png">
+<meta property="og:image" content="http://example.com/images/Games101/09/03.png">
+<meta property="og:image" content="http://example.com/images/Games101/09/04.png">
+<meta property="og:image" content="http://example.com/images/Games101/09/05.png">
+<meta property="og:image" content="http://example.com/images/Games101/09/06.png">
+<meta property="og:image" content="http://example.com/images/Games101/09/07.png">
+<meta property="og:image" content="http://example.com/images/Games101/09/08.png">
+<meta property="og:image" content="http://example.com/images/Games101/09/09.png">
+<meta property="og:image" content="http://example.com/images/Games101/09/10.png">
+<meta property="og:image" content="http://example.com/images/Games101/09/11.png">
+<meta property="og:image" content="http://example.com/images/Games101/09/12.png">
+<meta property="og:image" content="http://example.com/images/Games101/09/13.png">
+<meta property="og:image" content="http://example.com/images/Games101/09/14.png">
+<meta property="og:image" content="http://example.com/images/Games101/09/15.png">
+<meta property="og:image" content="http://example.com/images/Games101/09/16.png">
+<meta property="og:image" content="http://example.com/images/Games101/09/17.png">
+<meta property="og:image" content="http://example.com/images/Games101/09/18.png">
+<meta property="og:image" content="http://example.com/images/Games101/09/19.png">
+<meta property="og:image" content="http://example.com/images/Games101/09/20.png">
+<meta property="og:image" content="http://example.com/images/Games101/09/21.png">
+<meta property="og:image" content="http://example.com/images/Games101/09/22.png">
+<meta property="og:image" content="http://example.com/images/Games101/09/23.png">
+<meta property="og:image" content="http://example.com/images/Games101/09/24.png">
+<meta property="og:image" content="http://example.com/images/Games101/09/25.png">
+<meta property="og:image" content="http://example.com/images/Games101/09/26.png">
+<meta property="og:image" content="http://example.com/images/Games101/09/27.png">
+<meta property="og:image" content="http://example.com/images/Games101/09/28.png">
+<meta property="og:image" content="http://example.com/images/Games101/09/29.png">
+<meta property="article:published_time" content="2024-01-07T14:28:27.713Z">
+<meta property="article:modified_time" content="2024-01-07T14:44:29.895Z">
+<meta property="article:author" content="FJBQ">
+<meta property="article:tag" content="Games 系列">
+<meta property="article:tag" content="Games 101">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/Games101/09/01.png">
+
+<link rel="canonical" href="http://example.com/2024/01/07/games101/Lec%2009/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>【Games 101】Lec 09：渲染3（纹理映射（续）） | FJBQ</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/rss2.xml" title="FJBQ" type="application/rss+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">FJBQ</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-resources">
+
+    <a href="/resources/" rel="section"><i class="fa fa-download fa-fw"></i>资源</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/01/07/games101/Lec%2009/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="FJBQ">
+      <meta itemprop="description" content="坚定 坚持 坚强">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FJBQ">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          【Games 101】Lec 09：渲染3（纹理映射（续））
+        </h1>
+
+        <div class="post-meta">
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2024-01-07 22:28:27 / 修改时间：22:44:29" itemprop="dateCreated datePublished" datetime="2024-01-07T22:28:27+08:00">2024-01-07</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">Games 系列</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/Games-101/" itemprop="url" rel="index"><span itemprop="name">Games 101</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Lecture-9：Shading-3-Texture-Mapping-cont"><a href="#Lecture-9：Shading-3-Texture-Mapping-cont" class="headerlink" title="Lecture 9：Shading 3 (Texture Mapping cont.)"></a>Lecture 9：Shading 3 (Texture Mapping cont.)</h1><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43399489/article/details/120977488?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522168588406216800186534765%2522%252C%2522scm%2522%253A%252220140713.130102334.pc%255Fall.%2522%257D&request_id=168588406216800186534765&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~first_rank_ecpm_v1~rank_v31_ecpm-1-120977488-null-null.142%5Ev88%5Econtrol_2,239%5Ev2%5Einsert_chatgpt&utm_term=mipmap%20%E5%92%8C%20%E4%B8%89%E7%BA%BF%E6%80%A7%E6%8F%92%E5%80%BC%20%E7%9A%84%E5%85%B3%E7%B3%BB&spm=1018.2226.3001.4187">图形学笔记（八）着色2 —— 纹理映射、重心坐标、双线性插值、Mipmap、三线性插值、各向异性过滤、纹理的应用（环境贴图、法线贴图等)</a></p>
+<p><strong>上面是笔记，记得贼全。</strong></p>
+<p><img src="/images/Games101/09/01.png"></p>
+<p><img src="/images/Games101/09/02.png"></p>
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><blockquote>
+<p><strong>问题</strong>：<strong>如何在三角形内部进行任何属性的插值？</strong></p>
+<p><img src="/images/Games101/09/03.png"></p>
+<p><strong>什么是插值？</strong></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_46053880/article/details/113449866?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522168587213516800225589517%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&request_id=168587213516800225589517&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduend~default-1-113449866-null-null.142%5Ev88%5Econtrol_2,239%5Ev2%5Einsert_chatgpt&utm_term=%E4%BB%80%E4%B9%88%E6%98%AF%E6%8F%92%E5%80%BC%EF%BC%9F&spm=1018.2226.3001.4187">插值算法</a></p>
+<p><strong>为什么要插值？</strong></p>
+<p>是因为我们想要在三角形内部得到一个平滑的过渡。</p>
+<p><strong>插值什么</strong>？</p>
+<p>插值的东西是很广泛的（任意属性），比如说 <strong>颜色</strong>（三个点有三个不同的颜色，那么通过对颜色进行插值使得三角形内部的颜色有平滑的过渡）；<strong>位置</strong>（我们知道了三角形的三个顶点对应纹理上的三个顶点，然后通过对顶点位置进行插值，从而确定三角形内部每个点的位置）等等。</p>
+</blockquote>
+<h2 id="如何插值？"><a href="#如何插值？" class="headerlink" title="如何插值？"></a>如何插值？</h2><h3 id="重心坐标"><a href="#重心坐标" class="headerlink" title="重心坐标"></a>重心坐标</h3><blockquote>
+<p><img src="/images/Games101/09/04.png"></p>
+<p>且三个系数非负</p>
+<p>满足上面条件的就叫<strong>重心坐标（是三角形内的点的意思）</strong>；</p>
+<p>这里一定要注意：<strong>重心 和 重心坐标 是两个完全不同的概念！！</strong></p>
+<ul>
+<li><strong>重心：</strong>指一个三角形内部的特殊点，该点与三角形的三个顶点的连线平分三角形的三条中线。</li>
+<li><strong>重心坐标：</strong>是一种表示点在三角形内部位置的方式。<ul>
+<li>对于一个给定的三角形ABC，点P在三角形内部的位置可以由三个重心坐标（u,v,w）表示，满足以下条件：u+v+w&#x3D;1，且每个重心坐标都是点P到对应顶点的距离与三角形对边长度之比。</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<blockquote>
+<hr>
+<p><strong>任意一点的重心坐标：</strong></p>
+<p><img src="/images/Games101/09/05.png"></p>
+<p><img src="/images/Games101/09/06.png"></p>
+<hr>
+<p><strong>三角形的重心</strong>：</p>
+<p><img src="/images/Games101/09/07.png"></p>
+<hr>
+<p><strong>重心坐标的规范公式</strong>：</p>
+<p><img src="/images/Games101/09/08.png"></p>
+<hr>
+<p><strong>重心坐标的作用</strong>：</p>
+<p>既然我们知道了重心坐标的计算，那么我们就能通过重心来对三角形内部一点的属性进行插值：</p>
+<p><img src="/images/Games101/09/09.png"></p>
+<hr>
+<p>缺点：</p>
+<p>当三角形被投影到其他平面上面去的时候，三角形三个顶点的位置可能发生变换，从而导致重心坐标发生变化；</p>
+<p>也就是说，<strong>三维空间中的物体，我们不能计算投影后的重心坐标，而应该在三维空间中进行插值算出三维的重心坐标！</strong></p>
+</blockquote>
+<h2 id="应用纹理"><a href="#应用纹理" class="headerlink" title="应用纹理"></a>应用纹理</h2><h3 id="纹理太小的问题（双线性插值）"><a href="#纹理太小的问题（双线性插值）" class="headerlink" title="纹理太小的问题（双线性插值）"></a>纹理太小的问题（双线性插值）</h3><blockquote>
+<p>问题1：<strong>纹理太小的问题</strong>；</p>
+<p>当我们的图像比较大，纹理比较小的时候，做纹理映射后纹理会被拉大，导致对应纹理位置的不是一个整数值；</p>
+<p><img src="/images/Games101/09/10.png"></p>
+<p>导致下面Nearest的情况：</p>
+<p><img src="/images/Games101/09/11.png"></p>
+<p>但是我们想要上面 Bilinear，Bicubic 的情况；</p>
+<p>当一个像素对应的纹理坐标不是整数值时，我们如何去设置这个值？？？（<strong>双线性插值</strong>）</p>
+<ol>
+<li>首选对于像素点，取周围四个点的纹理坐标</li>
+</ol>
+<p><img src="/images/Games101/09/12.png"></p>
+<ol start="2">
+<li>用U00，U10插值得到U0，用U01，U11插值得到U1。</li>
+</ol>
+<p><img src="/images/Games101/09/13.png"></p>
+<ol start="3">
+<li>用U0和U1进行插值得到红色点</li>
+</ol>
+<p><img src="/images/Games101/09/14.png"></p>
+<p><img src="/images/Games101/09/15.png"></p>
+</blockquote>
+<hr>
+<h3 id="纹理太大的问题（Mipmap解决范围平均值查询-三线性插值）"><a href="#纹理太大的问题（Mipmap解决范围平均值查询-三线性插值）" class="headerlink" title="纹理太大的问题（Mipmap解决范围平均值查询 + 三线性插值）"></a>纹理太大的问题（Mipmap解决范围平均值查询 + 三线性插值）</h3><blockquote>
+<p>问题2：<strong>纹理太大的问题，导致走样，出现摩尔纹；</strong></p>
+<p>本质原因就是<strong>一个像素点包含了太多个纹理</strong>，导致当我们用普通的纹理映射的时候，这个像素点的重心代表了整个区域，从而导致了走样；</p>
+<p><img src="/images/Games101/09/16.png"></p>
+<p>那么首先能想到的就是反走样方法：用多个像素点采样取平均值（但是计算量太大了）</p>
+<p>换一种算法思路：<strong>不采样，直接对于每个像素点，我们可以直接知道这个像素点的平均值</strong>！</p>
+<p><img src="/images/Games101/09/17.png"></p>
+<p><strong>Point Query（点查询）</strong>：给一个点求值（插值）</p>
+<p><strong>Range Query（范围查询(平均值)）</strong>：给一个区域，我们能立刻得到区域中的平均值。</p>
+</blockquote>
+<hr>
+<blockquote>
+<p><strong>怎么实现范围查询？？？</strong></p>
+<p>引入 <strong>Mipmap</strong>，特点：</p>
+<ul>
+<li><strong>快</strong></li>
+<li><strong>近似的</strong></li>
+<li><strong>方形查询</strong></li>
+</ul>
+<p><img src="/images/Games101/09/18.png"></p>
+<p>原理是：<strong>二进制！！！</strong></p>
+<hr>
+<p>Mipmap 具体做法步骤：</p>
+<p>对于给定的一张图，我们先拆分成不同分辨率的图像（每次向下除二）：</p>
+<p><img src="/images/Games101/09/19.png"></p>
+<p><img src="/images/Games101/09/20.png"></p>
+<p>记住上面这个操作：</p>
+<p>接着，对于每个像素点（在原图上面找的），我们取它周围的像素点，同时把这些点在纹理图上的纹理坐标也找出来：</p>
+<p><img src="/images/Games101/09/21.png"></p>
+<p>接着，我们通过计算，近似的算出这个像素点在纹理坐标上大概占多少区域（不规则）</p>
+<p><img src="/images/Games101/09/22.png"></p>
+<p>然后我们把这个不规则的区域再近似的规则成一个正方形（为什么要规则成正方形下面就知道了）</p>
+<p>且是2的幂次</p>
+<p><img src="/images/Games101/09/23.png"></p>
+<p>那么对于每个正方形区域，我们就能快速（O(1)）的在第log2 L层去查询就行了（因为上面预处理好了！）</p>
+</blockquote>
+<blockquote>
+<p><strong>问题分析</strong></p>
+<p>但是这样会有，因为只预处理了2的幂次，我们并不知道1.5层是怎样的，所以导致不连续了；</p>
+<p><img src="/images/Games101/09/24.png"></p>
+<p>怎么解决？</p>
+<p>仍然是<strong>插值</strong>！</p>
+<p>比如说，对于1.5层，我们可以选第1层和第2层，分别在层内进行 Mipmap 范围查询，然后再对这两个结果进行层与层之间的插值：（这就是<strong>三线性插值</strong>）</p>
+<p><img src="/images/Games101/09/25.png"></p>
+</blockquote>
+<hr>
+<blockquote>
+<p><strong>但是还是有问题：</strong></p>
+<p><img src="/images/Games101/09/26.png"></p>
+<p>可以发现远处细节都被模糊了…</p>
+<p>原因是 <strong>mipmap 只考虑正方形</strong>，而有些像素对应的纹理其实可能是不规则的，从而导致模糊；</p>
+<p><img src="/images/Games101/09/27.png"></p>
+</blockquote>
+<hr>
+<blockquote>
+<p><strong>解决方法：</strong></p>
+<ul>
+<li><strong>各向异性过滤</strong></li>
+</ul>
+<p><img src="/images/Games101/09/28.png"></p>
+<p>引入矩形查询的区域，但是不规则咋办…</p>
+<hr>
+<ul>
+<li><strong>EWA 过滤</strong></li>
+</ul>
+<p><img src="/images/Games101/09/29.png"></p>
+<p>对于不规则形状，我们可以通过圆形的多次查询来确定；</p>
+<p>缺点：多次查询，开销较大…</p>
+</blockquote>
+<hr>
+<h2 id="纹理的应用"><a href="#纹理的应用" class="headerlink" title="纹理的应用"></a>纹理的应用</h2><p>靠，真的复杂…看这个笔记：</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43399489/article/details/120977488?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522168588406216800186534765%2522%252C%2522scm%2522%253A%252220140713.130102334.pc%255Fall.%2522%257D&request_id=168588406216800186534765&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~first_rank_ecpm_v1~rank_v31_ecpm-1-120977488-null-null.142%5Ev88%5Econtrol_2,239%5Ev2%5Einsert_chatgpt&utm_term=mipmap%20%E5%92%8C%20%E4%B8%89%E7%BA%BF%E6%80%A7%E6%8F%92%E5%80%BC%20%E7%9A%84%E5%85%B3%E7%B3%BB&spm=1018.2226.3001.4187">图形学笔记（八）着色2 —— 纹理映射、重心坐标、双线性插值、Mipmap、三线性插值、各向异性过滤、纹理的应用（环境贴图、法线贴图等)</a></p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>FJBQ
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://example.com/2024/01/07/games101/Lec%2009/" title="【Games 101】Lec 09：渲染3（纹理映射（续））">http://example.com/2024/01/07/games101/Lec 09/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Games-%E7%B3%BB%E5%88%97/" rel="tag"># Games 系列</a>
+              <a href="/tags/Games-101/" rel="tag"># Games 101</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2024/01/07/games101/Lec%2002/" rel="prev" title="【Games 101】Lec 02：回顾线性代数">
+      <i class="fa fa-chevron-left"></i> 【Games 101】Lec 02：回顾线性代数
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2024/01/07/games101/Lec%2007/" rel="next" title="【Games 101】Lec 07：渲染1（光照 阴影 和 图形管线）">
+      【Games 101】Lec 07：渲染1（光照 阴影 和 图形管线） <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC81OTA5Ni8zNTU1OA=="></div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Lecture-9%EF%BC%9AShading-3-Texture-Mapping-cont"><span class="nav-number">1.</span> <span class="nav-text">Lecture 9：Shading 3 (Texture Mapping cont.)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">1.1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E6%8F%92%E5%80%BC%EF%BC%9F"><span class="nav-number">1.2.</span> <span class="nav-text">如何插值？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%87%8D%E5%BF%83%E5%9D%90%E6%A0%87"><span class="nav-number">1.2.1.</span> <span class="nav-text">重心坐标</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E7%BA%B9%E7%90%86"><span class="nav-number">1.3.</span> <span class="nav-text">应用纹理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BA%B9%E7%90%86%E5%A4%AA%E5%B0%8F%E7%9A%84%E9%97%AE%E9%A2%98%EF%BC%88%E5%8F%8C%E7%BA%BF%E6%80%A7%E6%8F%92%E5%80%BC%EF%BC%89"><span class="nav-number">1.3.1.</span> <span class="nav-text">纹理太小的问题（双线性插值）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BA%B9%E7%90%86%E5%A4%AA%E5%A4%A7%E7%9A%84%E9%97%AE%E9%A2%98%EF%BC%88Mipmap%E8%A7%A3%E5%86%B3%E8%8C%83%E5%9B%B4%E5%B9%B3%E5%9D%87%E5%80%BC%E6%9F%A5%E8%AF%A2-%E4%B8%89%E7%BA%BF%E6%80%A7%E6%8F%92%E5%80%BC%EF%BC%89"><span class="nav-number">1.3.2.</span> <span class="nav-text">纹理太大的问题（Mipmap解决范围平均值查询 + 三线性插值）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BA%B9%E7%90%86%E7%9A%84%E5%BA%94%E7%94%A8"><span class="nav-number">1.4.</span> <span class="nav-text">纹理的应用</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="FJBQ"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">FJBQ</p>
+  <div class="site-description" itemprop="description">坚定 坚持 坚强</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">21</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2023-10 – 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">FJBQ</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共31.5k字</span>
+</div>
+
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <span id="busuanzi_container_site_pv">总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+    <span class="post-meta-divider">|</span>
+    <span id="busuanzi_container_site_uv">总访客数<span id="busuanzi_value_site_uv"></span>人</span>
+    <span class="post-meta-divider">|</span>
+<!-- 不蒜子计数初始值纠正 -->
+<script>
+$(document).ready(function() {
+
+    var int = setInterval(fixCount, 50);  // 50ms周期检测函数
+    var countOffset = 20000;  // 初始化首次数据
+
+    function fixCount() {            
+       if (document.getElementById("busuanzi_container_site_pv").style.display != "none")
+        {
+            $("#busuanzi_value_site_pv").html(parseInt($("#busuanzi_value_site_pv").html()) + countOffset); 
+            clearInterval(int);
+        }                  
+        if ($("#busuanzi_container_site_pv").css("display") != "none")
+        {
+            $("#busuanzi_value_site_uv").html(parseInt($("#busuanzi_value_site_uv").html()) + countOffset); // 加上初始数据 
+            clearInterval(int); // 停止检测
+        }  
+    }
+       	
+});
+</script> 
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+<script>
+NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"left","width":150,"height":225,"hOffset":-15,"vOffset":-15},"mobile":{"show":false},"react":{"opacity":1},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

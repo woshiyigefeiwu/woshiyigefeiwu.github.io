@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"manual","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Lecture 7：Shading 1 (Illumination, Shading and Graphics Pipeline)概述  可见性 &#x2F; 遮挡问题  深度缓存   着色  光照和阴影 图形管线    可见性 &#x2F; 遮挡画家算法 画家算法：先画后面的，再画前面的；（要严格规定前后顺序才不会出现问题）  缺点：  要定义深度不容易… 对这些东西要按照深度排序，时间复杂度较">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【Games 101】Lec 07：渲染1（光照 阴影 和 图形管线）">
+<meta property="og:url" content="http://example.com/2024/01/07/games101/Lec%2007/index.html">
+<meta property="og:site_name" content="FJBQ">
+<meta property="og:description" content="Lecture 7：Shading 1 (Illumination, Shading and Graphics Pipeline)概述  可见性 &#x2F; 遮挡问题  深度缓存   着色  光照和阴影 图形管线    可见性 &#x2F; 遮挡画家算法 画家算法：先画后面的，再画前面的；（要严格规定前后顺序才不会出现问题）  缺点：  要定义深度不容易… 对这些东西要按照深度排序，时间复杂度较">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/images/Games101/07/01.png">
+<meta property="og:image" content="http://example.com/images/Games101/07/02.png">
+<meta property="og:image" content="http://example.com/images/Games101/07/03.png">
+<meta property="og:image" content="http://example.com/images/Games101/07/04.png">
+<meta property="og:image" content="http://example.com/images/Games101/07/05.png">
+<meta property="og:image" content="http://example.com/images/Games101/07/06.png">
+<meta property="og:image" content="http://example.com/images/Games101/07/07.png">
+<meta property="og:image" content="http://example.com/images/Games101/07/08.png">
+<meta property="og:image" content="http://example.com/images/Games101/07/09.png">
+<meta property="og:image" content="http://example.com/images/Games101/07/10.png">
+<meta property="og:image" content="http://example.com/images/Games101/07/11.png">
+<meta property="og:image" content="http://example.com/images/Games101/07/12.png">
+<meta property="og:image" content="http://example.com/images/Games101/07/13.png">
+<meta property="og:image" content="http://example.com/images/Games101/07/14.png">
+<meta property="article:published_time" content="2024-01-07T14:28:28.683Z">
+<meta property="article:modified_time" content="2024-01-07T14:42:39.275Z">
+<meta property="article:author" content="FJBQ">
+<meta property="article:tag" content="Games 系列">
+<meta property="article:tag" content="Games 101">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/Games101/07/01.png">
+
+<link rel="canonical" href="http://example.com/2024/01/07/games101/Lec%2007/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>【Games 101】Lec 07：渲染1（光照 阴影 和 图形管线） | FJBQ</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/rss2.xml" title="FJBQ" type="application/rss+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">FJBQ</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-resources">
+
+    <a href="/resources/" rel="section"><i class="fa fa-download fa-fw"></i>资源</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/01/07/games101/Lec%2007/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="FJBQ">
+      <meta itemprop="description" content="坚定 坚持 坚强">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FJBQ">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          【Games 101】Lec 07：渲染1（光照 阴影 和 图形管线）
+        </h1>
+
+        <div class="post-meta">
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2024-01-07 22:28:28 / 修改时间：22:42:39" itemprop="dateCreated datePublished" datetime="2024-01-07T22:28:28+08:00">2024-01-07</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">Games 系列</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/Games-101/" itemprop="url" rel="index"><span itemprop="name">Games 101</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Lecture-7：Shading-1-Illumination-Shading-and-Graphics-Pipeline"><a href="#Lecture-7：Shading-1-Illumination-Shading-and-Graphics-Pipeline" class="headerlink" title="Lecture 7：Shading 1 (Illumination, Shading and Graphics Pipeline)"></a>Lecture 7：Shading 1 (Illumination, Shading and Graphics Pipeline)</h1><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p><img src="/images/Games101/07/01.png"></p>
+<ul>
+<li><p>可见性 &#x2F; 遮挡问题</p>
+<ul>
+<li>深度缓存</li>
+</ul>
+</li>
+<li><p>着色</p>
+<ul>
+<li>光照和阴影</li>
+<li>图形管线</li>
+</ul>
+</li>
+</ul>
+<h2 id="可见性-遮挡"><a href="#可见性-遮挡" class="headerlink" title="可见性 &#x2F; 遮挡"></a>可见性 &#x2F; 遮挡</h2><h3 id="画家算法"><a href="#画家算法" class="headerlink" title="画家算法"></a>画家算法</h3><blockquote>
+<p>画家算法：先画后面的，再画前面的；（要严格规定前后顺序才不会出现问题）</p>
+<p><img src="/images/Games101/07/02.png"></p>
+<p>缺点：</p>
+<ul>
+<li>要定义深度不容易…</li>
+<li>对这些东西要按照深度排序，时间复杂度较高</li>
+<li>特定情况失效（无法对定义深度）</li>
+<li><img src="/images/Games101/07/03.png"></li>
+</ul>
+</blockquote>
+<h2 id="Z-Buffer（深度缓存）"><a href="#Z-Buffer（深度缓存）" class="headerlink" title="Z-Buffer（深度缓存）"></a>Z-Buffer（深度缓存）</h2><h3 id="概述-1"><a href="#概述-1" class="headerlink" title="概述"></a>概述</h3><blockquote>
+<p>对于每个像素，记录最浅的深度；</p>
+<p><img src="/images/Games101/07/04.png"></p>
+<p>同步生成两个图：一个是渲染后的图，一个是深度图；</p>
+<p>深度图中，离相机越进，反应出来的颜色越黑，越远越白；</p>
+</blockquote>
+<h3 id="整体做法"><a href="#整体做法" class="headerlink" title="整体做法"></a>整体做法</h3><blockquote>
+<p>每个像素维护一个最小深度</p>
+<p><img src="/images/Games101/07/05.png"></p>
+<p><img src="/images/Games101/07/06.png"></p>
+<p><strong>算法分析</strong>： </p>
+<p><img src="/images/Games101/07/07.png"></p>
+<p>但是无法处理透明物体</p>
+</blockquote>
+<h2 id="着色"><a href="#着色" class="headerlink" title="着色"></a>着色</h2><h3 id="概述-2"><a href="#概述-2" class="headerlink" title="概述"></a>概述</h3><blockquote>
+<p><strong>定义</strong>：对不同的物体，应用不同的材质 的过程；</p>
+<p>（不同的材质对于光的反应不同）</p>
+<p><img src="/images/Games101/07/08.png"></p>
+<p>看个例子：</p>
+<p><img src="/images/Games101/07/09.png"></p>
+<p><strong>Specular highlights：镜面反射（表面光滑）</strong></p>
+<p><strong>Diffuse reflection：漫反射（表面粗糙）</strong></p>
+<p><strong>Ambient lighting：间接反射</strong></p>
+</blockquote>
+<h3 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h3><h4 id="一些概念的定义"><a href="#一些概念的定义" class="headerlink" title="一些概念的定义"></a>一些概念的定义</h4><blockquote>
+<p><img src="/images/Games101/07/10.png"></p>
+<p>着色只考虑自己，不考虑阴影的情况：</p>
+<p><img src="/images/Games101/07/11.png"></p>
+</blockquote>
+<h4 id="漫反射模型"><a href="#漫反射模型" class="headerlink" title="漫反射模型"></a>漫反射模型</h4><blockquote>
+<p>着色点显示的亮度（能量）和光照之间的夹角是有关的：</p>
+<p><img src="/images/Games101/07/12.png"></p>
+<p>其次，我们接受到的能量和光源的距离是有关的：</p>
+<p><img src="/images/Games101/07/13.png"></p>
+<p>那么通过上面这两个结论，我们就能够分析漫反射时，我们能看到着色点多少能量（以明暗的形式表示出来）</p>
+<p><img src="/images/Games101/07/14.png"></p>
+<p><strong>看到着色点的能量 &#x3D; 到达着色点的能量 x 着色点接收了多少能量</strong></p>
+<hr>
+<p><strong>这里有个问题：</strong></p>
+<ul>
+<li><p>上面式子中的 <strong>Kd</strong> 是什么？？？</p>
+</li>
+<li><p>着色点为什么会有颜色？？？</p>
+</li>
+</ul>
+<p>我们知道，物体之所以有能量是因为它吸收了一部分能量，反射出它不吸收的能量，从而看到了颜色；</p>
+<p>所以这里我们用一个系数 Kd（漫反射系数）来描述能量的吸收程度：</p>
+<ul>
+<li>1：表示不吸收能量</li>
+<li>0：表示吸收全部能量</li>
+</ul>
+<p><strong>漫反射</strong>是从不同的角度看同一个点，看到的结果是相同的。</p>
+<p>从公式上也能看出这一点，<strong>和观察的方向没有关系</strong>；</p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>FJBQ
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://example.com/2024/01/07/games101/Lec%2007/" title="【Games 101】Lec 07：渲染1（光照 阴影 和 图形管线）">http://example.com/2024/01/07/games101/Lec 07/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Games-%E7%B3%BB%E5%88%97/" rel="tag"># Games 系列</a>
+              <a href="/tags/Games-101/" rel="tag"># Games 101</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2024/01/07/games101/Lec%2009/" rel="prev" title="【Games 101】Lec 09：渲染3（纹理映射（续））">
+      <i class="fa fa-chevron-left"></i> 【Games 101】Lec 09：渲染3（纹理映射（续））
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2024/01/07/games101/Lec%2006/" rel="next" title="【Games 101】Lec 06：光栅化2（抗锯齿 和 深度缓冲）">
+      【Games 101】Lec 06：光栅化2（抗锯齿 和 深度缓冲） <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC81OTA5Ni8zNTU1OA=="></div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Lecture-7%EF%BC%9AShading-1-Illumination-Shading-and-Graphics-Pipeline"><span class="nav-number">1.</span> <span class="nav-text">Lecture 7：Shading 1 (Illumination, Shading and Graphics Pipeline)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">1.1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%AF%E8%A7%81%E6%80%A7-%E9%81%AE%E6%8C%A1"><span class="nav-number">1.2.</span> <span class="nav-text">可见性 &#x2F; 遮挡</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%BB%E5%AE%B6%E7%AE%97%E6%B3%95"><span class="nav-number">1.2.1.</span> <span class="nav-text">画家算法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Z-Buffer%EF%BC%88%E6%B7%B1%E5%BA%A6%E7%BC%93%E5%AD%98%EF%BC%89"><span class="nav-number">1.3.</span> <span class="nav-text">Z-Buffer（深度缓存）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0-1"><span class="nav-number">1.3.1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B4%E4%BD%93%E5%81%9A%E6%B3%95"><span class="nav-number">1.3.2.</span> <span class="nav-text">整体做法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9D%80%E8%89%B2"><span class="nav-number">1.4.</span> <span class="nav-text">着色</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0-2"><span class="nav-number">1.4.1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E6%9E%90"><span class="nav-number">1.4.2.</span> <span class="nav-text">分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%80%E4%BA%9B%E6%A6%82%E5%BF%B5%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="nav-number">1.4.2.1.</span> <span class="nav-text">一些概念的定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%BC%AB%E5%8F%8D%E5%B0%84%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.4.2.2.</span> <span class="nav-text">漫反射模型</span></a></li></ol></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="FJBQ"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">FJBQ</p>
+  <div class="site-description" itemprop="description">坚定 坚持 坚强</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">21</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2023-10 – 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">FJBQ</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共31.5k字</span>
+</div>
+
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <span id="busuanzi_container_site_pv">总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+    <span class="post-meta-divider">|</span>
+    <span id="busuanzi_container_site_uv">总访客数<span id="busuanzi_value_site_uv"></span>人</span>
+    <span class="post-meta-divider">|</span>
+<!-- 不蒜子计数初始值纠正 -->
+<script>
+$(document).ready(function() {
+
+    var int = setInterval(fixCount, 50);  // 50ms周期检测函数
+    var countOffset = 20000;  // 初始化首次数据
+
+    function fixCount() {            
+       if (document.getElementById("busuanzi_container_site_pv").style.display != "none")
+        {
+            $("#busuanzi_value_site_pv").html(parseInt($("#busuanzi_value_site_pv").html()) + countOffset); 
+            clearInterval(int);
+        }                  
+        if ($("#busuanzi_container_site_pv").css("display") != "none")
+        {
+            $("#busuanzi_value_site_uv").html(parseInt($("#busuanzi_value_site_uv").html()) + countOffset); // 加上初始数据 
+            clearInterval(int); // 停止检测
+        }  
+    }
+       	
+});
+</script> 
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+<script>
+NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"left","width":150,"height":225,"hOffset":-15,"vOffset":-15},"mobile":{"show":false},"react":{"opacity":1},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

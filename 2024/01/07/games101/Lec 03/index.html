@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"manual","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Lecture 03: Transformation 二维变换缩放变换 用矩阵表示，矩阵就叫缩放矩阵 对称变换一下：  复杂一点的： 这里的 x 的变换 和 y 是有关系的 x’ &#x3D; x + ay  旋转变换 推导： 推关系（x’ 和 x）（y’ 和 y）：（利用特殊点（1，0））  从上图可以得到： A &#x3D; cosθ C &#x3D; sinθ 同理，用特殊点（0，1）算出B">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【Games 101】Lec 03：变换">
+<meta property="og:url" content="http://example.com/2024/01/07/games101/Lec%2003/index.html">
+<meta property="og:site_name" content="FJBQ">
+<meta property="og:description" content="Lecture 03: Transformation 二维变换缩放变换 用矩阵表示，矩阵就叫缩放矩阵 对称变换一下：  复杂一点的： 这里的 x 的变换 和 y 是有关系的 x’ &#x3D; x + ay  旋转变换 推导： 推关系（x’ 和 x）（y’ 和 y）：（利用特殊点（1，0））  从上图可以得到： A &#x3D; cosθ C &#x3D; sinθ 同理，用特殊点（0，1）算出B">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/images/Games101/03/01.png">
+<meta property="og:image" content="http://example.com/images/Games101/03/02.png">
+<meta property="og:image" content="http://example.com/images/Games101/03/03.png">
+<meta property="og:image" content="http://example.com/images/Games101/03/04.png">
+<meta property="og:image" content="http://example.com/images/Games101/03/05.png">
+<meta property="og:image" content="http://example.com/images/Games101/03/06.png">
+<meta property="og:image" content="http://example.com/images/Games101/03/07.png">
+<meta property="og:image" content="http://example.com/images/Games101/03/08.png">
+<meta property="og:image" content="http://example.com/images/Games101/03/09.png">
+<meta property="og:image" content="http://example.com/images/Games101/03/10.png">
+<meta property="og:image" content="http://example.com/images/Games101/03/11.png">
+<meta property="og:image" content="http://example.com/images/Games101/03/12.png">
+<meta property="og:image" content="http://example.com/images/Games101/03/13.png">
+<meta property="og:image" content="http://example.com/images/Games101/03/14.png">
+<meta property="og:image" content="http://example.com/images/Games101/03/15.png">
+<meta property="og:image" content="http://example.com/images/Games101/03/16.png">
+<meta property="og:image" content="http://example.com/images/Games101/03/17.png">
+<meta property="og:image" content="http://example.com/images/Games101/03/18.png">
+<meta property="og:image" content="http://example.com/images/Games101/03/19.png">
+<meta property="og:image" content="http://example.com/images/Games101/03/20.png">
+<meta property="og:image" content="http://example.com/images/Games101/03/21.png">
+<meta property="og:image" content="http://example.com/images/Games101/03/22.png">
+<meta property="og:image" content="http://example.com/images/Games101/03/23.png">
+<meta property="og:image" content="http://example.com/images/Games101/03/24.png">
+<meta property="og:image" content="http://example.com/images/Games101/03/25.png">
+<meta property="og:image" content="http://example.com/images/Games101/03/26.png">
+<meta property="article:published_time" content="2024-01-07T14:28:30.635Z">
+<meta property="article:modified_time" content="2024-01-07T14:36:50.343Z">
+<meta property="article:author" content="FJBQ">
+<meta property="article:tag" content="Games 系列">
+<meta property="article:tag" content="Games 101">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/Games101/03/01.png">
+
+<link rel="canonical" href="http://example.com/2024/01/07/games101/Lec%2003/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>【Games 101】Lec 03：变换 | FJBQ</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/rss2.xml" title="FJBQ" type="application/rss+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">FJBQ</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-resources">
+
+    <a href="/resources/" rel="section"><i class="fa fa-download fa-fw"></i>资源</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/01/07/games101/Lec%2003/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="FJBQ">
+      <meta itemprop="description" content="坚定 坚持 坚强">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FJBQ">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          【Games 101】Lec 03：变换
+        </h1>
+
+        <div class="post-meta">
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2024-01-07 22:28:30 / 修改时间：22:36:50" itemprop="dateCreated datePublished" datetime="2024-01-07T22:28:30+08:00">2024-01-07</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">Games 系列</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/Games-101/" itemprop="url" rel="index"><span itemprop="name">Games 101</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Lecture-03-Transformation"><a href="#Lecture-03-Transformation" class="headerlink" title="Lecture 03: Transformation"></a>Lecture 03: Transformation</h1><p><img src="/images/Games101/03/01.png"></p>
+<h2 id="二维变换"><a href="#二维变换" class="headerlink" title="二维变换"></a>二维变换</h2><h3 id="缩放变换"><a href="#缩放变换" class="headerlink" title="缩放变换"></a>缩放变换</h3><p><img src="/images/Games101/03/02.png"></p>
+<p>用矩阵表示，矩阵就叫<strong>缩放矩阵</strong></p>
+<p><strong>对称变换</strong>一下：</p>
+<p><img src="/images/Games101/03/03.png"></p>
+<p><strong>复杂一点的</strong>：</p>
+<p>这里的 x 的变换 和 y 是有关系的 x’ &#x3D; x + ay</p>
+<p><img src="/images/Games101/03/04.png"></p>
+<h3 id="旋转变换"><a href="#旋转变换" class="headerlink" title="旋转变换"></a>旋转变换</h3><p><img src="/images/Games101/03/05.png"></p>
+<p><strong>推导：</strong></p>
+<p>推关系（x’ 和 x）（y’ 和 y）：（<strong>利用特殊点（1，0）</strong>）</p>
+<p><img src="/images/Games101/03/06.png"></p>
+<p>从上图可以得到：</p>
+<p>A &#x3D; cosθ</p>
+<p>C &#x3D; sinθ</p>
+<p>同理，用特殊点（0，1）算出B D</p>
+<p>B &#x3D; -sinθ</p>
+<p>D &#x3D; cosθ</p>
+<p>所以可以得到<strong>旋转矩阵</strong> Rθ；</p>
+<p><strong>记忆：</strong></p>
+<p>记图，然后自己推到一下就行！</p>
+<p><strong>性质：</strong></p>
+<p><strong>旋转矩阵的转置 &lt;&#x3D;&gt; 旋转矩阵的逆</strong></p>
+<p>如果一个 <strong>矩阵转置 &#x3D; 矩阵的逆</strong>，则这个矩阵叫做<strong>正交矩阵</strong></p>
+<p><img src="/images/Games101/03/07.png"></p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p><strong>线性变换：输入坐标 * 矩阵 &#x3D; 输出坐标</strong></p>
+<p><img src="/images/Games101/03/08.png"></p>
+<p>上面的例子统称为<strong>线性变换</strong></p>
+<h2 id="齐次坐标（统一变换）"><a href="#齐次坐标（统一变换）" class="headerlink" title="齐次坐标（统一变换）"></a>齐次坐标（统一变换）</h2><h3 id="为什么？"><a href="#为什么？" class="headerlink" title="为什么？"></a>为什么？</h3><p>当我们平移图像的时候，可以发现我们无法用之前的简单的矩阵x向量的形式表示，而是得用下面的表示方法：</p>
+<p><img src="/images/Games101/03/09.png"></p>
+<p>所以，<strong>平移不属于线性变换</strong>；</p>
+<p>但是我们不想要它特殊，所以引入了<strong>齐次坐标</strong>，<strong>用于表示各种变换</strong>！</p>
+<h3 id="怎么做？"><a href="#怎么做？" class="headerlink" title="怎么做？"></a>怎么做？</h3><p>首先，用<strong>三个数</strong>来表示一个<strong>二维向量</strong>；</p>
+<p><strong>相当于就是把二维变成三维，然后用特殊的数字去表示三维</strong>！</p>
+<ul>
+<li>点：第三维是 1</li>
+<li>向量：第三维是 0</li>
+</ul>
+<p>这样就能通过齐次坐标的方式，把所有的变换都表示成 <strong>矩阵 x 向量</strong> 的形式；</p>
+<p><img src="/images/Games101/03/10.png"></p>
+<p><strong>为什么向量第三维是 0 ？</strong></p>
+<p>这么做是为了保证向量的平移不变性；</p>
+<p>同时保证了在一些运算下仍然是正确的；</p>
+<p>在齐次坐标下：point1 + point2 &#x3D; point 1 2 的中点</p>
+<p><img src="/images/Games101/03/11.png"></p>
+<p>(x1,y1,w)转置 + (x2,y2,w)转置</p>
+<p>&#x3D;&gt; ( (x1+x2) , (y1+y2) , 2w )转置</p>
+<p>&#x3D;&gt; ( (x1+x2)&#x2F;2w , (y1+y2)&#x2F;2w , 1)</p>
+<h3 id="小结-1"><a href="#小结-1" class="headerlink" title="小结"></a>小结</h3><p><strong>仿射变换：</strong></p>
+<p><img src="/images/Games101/03/12.png"></p>
+<p><strong>齐次变换：</strong></p>
+<p><img src="/images/Games101/03/13.png"></p>
+<p>注意到，在表示<strong>二维坐标的仿射变换</strong>中，<strong>齐次变换矩阵</strong>的最后一行都是<strong>（0，0，1）</strong>；</p>
+<p>注意是有条件的，二维坐标，仿射变换.</p>
+<p><strong>验证：</strong>（缩放，旋转，平移）</p>
+<p><img src="/images/Games101/03/14.png"></p>
+<h2 id="逆变换"><a href="#逆变换" class="headerlink" title="逆变换"></a>逆变换</h2><p>要变换回来，则乘以<strong>变换矩阵的逆矩阵</strong></p>
+<p><img src="/images/Games101/03/15.png"></p>
+<h3 id="变换组合"><a href="#变换组合" class="headerlink" title="变换组合"></a>变换组合</h3><p>首先规定，这里默认的旋转是 以0,0为中心，逆时针 旋转的；</p>
+<p>变换的顺序很重要；</p>
+<p><strong>变换组合</strong> 其实本质上就是对应着 <strong>矩阵的乘法！！！</strong></p>
+<p>当矩阵乘法的<strong>顺序不同</strong>，得到的变换<strong>结果</strong>也是<strong>不同</strong>的。</p>
+<p><strong>举个例子</strong>：</p>
+<p><img src="/images/Games101/03/16.png"></p>
+<p>在这个变换中，我们需要先旋转45度，再平移；</p>
+<p>那么对应的数学结果就是：</p>
+<p><img src="/images/Games101/03/17.png"></p>
+<p><strong>总结：</strong></p>
+<p><strong>我们按照变换的顺序，在原向量的基础上，往原向量的左边，从右往左依次乘上变换矩阵</strong></p>
+<p><img src="/images/Games101/03/18.png"></p>
+<p><strong>值得注意的是</strong>：矩阵乘法有结合律！</p>
+<h3 id="变换的分解"><a href="#变换的分解" class="headerlink" title="变换的分解"></a>变换的分解</h3><p><img src="/images/Games101/03/19.png"></p>
+<h2 id="三维变换"><a href="#三维变换" class="headerlink" title="三维变换"></a>三维变换</h2><p>同理，在三维变换中，也有平移这样的非线性变换操作；</p>
+<p>所以继续引入齐次坐标；</p>
+<p>用四个数去表示三维空间；</p>
+<p>三维变成四维，第四维度取特殊值；</p>
+<ul>
+<li>描述<strong>点</strong>，最后一维为1；</li>
+<li>描述<strong>向量</strong>，最后一维为0；</li>
+</ul>
+<p><img src="/images/Games101/03/20.png"></p>
+<p>当 w !&#x3D; 0 时，齐次坐标下的点 (x , y, z , w) , 则表示三维空间中的点 (x&#x2F;w , y&#x2F;w , z&#x2F;w)</p>
+<p>将 x y z 都 &#x2F;w 就可以表示成三维空间中的点了！</p>
+<p><img src="/images/Games101/03/21.png"></p>
+<p>同样的，在描述三维空间中的反射变换时，变换矩阵的最后一行是（0，0，0，1）；</p>
+<p>平移操作还是体现在最后一列；</p>
+<p>值得注意的是 : </p>
+<p>当我们写出齐次坐标的时候，它表示的其实是：<br><strong>先线性变换，在进行平移</strong>！</p>
+<p><strong>具体的变换 :</strong> </p>
+<p><img src="/images/Games101/03/22.png"></p>
+<p><img src="/images/Games101/03/23.png"></p>
+<p>这里注意一下绕y轴为啥是反的？这个和轴的顺序和右手螺旋定则有关；</p>
+<h2 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h2><p><img src="/images/Games101/03/24.png"></p>
+<p>任意一个3D的旋转，都可以分解为分别绕x y z轴旋转；</p>
+<p>a β γ 称为<strong>欧拉角</strong></p>
+<p><strong>Rodrigues’ 旋转公式</strong>：</p>
+<p>就是能把任意一个旋转分解为绕 x y z 的旋转：</p>
+<p><img src="/images/Games101/03/25.png"></p>
+<p>n向量：旋转轴（可以理解为一个方向向量，且规定n过原点）</p>
+<p>a：旋转角度</p>
+<p><strong>推导</strong>：</p>
+<p><img src="/images/Games101/03/26.png"></p>
+<p><strong>扩展 :</strong> </p>
+<p><strong>四元数 : 主要用于两个旋转之间的插值</strong></p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>FJBQ
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://example.com/2024/01/07/games101/Lec%2003/" title="【Games 101】Lec 03：变换">http://example.com/2024/01/07/games101/Lec 03/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Games-%E7%B3%BB%E5%88%97/" rel="tag"># Games 系列</a>
+              <a href="/tags/Games-101/" rel="tag"># Games 101</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2024/01/07/games101/Lec%2004/" rel="prev" title="【Games 101】Lec 04：变换（续）">
+      <i class="fa fa-chevron-left"></i> 【Games 101】Lec 04：变换（续）
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2024/01/07/games101/Lec%2008/" rel="next" title="【Games 101】Lec 08：渲染2（阴影 渲染管线 和 纹理映射）">
+      【Games 101】Lec 08：渲染2（阴影 渲染管线 和 纹理映射） <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC81OTA5Ni8zNTU1OA=="></div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Lecture-03-Transformation"><span class="nav-number">1.</span> <span class="nav-text">Lecture 03: Transformation</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E7%BB%B4%E5%8F%98%E6%8D%A2"><span class="nav-number">1.1.</span> <span class="nav-text">二维变换</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%A9%E6%94%BE%E5%8F%98%E6%8D%A2"><span class="nav-number">1.1.1.</span> <span class="nav-text">缩放变换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%97%8B%E8%BD%AC%E5%8F%98%E6%8D%A2"><span class="nav-number">1.1.2.</span> <span class="nav-text">旋转变换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%8F%E7%BB%93"><span class="nav-number">1.1.3.</span> <span class="nav-text">小结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%BD%90%E6%AC%A1%E5%9D%90%E6%A0%87%EF%BC%88%E7%BB%9F%E4%B8%80%E5%8F%98%E6%8D%A2%EF%BC%89"><span class="nav-number">1.2.</span> <span class="nav-text">齐次坐标（统一变换）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">1.2.1.</span> <span class="nav-text">为什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%8E%E4%B9%88%E5%81%9A%EF%BC%9F"><span class="nav-number">1.2.2.</span> <span class="nav-text">怎么做？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%8F%E7%BB%93-1"><span class="nav-number">1.2.3.</span> <span class="nav-text">小结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%86%E5%8F%98%E6%8D%A2"><span class="nav-number">1.3.</span> <span class="nav-text">逆变换</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%98%E6%8D%A2%E7%BB%84%E5%90%88"><span class="nav-number">1.3.1.</span> <span class="nav-text">变换组合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%98%E6%8D%A2%E7%9A%84%E5%88%86%E8%A7%A3"><span class="nav-number">1.3.2.</span> <span class="nav-text">变换的分解</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E7%BB%B4%E5%8F%98%E6%8D%A2"><span class="nav-number">1.4.</span> <span class="nav-text">三维变换</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A1%A5%E5%85%85"><span class="nav-number">1.5.</span> <span class="nav-text">补充</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="FJBQ"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">FJBQ</p>
+  <div class="site-description" itemprop="description">坚定 坚持 坚强</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">21</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2023-10 – 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">FJBQ</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共31.5k字</span>
+</div>
+
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <span id="busuanzi_container_site_pv">总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+    <span class="post-meta-divider">|</span>
+    <span id="busuanzi_container_site_uv">总访客数<span id="busuanzi_value_site_uv"></span>人</span>
+    <span class="post-meta-divider">|</span>
+<!-- 不蒜子计数初始值纠正 -->
+<script>
+$(document).ready(function() {
+
+    var int = setInterval(fixCount, 50);  // 50ms周期检测函数
+    var countOffset = 20000;  // 初始化首次数据
+
+    function fixCount() {            
+       if (document.getElementById("busuanzi_container_site_pv").style.display != "none")
+        {
+            $("#busuanzi_value_site_pv").html(parseInt($("#busuanzi_value_site_pv").html()) + countOffset); 
+            clearInterval(int);
+        }                  
+        if ($("#busuanzi_container_site_pv").css("display") != "none")
+        {
+            $("#busuanzi_value_site_uv").html(parseInt($("#busuanzi_value_site_uv").html()) + countOffset); // 加上初始数据 
+            clearInterval(int); // 停止检测
+        }  
+    }
+       	
+});
+</script> 
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+<script>
+NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"left","width":150,"height":225,"hOffset":-15,"vOffset":-15},"mobile":{"show":false},"react":{"opacity":1},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
