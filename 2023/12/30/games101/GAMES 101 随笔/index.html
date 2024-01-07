@@ -22,45 +22,21 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"manual","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="Lecture 8：Shading 2 (Shading, Pipeline and Texture Mapping)  Blinn-Phong 模型的后两种高光像（高光反射 &#x2F; 镜面反射） 当我们观察方向和光线反射的方向很接近的时候，那么就会产生镜面反射；  怎么算？？ Blinn-Phong 模型中做了一个改进，它发现了，观察方向和光线反射的方向很接近 &lt;&#x3D;&gt;">
+  <meta name="description" content="前言**准备学一下 Games 101, 这一篇记录一下学习笔记 ; ** 对应的应该还有 Games 101 作业 ( 希望能够坚持 ! ) 导航课程[【Games 101】Lec 01：计算机图形学概述](http:&#x2F;&#x2F;fjbq-blog.top&#x2F;2024&#x2F;01&#x2F;07&#x2F;games101&#x2F;Lec 01&#x2F;) [【Games 101】Lec 02：回顾线性代数](http:&#x2F;&#x2F;fjbq-b">
 <meta property="og:type" content="article">
-<meta property="og:title" content="【Games 101】Lec 08：渲染2（阴影 渲染管线 和 纹理映射）">
-<meta property="og:url" content="http://example.com/2024/01/07/games101/Lec%2008/index.html">
+<meta property="og:title" content="Games 101 随笔">
+<meta property="og:url" content="http://example.com/2023/12/30/games101/GAMES%20101%20%E9%9A%8F%E7%AC%94/index.html">
 <meta property="og:site_name" content="FJBQ">
-<meta property="og:description" content="Lecture 8：Shading 2 (Shading, Pipeline and Texture Mapping)  Blinn-Phong 模型的后两种高光像（高光反射 &#x2F; 镜面反射） 当我们观察方向和光线反射的方向很接近的时候，那么就会产生镜面反射；  怎么算？？ Blinn-Phong 模型中做了一个改进，它发现了，观察方向和光线反射的方向很接近 &lt;&#x3D;&gt;">
+<meta property="og:description" content="前言**准备学一下 Games 101, 这一篇记录一下学习笔记 ; ** 对应的应该还有 Games 101 作业 ( 希望能够坚持 ! ) 导航课程[【Games 101】Lec 01：计算机图形学概述](http:&#x2F;&#x2F;fjbq-blog.top&#x2F;2024&#x2F;01&#x2F;07&#x2F;games101&#x2F;Lec 01&#x2F;) [【Games 101】Lec 02：回顾线性代数](http:&#x2F;&#x2F;fjbq-b">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/images/Games101/08/01.png">
-<meta property="og:image" content="http://example.com/images/Games101/08/02.png">
-<meta property="og:image" content="http://example.com/images/Games101/08/03.png">
-<meta property="og:image" content="http://example.com/images/Games101/08/04.png">
-<meta property="og:image" content="http://example.com/images/Games101/08/05.png">
-<meta property="og:image" content="http://example.com/images/Games101/08/06.png">
-<meta property="og:image" content="http://example.com/images/Games101/08/07.png">
-<meta property="og:image" content="http://example.com/images/Games101/08/08.png">
-<meta property="og:image" content="http://example.com/images/Games101/08/09.png">
-<meta property="og:image" content="http://example.com/images/Games101/08/10.png">
-<meta property="og:image" content="http://example.com/images/Games101/08/11.png">
-<meta property="og:image" content="http://example.com/images/Games101/08/12.png">
-<meta property="og:image" content="http://example.com/images/Games101/08/13.png">
-<meta property="og:image" content="http://example.com/images/Games101/08/14.png">
-<meta property="og:image" content="http://example.com/images/Games101/08/15.png">
-<meta property="og:image" content="http://example.com/images/Games101/08/16.png">
-<meta property="og:image" content="http://example.com/images/Games101/08/17.png">
-<meta property="og:image" content="http://example.com/images/Games101/08/18.png">
-<meta property="og:image" content="http://example.com/images/Games101/08/19.png">
-<meta property="og:image" content="http://example.com/images/Games101/08/20.png">
-<meta property="og:image" content="http://example.com/images/Games101/08/21.png">
-<meta property="og:image" content="http://example.com/images/Games101/08/22.png">
-<meta property="og:image" content="http://example.com/images/Games101/08/23.png">
-<meta property="article:published_time" content="2024-01-07T14:29:15.618Z">
-<meta property="article:modified_time" content="2024-01-07T14:43:45.532Z">
+<meta property="article:published_time" content="2023-12-30T13:22:39.182Z">
+<meta property="article:modified_time" content="2024-01-07T15:13:44.400Z">
 <meta property="article:author" content="FJBQ">
 <meta property="article:tag" content="Games 系列">
 <meta property="article:tag" content="Games 101">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/images/Games101/08/01.png">
 
-<link rel="canonical" href="http://example.com/2024/01/07/games101/Lec%2008/">
+<link rel="canonical" href="http://example.com/2023/12/30/games101/GAMES%20101%20%E9%9A%8F%E7%AC%94/">
 
 
 <script id="page-configurations">
@@ -73,7 +49,7 @@
   };
 </script>
 
-  <title>【Games 101】Lec 08：渲染2（阴影 渲染管线 和 纹理映射） | FJBQ</title>
+  <title>Games 101 随笔 | FJBQ</title>
   
 
 
@@ -199,7 +175,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2024/01/07/games101/Lec%2008/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/12/30/games101/GAMES%20101%20%E9%9A%8F%E7%AC%94/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -212,7 +188,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          【Games 101】Lec 08：渲染2（阴影 渲染管线 和 纹理映射）
+          Games 101 随笔
         </h1>
 
         <div class="post-meta">
@@ -222,10 +198,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2024-01-07 22:29:15 / 修改时间：22:43:45" itemprop="dateCreated datePublished" datetime="2024-01-07T22:29:15+08:00">2024-01-07</time>
+              <time title="创建时间：2023-12-30 21:22:39" itemprop="dateCreated datePublished" datetime="2023-12-30T21:22:39+08:00">2023-12-30</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-01-07 23:13:44" itemprop="dateModified" datetime="2024-01-07T23:13:44+08:00">2024-01-07</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -258,97 +240,20 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="Lecture-8：Shading-2-Shading-Pipeline-and-Texture-Mapping"><a href="#Lecture-8：Shading-2-Shading-Pipeline-and-Texture-Mapping" class="headerlink" title="Lecture 8：Shading 2 (Shading, Pipeline and Texture Mapping)"></a>Lecture 8：Shading 2 (Shading, Pipeline and Texture Mapping)</h1><p><img src="/images/Games101/08/01.png"></p>
-<p><img src="/images/Games101/08/02.png"></p>
-<h2 id="Blinn-Phong-模型的后两种"><a href="#Blinn-Phong-模型的后两种" class="headerlink" title="Blinn-Phong 模型的后两种"></a>Blinn-Phong 模型的后两种</h2><h3 id="高光像（高光反射-镜面反射）"><a href="#高光像（高光反射-镜面反射）" class="headerlink" title="高光像（高光反射 &#x2F; 镜面反射）"></a>高光像（高光反射 &#x2F; 镜面反射）</h3><blockquote>
-<p>当我们<strong>观察方向</strong>和<strong>光线反射的方向</strong>很接近的时候，那么就会产生镜面反射；</p>
-<p><img src="/images/Games101/08/03.png"></p>
-<p>怎么算？？</p>
-<p>Blinn-Phong 模型中做了一个改进，它发现了，<strong>观察方向和光线反射的方向很接近 &lt;&#x3D;&gt; 平面的法向量和半程向量很接近</strong>，所以考虑下面的计算方法：</p>
-<p><img src="/images/Games101/08/04.png"></p>
-<p><strong>指数 p 的一个作用：控制高光的衰减大小</strong></p>
-<p><img src="/images/Games101/08/05.png"></p>
-<p><img src="/images/Games101/08/06.png"></p>
-</blockquote>
-<h3 id="环境反射（间接反射）"><a href="#环境反射（间接反射）" class="headerlink" title="环境反射（间接反射）"></a>环境反射（间接反射）</h3><blockquote>
-<p>大胆假设：任何一个点接收到环境的光是一样的！</p>
-<p><img src="/images/Games101/08/07.png"></p>
-<p><strong>Ia：表示来自环境的光强</strong><br><strong>Ka：系数</strong></p>
-<p>所以可以看到，环境光是一个<strong>常数</strong>，和观测方向无关！</p>
-</blockquote>
-<h3 id="Blinn-Phong-模型-小结："><a href="#Blinn-Phong-模型-小结：" class="headerlink" title="Blinn-Phong 模型 小结："></a>Blinn-Phong 模型 小结：</h3><p>把所有的光加起来就是最终结果：</p>
-<p><img src="/images/Games101/08/08.png"></p>
-<p>所以：</p>
-<p><strong>Blinn-Phong 模型</strong> &#x3D; <strong>漫反射模型</strong> + <strong>高光反射&#x2F;镜面反射</strong> + <strong>环境反射</strong></p>
-<h2 id="着色频率"><a href="#着色频率" class="headerlink" title="着色频率"></a>着色频率</h2><h3 id="着色模型"><a href="#着色模型" class="headerlink" title="着色模型"></a>着色模型</h3><blockquote>
-<p>着色频率不同产生不同的效果：</p>
-<p><img src="/images/Games101/08/09.png"></p>
-<hr>
-<p><strong>第一种：对每个三角形的平面进行着色；</strong><br>（求法线）</p>
-<p><img src="/images/Games101/08/10.png"></p>
-<hr>
-<p><strong>第二种：对于每个顶点求一个法线，然后进行着色；</strong></p>
-<p><img src="/images/Games101/08/11.png"></p>
-<hr>
-<p><strong>第三种：对于每个像素我们都去着色；</strong></p>
-<p>（对每个像素都去求一个法线）</p>
-<p><img src="/images/Games101/08/12.png"></p>
-<hr>
-<p>要看情况使用不同的着色频率，当我们的物体的平面比较多的时候（模型足够复杂），这时候我们就可以直接用简单的着色模型了，最终的效果也不会差。</p>
-<p><img src="/images/Games101/08/13.png"></p>
-</blockquote>
-<h3 id="定义一些东西"><a href="#定义一些东西" class="headerlink" title="定义一些东西"></a>定义一些东西</h3><blockquote>
-<p><strong>定义每个顶点的法向量</strong></p>
-<p><img src="/images/Games101/08/14.png"></p>
-<p><strong>顶点的法向量 &#x3D; 相关的面的法向量的加权平均值</strong></p>
-<hr>
-<p><strong>定义每个像素的法向量</strong></p>
-<p><img src="/images/Games101/08/15.png"></p>
-<p><strong>像素的法向量 &#x3D; 顶点法向量平面的重心坐标</strong></p>
-</blockquote>
-<h2 id="图形管线（实时渲染管线）"><a href="#图形管线（实时渲染管线）" class="headerlink" title="图形管线（实时渲染管线）"></a>图形管线（实时渲染管线）</h2><blockquote>
-<p><strong>Graphics (Real-time Rendering) Pipeline</strong></p>
-<p><strong>定义：如何从 一个场景 -&gt; 一张图 的过程</strong></p>
-<p>就是一些列不同的操作：</p>
-<p><img src="/images/Games101/08/16.png"></p>
-<ol start="0">
-<li><strong>3D模型</strong></li>
-<li><strong>顶点处理</strong></li>
-<li><strong>三角形处理</strong></li>
-<li><strong>光栅化</strong></li>
-<li><strong>着色</strong></li>
-<li><strong>输出</strong></li>
-</ol>
-<hr>
-<p>现代GPU允许我们自己定义这些操作，所以也叫做 <strong>可编程渲染管线</strong>（也就是我们讲的<strong>Shader</strong>）</p>
-<p>具体的讲：</p>
-<p>对于一个顶点或者一个像素，我们可以自己编程计算，自己规定这个点或者像素最后显示的颜色；（只用统一写一次，应用于每一个点）</p>
-<p><strong>顶点着色器</strong>：给每个点写一个着色的程序</p>
-<p><strong>像素着色器 &#x2F; 片元着色器</strong>：给每个像素写一个着色的程序 </p>
-<p><img src="/images/Games101/08/17.png"></p>
-<p><img src="/images/Games101/08/18.png"></p>
-</blockquote>
-<h2 id="现代图形学发展"><a href="#现代图形学发展" class="headerlink" title="现代图形学发展"></a>现代图形学发展</h2><p><img src="/images/Games101/08/19.png"></p>
-<h2 id="纹理映射（Texture-Mapping）"><a href="#纹理映射（Texture-Mapping）" class="headerlink" title="纹理映射（Texture Mapping）"></a>纹理映射（Texture Mapping）</h2><blockquote>
-<p><strong>定义一个点的不同属性</strong>，具体讲，对于一个三维空间，我们都可以把它展开成二维平面，从而和图像对于；</p>
-<p><img src="/images/Games101/08/20.png"></p>
-<p>那么现在我们要解决的问题就是，我们如何<strong>将一张图像（纹理）贴到三维的物体</strong>上面？（这个过程就是纹理映射）</p>
-<p><img src="/images/Games101/08/21.png"></p>
-<p>其实问题就是，对于物体上的三角形，我们要怎么映射到纹理上的三角形。</p>
-<p>这个问题比较复杂…这里我们规定已经是映射好了的。</p>
-<p><strong>纹理的坐标</strong>：</p>
-<p><img src="/images/Games101/08/22.png"></p>
-<p><img src="/images/Games101/08/23.png"></p>
-<p>U V 都在 0~1 之内</p>
-</blockquote>
-<hr>
-<p><strong>思考：</strong></p>
-<ul>
-<li><p>假设我们知道了三角形三个点对应的纹理坐标，我们如何知道三角形内部任意一点的纹理坐标（U V）？</p>
-</li>
-<li><p>在三角形的三个顶点有各自不同的属性，如何在三角形内部做一个平滑的过渡，使得我们能快速知道三角形内部任意一点通过插值之后的属性是多少？（<strong>重心坐标</strong>）</p>
-</li>
-</ul>
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>**准备学一下 Games 101, 这一篇记录一下学习笔记 ; **</p>
+<p><strong>对应的应该还有 Games 101 作业 ( 希望能够坚持 ! )</strong></p>
+<h1 id="导航"><a href="#导航" class="headerlink" title="导航"></a>导航</h1><h2 id="课程"><a href="#课程" class="headerlink" title="课程"></a>课程</h2><p>[【Games 101】Lec 01：计算机图形学概述](<a target="_blank" rel="noopener" href="http://fjbq-blog.top/2024/01/07/games101/Lec">http://fjbq-blog.top/2024/01/07/games101/Lec</a> 01&#x2F;)</p>
+<p>[【Games 101】Lec 02：回顾线性代数](<a target="_blank" rel="noopener" href="http://fjbq-blog.top/2024/01/07/games101/Lec">http://fjbq-blog.top/2024/01/07/games101/Lec</a> 02&#x2F;)</p>
+<p>[【Games 101】Lec 03：变换](<a target="_blank" rel="noopener" href="http://fjbq-blog.top/2024/01/07/games101/Lec">http://fjbq-blog.top/2024/01/07/games101/Lec</a> 03&#x2F;)</p>
+<p>[【Games 101】Lec 04：变换（续）](<a target="_blank" rel="noopener" href="http://fjbq-blog.top/2024/01/07/games101/Lec">http://fjbq-blog.top/2024/01/07/games101/Lec</a> 04&#x2F;)</p>
+<p>[【Games 101】Lec 05：光栅化1（三角形）](<a target="_blank" rel="noopener" href="http://fjbq-blog.top/2024/01/07/games101/Lec">http://fjbq-blog.top/2024/01/07/games101/Lec</a> 05&#x2F;)</p>
+<p>[【Games 101】Lec 06：光栅化2（抗锯齿 和 深度缓冲）](<a target="_blank" rel="noopener" href="http://fjbq-blog.top/2024/01/07/games101/Lec">http://fjbq-blog.top/2024/01/07/games101/Lec</a> 06&#x2F;)</p>
+<p>[【Games 101】Lec 07：渲染1（光照 阴影 和 图形管线）](<a target="_blank" rel="noopener" href="http://fjbq-blog.top/2024/01/07/games101/Lec">http://fjbq-blog.top/2024/01/07/games101/Lec</a> 07&#x2F;)</p>
+<p>[【Games 101】Lec 08：渲染2（阴影 渲染管线 和 纹理映射）](<a target="_blank" rel="noopener" href="http://fjbq-blog.top/2024/01/07/games101/Lec">http://fjbq-blog.top/2024/01/07/games101/Lec</a> 08&#x2F;)</p>
+<p>[【Games 101】Lec 09：渲染3（纹理映射（续））](<a target="_blank" rel="noopener" href="http://fjbq-blog.top/2024/01/07/games101/Lec">http://fjbq-blog.top/2024/01/07/games101/Lec</a> 09&#x2F;)</p>
+<p>[【Games 101】Lec 10：几何 1 （入门）](<a target="_blank" rel="noopener" href="http://fjbq-blog.top/2024/01/07/games101/Lec">http://fjbq-blog.top/2024/01/07/games101/Lec</a> 10&#x2F;)</p>
+<h2 id="作业"><a href="#作业" class="headerlink" title="作业"></a>作业</h2><p>[【Games 101】Games 101 作业 ](<a target="_blank" rel="noopener" href="http://fjbq-blog.top/2024/01/01/games101/Games">http://fjbq-blog.top/2024/01/01/games101/Games</a> 101 作业&#x2F;)</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43399489?type=blog">Magic__Conch-CSDN博客</a></p>
 
     </div>
 
@@ -364,7 +269,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://example.com/2024/01/07/games101/Lec%2008/" title="【Games 101】Lec 08：渲染2（阴影 渲染管线 和 纹理映射）">http://example.com/2024/01/07/games101/Lec 08/</a>
+    <a href="http://example.com/2023/12/30/games101/GAMES%20101%20%E9%9A%8F%E7%AC%94/" title="Games 101 随笔">http://example.com/2023/12/30/games101/GAMES 101 随笔/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
@@ -404,10 +309,13 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2024/01/07/games101/Lec%2003/" rel="prev" title="【Games 101】Lec 03：变换">
-      <i class="fa fa-chevron-left"></i> 【Games 101】Lec 03：变换
+    <a href="/2023/12/30/%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/" rel="prev" title="My First Blog">
+      <i class="fa fa-chevron-left"></i> My First Blog
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2024/01/01/games101/Games%20101%20%E4%BD%9C%E4%B8%9A/" rel="next" title="【Games 101】作业">
+      【Games 101】作业 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -471,7 +379,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Lecture-8%EF%BC%9AShading-2-Shading-Pipeline-and-Texture-Mapping"><span class="nav-number">1.</span> <span class="nav-text">Lecture 8：Shading 2 (Shading, Pipeline and Texture Mapping)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Blinn-Phong-%E6%A8%A1%E5%9E%8B%E7%9A%84%E5%90%8E%E4%B8%A4%E7%A7%8D"><span class="nav-number">1.1.</span> <span class="nav-text">Blinn-Phong 模型的后两种</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%AB%98%E5%85%89%E5%83%8F%EF%BC%88%E9%AB%98%E5%85%89%E5%8F%8D%E5%B0%84-%E9%95%9C%E9%9D%A2%E5%8F%8D%E5%B0%84%EF%BC%89"><span class="nav-number">1.1.1.</span> <span class="nav-text">高光像（高光反射 &#x2F; 镜面反射）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E5%8F%8D%E5%B0%84%EF%BC%88%E9%97%B4%E6%8E%A5%E5%8F%8D%E5%B0%84%EF%BC%89"><span class="nav-number">1.1.2.</span> <span class="nav-text">环境反射（间接反射）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Blinn-Phong-%E6%A8%A1%E5%9E%8B-%E5%B0%8F%E7%BB%93%EF%BC%9A"><span class="nav-number">1.1.3.</span> <span class="nav-text">Blinn-Phong 模型 小结：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9D%80%E8%89%B2%E9%A2%91%E7%8E%87"><span class="nav-number">1.2.</span> <span class="nav-text">着色频率</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9D%80%E8%89%B2%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.2.1.</span> <span class="nav-text">着色模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89%E4%B8%80%E4%BA%9B%E4%B8%9C%E8%A5%BF"><span class="nav-number">1.2.2.</span> <span class="nav-text">定义一些东西</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%BE%E5%BD%A2%E7%AE%A1%E7%BA%BF%EF%BC%88%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF%EF%BC%89"><span class="nav-number">1.3.</span> <span class="nav-text">图形管线（实时渲染管线）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%8E%B0%E4%BB%A3%E5%9B%BE%E5%BD%A2%E5%AD%A6%E5%8F%91%E5%B1%95"><span class="nav-number">1.4.</span> <span class="nav-text">现代图形学发展</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BA%B9%E7%90%86%E6%98%A0%E5%B0%84%EF%BC%88Texture-Mapping%EF%BC%89"><span class="nav-number">1.5.</span> <span class="nav-text">纹理映射（Texture Mapping）</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AF%BC%E8%88%AA"><span class="nav-number">2.</span> <span class="nav-text">导航</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%BE%E7%A8%8B"><span class="nav-number">2.1.</span> <span class="nav-text">课程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%9C%E4%B8%9A"><span class="nav-number">2.2.</span> <span class="nav-text">作业</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">3.</span> <span class="nav-text">参考</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
