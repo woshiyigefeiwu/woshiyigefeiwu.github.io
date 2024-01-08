@@ -22,45 +22,37 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"manual","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="Lecture 8：Shading 2 (Shading, Pipeline and Texture Mapping)  Blinn-Phong 模型的后两种高光像（高光反射 &#x2F; 镜面反射） 当我们观察方向和光线反射的方向很接近的时候，那么就会产生镜面反射；  怎么算？？ Blinn-Phong 模型中做了一个改进，它发现了，观察方向和光线反射的方向很接近 &lt;&#x3D;&gt;">
+  <meta name="description" content="Lecture 12：Geometry 3概述这节课主要讲的是 曲面细分，曲面简化 和 阴影； 这篇文章记录 曲面细分 和 曲面简化，阴影放在下一篇文章； 曲面细分曲面细分一般来说，需要先增加点的数量，然后再调整点的位置。 Loop细分概述整体步骤：  增加三角形数量； 改变三角形位置，让模型看上去更加光滑；   具体算法 把每个三角形分成4个（这里就会产生新的顶点）    根据权重分配新的顶点（">
 <meta property="og:type" content="article">
-<meta property="og:title" content="【Games 101】Lec 08：渲染2（阴影 渲染管线 和 纹理映射）">
-<meta property="og:url" content="http://example.com/2024/01/07/games101/Lec%2008/index.html">
+<meta property="og:title" content="【Games 101】Lec 12：几何 3">
+<meta property="og:url" content="http://example.com/2024/01/08/games101/Lec%2012/index.html">
 <meta property="og:site_name" content="FJBQ">
-<meta property="og:description" content="Lecture 8：Shading 2 (Shading, Pipeline and Texture Mapping)  Blinn-Phong 模型的后两种高光像（高光反射 &#x2F; 镜面反射） 当我们观察方向和光线反射的方向很接近的时候，那么就会产生镜面反射；  怎么算？？ Blinn-Phong 模型中做了一个改进，它发现了，观察方向和光线反射的方向很接近 &lt;&#x3D;&gt;">
+<meta property="og:description" content="Lecture 12：Geometry 3概述这节课主要讲的是 曲面细分，曲面简化 和 阴影； 这篇文章记录 曲面细分 和 曲面简化，阴影放在下一篇文章； 曲面细分曲面细分一般来说，需要先增加点的数量，然后再调整点的位置。 Loop细分概述整体步骤：  增加三角形数量； 改变三角形位置，让模型看上去更加光滑；   具体算法 把每个三角形分成4个（这里就会产生新的顶点）    根据权重分配新的顶点（">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/images/Games101/08/01.png">
-<meta property="og:image" content="http://example.com/images/Games101/08/02.png">
-<meta property="og:image" content="http://example.com/images/Games101/08/03.png">
-<meta property="og:image" content="http://example.com/images/Games101/08/04.png">
-<meta property="og:image" content="http://example.com/images/Games101/08/05.png">
-<meta property="og:image" content="http://example.com/images/Games101/08/06.png">
-<meta property="og:image" content="http://example.com/images/Games101/08/07.png">
-<meta property="og:image" content="http://example.com/images/Games101/08/08.png">
-<meta property="og:image" content="http://example.com/images/Games101/08/09.png">
-<meta property="og:image" content="http://example.com/images/Games101/08/10.png">
-<meta property="og:image" content="http://example.com/images/Games101/08/11.png">
-<meta property="og:image" content="http://example.com/images/Games101/08/12.png">
-<meta property="og:image" content="http://example.com/images/Games101/08/13.png">
-<meta property="og:image" content="http://example.com/images/Games101/08/14.png">
-<meta property="og:image" content="http://example.com/images/Games101/08/15.png">
-<meta property="og:image" content="http://example.com/images/Games101/08/16.png">
-<meta property="og:image" content="http://example.com/images/Games101/08/17.png">
-<meta property="og:image" content="http://example.com/images/Games101/08/18.png">
-<meta property="og:image" content="http://example.com/images/Games101/08/19.png">
-<meta property="og:image" content="http://example.com/images/Games101/08/20.png">
-<meta property="og:image" content="http://example.com/images/Games101/08/21.png">
-<meta property="og:image" content="http://example.com/images/Games101/08/22.png">
-<meta property="og:image" content="http://example.com/images/Games101/08/23.png">
-<meta property="article:published_time" content="2024-01-07T14:29:15.618Z">
-<meta property="article:modified_time" content="2024-01-07T14:43:45.532Z">
+<meta property="og:image" content="http://example.com/images/Games101/12/01.png">
+<meta property="og:image" content="http://example.com/images/Games101/12/02.png">
+<meta property="og:image" content="http://example.com/images/Games101/12/03.png">
+<meta property="og:image" content="http://example.com/images/Games101/12/04.png">
+<meta property="og:image" content="http://example.com/images/Games101/12/05.png">
+<meta property="og:image" content="http://example.com/images/Games101/12/06.png">
+<meta property="og:image" content="http://example.com/images/Games101/12/07.png">
+<meta property="og:image" content="http://example.com/images/Games101/12/08.png">
+<meta property="og:image" content="http://example.com/images/Games101/12/09.png">
+<meta property="og:image" content="http://example.com/images/Games101/12/10.png">
+<meta property="og:image" content="http://example.com/images/Games101/12/11.png">
+<meta property="og:image" content="http://example.com/images/Games101/12/12.png">
+<meta property="og:image" content="http://example.com/images/Games101/12/13.png">
+<meta property="og:image" content="http://example.com/images/Games101/12/14.png">
+<meta property="og:image" content="http://example.com/images/Games101/12/15.png">
+<meta property="article:published_time" content="2024-01-08T15:01:07.860Z">
+<meta property="article:modified_time" content="2024-01-08T15:33:32.336Z">
 <meta property="article:author" content="FJBQ">
 <meta property="article:tag" content="Games 系列">
 <meta property="article:tag" content="Games 101">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/images/Games101/08/01.png">
+<meta name="twitter:image" content="http://example.com/images/Games101/12/01.png">
 
-<link rel="canonical" href="http://example.com/2024/01/07/games101/Lec%2008/">
+<link rel="canonical" href="http://example.com/2024/01/08/games101/Lec%2012/">
 
 
 <script id="page-configurations">
@@ -73,7 +65,7 @@
   };
 </script>
 
-  <title>【Games 101】Lec 08：渲染2（阴影 渲染管线 和 纹理映射） | FJBQ</title>
+  <title>【Games 101】Lec 12：几何 3 | FJBQ</title>
   
 
 
@@ -199,7 +191,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2024/01/07/games101/Lec%2008/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/01/08/games101/Lec%2012/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -212,7 +204,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          【Games 101】Lec 08：渲染2（阴影 渲染管线 和 纹理映射）
+          【Games 101】Lec 12：几何 3
         </h1>
 
         <div class="post-meta">
@@ -224,7 +216,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2024-01-07 22:29:15 / 修改时间：22:43:45" itemprop="dateCreated datePublished" datetime="2024-01-07T22:29:15+08:00">2024-01-07</time>
+              <time title="创建时间：2024-01-08 23:01:07 / 修改时间：23:33:32" itemprop="dateCreated datePublished" datetime="2024-01-08T23:01:07+08:00">2024-01-08</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -258,97 +250,73 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="Lecture-8：Shading-2-Shading-Pipeline-and-Texture-Mapping"><a href="#Lecture-8：Shading-2-Shading-Pipeline-and-Texture-Mapping" class="headerlink" title="Lecture 8：Shading 2 (Shading, Pipeline and Texture Mapping)"></a>Lecture 8：Shading 2 (Shading, Pipeline and Texture Mapping)</h1><p><img src="/images/Games101/08/01.png"></p>
-<p><img src="/images/Games101/08/02.png"></p>
-<h2 id="Blinn-Phong-模型的后两种"><a href="#Blinn-Phong-模型的后两种" class="headerlink" title="Blinn-Phong 模型的后两种"></a>Blinn-Phong 模型的后两种</h2><h3 id="高光像（高光反射-镜面反射）"><a href="#高光像（高光反射-镜面反射）" class="headerlink" title="高光像（高光反射 &#x2F; 镜面反射）"></a>高光像（高光反射 &#x2F; 镜面反射）</h3><blockquote>
-<p>当我们<strong>观察方向</strong>和<strong>光线反射的方向</strong>很接近的时候，那么就会产生镜面反射；</p>
-<p><img src="/images/Games101/08/03.png"></p>
-<p>怎么算？？</p>
-<p>Blinn-Phong 模型中做了一个改进，它发现了，<strong>观察方向和光线反射的方向很接近 &lt;&#x3D;&gt; 平面的法向量和半程向量很接近</strong>，所以考虑下面的计算方法：</p>
-<p><img src="/images/Games101/08/04.png"></p>
-<p><strong>指数 p 的一个作用：控制高光的衰减大小</strong></p>
-<p><img src="/images/Games101/08/05.png"></p>
-<p><img src="/images/Games101/08/06.png"></p>
-</blockquote>
-<h3 id="环境反射（间接反射）"><a href="#环境反射（间接反射）" class="headerlink" title="环境反射（间接反射）"></a>环境反射（间接反射）</h3><blockquote>
-<p>大胆假设：任何一个点接收到环境的光是一样的！</p>
-<p><img src="/images/Games101/08/07.png"></p>
-<p><strong>Ia：表示来自环境的光强</strong><br><strong>Ka：系数</strong></p>
-<p>所以可以看到，环境光是一个<strong>常数</strong>，和观测方向无关！</p>
-</blockquote>
-<h3 id="Blinn-Phong-模型-小结："><a href="#Blinn-Phong-模型-小结：" class="headerlink" title="Blinn-Phong 模型 小结："></a>Blinn-Phong 模型 小结：</h3><p>把所有的光加起来就是最终结果：</p>
-<p><img src="/images/Games101/08/08.png"></p>
-<p>所以：</p>
-<p><strong>Blinn-Phong 模型</strong> &#x3D; <strong>漫反射模型</strong> + <strong>高光反射&#x2F;镜面反射</strong> + <strong>环境反射</strong></p>
-<h2 id="着色频率"><a href="#着色频率" class="headerlink" title="着色频率"></a>着色频率</h2><h3 id="着色模型"><a href="#着色模型" class="headerlink" title="着色模型"></a>着色模型</h3><blockquote>
-<p>着色频率不同产生不同的效果：</p>
-<p><img src="/images/Games101/08/09.png"></p>
-<hr>
-<p><strong>第一种：对每个三角形的平面进行着色；</strong><br>（求法线）</p>
-<p><img src="/images/Games101/08/10.png"></p>
-<hr>
-<p><strong>第二种：对于每个顶点求一个法线，然后进行着色；</strong></p>
-<p><img src="/images/Games101/08/11.png"></p>
-<hr>
-<p><strong>第三种：对于每个像素我们都去着色；</strong></p>
-<p>（对每个像素都去求一个法线）</p>
-<p><img src="/images/Games101/08/12.png"></p>
-<hr>
-<p>要看情况使用不同的着色频率，当我们的物体的平面比较多的时候（模型足够复杂），这时候我们就可以直接用简单的着色模型了，最终的效果也不会差。</p>
-<p><img src="/images/Games101/08/13.png"></p>
-</blockquote>
-<h3 id="定义一些东西"><a href="#定义一些东西" class="headerlink" title="定义一些东西"></a>定义一些东西</h3><blockquote>
-<p><strong>定义每个顶点的法向量</strong></p>
-<p><img src="/images/Games101/08/14.png"></p>
-<p><strong>顶点的法向量 &#x3D; 相关的面的法向量的加权平均值</strong></p>
-<hr>
-<p><strong>定义每个像素的法向量</strong></p>
-<p><img src="/images/Games101/08/15.png"></p>
-<p><strong>像素的法向量 &#x3D; 顶点法向量平面的重心坐标</strong></p>
-</blockquote>
-<h2 id="图形管线（实时渲染管线）"><a href="#图形管线（实时渲染管线）" class="headerlink" title="图形管线（实时渲染管线）"></a>图形管线（实时渲染管线）</h2><blockquote>
-<p><strong>Graphics (Real-time Rendering) Pipeline</strong></p>
-<p><strong>定义：如何从 一个场景 -&gt; 一张图 的过程</strong></p>
-<p>就是一些列不同的操作：</p>
-<p><img src="/images/Games101/08/16.png"></p>
-<ol start="0">
-<li><strong>3D模型</strong></li>
-<li><strong>顶点处理</strong></li>
-<li><strong>三角形处理</strong></li>
-<li><strong>光栅化</strong></li>
-<li><strong>着色</strong></li>
-<li><strong>输出</strong></li>
-</ol>
-<hr>
-<p>现代GPU允许我们自己定义这些操作，所以也叫做 <strong>可编程渲染管线</strong>（也就是我们讲的<strong>Shader</strong>）</p>
-<p>具体的讲：</p>
-<p>对于一个顶点或者一个像素，我们可以自己编程计算，自己规定这个点或者像素最后显示的颜色；（只用统一写一次，应用于每一个点）</p>
-<p><strong>顶点着色器</strong>：给每个点写一个着色的程序</p>
-<p><strong>像素着色器 &#x2F; 片元着色器</strong>：给每个像素写一个着色的程序 </p>
-<p><img src="/images/Games101/08/17.png"></p>
-<p><img src="/images/Games101/08/18.png"></p>
-</blockquote>
-<h2 id="现代图形学发展"><a href="#现代图形学发展" class="headerlink" title="现代图形学发展"></a>现代图形学发展</h2><p><img src="/images/Games101/08/19.png"></p>
-<h2 id="纹理映射（Texture-Mapping）"><a href="#纹理映射（Texture-Mapping）" class="headerlink" title="纹理映射（Texture Mapping）"></a>纹理映射（Texture Mapping）</h2><blockquote>
-<p><strong>定义一个点的不同属性</strong>，具体讲，对于一个三维空间，我们都可以把它展开成二维平面，从而和图像对于；</p>
-<p><img src="/images/Games101/08/20.png"></p>
-<p>那么现在我们要解决的问题就是，我们如何<strong>将一张图像（纹理）贴到三维的物体</strong>上面？（这个过程就是纹理映射）</p>
-<p><img src="/images/Games101/08/21.png"></p>
-<p>其实问题就是，对于物体上的三角形，我们要怎么映射到纹理上的三角形。</p>
-<p>这个问题比较复杂…这里我们规定已经是映射好了的。</p>
-<p><strong>纹理的坐标</strong>：</p>
-<p><img src="/images/Games101/08/22.png"></p>
-<p><img src="/images/Games101/08/23.png"></p>
-<p>U V 都在 0~1 之内</p>
-</blockquote>
-<hr>
-<p><strong>思考：</strong></p>
+        <h1 id="Lecture-12：Geometry-3"><a href="#Lecture-12：Geometry-3" class="headerlink" title="Lecture 12：Geometry 3"></a>Lecture 12：Geometry 3</h1><h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>这节课主要讲的是 <strong>曲面细分</strong>，<strong>曲面简化</strong> 和 <strong>阴影</strong>；</p>
+<p>这篇文章记录 曲面细分 和 曲面简化，阴影放在下一篇文章；</p>
+<h1 id="曲面细分"><a href="#曲面细分" class="headerlink" title="曲面细分"></a>曲面细分</h1><p>曲面细分一般来说，需要先增加点的数量，然后再调整点的位置。</p>
+<h2 id="Loop细分"><a href="#Loop细分" class="headerlink" title="Loop细分"></a>Loop细分</h2><h3 id="概述-1"><a href="#概述-1" class="headerlink" title="概述"></a>概述</h3><p>整体步骤：</p>
 <ul>
-<li><p>假设我们知道了三角形三个点对应的纹理坐标，我们如何知道三角形内部任意一点的纹理坐标（U V）？</p>
-</li>
-<li><p>在三角形的三个顶点有各自不同的属性，如何在三角形内部做一个平滑的过渡，使得我们能快速知道三角形内部任意一点通过插值之后的属性是多少？（<strong>重心坐标</strong>）</p>
+<li>增加三角形数量；</li>
+<li>改变三角形位置，让模型看上去更加光滑；</li>
+<li><img src="/images/Games101/12/01.png"></li>
+</ul>
+<h3 id="具体算法"><a href="#具体算法" class="headerlink" title="具体算法"></a>具体算法</h3><ul>
+<li>把每个三角形分成4个（这里就会产生新的顶点）</li>
+</ul>
+<p><img src="/images/Games101/12/02.png"></p>
+<ul>
+<li>根据权重分配新的顶点（新顶点和旧顶点的调整方式不同）。<ul>
+<li><strong>更新 新顶点</strong>：周围几个点的加权平均；</li>
+<li><strong>更新 旧顶点</strong>：根据自己原本的位置和自己周围顶点的位置来进行加权平均（n是顶点的度数）</li>
+</ul>
 </li>
 </ul>
+<p><img src="/images/Games101/12/03.png"></p>
+<p><img src="/images/Games101/12/04.png"></p>
+<h3 id="Loop细分结果"><a href="#Loop细分结果" class="headerlink" title="Loop细分结果"></a>Loop细分结果</h3><p><img src="/images/Games101/12/05.png"></p>
+<h2 id="Catmull-Clark细分（General-Mesh）"><a href="#Catmull-Clark细分（General-Mesh）" class="headerlink" title="Catmull-Clark细分（General Mesh）"></a>Catmull-Clark细分（General Mesh）</h2><p>Loop 细分只能解决三角形网格的细分问题，对于一般的情况（一般的网格面）可以采用Catmull-Clark细分。</p>
+<h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><p><strong>非四边形面</strong>（Non-quad face）：顾名思义。<br><strong>奇异点</strong>（Extraordinary vertex）：度数不为 4 的点。</p>
+<p><img src="/images/Games101/12/06.png"></p>
+<h3 id="Catmull-Clark细分算法"><a href="#Catmull-Clark细分算法" class="headerlink" title="Catmull-Clark细分算法"></a>Catmull-Clark细分算法</h3><ul>
+<li><strong>增加新的点</strong><ul>
+<li>取每个面的一个点（比如重心）</li>
+<li>取每个边的中点</li>
+<li>将所有新添加的点做连接</li>
+<li><img src="/images/Games101/12/07.png"></li>
+<li>在一次细分后会引入两个新的奇异点。</li>
+<li>新奇异点的度数为3，其他奇异点的度数不变。</li>
+<li>经过一次细分，所有非四边形面会消失。</li>
+<li>细分之后，每个非四边形面都会变成一个奇异点（以后再细分奇异点和非四边形面都不会发生变化了）。</li>
+<li><img src="/images/Games101/12/08.png"></li>
+</ul>
+</li>
+<li><strong>调整规则</strong><ul>
+<li>对于 <strong>新点</strong>，<strong>面上的点</strong>和<strong>边上的点</strong>位置更新规则如下：</li>
+<li><img src="/images/Games101/12/09.png"></li>
+<li>对于 <strong>旧点</strong>：</li>
+<li><img src="/images/Games101/12/10.png"></li>
+</ul>
+</li>
+</ul>
+<h3 id="Catmull-Clark细分结果"><a href="#Catmull-Clark细分结果" class="headerlink" title="Catmull-Clark细分结果"></a>Catmull-Clark细分结果</h3><p><img src="/images/Games101/12/11.png"></p>
+<h1 id="曲面简化"><a href="#曲面简化" class="headerlink" title="曲面简化"></a>曲面简化</h1><h2 id="概述-2"><a href="#概述-2" class="headerlink" title="概述"></a>概述</h2><p>目标：减少三角形的数量并保留整体的形状。</p>
+<p><img src="/images/Games101/12/12.png"></p>
+<h2 id="做法：边坍缩（Collapsing-An-Edge）"><a href="#做法：边坍缩（Collapsing-An-Edge）" class="headerlink" title="做法：边坍缩（Collapsing An Edge）"></a>做法：边坍缩（Collapsing An Edge）</h2><p><img src="/images/Games101/12/13.png"></p>
+<h2 id="优化：二次误差度量"><a href="#优化：二次误差度量" class="headerlink" title="优化：二次误差度量"></a>优化：二次误差度量</h2><p><strong>二次误差度量（Quadric Error Metrics）</strong></p>
+<ul>
+<li>它用来表示曲面简化带来的误差的大小。</li>
+<li>用局部顶点做平均效果是不好的。</li>
+<li>二次误差：在平面中找一个点，使得这个点与它相关联的面的距离平方和达到最小，将这个点作为新的点；</li>
+</ul>
+<p><img src="/images/Games101/12/14.png"></p>
+<p><strong>做法：</strong></p>
+<ul>
+<li>首先将每条边的二次误差值，作为他们各自的分数；</li>
+<li>首先选一条分数最小的，进行边塌缩；</li>
+<li>此时其他边的分数会变化，所以更新所有边的分数；</li>
+<li>然后继续重复上面的操作；</li>
+</ul>
+<p>（可以用堆来实现，是贪心算法的结果）</p>
+<p><img src="/images/Games101/12/15.png"></p>
 
     </div>
 
@@ -364,7 +332,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://example.com/2024/01/07/games101/Lec%2008/" title="【Games 101】Lec 08：渲染2（阴影 渲染管线 和 纹理映射）">http://example.com/2024/01/07/games101/Lec 08/</a>
+    <a href="http://example.com/2024/01/08/games101/Lec%2012/" title="【Games 101】Lec 12：几何 3">http://example.com/2024/01/08/games101/Lec 12/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
@@ -404,13 +372,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2024/01/07/games101/Lec%2003/" rel="prev" title="【Games 101】Lec 03：变换">
-      <i class="fa fa-chevron-left"></i> 【Games 101】Lec 03：变换
+    <a href="/2024/01/08/games101/Lec%2011/" rel="prev" title="【Games 101】Lec 11：几何 2 （曲线 和 曲面）">
+      <i class="fa fa-chevron-left"></i> 【Games 101】Lec 11：几何 2 （曲线 和 曲面）
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2024/01/08/games101/Lec%2011/" rel="next" title="【Games 101】Lec 11：几何 2 （曲线 和 曲面）">
-      【Games 101】Lec 11：几何 2 （曲线 和 曲面） <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -474,7 +439,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Lecture-8%EF%BC%9AShading-2-Shading-Pipeline-and-Texture-Mapping"><span class="nav-number">1.</span> <span class="nav-text">Lecture 8：Shading 2 (Shading, Pipeline and Texture Mapping)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Blinn-Phong-%E6%A8%A1%E5%9E%8B%E7%9A%84%E5%90%8E%E4%B8%A4%E7%A7%8D"><span class="nav-number">1.1.</span> <span class="nav-text">Blinn-Phong 模型的后两种</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%AB%98%E5%85%89%E5%83%8F%EF%BC%88%E9%AB%98%E5%85%89%E5%8F%8D%E5%B0%84-%E9%95%9C%E9%9D%A2%E5%8F%8D%E5%B0%84%EF%BC%89"><span class="nav-number">1.1.1.</span> <span class="nav-text">高光像（高光反射 &#x2F; 镜面反射）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E5%8F%8D%E5%B0%84%EF%BC%88%E9%97%B4%E6%8E%A5%E5%8F%8D%E5%B0%84%EF%BC%89"><span class="nav-number">1.1.2.</span> <span class="nav-text">环境反射（间接反射）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Blinn-Phong-%E6%A8%A1%E5%9E%8B-%E5%B0%8F%E7%BB%93%EF%BC%9A"><span class="nav-number">1.1.3.</span> <span class="nav-text">Blinn-Phong 模型 小结：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9D%80%E8%89%B2%E9%A2%91%E7%8E%87"><span class="nav-number">1.2.</span> <span class="nav-text">着色频率</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9D%80%E8%89%B2%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.2.1.</span> <span class="nav-text">着色模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89%E4%B8%80%E4%BA%9B%E4%B8%9C%E8%A5%BF"><span class="nav-number">1.2.2.</span> <span class="nav-text">定义一些东西</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%BE%E5%BD%A2%E7%AE%A1%E7%BA%BF%EF%BC%88%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF%EF%BC%89"><span class="nav-number">1.3.</span> <span class="nav-text">图形管线（实时渲染管线）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%8E%B0%E4%BB%A3%E5%9B%BE%E5%BD%A2%E5%AD%A6%E5%8F%91%E5%B1%95"><span class="nav-number">1.4.</span> <span class="nav-text">现代图形学发展</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BA%B9%E7%90%86%E6%98%A0%E5%B0%84%EF%BC%88Texture-Mapping%EF%BC%89"><span class="nav-number">1.5.</span> <span class="nav-text">纹理映射（Texture Mapping）</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Lecture-12%EF%BC%9AGeometry-3"><span class="nav-number">1.</span> <span class="nav-text">Lecture 12：Geometry 3</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">2.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9B%B2%E9%9D%A2%E7%BB%86%E5%88%86"><span class="nav-number">3.</span> <span class="nav-text">曲面细分</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Loop%E7%BB%86%E5%88%86"><span class="nav-number">3.1.</span> <span class="nav-text">Loop细分</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0-1"><span class="nav-number">3.1.1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B7%E4%BD%93%E7%AE%97%E6%B3%95"><span class="nav-number">3.1.2.</span> <span class="nav-text">具体算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Loop%E7%BB%86%E5%88%86%E7%BB%93%E6%9E%9C"><span class="nav-number">3.1.3.</span> <span class="nav-text">Loop细分结果</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Catmull-Clark%E7%BB%86%E5%88%86%EF%BC%88General-Mesh%EF%BC%89"><span class="nav-number">3.2.</span> <span class="nav-text">Catmull-Clark细分（General Mesh）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-number">3.2.1.</span> <span class="nav-text">基本概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Catmull-Clark%E7%BB%86%E5%88%86%E7%AE%97%E6%B3%95"><span class="nav-number">3.2.2.</span> <span class="nav-text">Catmull-Clark细分算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Catmull-Clark%E7%BB%86%E5%88%86%E7%BB%93%E6%9E%9C"><span class="nav-number">3.2.3.</span> <span class="nav-text">Catmull-Clark细分结果</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9B%B2%E9%9D%A2%E7%AE%80%E5%8C%96"><span class="nav-number">4.</span> <span class="nav-text">曲面简化</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0-2"><span class="nav-number">4.1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%81%9A%E6%B3%95%EF%BC%9A%E8%BE%B9%E5%9D%8D%E7%BC%A9%EF%BC%88Collapsing-An-Edge%EF%BC%89"><span class="nav-number">4.2.</span> <span class="nav-text">做法：边坍缩（Collapsing An Edge）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BC%98%E5%8C%96%EF%BC%9A%E4%BA%8C%E6%AC%A1%E8%AF%AF%E5%B7%AE%E5%BA%A6%E9%87%8F"><span class="nav-number">4.3.</span> <span class="nav-text">优化：二次误差度量</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 

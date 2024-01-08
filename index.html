@@ -338,6 +338,145 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/01/08/games101/Lec%2012/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="FJBQ">
+      <meta itemprop="description" content="坚定 坚持 坚强">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FJBQ">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/01/08/games101/Lec%2012/" class="post-title-link" itemprop="url">【Games 101】Lec 12：几何 3</a>
+        </h2>
+
+        <div class="post-meta">
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2024-01-08 23:01:07 / 修改时间：23:33:32" itemprop="dateCreated datePublished" datetime="2024-01-08T23:01:07+08:00">2024-01-08</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">Games 系列</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/Games-101/" itemprop="url" rel="index"><span itemprop="name">Games 101</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Lecture-12：Geometry-3"><a href="#Lecture-12：Geometry-3" class="headerlink" title="Lecture 12：Geometry 3"></a>Lecture 12：Geometry 3</h1><h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>这节课主要讲的是 <strong>曲面细分</strong>，<strong>曲面简化</strong> 和 <strong>阴影</strong>；</p>
+<p>这篇文章记录 曲面细分 和 曲面简化，阴影放在下一篇文章；</p>
+<h1 id="曲面细分"><a href="#曲面细分" class="headerlink" title="曲面细分"></a>曲面细分</h1><p>曲面细分一般来说，需要先增加点的数量，然后再调整点的位置。</p>
+<h2 id="Loop细分"><a href="#Loop细分" class="headerlink" title="Loop细分"></a>Loop细分</h2><h3 id="概述-1"><a href="#概述-1" class="headerlink" title="概述"></a>概述</h3><p>整体步骤：</p>
+<ul>
+<li>增加三角形数量；</li>
+<li>改变三角形位置，让模型看上去更加光滑；</li>
+<li><img src="/images/Games101/12/01.png"></li>
+</ul>
+<h3 id="具体算法"><a href="#具体算法" class="headerlink" title="具体算法"></a>具体算法</h3><ul>
+<li>把每个三角形分成4个（这里就会产生新的顶点）</li>
+</ul>
+<p><img src="/images/Games101/12/02.png"></p>
+<ul>
+<li>根据权重分配新的顶点（新顶点和旧顶点的调整方式不同）。<ul>
+<li><strong>更新 新顶点</strong>：周围几个点的加权平均；</li>
+<li><strong>更新 旧顶点</strong>：根据自己原本的位置和自己周围顶点的位置来进行加权平均（n是顶点的度数）</li>
+</ul>
+</li>
+</ul>
+<p><img src="/images/Games101/12/03.png"></p>
+<p><img src="/images/Games101/12/04.png"></p>
+<h3 id="Loop细分结果"><a href="#Loop细分结果" class="headerlink" title="Loop细分结果"></a>Loop细分结果</h3><p><img src="/images/Games101/12/05.png"></p>
+<h2 id="Catmull-Clark细分（General-Mesh）"><a href="#Catmull-Clark细分（General-Mesh）" class="headerlink" title="Catmull-Clark细分（General Mesh）"></a>Catmull-Clark细分（General Mesh）</h2><p>Loop 细分只能解决三角形网格的细分问题，对于一般的情况（一般的网格面）可以采用Catmull-Clark细分。</p>
+<h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><p><strong>非四边形面</strong>（Non-quad face）：顾名思义。<br><strong>奇异点</strong>（Extraordinary vertex）：度数不为 4 的点。</p>
+<p><img src="/images/Games101/12/06.png"></p>
+<h3 id="Catmull-Clark细分算法"><a href="#Catmull-Clark细分算法" class="headerlink" title="Catmull-Clark细分算法"></a>Catmull-Clark细分算法</h3><ul>
+<li><strong>增加新的点</strong><ul>
+<li>取每个面的一个点（比如重心）</li>
+<li>取每个边的中点</li>
+<li>将所有新添加的点做连接</li>
+<li><img src="/images/Games101/12/07.png"></li>
+<li>在一次细分后会引入两个新的奇异点。</li>
+<li>新奇异点的度数为3，其他奇异点的度数不变。</li>
+<li>经过一次细分，所有非四边形面会消失。</li>
+<li>细分之后，每个非四边形面都会变成一个奇异点（以后再细分奇异点和非四边形面都不会发生变化了）。</li>
+<li><img src="/images/Games101/12/08.png"></li>
+</ul>
+</li>
+<li><strong>调整规则</strong><ul>
+<li>对于 <strong>新点</strong>，<strong>面上的点</strong>和<strong>边上的点</strong>位置更新规则如下：</li>
+<li><img src="/images/Games101/12/09.png"></li>
+<li>对于 <strong>旧点</strong>：</li>
+<li><img src="/images/Games101/12/10.png"></li>
+</ul>
+</li>
+</ul>
+<h3 id="Catmull-Clark细分结果"><a href="#Catmull-Clark细分结果" class="headerlink" title="Catmull-Clark细分结果"></a>Catmull-Clark细分结果</h3><p><img src="/images/Games101/12/11.png"></p>
+<h1 id="曲面简化"><a href="#曲面简化" class="headerlink" title="曲面简化"></a>曲面简化</h1><h2 id="概述-2"><a href="#概述-2" class="headerlink" title="概述"></a>概述</h2><p>目标：减少三角形的数量并保留整体的形状。</p>
+<p><img src="/images/Games101/12/12.png"></p>
+<h2 id="做法：边坍缩（Collapsing-An-Edge）"><a href="#做法：边坍缩（Collapsing-An-Edge）" class="headerlink" title="做法：边坍缩（Collapsing An Edge）"></a>做法：边坍缩（Collapsing An Edge）</h2><p><img src="/images/Games101/12/13.png"></p>
+<h2 id="优化：二次误差度量"><a href="#优化：二次误差度量" class="headerlink" title="优化：二次误差度量"></a>优化：二次误差度量</h2><p><strong>二次误差度量（Quadric Error Metrics）</strong></p>
+<ul>
+<li>它用来表示曲面简化带来的误差的大小。</li>
+<li>用局部顶点做平均效果是不好的。</li>
+<li>二次误差：在平面中找一个点，使得这个点与它相关联的面的距离平方和达到最小，将这个点作为新的点；</li>
+</ul>
+<p><img src="/images/Games101/12/14.png"></p>
+<p><strong>做法：</strong></p>
+<ul>
+<li>首先将每条边的二次误差值，作为他们各自的分数；</li>
+<li>首先选一条分数最小的，进行边塌缩；</li>
+<li>此时其他边的分数会变化，所以更新所有边的分数；</li>
+<li>然后继续重复上面的操作；</li>
+</ul>
+<p>（可以用堆来实现，是贪心算法的结果）</p>
+<p><img src="/images/Games101/12/15.png"></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2024/01/08/games101/Lec%2011/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1660,131 +1799,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2024/01/07/games101/Lec%2002/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="FJBQ">
-      <meta itemprop="description" content="坚定 坚持 坚强">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="FJBQ">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2024/01/07/games101/Lec%2002/" class="post-title-link" itemprop="url">【Games 101】Lec 02：回顾线性代数</a>
-        </h2>
-
-        <div class="post-meta">
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2024-01-07 22:28:26 / 修改时间：22:35:28" itemprop="dateCreated datePublished" datetime="2024-01-07T22:28:26+08:00">2024-01-07</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">Games 系列</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/Games-101/" itemprop="url" rel="index"><span itemprop="name">Games 101</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="Lecture-02-Review-of-Linear-Algebra"><a href="#Lecture-02-Review-of-Linear-Algebra" class="headerlink" title="Lecture 02: Review of Linear Algebra"></a>Lecture 02: Review of Linear Algebra</h1><h2 id="向量"><a href="#向量" class="headerlink" title="向量"></a>向量</h2><h3 id="向量的模："><a href="#向量的模：" class="headerlink" title="向量的模："></a>向量的模：</h3><ul>
-<li>作用：一般可以用来将一个向量变成一个<strong>单位向量</strong></li>
-</ul>
-<h3 id="单位向量："><a href="#单位向量：" class="headerlink" title="单位向量："></a>单位向量：</h3><ul>
-<li>作用：一般用于判断一个向量的<strong>方向</strong></li>
-</ul>
-<h3 id="向量点乘："><a href="#向量点乘：" class="headerlink" title="向量点乘："></a>向量点乘：</h3><p><img src="/images/Games101/02/01.png"></p>
-<p><img src="/images/Games101/02/02.png"></p>
-<p><img src="/images/Games101/02/03.png"></p>
-<p><img src="/images/Games101/02/04.png"></p>
-<p><strong>作用：</strong></p>
-<ul>
-<li><strong>计算</strong>两个向量之间的<strong>夹角</strong>（如果两个向量是单位向量的话很方便）</li>
-<li><strong>求</strong>出一个向量在另一个向量的<strong>投影</strong>（投影有什么用？可以用于分解原来的向量）</li>
-<li>点乘可以告诉我们<strong>两个向量间的大体方向</strong>：<ul>
-<li>点乘结果 &gt; 0，则说明是 forward</li>
-<li>点乘结果 &lt; 0，则说明是 backward</li>
-<li>点乘结果 &#x3D; 0，则说明是 垂直</li>
-</ul>
-</li>
-<li>点乘还可以告诉我们<strong>两个向量有多接近</strong>：点乘结果（从进到远）：1 -&gt; 0 -&gt; -1</li>
-</ul>
-<h3 id="向量叉乘："><a href="#向量叉乘：" class="headerlink" title="向量叉乘："></a>向量叉乘：</h3><p><img src="/images/Games101/02/05.png"></p>
-<p><img src="/images/Games101/02/06.png"></p>
-<p><strong>作用：</strong></p>
-<ul>
-<li>用于定义三维空间中的坐标系；</li>
-<li><strong>判断 左 右</strong>：<ul>
-<li>规定向外z为正，如果 axb 得到结果为正，则说明b在a左边；</li>
-</ul>
-</li>
-<li><strong>判断 内 外</strong>：<ul>
-<li>依次看 ab x ap，bc x ap，ca x ap 的结果；</li>
-<li>如果 <strong>都是&gt;0</strong>（p都在三条边的左边）或者 <strong>都是&lt;0</strong>（p都在三条边的右边），则说明 p 在三角形内部；</li>
-</ul>
-</li>
-</ul>
-<p><img src="/images/Games101/02/07.png"></p>
-<h2 id="矩阵"><a href="#矩阵" class="headerlink" title="矩阵"></a>矩阵</h2><p><strong>作用：</strong>就是用来做一些 <strong>空间变换</strong></p>
-<h3 id="矩阵相乘"><a href="#矩阵相乘" class="headerlink" title="矩阵相乘"></a>矩阵相乘</h3><p>前提是内标相同；</p>
-<p>没有交换律，但是有分配律和结合律；</p>
-<p><img src="/images/Games101/02/08.png"></p>
-<h3 id="矩阵-乘-向量"><a href="#矩阵-乘-向量" class="headerlink" title="矩阵 乘 向量"></a>矩阵 乘 向量</h3><p>用于变换：比如对于一个向量，我们要让他关于y轴对称，那么我们要让这个向量乘什么矩阵呢？</p>
-<p><img src="/images/Games101/02/09.png"></p>
-<h3 id="转置"><a href="#转置" class="headerlink" title="转置"></a>转置</h3><p>转置：每个元素的行列交换</p>
-<p><img src="/images/Games101/02/10.png"></p>
-<h3 id="单位矩阵"><a href="#单位矩阵" class="headerlink" title="单位矩阵"></a>单位矩阵</h3><p>对角线都是1，其他都是0；</p>
-<p>作用：</p>
-<ul>
-<li>用于求 矩阵的逆</li>
-</ul>
-<p><img src="/images/Games101/02/11.png"></p>
-<h3 id="向量相乘-和-矩阵相乘-的关系"><a href="#向量相乘-和-矩阵相乘-的关系" class="headerlink" title="向量相乘 和 矩阵相乘 的关系"></a>向量相乘 和 矩阵相乘 的关系</h3><p><img src="/images/Games101/02/12.png"></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1856,7 +1870,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">21</span>
+          <span class="site-state-item-count">22</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1907,7 +1921,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共24.5k字</span>
+  <span class="post-count">博客全站共25.1k字</span>
 </div>
 
 

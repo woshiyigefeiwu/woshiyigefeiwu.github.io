@@ -9,8 +9,38 @@
     <atom:link href="http://example.com/rss2.xml" rel="self" type="application/rss+xml"/>
     
     <description>坚定 坚持 坚强</description>
-    <pubDate>Mon, 08 Jan 2024 14:23:12 GMT</pubDate>
+    <pubDate>Mon, 08 Jan 2024 15:33:32 GMT</pubDate>
     <generator>http://hexo.io/</generator>
+    
+    <item>
+      <title>【Games 101】Lec 12：几何 3</title>
+      <link>http://example.com/2024/01/08/games101/Lec%2012/</link>
+      <guid>http://example.com/2024/01/08/games101/Lec%2012/</guid>
+      <pubDate>Mon, 08 Jan 2024 15:01:07 GMT</pubDate>
+      
+        
+        
+      <description>&lt;h1 id=&quot;Lecture-12：Geometry-3&quot;&gt;&lt;a href=&quot;#Lecture-12：Geometry-3&quot; class=&quot;headerlink&quot; title=&quot;Lecture 12：Geometry 3&quot;&gt;&lt;/a&gt;Lecture 12：Geometry 3&lt;/</description>
+        
+      
+      
+      
+      <content:encoded><![CDATA[<h1 id="Lecture-12：Geometry-3"><a href="#Lecture-12：Geometry-3" class="headerlink" title="Lecture 12：Geometry 3"></a>Lecture 12：Geometry 3</h1><h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>这节课主要讲的是 <strong>曲面细分</strong>，<strong>曲面简化</strong> 和 <strong>阴影</strong>；</p><p>这篇文章记录 曲面细分 和 曲面简化，阴影放在下一篇文章；</p><h1 id="曲面细分"><a href="#曲面细分" class="headerlink" title="曲面细分"></a>曲面细分</h1><p>曲面细分一般来说，需要先增加点的数量，然后再调整点的位置。</p><h2 id="Loop细分"><a href="#Loop细分" class="headerlink" title="Loop细分"></a>Loop细分</h2><h3 id="概述-1"><a href="#概述-1" class="headerlink" title="概述"></a>概述</h3><p>整体步骤：</p><ul><li>增加三角形数量；</li><li>改变三角形位置，让模型看上去更加光滑；</li><li><img src="/images/Games101/12/01.png"></li></ul><h3 id="具体算法"><a href="#具体算法" class="headerlink" title="具体算法"></a>具体算法</h3><ul><li>把每个三角形分成4个（这里就会产生新的顶点）</li></ul><p><img src="/images/Games101/12/02.png"></p><ul><li>根据权重分配新的顶点（新顶点和旧顶点的调整方式不同）。<ul><li><strong>更新 新顶点</strong>：周围几个点的加权平均；</li><li><strong>更新 旧顶点</strong>：根据自己原本的位置和自己周围顶点的位置来进行加权平均（n是顶点的度数）</li></ul></li></ul><p><img src="/images/Games101/12/03.png"></p><p><img src="/images/Games101/12/04.png"></p><h3 id="Loop细分结果"><a href="#Loop细分结果" class="headerlink" title="Loop细分结果"></a>Loop细分结果</h3><p><img src="/images/Games101/12/05.png"></p><h2 id="Catmull-Clark细分（General-Mesh）"><a href="#Catmull-Clark细分（General-Mesh）" class="headerlink" title="Catmull-Clark细分（General Mesh）"></a>Catmull-Clark细分（General Mesh）</h2><p>Loop 细分只能解决三角形网格的细分问题，对于一般的情况（一般的网格面）可以采用Catmull-Clark细分。</p><h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><p><strong>非四边形面</strong>（Non-quad face）：顾名思义。<br><strong>奇异点</strong>（Extraordinary vertex）：度数不为 4 的点。</p><p><img src="/images/Games101/12/06.png"></p><h3 id="Catmull-Clark细分算法"><a href="#Catmull-Clark细分算法" class="headerlink" title="Catmull-Clark细分算法"></a>Catmull-Clark细分算法</h3><ul><li><strong>增加新的点</strong><ul><li>取每个面的一个点（比如重心）</li><li>取每个边的中点</li><li>将所有新添加的点做连接</li><li><img src="/images/Games101/12/07.png"></li><li>在一次细分后会引入两个新的奇异点。</li><li>新奇异点的度数为3，其他奇异点的度数不变。</li><li>经过一次细分，所有非四边形面会消失。</li><li>细分之后，每个非四边形面都会变成一个奇异点（以后再细分奇异点和非四边形面都不会发生变化了）。</li><li><img src="/images/Games101/12/08.png"></li></ul></li><li><strong>调整规则</strong><ul><li>对于 <strong>新点</strong>，<strong>面上的点</strong>和<strong>边上的点</strong>位置更新规则如下：</li><li><img src="/images/Games101/12/09.png"></li><li>对于 <strong>旧点</strong>：</li><li><img src="/images/Games101/12/10.png"></li></ul></li></ul><h3 id="Catmull-Clark细分结果"><a href="#Catmull-Clark细分结果" class="headerlink" title="Catmull-Clark细分结果"></a>Catmull-Clark细分结果</h3><p><img src="/images/Games101/12/11.png"></p><h1 id="曲面简化"><a href="#曲面简化" class="headerlink" title="曲面简化"></a>曲面简化</h1><h2 id="概述-2"><a href="#概述-2" class="headerlink" title="概述"></a>概述</h2><p>目标：减少三角形的数量并保留整体的形状。</p><p><img src="/images/Games101/12/12.png"></p><h2 id="做法：边坍缩（Collapsing-An-Edge）"><a href="#做法：边坍缩（Collapsing-An-Edge）" class="headerlink" title="做法：边坍缩（Collapsing An Edge）"></a>做法：边坍缩（Collapsing An Edge）</h2><p><img src="/images/Games101/12/13.png"></p><h2 id="优化：二次误差度量"><a href="#优化：二次误差度量" class="headerlink" title="优化：二次误差度量"></a>优化：二次误差度量</h2><p><strong>二次误差度量（Quadric Error Metrics）</strong></p><ul><li>它用来表示曲面简化带来的误差的大小。</li><li>用局部顶点做平均效果是不好的。</li><li>二次误差：在平面中找一个点，使得这个点与它相关联的面的距离平方和达到最小，将这个点作为新的点；</li></ul><p><img src="/images/Games101/12/14.png"></p><p><strong>做法：</strong></p><ul><li>首先将每条边的二次误差值，作为他们各自的分数；</li><li>首先选一条分数最小的，进行边塌缩；</li><li>此时其他边的分数会变化，所以更新所有边的分数；</li><li>然后继续重复上面的操作；</li></ul><p>（可以用堆来实现，是贪心算法的结果）</p><p><img src="/images/Games101/12/15.png"></p>]]></content:encoded>
+      
+      
+      <category domain="http://example.com/categories/Games-%E7%B3%BB%E5%88%97/">Games 系列</category>
+      
+      <category domain="http://example.com/categories/Games-%E7%B3%BB%E5%88%97/Games-101/">Games 101</category>
+      
+      
+      <category domain="http://example.com/tags/Games-%E7%B3%BB%E5%88%97/">Games 系列</category>
+      
+      <category domain="http://example.com/tags/Games-101/">Games 101</category>
+      
+      
+      <comments>http://example.com/2024/01/08/games101/Lec%2012/#disqus_thread</comments>
+      
+    </item>
     
     <item>
       <title>【Games 101】Lec 11：几何 2 （曲线 和 曲面）</title>
@@ -279,36 +309,6 @@
       
       
       <comments>http://example.com/2024/01/07/games101/Lec%2002/#disqus_thread</comments>
-      
-    </item>
-    
-    <item>
-      <title>【Games 101】Lec 01：计算机图形学概述</title>
-      <link>http://example.com/2024/01/07/games101/Lec%2001/</link>
-      <guid>http://example.com/2024/01/07/games101/Lec%2001/</guid>
-      <pubDate>Sun, 07 Jan 2024 14:28:12 GMT</pubDate>
-      
-        
-        
-      <description>&lt;h1 id=&quot;Lecture-01-Overview-of-Computer-Graphics&quot;&gt;&lt;a href=&quot;#Lecture-01-Overview-of-Computer-Graphics&quot; class=&quot;headerlink&quot; title=&quot;Lecture 01: </description>
-        
-      
-      
-      
-      <content:encoded><![CDATA[<h1 id="Lecture-01-Overview-of-Computer-Graphics"><a href="#Lecture-01-Overview-of-Computer-Graphics" class="headerlink" title="Lecture 01: Overview of Computer Graphics"></a>Lecture 01: Overview of Computer Graphics</h1><p>计算机图形学下关于“实时”的定义：&gt;30fps，&lt;30fps称为离线</p><p><img src="/images/Games101/01/01.png"></p><p>model：真实模型<br>image：图像</p><p><strong>计算机图形学（渲染）：</strong></p><ul><li>（model） -&gt; （image）</li><li>（model） -&gt; （model）</li></ul><p><strong>计算机视觉：</strong></p><ul><li>（image）-&gt;（model）</li><li>（image）-&gt;（image）</li></ul>]]></content:encoded>
-      
-      
-      <category domain="http://example.com/categories/Games-%E7%B3%BB%E5%88%97/">Games 系列</category>
-      
-      <category domain="http://example.com/categories/Games-%E7%B3%BB%E5%88%97/Games-101/">Games 101</category>
-      
-      
-      <category domain="http://example.com/tags/Games-%E7%B3%BB%E5%88%97/">Games 系列</category>
-      
-      <category domain="http://example.com/tags/Games-101/">Games 101</category>
-      
-      
-      <comments>http://example.com/2024/01/07/games101/Lec%2001/#disqus_thread</comments>
       
     </item>
     
