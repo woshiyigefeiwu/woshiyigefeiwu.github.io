@@ -9,8 +9,38 @@
     <atom:link href="http://example.com/rss2.xml" rel="self" type="application/rss+xml"/>
     
     <description>坚定 坚持 坚强</description>
-    <pubDate>Sun, 07 Jan 2024 14:43:45 GMT</pubDate>
+    <pubDate>Mon, 08 Jan 2024 14:23:12 GMT</pubDate>
     <generator>http://hexo.io/</generator>
+    
+    <item>
+      <title>【Games 101】Lec 11：几何 2 （曲线 和 曲面）</title>
+      <link>http://example.com/2024/01/08/games101/Lec%2011/</link>
+      <guid>http://example.com/2024/01/08/games101/Lec%2011/</guid>
+      <pubDate>Mon, 08 Jan 2024 13:42:58 GMT</pubDate>
+      
+        
+        
+      <description>&lt;h1 id=&quot;Lecture-11：Geometry-2-Curves-and-Surfaces&quot;&gt;&lt;a href=&quot;#Lecture-11：Geometry-2-Curves-and-Surfaces&quot; class=&quot;headerlink&quot; title=&quot;Lecture 11</description>
+        
+      
+      
+      
+      <content:encoded><![CDATA[<h1 id="Lecture-11：Geometry-2-Curves-and-Surfaces"><a href="#Lecture-11：Geometry-2-Curves-and-Surfaces" class="headerlink" title="Lecture 11：Geometry 2 (Curves and Surfaces)"></a>Lecture 11：Geometry 2 (Curves and Surfaces)</h1><h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>这节课主要讲了几何中的 曲线 和 曲面；</p><p>前面一段是在讲几何的显示表示，放在放一篇文章了；</p><h1 id="贝塞尔曲线"><a href="#贝塞尔曲线" class="headerlink" title="贝塞尔曲线"></a>贝塞尔曲线</h1><h2 id="概述-1"><a href="#概述-1" class="headerlink" title="概述"></a>概述</h2><p>用一系列的控制点来定义某一条曲线。这些控制点使用切线来定义贝塞尔曲线。</p><p><img src="/images/Games101/11/01.png"></p><p>看上图，注意曲线起始方向沿着P0 P1，结束方向沿着P2 P3；</p><p> （不要求曲线经过控制点，但一定要经过起止点 和 极值点（控制点关于时间插值出来的点））</p><h2 id="计算贝塞尔曲线——de-Casteljau-算法"><a href="#计算贝塞尔曲线——de-Casteljau-算法" class="headerlink" title="计算贝塞尔曲线——de Casteljau 算法"></a>计算贝塞尔曲线——de Casteljau 算法</h2><p>首先我们<strong>把整个曲线映射到 [0，1] 的时间轴上</strong>；</p><p><strong>曲线上的每个点都是关于时间 t（0，1 之间）的插值的结果</strong>；</p><p>这也是为什么贝塞尔曲线是<strong>显示</strong>的表示（做了映射）；</p><p>下面看看是如何具体做映射的：</p><ul><li>给定三个控制点生成的贝塞尔曲线称为二次贝塞尔曲线（quadratic Bezier）。</li></ul><p><img src="/images/Games101/11/02.png"></p><ul><li>使用线性插值插入一个点（假设起点是时间0，终点是时间1），假设当前这个点对应时间轴的上 t ，按时间轴的比例，标记出一个线段上的插值点 b01;</li></ul><p><img src="/images/Games101/11/03.png"></p><ul><li>对于每个第一层（原始的）线段都做一下插值，变成：</li></ul><p><img src="/images/Games101/11/04.png"></p><ul><li>然后继续，同理，对于第二层的线段也同样操作，直至剩下一个点；</li></ul><p><img src="/images/Games101/11/05.png"></p><ul><li>这样我们只是得到了一个 t 的插值后的点，我们对 [0, 1] 所有的 t 都进行插值，最终就能得到这个曲线；</li></ul><p><img src="/images/Games101/11/06.png"></p><h2 id="贝塞尔曲线代数公式"><a href="#贝塞尔曲线代数公式" class="headerlink" title="贝塞尔曲线代数公式"></a>贝塞尔曲线代数公式</h2><p><strong>推导：</strong></p><p><img src="/images/Games101/11/07.png"></p><p>如果有n+1个控制点（从0开始编号），可以得到n阶的贝塞尔曲线。</p><p><img src="/images/Games101/11/08.png"></p><p><strong>Bernstein 多项式：</strong></p><p><img src="/images/Games101/11/09.png"></p><p>例如，当 n&#x3D;3 时，公式为：</p><p><img src="/images/Games101/11/10.png"></p><h2 id="贝塞尔曲线的性质"><a href="#贝塞尔曲线的性质" class="headerlink" title="贝塞尔曲线的性质"></a>贝塞尔曲线的性质</h2><p><img src="/images/Games101/11/11.png"></p><h1 id="逐段（Piecewise）贝塞尔曲线"><a href="#逐段（Piecewise）贝塞尔曲线" class="headerlink" title="逐段（Piecewise）贝塞尔曲线"></a>逐段（Piecewise）贝塞尔曲线</h1><h2 id="概述-2"><a href="#概述-2" class="headerlink" title="概述"></a>概述</h2><p>由于当控制点太多，曲线难以被控制点控制。</p><p>所以<strong>逐段</strong>定义贝塞尔曲线（一般用<strong>四个控制点</strong>）。</p><p><img src="/images/Games101/11/12.png"></p><p>如果要让不同的分段之间光滑过渡，只需要在<strong>切线上连续</strong>（<strong>方向</strong>和<strong>大小</strong>上）。</p><h2 id="分段贝塞尔曲线的连续性"><a href="#分段贝塞尔曲线的连续性" class="headerlink" title="分段贝塞尔曲线的连续性"></a>分段贝塞尔曲线的连续性</h2><p><img src="/images/Games101/11/13.png"></p><h1 id="其他类型的曲线"><a href="#其他类型的曲线" class="headerlink" title="其他类型的曲线"></a>其他类型的曲线</h1><h2 id="样条-Spline"><a href="#样条-Spline" class="headerlink" title="样条 Spline"></a>样条 Spline</h2><p>一个连续的曲线是由一系列控制点控制点，在任意一个地方可以满足一定的连续性。</p><p>简单来说就是一个可控的曲线。</p><h2 id="B样条-B-Splines"><a href="#B样条-B-Splines" class="headerlink" title="B样条 B-Splines"></a>B样条 B-Splines</h2><ul><li>贝塞尔曲线的扩展（具有局部性，容易控制），就是基函数（basis）样条。</li><li>比贝塞尔曲线需要更多的信息。</li><li>满足贝塞尔曲线的所有性质。</li><li>难</li></ul><h1 id="（贝塞尔）曲面"><a href="#（贝塞尔）曲面" class="headerlink" title="（贝塞尔）曲面"></a>（贝塞尔）曲面</h1><h2 id="概述-3"><a href="#概述-3" class="headerlink" title="概述"></a>概述</h2><p>把贝塞尔曲线的概念延申到平面上。</p><p><img src="/images/Games101/11/14.png"></p><p>回顾一下，每段贝塞尔曲线是4个点的线性插值的结果；</p><p>所以，每一片贝塞尔曲面是16控制点，两次线性插值的结果：</p><p>第一次先 4 组（每组四个）进行一次线性插值，得到四条贝塞尔曲线，然后对于四条曲线，我们再插值一次，得到曲面：</p><p><img src="/images/Games101/11/15.png"></p><p>规范的讲：</p><p>输入：<strong>4*4 控制点</strong></p><p>输出：<strong>一个在 [0,1] ^2 内的 (u,v) 参数化的二维曲面</strong></p><p>反过来讲，<strong>给一个 贝塞尔曲面上参数化后的 (u,v)，我们就能知道 (u,v) 对应的是曲面上的哪个点。</strong></p>]]></content:encoded>
+      
+      
+      <category domain="http://example.com/categories/Games-%E7%B3%BB%E5%88%97/">Games 系列</category>
+      
+      <category domain="http://example.com/categories/Games-%E7%B3%BB%E5%88%97/Games-101/">Games 101</category>
+      
+      
+      <category domain="http://example.com/tags/Games-%E7%B3%BB%E5%88%97/">Games 系列</category>
+      
+      <category domain="http://example.com/tags/Games-101/">Games 101</category>
+      
+      
+      <comments>http://example.com/2024/01/08/games101/Lec%2011/#disqus_thread</comments>
+      
+    </item>
     
     <item>
       <title>【Games 101】Lec 08：渲染2（阴影 渲染管线 和 纹理映射）</title>
@@ -279,36 +309,6 @@
       
       
       <comments>http://example.com/2024/01/07/games101/Lec%2001/#disqus_thread</comments>
-      
-    </item>
-    
-    <item>
-      <title>【Games 101】Lec 10：几何 1 （入门）</title>
-      <link>http://example.com/2024/01/07/games101/Lec%2010/</link>
-      <guid>http://example.com/2024/01/07/games101/Lec%2010/</guid>
-      <pubDate>Sun, 07 Jan 2024 10:15:11 GMT</pubDate>
-      
-        
-        
-      <description>&lt;h1 id=&quot;Lecture-10：Geometry-1-Introduction&quot;&gt;&lt;a href=&quot;#Lecture-10：Geometry-1-Introduction&quot; class=&quot;headerlink&quot; title=&quot;Lecture 10：Geometry 1 (I</description>
-        
-      
-      
-      
-      <content:encoded><![CDATA[<h1 id="Lecture-10：Geometry-1-Introduction"><a href="#Lecture-10：Geometry-1-Introduction" class="headerlink" title="Lecture 10：Geometry 1 (Introduction)"></a>Lecture 10：Geometry 1 (Introduction)</h1><p>这节课主要讲：</p><ul><li>纹理的应用（放在上一篇文章了）</li><li>几何的表示方法</li></ul><h2 id="几何的表示方法"><a href="#几何的表示方法" class="headerlink" title="几何的表示方法"></a>几何的表示方法</h2><ul><li><strong>隐式</strong>的几何表示</li><li><strong>显示</strong>的几何表示</li></ul><h3 id="隐式的几何表示（Implicit）"><a href="#隐式的几何表示（Implicit）" class="headerlink" title="隐式的几何表示（Implicit）"></a>隐式的几何表示（Implicit）</h3><h4 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h4><p>简单的讲就是，在空间中找到满足特定关系的点，用坐标公式表达一下；</p><p><img src="/images/Games101/10/01.png"></p><p><strong>优点：</strong></p><ul><li>很容易判断点是否在面上。（将点代入f(x,y,z)，正数表示点在图形外，负数表示点在图形内，0表示点在图形上。）</li><li>表述起来很容易（对存储很有利）。</li><li>容易做面与光线求交。</li><li>容易描述和处理拓扑结构。</li></ul><p><strong>缺点：</strong></p><ul><li>不好描述复杂的形状；</li><li>不好知道这个面上有哪些点；</li><li>很难从式子中看出表示的是什么形状。</li></ul><p><strong>分类：</strong></p><ul><li><strong>构造立体几何 CSG（Constructive Solid Geometry）（Implict）</strong></li><li><strong>距离函数 Distance Function（Implict）</strong></li><li><strong>水平集 Level Set Methods(Implict)</strong></li><li><strong>分形 Fractals(Implict)</strong></li></ul><h4 id="构造立体几何-CSG（Constructive-Solid-Geometry）"><a href="#构造立体几何-CSG（Constructive-Solid-Geometry）" class="headerlink" title="构造立体几何 CSG（Constructive Solid Geometry）"></a>构造立体几何 CSG（Constructive Solid Geometry）</h4><p>通过一系列基本几何的基本布尔运算来定义新的几何。</p><p><img src="/images/Games101/10/02.png"></p><h4 id="距离函数-Distance-Function"><a href="#距离函数-Distance-Function" class="headerlink" title="距离函数 Distance Function"></a>距离函数 Distance Function</h4><p>给出任何一个位置到物体的最短距离。对一个点不描述表面，而是描述点到表面的最近距离。</p><p>把两个物体的距离函数都算出来然后把两个距离函数做融合（blending）</p><p>这个挺妙的；</p><p><img src="/images/Games101/10/03.png"></p><p>比如：混合一个移动的边界</p><p><img src="/images/Games101/10/04.png"></p><p>通过blend两个SDF可以得到移动后的边界。</p><p>分别求出两个物体对应的距离函数， 然后把他们blend起来，然后恢复成原本的面（找出SDF 的值为0的位置）</p><h4 id="水平集-Level-Set-Methods"><a href="#水平集-Level-Set-Methods" class="headerlink" title="水平集 Level Set Methods"></a>水平集 Level Set Methods</h4><p>封闭形式的方程很难描述复杂的形状，所以选择一种替代方案：</p><p><strong>存储一个值近似函数的网格（可以是二维的也可以是三维的）</strong></p><p>通过找到插值为0的位置来找到表面，它具有一个对形状更加显示的控制。</p><p><img src="/images/Games101/10/05.png"></p><p><strong>eg：</strong>如果有一个三维的纹理表示人体不同位置的骨密度，可以让密度函数&#x3D;某个具体的值，然后找到所有满足这个等式的位置，就可以得到一个表面。</p><p><img src="/images/Games101/10/06.png"></p><h4 id="分形-Fractals"><a href="#分形-Fractals" class="headerlink" title="分形 Fractals"></a>分形 Fractals</h4><p>局部和整体相似，一直递归；</p><p>eg：雪花，西兰花等；</p><p>这些类型的几何在渲染时会造成强烈的走样。</p><p><img src="/images/Games101/10/07.png"></p><h3 id="显示的几何表示（Explicit）"><a href="#显示的几何表示（Explicit）" class="headerlink" title="显示的几何表示（Explicit）"></a>显示的几何表示（Explicit）</h3><h4 id="概述-1"><a href="#概述-1" class="headerlink" title="概述"></a>概述</h4><p>所有的点直接给出，或通过参数映射定义表面。</p><p><img src="/images/Games101/10/08.png"></p><p><strong>优点：</strong>对于表示形状很容易。</p><p><strong>缺点：</strong>不好判断点是否在表面上（或内、外）。</p><p><strong>分类：</strong></p><ul><li><strong>点云 （Point Cloud）</strong></li><li><strong>多边形网格（Polygon Mesh）</strong></li></ul><h4 id="点云（Point-Cloud）"><a href="#点云（Point-Cloud）" class="headerlink" title="点云（Point Cloud）"></a>点云（Point Cloud）</h4><ul><li>简单的表示为点的列表(x,y,z)</li><li>可以简单的表示任何一种几何图形</li><li>对于表示大数据集是很有用的（&gt;&gt;1 point&#x2F;pixel）</li><li>经常被转换成多边形网格</li><li>难以在采样不足的区域画出来</li></ul><p><img src="/images/Games101/10/09.png"></p><h4 id="多边形网格（Polygon-Mesh）"><a href="#多边形网格（Polygon-Mesh）" class="headerlink" title="多边形网格（Polygon Mesh）"></a>多边形网格（Polygon Mesh）</h4><ul><li>存储点和多边形（通常是三角形或四边形）</li><li>容易去处理&#x2F;模拟，进行自适应采样</li><li>数据结构比较复杂</li><li>图形学中最常用的表示</li></ul><p><img src="/images/Games101/10/10.png"></p><p><strong>表示方式：The Wavefront Object File（.obj）格式</strong></p><p>它是一个文本文件，由指定的顶点、法线、纹理坐标和它们的连接组成。</p><p>如下图表示了一个立方体：</p><p>v是顶点坐标</p><p>vn是法线（多了两条是因为建模误差）</p><p>vt是纹理坐标</p><p>f(face)表示面，比如f 5&#x2F;1&#x2F;1 1&#x2F;2&#x2F;1 4&#x2F;3&#x2F;1 表示这个三角形面是由第5、1、4个顶点组成的，三个点的纹理坐标是第1、2、3对应的纹理坐标，这个面的法线是第一条法线。</p><p><img src="/images/Games101/10/11.png"></p>]]></content:encoded>
-      
-      
-      <category domain="http://example.com/categories/Games-%E7%B3%BB%E5%88%97/">Games 系列</category>
-      
-      <category domain="http://example.com/categories/Games-%E7%B3%BB%E5%88%97/Games-101/">Games 101</category>
-      
-      
-      <category domain="http://example.com/tags/Games-%E7%B3%BB%E5%88%97/">Games 系列</category>
-      
-      <category domain="http://example.com/tags/Games-101/">Games 101</category>
-      
-      
-      <comments>http://example.com/2024/01/07/games101/Lec%2010/#disqus_thread</comments>
       
     </item>
     

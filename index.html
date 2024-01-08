@@ -338,6 +338,140 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/01/08/games101/Lec%2011/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="FJBQ">
+      <meta itemprop="description" content="坚定 坚持 坚强">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FJBQ">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/01/08/games101/Lec%2011/" class="post-title-link" itemprop="url">【Games 101】Lec 11：几何 2 （曲线 和 曲面）</a>
+        </h2>
+
+        <div class="post-meta">
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2024-01-08 21:42:58 / 修改时间：22:23:12" itemprop="dateCreated datePublished" datetime="2024-01-08T21:42:58+08:00">2024-01-08</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">Games 系列</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/Games-101/" itemprop="url" rel="index"><span itemprop="name">Games 101</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Lecture-11：Geometry-2-Curves-and-Surfaces"><a href="#Lecture-11：Geometry-2-Curves-and-Surfaces" class="headerlink" title="Lecture 11：Geometry 2 (Curves and Surfaces)"></a>Lecture 11：Geometry 2 (Curves and Surfaces)</h1><h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>这节课主要讲了几何中的 曲线 和 曲面；</p>
+<p>前面一段是在讲几何的显示表示，放在放一篇文章了；</p>
+<h1 id="贝塞尔曲线"><a href="#贝塞尔曲线" class="headerlink" title="贝塞尔曲线"></a>贝塞尔曲线</h1><h2 id="概述-1"><a href="#概述-1" class="headerlink" title="概述"></a>概述</h2><p>用一系列的控制点来定义某一条曲线。这些控制点使用切线来定义贝塞尔曲线。</p>
+<p><img src="/images/Games101/11/01.png"></p>
+<p>看上图，注意曲线起始方向沿着P0 P1，结束方向沿着P2 P3；</p>
+<p> （不要求曲线经过控制点，但一定要经过起止点 和 极值点（控制点关于时间插值出来的点））</p>
+<h2 id="计算贝塞尔曲线——de-Casteljau-算法"><a href="#计算贝塞尔曲线——de-Casteljau-算法" class="headerlink" title="计算贝塞尔曲线——de Casteljau 算法"></a>计算贝塞尔曲线——de Casteljau 算法</h2><p>首先我们<strong>把整个曲线映射到 [0，1] 的时间轴上</strong>；</p>
+<p><strong>曲线上的每个点都是关于时间 t（0，1 之间）的插值的结果</strong>；</p>
+<p>这也是为什么贝塞尔曲线是<strong>显示</strong>的表示（做了映射）；</p>
+<p>下面看看是如何具体做映射的：</p>
+<ul>
+<li>给定三个控制点生成的贝塞尔曲线称为二次贝塞尔曲线（quadratic Bezier）。</li>
+</ul>
+<p><img src="/images/Games101/11/02.png"></p>
+<ul>
+<li>使用线性插值插入一个点（假设起点是时间0，终点是时间1），假设当前这个点对应时间轴的上 t ，按时间轴的比例，标记出一个线段上的插值点 b01;</li>
+</ul>
+<p><img src="/images/Games101/11/03.png"></p>
+<ul>
+<li>对于每个第一层（原始的）线段都做一下插值，变成：</li>
+</ul>
+<p><img src="/images/Games101/11/04.png"></p>
+<ul>
+<li>然后继续，同理，对于第二层的线段也同样操作，直至剩下一个点；</li>
+</ul>
+<p><img src="/images/Games101/11/05.png"></p>
+<ul>
+<li>这样我们只是得到了一个 t 的插值后的点，我们对 [0, 1] 所有的 t 都进行插值，最终就能得到这个曲线；</li>
+</ul>
+<p><img src="/images/Games101/11/06.png"></p>
+<h2 id="贝塞尔曲线代数公式"><a href="#贝塞尔曲线代数公式" class="headerlink" title="贝塞尔曲线代数公式"></a>贝塞尔曲线代数公式</h2><p><strong>推导：</strong></p>
+<p><img src="/images/Games101/11/07.png"></p>
+<p>如果有n+1个控制点（从0开始编号），可以得到n阶的贝塞尔曲线。</p>
+<p><img src="/images/Games101/11/08.png"></p>
+<p><strong>Bernstein 多项式：</strong></p>
+<p><img src="/images/Games101/11/09.png"></p>
+<p>例如，当 n&#x3D;3 时，公式为：</p>
+<p><img src="/images/Games101/11/10.png"></p>
+<h2 id="贝塞尔曲线的性质"><a href="#贝塞尔曲线的性质" class="headerlink" title="贝塞尔曲线的性质"></a>贝塞尔曲线的性质</h2><p><img src="/images/Games101/11/11.png"></p>
+<h1 id="逐段（Piecewise）贝塞尔曲线"><a href="#逐段（Piecewise）贝塞尔曲线" class="headerlink" title="逐段（Piecewise）贝塞尔曲线"></a>逐段（Piecewise）贝塞尔曲线</h1><h2 id="概述-2"><a href="#概述-2" class="headerlink" title="概述"></a>概述</h2><p>由于当控制点太多，曲线难以被控制点控制。</p>
+<p>所以<strong>逐段</strong>定义贝塞尔曲线（一般用<strong>四个控制点</strong>）。</p>
+<p><img src="/images/Games101/11/12.png"></p>
+<p>如果要让不同的分段之间光滑过渡，只需要在<strong>切线上连续</strong>（<strong>方向</strong>和<strong>大小</strong>上）。</p>
+<h2 id="分段贝塞尔曲线的连续性"><a href="#分段贝塞尔曲线的连续性" class="headerlink" title="分段贝塞尔曲线的连续性"></a>分段贝塞尔曲线的连续性</h2><p><img src="/images/Games101/11/13.png"></p>
+<h1 id="其他类型的曲线"><a href="#其他类型的曲线" class="headerlink" title="其他类型的曲线"></a>其他类型的曲线</h1><h2 id="样条-Spline"><a href="#样条-Spline" class="headerlink" title="样条 Spline"></a>样条 Spline</h2><p>一个连续的曲线是由一系列控制点控制点，在任意一个地方可以满足一定的连续性。</p>
+<p>简单来说就是一个可控的曲线。</p>
+<h2 id="B样条-B-Splines"><a href="#B样条-B-Splines" class="headerlink" title="B样条 B-Splines"></a>B样条 B-Splines</h2><ul>
+<li>贝塞尔曲线的扩展（具有局部性，容易控制），就是基函数（basis）样条。</li>
+<li>比贝塞尔曲线需要更多的信息。</li>
+<li>满足贝塞尔曲线的所有性质。</li>
+<li>难</li>
+</ul>
+<h1 id="（贝塞尔）曲面"><a href="#（贝塞尔）曲面" class="headerlink" title="（贝塞尔）曲面"></a>（贝塞尔）曲面</h1><h2 id="概述-3"><a href="#概述-3" class="headerlink" title="概述"></a>概述</h2><p>把贝塞尔曲线的概念延申到平面上。</p>
+<p><img src="/images/Games101/11/14.png"></p>
+<p>回顾一下，每段贝塞尔曲线是4个点的线性插值的结果；</p>
+<p>所以，每一片贝塞尔曲面是16控制点，两次线性插值的结果：</p>
+<p>第一次先 4 组（每组四个）进行一次线性插值，得到四条贝塞尔曲线，然后对于四条曲线，我们再插值一次，得到曲面：</p>
+<p><img src="/images/Games101/11/15.png"></p>
+<p>规范的讲：</p>
+<p>输入：<strong>4*4 控制点</strong></p>
+<p>输出：<strong>一个在 [0,1] ^2 内的 (u,v) 参数化的二维曲面</strong></p>
+<p>反过来讲，<strong>给一个 贝塞尔曲面上参数化后的 (u,v)，我们就能知道 (u,v) 对应的是曲面上的哪个点。</strong></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2024/01/07/games101/Lec%2008/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1651,95 +1785,10 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2024/01/07/games101/Lec%2001/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="FJBQ">
-      <meta itemprop="description" content="坚定 坚持 坚强">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="FJBQ">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2024/01/07/games101/Lec%2001/" class="post-title-link" itemprop="url">【Games 101】Lec 01：计算机图形学概述</a>
-        </h2>
-
-        <div class="post-meta">
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2024-01-07 22:28:12 / 修改时间：22:34:11" itemprop="dateCreated datePublished" datetime="2024-01-07T22:28:12+08:00">2024-01-07</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">Games 系列</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/Games-101/" itemprop="url" rel="index"><span itemprop="name">Games 101</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="Lecture-01-Overview-of-Computer-Graphics"><a href="#Lecture-01-Overview-of-Computer-Graphics" class="headerlink" title="Lecture 01: Overview of Computer Graphics"></a>Lecture 01: Overview of Computer Graphics</h1><p>计算机图形学下关于“实时”的定义：&gt;30fps，&lt;30fps称为离线</p>
-<p><img src="/images/Games101/01/01.png"></p>
-<p>model：真实模型<br>image：图像</p>
-<p><strong>计算机图形学（渲染）：</strong></p>
-<ul>
-<li>（model） -&gt; （image）</li>
-<li>（model） -&gt; （model）</li>
-</ul>
-<p><strong>计算机视觉：</strong></p>
-<ul>
-<li>（image）-&gt;（model）</li>
-<li>（image）-&gt;（image）</li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1807,7 +1856,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">20</span>
+          <span class="site-state-item-count">21</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1858,7 +1907,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共23.6k字</span>
+  <span class="post-count">博客全站共24.5k字</span>
 </div>
 
 

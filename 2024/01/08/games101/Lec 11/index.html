@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"manual","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Lecture 11：Geometry 2 (Curves and Surfaces)概述这节课主要讲了几何中的 曲线 和 曲面； 前面一段是在讲几何的显示表示，放在放一篇文章了； 贝塞尔曲线概述用一系列的控制点来定义某一条曲线。这些控制点使用切线来定义贝塞尔曲线。  看上图，注意曲线起始方向沿着P0 P1，结束方向沿着P2 P3；  （不要求曲线经过控制点，但一定要经过起止点 和 极值点（控制点">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【Games 101】Lec 11：几何 2 （曲线 和 曲面）">
+<meta property="og:url" content="http://example.com/2024/01/08/games101/Lec%2011/index.html">
+<meta property="og:site_name" content="FJBQ">
+<meta property="og:description" content="Lecture 11：Geometry 2 (Curves and Surfaces)概述这节课主要讲了几何中的 曲线 和 曲面； 前面一段是在讲几何的显示表示，放在放一篇文章了； 贝塞尔曲线概述用一系列的控制点来定义某一条曲线。这些控制点使用切线来定义贝塞尔曲线。  看上图，注意曲线起始方向沿着P0 P1，结束方向沿着P2 P3；  （不要求曲线经过控制点，但一定要经过起止点 和 极值点（控制点">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/images/Games101/11/01.png">
+<meta property="og:image" content="http://example.com/images/Games101/11/02.png">
+<meta property="og:image" content="http://example.com/images/Games101/11/03.png">
+<meta property="og:image" content="http://example.com/images/Games101/11/04.png">
+<meta property="og:image" content="http://example.com/images/Games101/11/05.png">
+<meta property="og:image" content="http://example.com/images/Games101/11/06.png">
+<meta property="og:image" content="http://example.com/images/Games101/11/07.png">
+<meta property="og:image" content="http://example.com/images/Games101/11/08.png">
+<meta property="og:image" content="http://example.com/images/Games101/11/09.png">
+<meta property="og:image" content="http://example.com/images/Games101/11/10.png">
+<meta property="og:image" content="http://example.com/images/Games101/11/11.png">
+<meta property="og:image" content="http://example.com/images/Games101/11/12.png">
+<meta property="og:image" content="http://example.com/images/Games101/11/13.png">
+<meta property="og:image" content="http://example.com/images/Games101/11/14.png">
+<meta property="og:image" content="http://example.com/images/Games101/11/15.png">
+<meta property="article:published_time" content="2024-01-08T13:42:58.338Z">
+<meta property="article:modified_time" content="2024-01-08T14:23:12.143Z">
+<meta property="article:author" content="FJBQ">
+<meta property="article:tag" content="Games 系列">
+<meta property="article:tag" content="Games 101">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/Games101/11/01.png">
+
+<link rel="canonical" href="http://example.com/2024/01/08/games101/Lec%2011/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>【Games 101】Lec 11：几何 2 （曲线 和 曲面） | FJBQ</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/rss2.xml" title="FJBQ" type="application/rss+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">FJBQ</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-resources">
+
+    <a href="/resources/" rel="section"><i class="fa fa-download fa-fw"></i>资源</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/01/08/games101/Lec%2011/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="FJBQ">
+      <meta itemprop="description" content="坚定 坚持 坚强">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FJBQ">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          【Games 101】Lec 11：几何 2 （曲线 和 曲面）
+        </h1>
+
+        <div class="post-meta">
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2024-01-08 21:42:58 / 修改时间：22:23:12" itemprop="dateCreated datePublished" datetime="2024-01-08T21:42:58+08:00">2024-01-08</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">Games 系列</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/Games-101/" itemprop="url" rel="index"><span itemprop="name">Games 101</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Lecture-11：Geometry-2-Curves-and-Surfaces"><a href="#Lecture-11：Geometry-2-Curves-and-Surfaces" class="headerlink" title="Lecture 11：Geometry 2 (Curves and Surfaces)"></a>Lecture 11：Geometry 2 (Curves and Surfaces)</h1><h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>这节课主要讲了几何中的 曲线 和 曲面；</p>
+<p>前面一段是在讲几何的显示表示，放在放一篇文章了；</p>
+<h1 id="贝塞尔曲线"><a href="#贝塞尔曲线" class="headerlink" title="贝塞尔曲线"></a>贝塞尔曲线</h1><h2 id="概述-1"><a href="#概述-1" class="headerlink" title="概述"></a>概述</h2><p>用一系列的控制点来定义某一条曲线。这些控制点使用切线来定义贝塞尔曲线。</p>
+<p><img src="/images/Games101/11/01.png"></p>
+<p>看上图，注意曲线起始方向沿着P0 P1，结束方向沿着P2 P3；</p>
+<p> （不要求曲线经过控制点，但一定要经过起止点 和 极值点（控制点关于时间插值出来的点））</p>
+<h2 id="计算贝塞尔曲线——de-Casteljau-算法"><a href="#计算贝塞尔曲线——de-Casteljau-算法" class="headerlink" title="计算贝塞尔曲线——de Casteljau 算法"></a>计算贝塞尔曲线——de Casteljau 算法</h2><p>首先我们<strong>把整个曲线映射到 [0，1] 的时间轴上</strong>；</p>
+<p><strong>曲线上的每个点都是关于时间 t（0，1 之间）的插值的结果</strong>；</p>
+<p>这也是为什么贝塞尔曲线是<strong>显示</strong>的表示（做了映射）；</p>
+<p>下面看看是如何具体做映射的：</p>
+<ul>
+<li>给定三个控制点生成的贝塞尔曲线称为二次贝塞尔曲线（quadratic Bezier）。</li>
+</ul>
+<p><img src="/images/Games101/11/02.png"></p>
+<ul>
+<li>使用线性插值插入一个点（假设起点是时间0，终点是时间1），假设当前这个点对应时间轴的上 t ，按时间轴的比例，标记出一个线段上的插值点 b01;</li>
+</ul>
+<p><img src="/images/Games101/11/03.png"></p>
+<ul>
+<li>对于每个第一层（原始的）线段都做一下插值，变成：</li>
+</ul>
+<p><img src="/images/Games101/11/04.png"></p>
+<ul>
+<li>然后继续，同理，对于第二层的线段也同样操作，直至剩下一个点；</li>
+</ul>
+<p><img src="/images/Games101/11/05.png"></p>
+<ul>
+<li>这样我们只是得到了一个 t 的插值后的点，我们对 [0, 1] 所有的 t 都进行插值，最终就能得到这个曲线；</li>
+</ul>
+<p><img src="/images/Games101/11/06.png"></p>
+<h2 id="贝塞尔曲线代数公式"><a href="#贝塞尔曲线代数公式" class="headerlink" title="贝塞尔曲线代数公式"></a>贝塞尔曲线代数公式</h2><p><strong>推导：</strong></p>
+<p><img src="/images/Games101/11/07.png"></p>
+<p>如果有n+1个控制点（从0开始编号），可以得到n阶的贝塞尔曲线。</p>
+<p><img src="/images/Games101/11/08.png"></p>
+<p><strong>Bernstein 多项式：</strong></p>
+<p><img src="/images/Games101/11/09.png"></p>
+<p>例如，当 n&#x3D;3 时，公式为：</p>
+<p><img src="/images/Games101/11/10.png"></p>
+<h2 id="贝塞尔曲线的性质"><a href="#贝塞尔曲线的性质" class="headerlink" title="贝塞尔曲线的性质"></a>贝塞尔曲线的性质</h2><p><img src="/images/Games101/11/11.png"></p>
+<h1 id="逐段（Piecewise）贝塞尔曲线"><a href="#逐段（Piecewise）贝塞尔曲线" class="headerlink" title="逐段（Piecewise）贝塞尔曲线"></a>逐段（Piecewise）贝塞尔曲线</h1><h2 id="概述-2"><a href="#概述-2" class="headerlink" title="概述"></a>概述</h2><p>由于当控制点太多，曲线难以被控制点控制。</p>
+<p>所以<strong>逐段</strong>定义贝塞尔曲线（一般用<strong>四个控制点</strong>）。</p>
+<p><img src="/images/Games101/11/12.png"></p>
+<p>如果要让不同的分段之间光滑过渡，只需要在<strong>切线上连续</strong>（<strong>方向</strong>和<strong>大小</strong>上）。</p>
+<h2 id="分段贝塞尔曲线的连续性"><a href="#分段贝塞尔曲线的连续性" class="headerlink" title="分段贝塞尔曲线的连续性"></a>分段贝塞尔曲线的连续性</h2><p><img src="/images/Games101/11/13.png"></p>
+<h1 id="其他类型的曲线"><a href="#其他类型的曲线" class="headerlink" title="其他类型的曲线"></a>其他类型的曲线</h1><h2 id="样条-Spline"><a href="#样条-Spline" class="headerlink" title="样条 Spline"></a>样条 Spline</h2><p>一个连续的曲线是由一系列控制点控制点，在任意一个地方可以满足一定的连续性。</p>
+<p>简单来说就是一个可控的曲线。</p>
+<h2 id="B样条-B-Splines"><a href="#B样条-B-Splines" class="headerlink" title="B样条 B-Splines"></a>B样条 B-Splines</h2><ul>
+<li>贝塞尔曲线的扩展（具有局部性，容易控制），就是基函数（basis）样条。</li>
+<li>比贝塞尔曲线需要更多的信息。</li>
+<li>满足贝塞尔曲线的所有性质。</li>
+<li>难</li>
+</ul>
+<h1 id="（贝塞尔）曲面"><a href="#（贝塞尔）曲面" class="headerlink" title="（贝塞尔）曲面"></a>（贝塞尔）曲面</h1><h2 id="概述-3"><a href="#概述-3" class="headerlink" title="概述"></a>概述</h2><p>把贝塞尔曲线的概念延申到平面上。</p>
+<p><img src="/images/Games101/11/14.png"></p>
+<p>回顾一下，每段贝塞尔曲线是4个点的线性插值的结果；</p>
+<p>所以，每一片贝塞尔曲面是16控制点，两次线性插值的结果：</p>
+<p>第一次先 4 组（每组四个）进行一次线性插值，得到四条贝塞尔曲线，然后对于四条曲线，我们再插值一次，得到曲面：</p>
+<p><img src="/images/Games101/11/15.png"></p>
+<p>规范的讲：</p>
+<p>输入：<strong>4*4 控制点</strong></p>
+<p>输出：<strong>一个在 [0,1] ^2 内的 (u,v) 参数化的二维曲面</strong></p>
+<p>反过来讲，<strong>给一个 贝塞尔曲面上参数化后的 (u,v)，我们就能知道 (u,v) 对应的是曲面上的哪个点。</strong></p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>FJBQ
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://example.com/2024/01/08/games101/Lec%2011/" title="【Games 101】Lec 11：几何 2 （曲线 和 曲面）">http://example.com/2024/01/08/games101/Lec 11/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Games-%E7%B3%BB%E5%88%97/" rel="tag"># Games 系列</a>
+              <a href="/tags/Games-101/" rel="tag"># Games 101</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2024/01/07/games101/Lec%2008/" rel="prev" title="【Games 101】Lec 08：渲染2（阴影 渲染管线 和 纹理映射）">
+      <i class="fa fa-chevron-left"></i> 【Games 101】Lec 08：渲染2（阴影 渲染管线 和 纹理映射）
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC81OTA5Ni8zNTU1OA=="></div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Lecture-11%EF%BC%9AGeometry-2-Curves-and-Surfaces"><span class="nav-number">1.</span> <span class="nav-text">Lecture 11：Geometry 2 (Curves and Surfaces)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">2.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%B4%9D%E5%A1%9E%E5%B0%94%E6%9B%B2%E7%BA%BF"><span class="nav-number">3.</span> <span class="nav-text">贝塞尔曲线</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0-1"><span class="nav-number">3.1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97%E8%B4%9D%E5%A1%9E%E5%B0%94%E6%9B%B2%E7%BA%BF%E2%80%94%E2%80%94de-Casteljau-%E7%AE%97%E6%B3%95"><span class="nav-number">3.2.</span> <span class="nav-text">计算贝塞尔曲线——de Casteljau 算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B4%9D%E5%A1%9E%E5%B0%94%E6%9B%B2%E7%BA%BF%E4%BB%A3%E6%95%B0%E5%85%AC%E5%BC%8F"><span class="nav-number">3.3.</span> <span class="nav-text">贝塞尔曲线代数公式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B4%9D%E5%A1%9E%E5%B0%94%E6%9B%B2%E7%BA%BF%E7%9A%84%E6%80%A7%E8%B4%A8"><span class="nav-number">3.4.</span> <span class="nav-text">贝塞尔曲线的性质</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%80%90%E6%AE%B5%EF%BC%88Piecewise%EF%BC%89%E8%B4%9D%E5%A1%9E%E5%B0%94%E6%9B%B2%E7%BA%BF"><span class="nav-number">4.</span> <span class="nav-text">逐段（Piecewise）贝塞尔曲线</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0-2"><span class="nav-number">4.1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%86%E6%AE%B5%E8%B4%9D%E5%A1%9E%E5%B0%94%E6%9B%B2%E7%BA%BF%E7%9A%84%E8%BF%9E%E7%BB%AD%E6%80%A7"><span class="nav-number">4.2.</span> <span class="nav-text">分段贝塞尔曲线的连续性</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E7%B1%BB%E5%9E%8B%E7%9A%84%E6%9B%B2%E7%BA%BF"><span class="nav-number">5.</span> <span class="nav-text">其他类型的曲线</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%B7%E6%9D%A1-Spline"><span class="nav-number">5.1.</span> <span class="nav-text">样条 Spline</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#B%E6%A0%B7%E6%9D%A1-B-Splines"><span class="nav-number">5.2.</span> <span class="nav-text">B样条 B-Splines</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%EF%BC%88%E8%B4%9D%E5%A1%9E%E5%B0%94%EF%BC%89%E6%9B%B2%E9%9D%A2"><span class="nav-number">6.</span> <span class="nav-text">（贝塞尔）曲面</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0-3"><span class="nav-number">6.1.</span> <span class="nav-text">概述</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="FJBQ"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">FJBQ</p>
+  <div class="site-description" itemprop="description">坚定 坚持 坚强</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">21</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2023-10 – 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">FJBQ</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共24.5k字</span>
+</div>
+
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <span id="busuanzi_container_site_pv">总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+    <span class="post-meta-divider">|</span>
+    <span id="busuanzi_container_site_uv">总访客数<span id="busuanzi_value_site_uv"></span>人</span>
+    <span class="post-meta-divider">|</span>
+<!-- 不蒜子计数初始值纠正 -->
+<script>
+$(document).ready(function() {
+
+    var int = setInterval(fixCount, 50);  // 50ms周期检测函数
+    var countOffset = 20000;  // 初始化首次数据
+
+    function fixCount() {            
+       if (document.getElementById("busuanzi_container_site_pv").style.display != "none")
+        {
+            $("#busuanzi_value_site_pv").html(parseInt($("#busuanzi_value_site_pv").html()) + countOffset); 
+            clearInterval(int);
+        }                  
+        if ($("#busuanzi_container_site_pv").css("display") != "none")
+        {
+            $("#busuanzi_value_site_uv").html(parseInt($("#busuanzi_value_site_uv").html()) + countOffset); // 加上初始数据 
+            clearInterval(int); // 停止检测
+        }  
+    }
+       	
+});
+</script> 
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+<script>
+NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"left","width":150,"height":225,"hOffset":-15,"vOffset":-15},"mobile":{"show":false},"react":{"opacity":1},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
