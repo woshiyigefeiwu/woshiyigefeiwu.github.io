@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"manual","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Lecture 13：Ray Tracing 1 (Shadow Mapping，Whitted-Style Ray Tracing)概述这一节课主要讲了 阴影 和 光线追踪； 光纤追踪这一部分有点难啊…  挺抽象的，不太好理解… Shadow Mapping概述Shadow Mapping本质是一种图像空间的算法。 我们之前学的都没有考虑到阴影，现在考虑一下这个东西； 具体算法 从光源渲染，从光">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【Games 101】Lec 13：光线追踪 1（Shadow Mapping，Whitted-Style Ray Tracing）">
+<meta property="og:url" content="http://example.com/2024/01/09/games101/Lec%2013/index.html">
+<meta property="og:site_name" content="FJBQ">
+<meta property="og:description" content="Lecture 13：Ray Tracing 1 (Shadow Mapping，Whitted-Style Ray Tracing)概述这一节课主要讲了 阴影 和 光线追踪； 光纤追踪这一部分有点难啊…  挺抽象的，不太好理解… Shadow Mapping概述Shadow Mapping本质是一种图像空间的算法。 我们之前学的都没有考虑到阴影，现在考虑一下这个东西； 具体算法 从光源渲染，从光">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/images/Games101/13/01.png">
+<meta property="og:image" content="http://example.com/images/Games101/13/02.png">
+<meta property="og:image" content="http://example.com/images/Games101/13/03.png">
+<meta property="og:image" content="http://example.com/images/Games101/13/04.png">
+<meta property="og:image" content="http://example.com/images/Games101/13/05.png">
+<meta property="og:image" content="http://example.com/images/Games101/13/06.png">
+<meta property="og:image" content="http://example.com/images/Games101/13/07.png">
+<meta property="og:image" content="http://example.com/images/Games101/13/08.png">
+<meta property="og:image" content="http://example.com/images/Games101/13/09.png">
+<meta property="og:image" content="http://example.com/images/Games101/13/10.png">
+<meta property="og:image" content="http://example.com/images/Games101/13/11.png">
+<meta property="og:image" content="http://example.com/images/Games101/13/12.png">
+<meta property="og:image" content="http://example.com/images/Games101/13/13.png">
+<meta property="og:image" content="http://example.com/images/Games101/13/14.png">
+<meta property="og:image" content="http://example.com/images/Games101/13/15.png">
+<meta property="og:image" content="http://example.com/images/Games101/13/16.png">
+<meta property="og:image" content="http://example.com/images/Games101/13/17.png">
+<meta property="og:image" content="http://example.com/images/Games101/13/18.png">
+<meta property="og:image" content="http://example.com/images/Games101/13/19.png">
+<meta property="og:image" content="http://example.com/images/Games101/13/20.png">
+<meta property="og:image" content="http://example.com/images/Games101/13/21.png">
+<meta property="og:image" content="http://example.com/images/Games101/13/22.png">
+<meta property="og:image" content="http://example.com/images/Games101/13/23.png">
+<meta property="og:image" content="http://example.com/images/Games101/13/24.png">
+<meta property="og:image" content="http://example.com/images/Games101/13/25.png">
+<meta property="og:image" content="http://example.com/images/Games101/13/26.png">
+<meta property="article:published_time" content="2024-01-09T13:13:23.372Z">
+<meta property="article:modified_time" content="2024-01-09T16:24:07.694Z">
+<meta property="article:author" content="FJBQ">
+<meta property="article:tag" content="Games 系列">
+<meta property="article:tag" content="Games 101">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/Games101/13/01.png">
+
+<link rel="canonical" href="http://example.com/2024/01/09/games101/Lec%2013/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>【Games 101】Lec 13：光线追踪 1（Shadow Mapping，Whitted-Style Ray Tracing） | FJBQ</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/rss2.xml" title="FJBQ" type="application/rss+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">FJBQ</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-resources">
+
+    <a href="/resources/" rel="section"><i class="fa fa-download fa-fw"></i>资源</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/01/09/games101/Lec%2013/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="FJBQ">
+      <meta itemprop="description" content="坚定 坚持 坚强">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FJBQ">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          【Games 101】Lec 13：光线追踪 1（Shadow Mapping，Whitted-Style Ray Tracing）
+        </h1>
+
+        <div class="post-meta">
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2024-01-09 21:13:23" itemprop="dateCreated datePublished" datetime="2024-01-09T21:13:23+08:00">2024-01-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-01-10 00:24:07" itemprop="dateModified" datetime="2024-01-10T00:24:07+08:00">2024-01-10</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">Games 系列</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/Games-101/" itemprop="url" rel="index"><span itemprop="name">Games 101</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Lecture-13：Ray-Tracing-1-Shadow-Mapping，Whitted-Style-Ray-Tracing"><a href="#Lecture-13：Ray-Tracing-1-Shadow-Mapping，Whitted-Style-Ray-Tracing" class="headerlink" title="Lecture 13：Ray Tracing 1 (Shadow Mapping，Whitted-Style Ray Tracing)"></a>Lecture 13：Ray Tracing 1 (Shadow Mapping，Whitted-Style Ray Tracing)</h1><h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>这一节课主要讲了 <strong>阴影</strong> 和 <strong>光线追踪</strong>；</p>
+<p>光纤追踪这一部分有点难啊… </p>
+<p>挺抽象的，不太好理解…</p>
+<h1 id="Shadow-Mapping"><a href="#Shadow-Mapping" class="headerlink" title="Shadow Mapping"></a>Shadow Mapping</h1><h2 id="概述-1"><a href="#概述-1" class="headerlink" title="概述"></a>概述</h2><p>Shadow Mapping<strong>本质是一种图像空间</strong>的算法。</p>
+<p>我们之前学的都没有考虑到<strong>阴影</strong>，现在考虑一下这个东西；</p>
+<h2 id="具体算法"><a href="#具体算法" class="headerlink" title="具体算法"></a>具体算法</h2><ul>
+<li>从光源渲染，从光源看场景，可以求出深度图（点到光源的深度）（z-buffer）</li>
+<li><img src="/images/Games101/13/01.png"></li>
+<li>从相机渲染，也就是从相机发出光线，可以得到我们看到的点，然后求这些点到光源的深度；如果这个深度和从光源渲染的深度是一样的，则说明这个点没有被遮挡；否则说明，这个点被遮挡了；</li>
+<li><img src="/images/Games101/13/02.png"></li>
+</ul>
+<h2 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h2><p><img src="/images/Games101/13/03.png"></p>
+<h2 id="问题分析"><a href="#问题分析" class="headerlink" title="问题分析"></a>问题分析</h2><ul>
+<li>生成的是硬阴影（只对点光源（没有体积））。</li>
+<li>阴影的效果取决于shadow map的分辨率。</li>
+<li>涉及浮点精度比较的问题，导致渲染出来的效果一般。</li>
+</ul>
+<h2 id="软阴影和硬阴影"><a href="#软阴影和硬阴影" class="headerlink" title="软阴影和硬阴影"></a>软阴影和硬阴影</h2><p>下面图中，左上是硬阴影，左下是软阴影；</p>
+<p><img src="/images/Games101/13/04.png"></p>
+<h3 id="软阴影的原理"><a href="#软阴影的原理" class="headerlink" title="软阴影的原理"></a>软阴影的原理</h3><p>由于点光源有大小，会形成<strong>本影（Umbra）区域</strong>和<strong>半影（Penumbra）区域</strong>。所以会形成阴影的过渡。</p>
+<h2 id="进行光线追踪（Ray-Tracing）的原因"><a href="#进行光线追踪（Ray-Tracing）的原因" class="headerlink" title="进行光线追踪（Ray Tracing）的原因"></a>进行光线追踪（Ray Tracing）的原因</h2><p><img src="/images/Games101/13/05.png"></p>
+<ul>
+<li><strong>难以做软阴影</strong>；</li>
+<li><strong>难以表现光线多次弹射，比如间接光照</strong>；</li>
+<li><strong>光栅化很快但是质量较低</strong>；</li>
+<li><strong>光线追踪很准确，但是很慢</strong>；</li>
+</ul>
+<p>光栅化：实时（游戏），光线追踪：离线（动画）。</p>
+<p>光线追踪一帧就要花10K个计算机小时</p>
+<p>光栅化和光线追踪都是成像方式。</p>
+<h1 id="光线追踪（算法）"><a href="#光线追踪（算法）" class="headerlink" title="光线追踪（算法）"></a>光线追踪（算法）</h1><h2 id="光线的一些定义概念"><a href="#光线的一些定义概念" class="headerlink" title="光线的一些定义概念"></a>光线的一些定义概念</h2><ul>
+<li><p>光线沿直线传播。</p>
+</li>
+<li><p>光线和光线不会发生碰撞。</p>
+</li>
+<li><p>光线会从光源发出，打到场景中，经过反射折射等最终进入人眼（光线具有可逆性）。</p>
+</li>
+</ul>
+<h2 id="光线投影（Ray-Casting）"><a href="#光线投影（Ray-Casting）" class="headerlink" title="光线投影（Ray Casting）"></a>光线投影（Ray Casting）</h2><p>光线投射是<strong>光线追踪中用于生成初始光线的第一步。</strong></p>
+<ul>
+<li><p>通过每个像素投射一条光线来生成图像</p>
+</li>
+<li><p>通过向光源发送光线来检查阴影</p>
+</li>
+</ul>
+<p><strong>具体的讲：</strong></p>
+<ul>
+<li>从视点开始经过像素获得与场景中物体最近的交点。</li>
+<li><img src="/images/Games101/13/06.png"></li>
+<li>将交点和和光源连线，判断这个点是否对光源可见，从而确定该点是否是阴影；</li>
+<li><img src="/images/Games101/13/07.png"></li>
+<li>然后计算着色，并将结果写回像素；</li>
+</ul>
+<h2 id="Recursive（Whitted-Style）-Ray-Tracing"><a href="#Recursive（Whitted-Style）-Ray-Tracing" class="headerlink" title="Recursive（Whitted- Style） Ray Tracing"></a>Recursive（Whitted- Style） Ray Tracing</h2><p>这个光线追踪算法可以看成是优化，<strong>它考虑了反射和折射的光线</strong>。</p>
+<p><img src="/images/Games101/13/08.png"></p>
+<p>对<strong>每一个弹射点都要计算着色的值</strong>，然后<strong>把所有着色的值都加到像素的值里面</strong>去。</p>
+<p>当然这里需要考虑能量的衰减：</p>
+<p><img src="/images/Games101/13/09.png"></p>
+<p>光线有不同的分类：</p>
+<p><img src="/images/Games101/13/10.png"></p>
+<p><strong>上面只是讲了大概应该怎么做，下面具体的讲细节。</strong></p>
+<h2 id="光线和表面的交点（Ray-Surface-Intersection）"><a href="#光线和表面的交点（Ray-Surface-Intersection）" class="headerlink" title="光线和表面的交点（Ray-Surface Intersection）"></a>光线和表面的交点（Ray-Surface Intersection）</h2><p>回顾一下上面，首先光线追踪的第一步，是不是要求一条光线和表面的交点？</p>
+<h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><h4 id="光线"><a href="#光线" class="headerlink" title="光线"></a>光线</h4><p>光线在数学上定义成 <strong>有起点和方向的射线</strong>，用 t 来表示时间，则我们可以得到射线的一个表达式：</p>
+<p><img src="/images/Games101/13/11.png"></p>
+<ul>
+<li>r(t)：是 t 时刻射线上的点；</li>
+<li>o：是起始点；</li>
+<li>d：表示方向，感觉可以理解为速度；</li>
+</ul>
+<h4 id="平面"><a href="#平面" class="headerlink" title="平面"></a>平面</h4><p>通过一个<strong>法向量</strong>和一个<strong>平面上的点</strong>来进行定义。</p>
+<p><img src="/images/Games101/13/12.png"></p>
+<p><strong>平面的表达式</strong> 平面是满足下面条件所有p点的集合。</p>
+<h3 id="光线-和-球-求交"><a href="#光线-和-球-求交" class="headerlink" title="光线 和 球 求交"></a>光线 和 球 求交</h3><p>这个很简单，带进去就行；</p>
+<p><img src="/images/Games101/13/13.png"></p>
+<p><img src="/images/Games101/13/14.png"></p>
+<h3 id="光线-和-隐式表面-求交"><a href="#光线-和-隐式表面-求交" class="headerlink" title="光线 和 隐式表面 求交"></a>光线 和 隐式表面 求交</h3><p>也是一样的，带入：</p>
+<p><img src="/images/Games101/13/15.png"></p>
+<h3 id="光线-和-三角形面-求交"><a href="#光线-和-三角形面-求交" class="headerlink" title="光线 和 三角形面 求交"></a>光线 和 三角形面 求交</h3><h4 id="为什么"><a href="#为什么" class="headerlink" title="为什么"></a>为什么</h4><p>光线和三角形求交有如下作用：</p>
+<ul>
+<li>渲染：可见性、阴影、光照…</li>
+<li>几何：可以判断点是再物体内还是物体外。<br>对任何一个封闭的曲面，在内部找一个点，如果点在形状内，那么从这个点发出的任意方向的射线与此物体的交点数量一定是奇数。</li>
+</ul>
+<p><img src="/images/Games101/13/16.png"></p>
+<h4 id="具体算法-1"><a href="#具体算法-1" class="headerlink" title="具体算法"></a>具体算法</h4><p>简单的办法是让场景中的每个三角形与光线进行求交计算，但是有如下严重问题。</p>
+<ul>
+<li>简单但是运算量大。</li>
+<li>可以有0或1个交点。</li>
+</ul>
+<p>因为<strong>三角形在平面内</strong>，所以可以把光线和三角形求交拆成两个问题：</p>
+<ul>
+<li><p>让光线与平面求交（目前与平面求交比与三角形求交容易）。</p>
+</li>
+<li><p>判断与平面的交点是否在三角形内。</p>
+</li>
+</ul>
+<p><strong>也就是说：光线与平面求交再判断是否在三角形内！</strong></p>
+<p><img src="/images/Games101/13/17.png"></p>
+<p>通过上面的图，可以求出 t，进而求出 r(t) （也就是交点）；</p>
+<p>然后再判断交点是否在三角形里面；</p>
+<h4 id="Moller-Trumbore-（MT）算法"><a href="#Moller-Trumbore-（MT）算法" class="headerlink" title="Moller Trumbore （MT）算法"></a>Moller Trumbore （MT）算法</h4><p>通过上面我们可以知道，我们需要两步来求解；</p>
+<p>MT 算法通过<strong>使用重心坐标</strong>来同时判断点是否在三角形里面；</p>
+<p>在下面的式子中，左边是光线的表达式，右边是三角形上一点的重心坐标形式。</p>
+<p><img src="/images/Games101/13/18.png"></p>
+<p>根据上面的等式解出来 <strong>t ，b1 ，b2</strong>（<strong>三个方程，三个未知数</strong>，也可以使用克莱默法则）。</p>
+<p><img src="/images/Games101/13/19.png"></p>
+<p>如果解出来的 <strong>t ，b1 ，b2 ，1-b1-b2</strong> 都<strong>大于0</strong>，则说明解是有意义的。</p>
+<h1 id="包围盒（Bounding-Volumes）"><a href="#包围盒（Bounding-Volumes）" class="headerlink" title="包围盒（Bounding Volumes）"></a>包围盒（Bounding Volumes）</h1><h2 id="概述-2"><a href="#概述-2" class="headerlink" title="概述"></a>概述</h2><p>原始的做法是让每个像素的光线要和<strong>所有三角形面求交点</strong>，计算量太大，那么如何让这个过程加速呢？如果我们圈定包围盒，<strong>连与包围盒都不相交的三角形就不用接着算了</strong>，那么就可以很大的减少计算量。</p>
+<p><img src="/images/Games101/13/20.png"></p>
+<p><strong>基本思想</strong>：使用一个简单的几何体来包围一个复杂的物体，如果光线不能碰到包围盒，那么就不用再计算其与里面物体的（三角形的）交点。</p>
+<p>这样就能少算很多很多 三角形和光线 的求交运算；</p>
+<h2 id="求光线与长方体的交点"><a href="#求光线与长方体的交点" class="headerlink" title="求光线与长方体的交点"></a>求光线与长方体的交点</h2><p>3D物体通常的包围盒是长方体。<br>一个重要理解：<strong>长方体是三对不同的面形成的交集</strong>。</p>
+<p><img src="/images/Games101/13/21.png"></p>
+<p>我们使用的包围盒通常是<strong>轴对齐（AABB）包围盒</strong>。Axis-Aligned Bounding Box(AABB)<br>经过以上分析，现在问题就变成了<strong>求光线和轴对齐包围盒的交点；</strong></p>
+<h2 id="求光线和轴对齐包围盒的交点"><a href="#求光线和轴对齐包围盒的交点" class="headerlink" title="求光线和轴对齐包围盒的交点"></a>求光线和轴对齐包围盒的交点</h2><h3 id="考虑2维的情况"><a href="#考虑2维的情况" class="headerlink" title="考虑2维的情况"></a>考虑2维的情况</h3><p>先分析简单的，2维的长方形；</p>
+<p>由于前面提到的光线方程是参数方程，所以只要我们计算光线什么时候会和一对平行的边有<strong>交点</strong>（计算 <strong>t-min , t-max</strong>），就可以求出<strong>光线进入和离开这个边的时间</strong>。</p>
+<p><img src="/images/Games101/13/22.png"></p>
+<p>看上面的图：</p>
+<p>首先注意到长方形有两对边；</p>
+<p><strong>左边的图</strong>：是求光线和<strong>左右两边</strong>的相交时的<strong>时间</strong>；</p>
+<p><strong>中间的图</strong>：是求光线和<strong>上下两边</strong>的相交时的<strong>时间</strong>；</p>
+<p>然后对这两段<strong>求交集</strong>，，此时 <strong>t-min , t-max</strong> 就分别代表着<strong>光线进入和离开长方体的时间</strong>。</p>
+<h3 id="考虑3维的情况"><a href="#考虑3维的情况" class="headerlink" title="考虑3维的情况"></a>考虑3维的情况</h3><p>根据2维的情况，我们<strong>推导出3维的情况的性质</strong>：</p>
+<ul>
+<li>只有当光线<strong>进入了所有的对面</strong>，才能说光线进入了盒子。</li>
+<li>只要光线<strong>离开任意一个对面</strong>，光线就离开了盒子。</li>
+</ul>
+<hr>
+<p>然后通过上面我们知道，Box 有3对面，也就是每一对面，光线都能和这对面求一组 t-min , t-max；</p>
+<p><strong>所以再根据上面的性质可以求出光线进入 BOX 的 t （t-enter）和 离开 BOX 的 t（t-exit）</strong></p>
+<p><strong>t-enter &#x3D; max( t1-min , t2-min , t3-min )</strong></p>
+<p><strong>t-exit &#x3D; min( t1-max , t2-max , t3-max )</strong></p>
+<p>ti 表示第 i 对面；</p>
+<hr>
+<p><strong>t为负时的意义：</strong></p>
+<ul>
+<li>如果 <strong>t-exit &lt; 0</strong>，说明<strong>盒子在光线背后</strong>，说明<strong>没有交点</strong>。</li>
+<li>如果 <strong>t-exit &gt;&#x3D; 0 &amp;&amp; t-enter &lt; 0</strong>，说明<strong>光线的起点在盒子里</strong>，一定有交点。</li>
+</ul>
+<hr>
+<p><strong>结论：</strong></p>
+<p>如果满足 <strong>t-enter &lt; t-exit &amp;&amp; t-exit &gt;&#x3D; 0</strong>，则说明光线与AABB包围盒有交点。</p>
+<hr>
+<p><img src="/images/Games101/13/23.png"></p>
+<p><img src="/images/Games101/13/24.png"></p>
+<h3 id="使用轴对齐-AABB-概念的原因"><a href="#使用轴对齐-AABB-概念的原因" class="headerlink" title="使用轴对齐(AABB)概念的原因"></a>使用轴对齐(AABB)概念的原因</h3><p>主要目的是<strong>简化计算</strong>。<br>普通情况计算 t：</p>
+<p><img src="/images/Games101/13/25.png"></p>
+<p>轴对齐的情况下计算t（只需要考虑各方向的分量即可）：</p>
+<p><img src="/images/Games101/13/26.png"></p>
+<hr>
+<p>ok，这个就是这一节课的内容…</p>
+<p>这一节课是真的多，写了好久好久…</p>
+<p>关于包围盒只是讲了怎么做，但是还没讲怎么用（下一节？）</p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>FJBQ
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://example.com/2024/01/09/games101/Lec%2013/" title="【Games 101】Lec 13：光线追踪 1（Shadow Mapping，Whitted-Style Ray Tracing）">http://example.com/2024/01/09/games101/Lec 13/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Games-%E7%B3%BB%E5%88%97/" rel="tag"># Games 系列</a>
+              <a href="/tags/Games-101/" rel="tag"># Games 101</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2024/01/08/games101/Lec%2012/" rel="prev" title="【Games 101】Lec 12：几何 3">
+      <i class="fa fa-chevron-left"></i> 【Games 101】Lec 12：几何 3
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2024/01/09/games101/Lec%2014/" rel="next" title="">
+       <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC81OTA5Ni8zNTU1OA=="></div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Lecture-13%EF%BC%9ARay-Tracing-1-Shadow-Mapping%EF%BC%8CWhitted-Style-Ray-Tracing"><span class="nav-number">1.</span> <span class="nav-text">Lecture 13：Ray Tracing 1 (Shadow Mapping，Whitted-Style Ray Tracing)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">2.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Shadow-Mapping"><span class="nav-number">3.</span> <span class="nav-text">Shadow Mapping</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0-1"><span class="nav-number">3.1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B7%E4%BD%93%E7%AE%97%E6%B3%95"><span class="nav-number">3.2.</span> <span class="nav-text">具体算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%93%E6%9E%9C"><span class="nav-number">3.3.</span> <span class="nav-text">结果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E5%88%86%E6%9E%90"><span class="nav-number">3.4.</span> <span class="nav-text">问题分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BD%AF%E9%98%B4%E5%BD%B1%E5%92%8C%E7%A1%AC%E9%98%B4%E5%BD%B1"><span class="nav-number">3.5.</span> <span class="nav-text">软阴影和硬阴影</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BD%AF%E9%98%B4%E5%BD%B1%E7%9A%84%E5%8E%9F%E7%90%86"><span class="nav-number">3.5.1.</span> <span class="nav-text">软阴影的原理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%9B%E8%A1%8C%E5%85%89%E7%BA%BF%E8%BF%BD%E8%B8%AA%EF%BC%88Ray-Tracing%EF%BC%89%E7%9A%84%E5%8E%9F%E5%9B%A0"><span class="nav-number">3.6.</span> <span class="nav-text">进行光线追踪（Ray Tracing）的原因</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%89%E7%BA%BF%E8%BF%BD%E8%B8%AA%EF%BC%88%E7%AE%97%E6%B3%95%EF%BC%89"><span class="nav-number">4.</span> <span class="nav-text">光线追踪（算法）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%89%E7%BA%BF%E7%9A%84%E4%B8%80%E4%BA%9B%E5%AE%9A%E4%B9%89%E6%A6%82%E5%BF%B5"><span class="nav-number">4.1.</span> <span class="nav-text">光线的一些定义概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%89%E7%BA%BF%E6%8A%95%E5%BD%B1%EF%BC%88Ray-Casting%EF%BC%89"><span class="nav-number">4.2.</span> <span class="nav-text">光线投影（Ray Casting）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Recursive%EF%BC%88Whitted-Style%EF%BC%89-Ray-Tracing"><span class="nav-number">4.3.</span> <span class="nav-text">Recursive（Whitted- Style） Ray Tracing</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%89%E7%BA%BF%E5%92%8C%E8%A1%A8%E9%9D%A2%E7%9A%84%E4%BA%A4%E7%82%B9%EF%BC%88Ray-Surface-Intersection%EF%BC%89"><span class="nav-number">4.4.</span> <span class="nav-text">光线和表面的交点（Ray-Surface Intersection）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-number">4.4.1.</span> <span class="nav-text">基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%89%E7%BA%BF"><span class="nav-number">4.4.1.1.</span> <span class="nav-text">光线</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B9%B3%E9%9D%A2"><span class="nav-number">4.4.1.2.</span> <span class="nav-text">平面</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%89%E7%BA%BF-%E5%92%8C-%E7%90%83-%E6%B1%82%E4%BA%A4"><span class="nav-number">4.4.2.</span> <span class="nav-text">光线 和 球 求交</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%89%E7%BA%BF-%E5%92%8C-%E9%9A%90%E5%BC%8F%E8%A1%A8%E9%9D%A2-%E6%B1%82%E4%BA%A4"><span class="nav-number">4.4.3.</span> <span class="nav-text">光线 和 隐式表面 求交</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%89%E7%BA%BF-%E5%92%8C-%E4%B8%89%E8%A7%92%E5%BD%A2%E9%9D%A2-%E6%B1%82%E4%BA%A4"><span class="nav-number">4.4.4.</span> <span class="nav-text">光线 和 三角形面 求交</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88"><span class="nav-number">4.4.4.1.</span> <span class="nav-text">为什么</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B7%E4%BD%93%E7%AE%97%E6%B3%95-1"><span class="nav-number">4.4.4.2.</span> <span class="nav-text">具体算法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Moller-Trumbore-%EF%BC%88MT%EF%BC%89%E7%AE%97%E6%B3%95"><span class="nav-number">4.4.4.3.</span> <span class="nav-text">Moller Trumbore （MT）算法</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8C%85%E5%9B%B4%E7%9B%92%EF%BC%88Bounding-Volumes%EF%BC%89"><span class="nav-number">5.</span> <span class="nav-text">包围盒（Bounding Volumes）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0-2"><span class="nav-number">5.1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B1%82%E5%85%89%E7%BA%BF%E4%B8%8E%E9%95%BF%E6%96%B9%E4%BD%93%E7%9A%84%E4%BA%A4%E7%82%B9"><span class="nav-number">5.2.</span> <span class="nav-text">求光线与长方体的交点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B1%82%E5%85%89%E7%BA%BF%E5%92%8C%E8%BD%B4%E5%AF%B9%E9%BD%90%E5%8C%85%E5%9B%B4%E7%9B%92%E7%9A%84%E4%BA%A4%E7%82%B9"><span class="nav-number">5.3.</span> <span class="nav-text">求光线和轴对齐包围盒的交点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%80%83%E8%99%912%E7%BB%B4%E7%9A%84%E6%83%85%E5%86%B5"><span class="nav-number">5.3.1.</span> <span class="nav-text">考虑2维的情况</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%80%83%E8%99%913%E7%BB%B4%E7%9A%84%E6%83%85%E5%86%B5"><span class="nav-number">5.3.2.</span> <span class="nav-text">考虑3维的情况</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E8%BD%B4%E5%AF%B9%E9%BD%90-AABB-%E6%A6%82%E5%BF%B5%E7%9A%84%E5%8E%9F%E5%9B%A0"><span class="nav-number">5.3.3.</span> <span class="nav-text">使用轴对齐(AABB)概念的原因</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="FJBQ"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">FJBQ</p>
+  <div class="site-description" itemprop="description">坚定 坚持 坚强</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">24</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2023-10 – 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">FJBQ</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共27.3k字</span>
+</div>
+
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <span id="busuanzi_container_site_pv">总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+    <span class="post-meta-divider">|</span>
+    <span id="busuanzi_container_site_uv">总访客数<span id="busuanzi_value_site_uv"></span>人</span>
+    <span class="post-meta-divider">|</span>
+<!-- 不蒜子计数初始值纠正 -->
+<script>
+$(document).ready(function() {
+
+    var int = setInterval(fixCount, 50);  // 50ms周期检测函数
+    var countOffset = 20000;  // 初始化首次数据
+
+    function fixCount() {            
+       if (document.getElementById("busuanzi_container_site_pv").style.display != "none")
+        {
+            $("#busuanzi_value_site_pv").html(parseInt($("#busuanzi_value_site_pv").html()) + countOffset); 
+            clearInterval(int);
+        }                  
+        if ($("#busuanzi_container_site_pv").css("display") != "none")
+        {
+            $("#busuanzi_value_site_uv").html(parseInt($("#busuanzi_value_site_uv").html()) + countOffset); // 加上初始数据 
+            clearInterval(int); // 停止检测
+        }  
+    }
+       	
+});
+</script> 
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+<script>
+NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"left","width":150,"height":225,"hOffset":-15,"vOffset":-15},"mobile":{"show":false},"react":{"opacity":1},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

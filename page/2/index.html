@@ -170,6 +170,371 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/01/07/games101/Lec%2007/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="FJBQ">
+      <meta itemprop="description" content="坚定 坚持 坚强">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FJBQ">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/01/07/games101/Lec%2007/" class="post-title-link" itemprop="url">【Games 101】Lec 07：渲染1（光照 阴影 和 图形管线）</a>
+        </h2>
+
+        <div class="post-meta">
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2024-01-07 22:28:28 / 修改时间：22:42:39" itemprop="dateCreated datePublished" datetime="2024-01-07T22:28:28+08:00">2024-01-07</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">Games 系列</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/Games-101/" itemprop="url" rel="index"><span itemprop="name">Games 101</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Lecture-7：Shading-1-Illumination-Shading-and-Graphics-Pipeline"><a href="#Lecture-7：Shading-1-Illumination-Shading-and-Graphics-Pipeline" class="headerlink" title="Lecture 7：Shading 1 (Illumination, Shading and Graphics Pipeline)"></a>Lecture 7：Shading 1 (Illumination, Shading and Graphics Pipeline)</h1><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p><img src="/images/Games101/07/01.png"></p>
+<ul>
+<li><p>可见性 &#x2F; 遮挡问题</p>
+<ul>
+<li>深度缓存</li>
+</ul>
+</li>
+<li><p>着色</p>
+<ul>
+<li>光照和阴影</li>
+<li>图形管线</li>
+</ul>
+</li>
+</ul>
+<h2 id="可见性-遮挡"><a href="#可见性-遮挡" class="headerlink" title="可见性 &#x2F; 遮挡"></a>可见性 &#x2F; 遮挡</h2><h3 id="画家算法"><a href="#画家算法" class="headerlink" title="画家算法"></a>画家算法</h3><blockquote>
+<p>画家算法：先画后面的，再画前面的；（要严格规定前后顺序才不会出现问题）</p>
+<p><img src="/images/Games101/07/02.png"></p>
+<p>缺点：</p>
+<ul>
+<li>要定义深度不容易…</li>
+<li>对这些东西要按照深度排序，时间复杂度较高</li>
+<li>特定情况失效（无法对定义深度）</li>
+<li><img src="/images/Games101/07/03.png"></li>
+</ul>
+</blockquote>
+<h2 id="Z-Buffer（深度缓存）"><a href="#Z-Buffer（深度缓存）" class="headerlink" title="Z-Buffer（深度缓存）"></a>Z-Buffer（深度缓存）</h2><h3 id="概述-1"><a href="#概述-1" class="headerlink" title="概述"></a>概述</h3><blockquote>
+<p>对于每个像素，记录最浅的深度；</p>
+<p><img src="/images/Games101/07/04.png"></p>
+<p>同步生成两个图：一个是渲染后的图，一个是深度图；</p>
+<p>深度图中，离相机越进，反应出来的颜色越黑，越远越白；</p>
+</blockquote>
+<h3 id="整体做法"><a href="#整体做法" class="headerlink" title="整体做法"></a>整体做法</h3><blockquote>
+<p>每个像素维护一个最小深度</p>
+<p><img src="/images/Games101/07/05.png"></p>
+<p><img src="/images/Games101/07/06.png"></p>
+<p><strong>算法分析</strong>： </p>
+<p><img src="/images/Games101/07/07.png"></p>
+<p>但是无法处理透明物体</p>
+</blockquote>
+<h2 id="着色"><a href="#着色" class="headerlink" title="着色"></a>着色</h2><h3 id="概述-2"><a href="#概述-2" class="headerlink" title="概述"></a>概述</h3><blockquote>
+<p><strong>定义</strong>：对不同的物体，应用不同的材质 的过程；</p>
+<p>（不同的材质对于光的反应不同）</p>
+<p><img src="/images/Games101/07/08.png"></p>
+<p>看个例子：</p>
+<p><img src="/images/Games101/07/09.png"></p>
+<p><strong>Specular highlights：镜面反射（表面光滑）</strong></p>
+<p><strong>Diffuse reflection：漫反射（表面粗糙）</strong></p>
+<p><strong>Ambient lighting：间接反射</strong></p>
+</blockquote>
+<h3 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h3><h4 id="一些概念的定义"><a href="#一些概念的定义" class="headerlink" title="一些概念的定义"></a>一些概念的定义</h4><blockquote>
+<p><img src="/images/Games101/07/10.png"></p>
+<p>着色只考虑自己，不考虑阴影的情况：</p>
+<p><img src="/images/Games101/07/11.png"></p>
+</blockquote>
+<h4 id="漫反射模型"><a href="#漫反射模型" class="headerlink" title="漫反射模型"></a>漫反射模型</h4><blockquote>
+<p>着色点显示的亮度（能量）和光照之间的夹角是有关的：</p>
+<p><img src="/images/Games101/07/12.png"></p>
+<p>其次，我们接受到的能量和光源的距离是有关的：</p>
+<p><img src="/images/Games101/07/13.png"></p>
+<p>那么通过上面这两个结论，我们就能够分析漫反射时，我们能看到着色点多少能量（以明暗的形式表示出来）</p>
+<p><img src="/images/Games101/07/14.png"></p>
+<p><strong>看到着色点的能量 &#x3D; 到达着色点的能量 x 着色点接收了多少能量</strong></p>
+<hr>
+<p><strong>这里有个问题：</strong></p>
+<ul>
+<li><p>上面式子中的 <strong>Kd</strong> 是什么？？？</p>
+</li>
+<li><p>着色点为什么会有颜色？？？</p>
+</li>
+</ul>
+<p>我们知道，物体之所以有能量是因为它吸收了一部分能量，反射出它不吸收的能量，从而看到了颜色；</p>
+<p>所以这里我们用一个系数 Kd（漫反射系数）来描述能量的吸收程度：</p>
+<ul>
+<li>1：表示不吸收能量</li>
+<li>0：表示吸收全部能量</li>
+</ul>
+<p><strong>漫反射</strong>是从不同的角度看同一个点，看到的结果是相同的。</p>
+<p>从公式上也能看出这一点，<strong>和观察的方向没有关系</strong>；</p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/01/07/games101/Lec%2009/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="FJBQ">
+      <meta itemprop="description" content="坚定 坚持 坚强">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FJBQ">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/01/07/games101/Lec%2009/" class="post-title-link" itemprop="url">【Games 101】Lec 09：渲染3（纹理映射（续））</a>
+        </h2>
+
+        <div class="post-meta">
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2024-01-07 22:28:27 / 修改时间：22:44:29" itemprop="dateCreated datePublished" datetime="2024-01-07T22:28:27+08:00">2024-01-07</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">Games 系列</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/Games-101/" itemprop="url" rel="index"><span itemprop="name">Games 101</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Lecture-9：Shading-3-Texture-Mapping-cont"><a href="#Lecture-9：Shading-3-Texture-Mapping-cont" class="headerlink" title="Lecture 9：Shading 3 (Texture Mapping cont.)"></a>Lecture 9：Shading 3 (Texture Mapping cont.)</h1><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43399489/article/details/120977488?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522168588406216800186534765%2522%252C%2522scm%2522%253A%252220140713.130102334.pc%255Fall.%2522%257D&request_id=168588406216800186534765&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~first_rank_ecpm_v1~rank_v31_ecpm-1-120977488-null-null.142%5Ev88%5Econtrol_2,239%5Ev2%5Einsert_chatgpt&utm_term=mipmap%20%E5%92%8C%20%E4%B8%89%E7%BA%BF%E6%80%A7%E6%8F%92%E5%80%BC%20%E7%9A%84%E5%85%B3%E7%B3%BB&spm=1018.2226.3001.4187">图形学笔记（八）着色2 —— 纹理映射、重心坐标、双线性插值、Mipmap、三线性插值、各向异性过滤、纹理的应用（环境贴图、法线贴图等)</a></p>
+<p><strong>上面是笔记，记得贼全。</strong></p>
+<p><img src="/images/Games101/09/01.png"></p>
+<p><img src="/images/Games101/09/02.png"></p>
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><blockquote>
+<p><strong>问题</strong>：<strong>如何在三角形内部进行任何属性的插值？</strong></p>
+<p><img src="/images/Games101/09/03.png"></p>
+<p><strong>什么是插值？</strong></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_46053880/article/details/113449866?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522168587213516800225589517%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&request_id=168587213516800225589517&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduend~default-1-113449866-null-null.142%5Ev88%5Econtrol_2,239%5Ev2%5Einsert_chatgpt&utm_term=%E4%BB%80%E4%B9%88%E6%98%AF%E6%8F%92%E5%80%BC%EF%BC%9F&spm=1018.2226.3001.4187">插值算法</a></p>
+<p><strong>为什么要插值？</strong></p>
+<p>是因为我们想要在三角形内部得到一个平滑的过渡。</p>
+<p><strong>插值什么</strong>？</p>
+<p>插值的东西是很广泛的（任意属性），比如说 <strong>颜色</strong>（三个点有三个不同的颜色，那么通过对颜色进行插值使得三角形内部的颜色有平滑的过渡）；<strong>位置</strong>（我们知道了三角形的三个顶点对应纹理上的三个顶点，然后通过对顶点位置进行插值，从而确定三角形内部每个点的位置）等等。</p>
+</blockquote>
+<h2 id="如何插值？"><a href="#如何插值？" class="headerlink" title="如何插值？"></a>如何插值？</h2><h3 id="重心坐标"><a href="#重心坐标" class="headerlink" title="重心坐标"></a>重心坐标</h3><blockquote>
+<p><img src="/images/Games101/09/04.png"></p>
+<p>且三个系数非负</p>
+<p>满足上面条件的就叫<strong>重心坐标（是三角形内的点的意思）</strong>；</p>
+<p>这里一定要注意：<strong>重心 和 重心坐标 是两个完全不同的概念！！</strong></p>
+<ul>
+<li><strong>重心：</strong>指一个三角形内部的特殊点，该点与三角形的三个顶点的连线平分三角形的三条中线。</li>
+<li><strong>重心坐标：</strong>是一种表示点在三角形内部位置的方式。<ul>
+<li>对于一个给定的三角形ABC，点P在三角形内部的位置可以由三个重心坐标（u,v,w）表示，满足以下条件：u+v+w&#x3D;1，且每个重心坐标都是点P到对应顶点的距离与三角形对边长度之比。</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<blockquote>
+<hr>
+<p><strong>任意一点的重心坐标：</strong></p>
+<p><img src="/images/Games101/09/05.png"></p>
+<p><img src="/images/Games101/09/06.png"></p>
+<hr>
+<p><strong>三角形的重心</strong>：</p>
+<p><img src="/images/Games101/09/07.png"></p>
+<hr>
+<p><strong>重心坐标的规范公式</strong>：</p>
+<p><img src="/images/Games101/09/08.png"></p>
+<hr>
+<p><strong>重心坐标的作用</strong>：</p>
+<p>既然我们知道了重心坐标的计算，那么我们就能通过重心来对三角形内部一点的属性进行插值：</p>
+<p><img src="/images/Games101/09/09.png"></p>
+<hr>
+<p>缺点：</p>
+<p>当三角形被投影到其他平面上面去的时候，三角形三个顶点的位置可能发生变换，从而导致重心坐标发生变化；</p>
+<p>也就是说，<strong>三维空间中的物体，我们不能计算投影后的重心坐标，而应该在三维空间中进行插值算出三维的重心坐标！</strong></p>
+</blockquote>
+<h2 id="应用纹理"><a href="#应用纹理" class="headerlink" title="应用纹理"></a>应用纹理</h2><h3 id="纹理太小的问题（双线性插值）"><a href="#纹理太小的问题（双线性插值）" class="headerlink" title="纹理太小的问题（双线性插值）"></a>纹理太小的问题（双线性插值）</h3><blockquote>
+<p>问题1：<strong>纹理太小的问题</strong>；</p>
+<p>当我们的图像比较大，纹理比较小的时候，做纹理映射后纹理会被拉大，导致对应纹理位置的不是一个整数值；</p>
+<p><img src="/images/Games101/09/10.png"></p>
+<p>导致下面Nearest的情况：</p>
+<p><img src="/images/Games101/09/11.png"></p>
+<p>但是我们想要上面 Bilinear，Bicubic 的情况；</p>
+<p>当一个像素对应的纹理坐标不是整数值时，我们如何去设置这个值？？？（<strong>双线性插值</strong>）</p>
+<ol>
+<li>首选对于像素点，取周围四个点的纹理坐标</li>
+</ol>
+<p><img src="/images/Games101/09/12.png"></p>
+<ol start="2">
+<li>用U00，U10插值得到U0，用U01，U11插值得到U1。</li>
+</ol>
+<p><img src="/images/Games101/09/13.png"></p>
+<ol start="3">
+<li>用U0和U1进行插值得到红色点</li>
+</ol>
+<p><img src="/images/Games101/09/14.png"></p>
+<p><img src="/images/Games101/09/15.png"></p>
+</blockquote>
+<hr>
+<h3 id="纹理太大的问题（Mipmap解决范围平均值查询-三线性插值）"><a href="#纹理太大的问题（Mipmap解决范围平均值查询-三线性插值）" class="headerlink" title="纹理太大的问题（Mipmap解决范围平均值查询 + 三线性插值）"></a>纹理太大的问题（Mipmap解决范围平均值查询 + 三线性插值）</h3><blockquote>
+<p>问题2：<strong>纹理太大的问题，导致走样，出现摩尔纹；</strong></p>
+<p>本质原因就是<strong>一个像素点包含了太多个纹理</strong>，导致当我们用普通的纹理映射的时候，这个像素点的重心代表了整个区域，从而导致了走样；</p>
+<p><img src="/images/Games101/09/16.png"></p>
+<p>那么首先能想到的就是反走样方法：用多个像素点采样取平均值（但是计算量太大了）</p>
+<p>换一种算法思路：<strong>不采样，直接对于每个像素点，我们可以直接知道这个像素点的平均值</strong>！</p>
+<p><img src="/images/Games101/09/17.png"></p>
+<p><strong>Point Query（点查询）</strong>：给一个点求值（插值）</p>
+<p><strong>Range Query（范围查询(平均值)）</strong>：给一个区域，我们能立刻得到区域中的平均值。</p>
+</blockquote>
+<hr>
+<blockquote>
+<p><strong>怎么实现范围查询？？？</strong></p>
+<p>引入 <strong>Mipmap</strong>，特点：</p>
+<ul>
+<li><strong>快</strong></li>
+<li><strong>近似的</strong></li>
+<li><strong>方形查询</strong></li>
+</ul>
+<p><img src="/images/Games101/09/18.png"></p>
+<p>原理是：<strong>二进制！！！</strong></p>
+<hr>
+<p>Mipmap 具体做法步骤：</p>
+<p>对于给定的一张图，我们先拆分成不同分辨率的图像（每次向下除二）：</p>
+<p><img src="/images/Games101/09/19.png"></p>
+<p><img src="/images/Games101/09/20.png"></p>
+<p>记住上面这个操作：</p>
+<p>接着，对于每个像素点（在原图上面找的），我们取它周围的像素点，同时把这些点在纹理图上的纹理坐标也找出来：</p>
+<p><img src="/images/Games101/09/21.png"></p>
+<p>接着，我们通过计算，近似的算出这个像素点在纹理坐标上大概占多少区域（不规则）</p>
+<p><img src="/images/Games101/09/22.png"></p>
+<p>然后我们把这个不规则的区域再近似的规则成一个正方形（为什么要规则成正方形下面就知道了）</p>
+<p>且是2的幂次</p>
+<p><img src="/images/Games101/09/23.png"></p>
+<p>那么对于每个正方形区域，我们就能快速（O(1)）的在第log2 L层去查询就行了（因为上面预处理好了！）</p>
+</blockquote>
+<blockquote>
+<p><strong>问题分析</strong></p>
+<p>但是这样会有，因为只预处理了2的幂次，我们并不知道1.5层是怎样的，所以导致不连续了；</p>
+<p><img src="/images/Games101/09/24.png"></p>
+<p>怎么解决？</p>
+<p>仍然是<strong>插值</strong>！</p>
+<p>比如说，对于1.5层，我们可以选第1层和第2层，分别在层内进行 Mipmap 范围查询，然后再对这两个结果进行层与层之间的插值：（这就是<strong>三线性插值</strong>）</p>
+<p><img src="/images/Games101/09/25.png"></p>
+</blockquote>
+<hr>
+<blockquote>
+<p><strong>但是还是有问题：</strong></p>
+<p><img src="/images/Games101/09/26.png"></p>
+<p>可以发现远处细节都被模糊了…</p>
+<p>原因是 <strong>mipmap 只考虑正方形</strong>，而有些像素对应的纹理其实可能是不规则的，从而导致模糊；</p>
+<p><img src="/images/Games101/09/27.png"></p>
+</blockquote>
+<hr>
+<blockquote>
+<p><strong>解决方法：</strong></p>
+<ul>
+<li><strong>各向异性过滤</strong></li>
+</ul>
+<p><img src="/images/Games101/09/28.png"></p>
+<p>引入矩形查询的区域，但是不规则咋办…</p>
+<hr>
+<ul>
+<li><strong>EWA 过滤</strong></li>
+</ul>
+<p><img src="/images/Games101/09/29.png"></p>
+<p>对于不规则形状，我们可以通过圆形的多次查询来确定；</p>
+<p>缺点：多次查询，开销较大…</p>
+</blockquote>
+<hr>
+<h2 id="纹理的应用"><a href="#纹理的应用" class="headerlink" title="纹理的应用"></a>纹理的应用</h2><p>靠，真的复杂…看这个笔记：</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43399489/article/details/120977488?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522168588406216800186534765%2522%252C%2522scm%2522%253A%252220140713.130102334.pc%255Fall.%2522%257D&request_id=168588406216800186534765&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~first_rank_ecpm_v1~rank_v31_ecpm-1-120977488-null-null.142%5Ev88%5Econtrol_2,239%5Ev2%5Einsert_chatgpt&utm_term=mipmap%20%E5%92%8C%20%E4%B8%89%E7%BA%BF%E6%80%A7%E6%8F%92%E5%80%BC%20%E7%9A%84%E5%85%B3%E7%B3%BB&spm=1018.2226.3001.4187">图形学笔记（八）着色2 —— 纹理映射、重心坐标、双线性插值、Mipmap、三线性插值、各向异性过滤、纹理的应用（环境贴图、法线贴图等)</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2024/01/07/games101/Lec%2002/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1664,158 +2029,6 @@ size_t lua_strlen (lua_State *L, int index);
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/12/30/GAMES%20104%20%E9%9A%8F%E7%AC%94/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="FJBQ">
-      <meta itemprop="description" content="坚定 坚持 坚强">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="FJBQ">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/12/30/GAMES%20104%20%E9%9A%8F%E7%AC%94/" class="post-title-link" itemprop="url">Games 104 随笔</a>
-        </h2>
-
-        <div class="post-meta">
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2023-12-30 21:09:55 / 修改时间：22:03:21" itemprop="dateCreated datePublished" datetime="2023-12-30T21:09:55+08:00">2023-12-30</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">Games 系列</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><strong>这篇文章是 GAMES 104 随笔</strong></p>
-<p>主要是暂时没那么多时间去详细记录，等以后有时间二刷了再细细总结；</p>
-<p>这个是 Games104 的官网，做的是真的好！</p>
-<p><a target="_blank" rel="noopener" href="https://games104.boomingtech.com/sc/">GAMES104 - 现代游戏引擎入门必修课 (boomingtech.com)</a></p>
-<h1 id="第二节-引擎架构的分层"><a href="#第二节-引擎架构的分层" class="headerlink" title="第二节 引擎架构的分层"></a>第二节 引擎架构的分层</h1><p>这里直接搬了别人的，侵删。</p>
-<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/613887146">Games104学习笔记（2） - 知乎 (zhihu.com)</a></p>
-<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/598348720">GAMES104：现代游戏引擎架构分层 - 知乎 (zhihu.com)</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/12/30/%E3%80%90UE4%E3%80%91%E8%B5%84%E6%BA%90%E5%8A%A0%E8%BD%BD/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="FJBQ">
-      <meta itemprop="description" content="坚定 坚持 坚强">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="FJBQ">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/12/30/%E3%80%90UE4%E3%80%91%E8%B5%84%E6%BA%90%E5%8A%A0%E8%BD%BD/" class="post-title-link" itemprop="url">【UE4】资源加载</a>
-        </h2>
-
-        <div class="post-meta">
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2023-12-30 21:09:55" itemprop="dateCreated datePublished" datetime="2023-12-30T21:09:55+08:00">2023-12-30</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-10-25 01:37:36" itemprop="dateModified" datetime="2023-10-25T01:37:36+08:00">2023-10-25</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/UE4/" itemprop="url" rel="index"><span itemprop="name">UE4</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><strong>此篇文章记录的是 UE4 的资源加载</strong></p>
-<h1 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h1><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/sin998/p/15229639.html">【总览】博客导航 - 多思考多实践同等重要 - 博客园 (cnblogs.com)</a></p>
-<p>ps：资源加载 篇</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1887,7 +2100,7 @@ size_t lua_strlen (lua_State *L, int index);
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">22</span>
+          <span class="site-state-item-count">24</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1938,7 +2151,7 @@ size_t lua_strlen (lua_State *L, int index);
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共25.2k字</span>
+  <span class="post-count">博客全站共27.3k字</span>
 </div>
 
 
