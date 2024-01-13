@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"manual","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Lecture 17：Materials and Appearances1. 外观和材质外观是光照和材质共同作用的结果。 由于材质不同，光线作用后会得到不同的结果，同样的模型会渲染出不同的结果。  渲染方程中，由BRDF来决定材质。所以，Material &#x3D;&#x3D; BRDF 2. 反射和折射2.1 完全镜面反射（Perfect Specular Reflection）对于完全镜面反">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【Games 101】Lec 17：材质和外观">
+<meta property="og:url" content="http://example.com/2024/01/13/games101/Lec%2017/index.html">
+<meta property="og:site_name" content="FJBQ">
+<meta property="og:description" content="Lecture 17：Materials and Appearances1. 外观和材质外观是光照和材质共同作用的结果。 由于材质不同，光线作用后会得到不同的结果，同样的模型会渲染出不同的结果。  渲染方程中，由BRDF来决定材质。所以，Material &#x3D;&#x3D; BRDF 2. 反射和折射2.1 完全镜面反射（Perfect Specular Reflection）对于完全镜面反">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/images/Games101/17/01.png">
+<meta property="og:image" content="http://example.com/images/Games101/17/02.png">
+<meta property="og:image" content="http://example.com/images/Games101/17/03.png">
+<meta property="og:image" content="http://example.com/images/Games101/17/04.png">
+<meta property="og:image" content="http://example.com/images/Games101/17/05.png">
+<meta property="og:image" content="http://example.com/images/Games101/17/06.png">
+<meta property="og:image" content="http://example.com/images/Games101/17/07.png">
+<meta property="og:image" content="http://example.com/images/Games101/17/08.png">
+<meta property="og:image" content="http://example.com/images/Games101/17/09.png">
+<meta property="og:image" content="http://example.com/images/Games101/17/10.png">
+<meta property="og:image" content="http://example.com/images/Games101/17/11.png">
+<meta property="og:image" content="http://example.com/images/Games101/17/12.png">
+<meta property="og:image" content="http://example.com/images/Games101/17/13.png">
+<meta property="og:image" content="http://example.com/images/Games101/17/14.png">
+<meta property="og:image" content="http://example.com/images/Games101/17/15.png">
+<meta property="og:image" content="http://example.com/images/Games101/17/16.png">
+<meta property="og:image" content="http://example.com/images/Games101/17/17.png">
+<meta property="og:image" content="http://example.com/images/Games101/17/18.png">
+<meta property="og:image" content="http://example.com/images/Games101/17/19.png">
+<meta property="og:image" content="http://example.com/images/Games101/17/20.png">
+<meta property="og:image" content="http://example.com/images/Games101/17/21.png">
+<meta property="og:image" content="http://example.com/images/Games101/17/22.png">
+<meta property="og:image" content="http://example.com/images/Games101/17/23.png">
+<meta property="og:image" content="http://example.com/images/Games101/17/24.png">
+<meta property="og:image" content="http://example.com/images/Games101/17/25.png">
+<meta property="og:image" content="http://example.com/images/Games101/17/26.png">
+<meta property="og:image" content="http://example.com/images/Games101/17/27.png">
+<meta property="og:image" content="http://example.com/images/Games101/17/28.png">
+<meta property="og:image" content="http://example.com/images/Games101/17/30.png">
+<meta property="article:published_time" content="2024-01-13T12:08:06.326Z">
+<meta property="article:modified_time" content="2024-01-13T13:22:30.226Z">
+<meta property="article:author" content="FJBQ">
+<meta property="article:tag" content="Games 系列">
+<meta property="article:tag" content="Games 101">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/Games101/17/01.png">
+
+<link rel="canonical" href="http://example.com/2024/01/13/games101/Lec%2017/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>【Games 101】Lec 17：材质和外观 | FJBQ</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/rss2.xml" title="FJBQ" type="application/rss+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">FJBQ</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-resources">
+
+    <a href="/resources/" rel="section"><i class="fa fa-download fa-fw"></i>资源</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/01/13/games101/Lec%2017/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="FJBQ">
+      <meta itemprop="description" content="坚定 坚持 坚强">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FJBQ">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          【Games 101】Lec 17：材质和外观
+        </h1>
+
+        <div class="post-meta">
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2024-01-13 20:08:06 / 修改时间：21:22:30" itemprop="dateCreated datePublished" datetime="2024-01-13T20:08:06+08:00">2024-01-13</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">Games 系列</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/Games-101/" itemprop="url" rel="index"><span itemprop="name">Games 101</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Lecture-17：Materials-and-Appearances"><a href="#Lecture-17：Materials-and-Appearances" class="headerlink" title="Lecture 17：Materials and Appearances"></a>Lecture 17：Materials and Appearances</h1><h1 id="1-外观和材质"><a href="#1-外观和材质" class="headerlink" title="1. 外观和材质"></a>1. 外观和材质</h1><p>外观是光照和材质共同作用的结果。</p>
+<p>由于材质不同，光线作用后会得到不同的结果，同样的模型会渲染出不同的结果。</p>
+<p><img src="/images/Games101/17/01.png"></p>
+<p>渲染方程中，由BRDF来决定材质。所以，<strong>Material &#x3D;&#x3D; BRDF</strong></p>
+<h1 id="2-反射和折射"><a href="#2-反射和折射" class="headerlink" title="2. 反射和折射"></a>2. 反射和折射</h1><h2 id="2-1-完全镜面反射（Perfect-Specular-Reflection）"><a href="#2-1-完全镜面反射（Perfect-Specular-Reflection）" class="headerlink" title="2.1 完全镜面反射（Perfect Specular Reflection）"></a>2.1 完全镜面反射（Perfect Specular Reflection）</h2><p>对于完全镜面反射，有两种辨别方法：</p>
+<ul>
+<li><strong>入射光方向 &#x3D; 出射光方向</strong>，它们中间是<strong>法线</strong>。</li>
+<li>把角度投影到局部坐标系，从上往下看，<strong>入射角和出射角相反</strong>。</li>
+</ul>
+<p><img src="/images/Games101/17/02.png"></p>
+<p><strong>反射方向的计算方法：</strong></p>
+<p><img src="/images/Games101/17/03.png"></p>
+<h2 id="2-2-折射（Specular-Refraction）"><a href="#2-2-折射（Specular-Refraction）" class="headerlink" title="2.2 折射（Specular Refraction）"></a>2.2 折射（Specular Refraction）</h2><h3 id="2-2-1-折射定律（Snell’s-Law）"><a href="#2-2-1-折射定律（Snell’s-Law）" class="headerlink" title="2.2.1 折射定律（Snell’s Law）"></a>2.2.1 折射定律（Snell’s Law）</h3><p>由折射定律，<strong>η</strong> 是不同材质的<strong>折射率</strong>，有：</p>
+<p><img src="/images/Games101/17/04.png"></p>
+<p><strong>投影后满足下面的关系：</strong></p>
+<p><img src="/images/Games101/17/05.png"></p>
+<p>如果<strong>入射介质的折射率</strong> <strong>大于 折射介质的折射率</strong> 就会发生 <strong>全反射</strong>。</p>
+<p><strong>折射定律公式：</strong></p>
+<p><img src="/images/Games101/17/06.png"></p>
+<h3 id="2-2-2-Snell’s-Window-Circle-现象"><a href="#2-2-2-Snell’s-Window-Circle-现象" class="headerlink" title="2.2.2 Snell’s Window &#x2F; Circle 现象"></a>2.2.2 Snell’s Window &#x2F; Circle 现象</h3><p>由于全反射现象，从空气打到水面的光线超过一定角度就无法进入人眼，形成了下面的<strong>Snell’s Window &#x2F; Circle 现象</strong>。</p>
+<p><img src="/images/Games101/17/07.png"></p>
+<h2 id="2-3-菲涅尔项（Fresnel-Reflection-Term）"><a href="#2-3-菲涅尔项（Fresnel-Reflection-Term）" class="headerlink" title="2.3 菲涅尔项（Fresnel Reflection &#x2F; Term）"></a>2.3 菲涅尔项（Fresnel Reflection &#x2F; Term）</h2><p>2.3.1 概述</p>
+<p><strong>反射</strong> 和 <strong>入射光的角度</strong>有关。</p>
+<p><img src="/images/Games101/17/08.png"></p>
+<p><strong>比如上面图片中，当入射光线（我们的视线）和桌子的法线越垂直，反射就越明显；</strong></p>
+<p><strong>不同的材质他们的效果是不一样的，比如镜子，那么不论从哪个角度看，反射都很明显；</strong></p>
+<p><strong>这个材质的性质，我们用菲涅尔项来定义；</strong></p>
+<p>下面这个菲尼尔项是上面例子的：可以看到角度越大反射率越高</p>
+<p><img src="/images/Games101/17/09.png"></p>
+<h3 id="2-3-2-Fresnel-Term-公式"><a href="#2-3-2-Fresnel-Term-公式" class="headerlink" title="2.3.2 Fresnel Term 公式"></a>2.3.2 Fresnel Term 公式</h3><ul>
+<li><strong>精确公式：需要考虑极化（polarization）</strong></li>
+</ul>
+<p><img src="/images/Games101/17/10.png"></p>
+<ul>
+<li><strong>近似公式：Schlick’s approximation</strong></li>
+</ul>
+<p><img src="/images/Games101/17/11.png"></p>
+<h1 id="3-常见材质"><a href="#3-常见材质" class="headerlink" title="3. 常见材质"></a>3. 常见材质</h1><h2 id="3-1-漫反射材质（Diffuse-Lambertian-Material）"><a href="#3-1-漫反射材质（Diffuse-Lambertian-Material）" class="headerlink" title="3.1 漫反射材质（Diffuse &#x2F; Lambertian Material）"></a>3.1 漫反射材质（Diffuse &#x2F; Lambertian Material）</h2><p><strong>在漫反射中，光被到达后会被均匀的反射到四面八方。</strong></p>
+<p>现在假设进来的光也是均匀的，即来自各个角度的 Irradiance 是相同的。那么如果表面不吸收光，那么入射和出射的 Irradiance，且入射和出射都是均匀（uniform）的，那么入射光和出射光的 Radiance 也是相同的。</p>
+<p><strong>漫反射的 BRDF 推导如下：</strong></p>
+<p><img src="/images/Games101/17/12.png"></p>
+<ul>
+<li>其中 ρ 是反射率；</li>
+<li>如果是完全不吸收能量，即反射率 ρ &#x3D; 1，此时 BRDF &#x3D; 1 &#x2F; π</li>
+</ul>
+<h2 id="3-2-Glossy-material（BDRF）"><a href="#3-2-Glossy-material（BDRF）" class="headerlink" title="3.2 Glossy material（BDRF）"></a>3.2 Glossy material（BDRF）</h2><p>Glossy material是被打磨的铜镜之类的材质效果，是较为模糊的镜面，<strong>BRDF 的反射方向集中在一个小范围内。</strong></p>
+<p><img src="/images/Games101/17/13.png"></p>
+<h2 id="3-3-Ideal-reflective-refractive-material-BSDF"><a href="#3-3-Ideal-reflective-refractive-material-BSDF" class="headerlink" title="3.3 Ideal reflective &#x2F; refractive material(BSDF*)"></a>3.3 Ideal reflective &#x2F; refractive material(BSDF*)</h2><p><strong>此种材质同时具有反射和折射，可以使用BSDF来表示这种材质（同时考虑反射和折射）。</strong></p>
+<p><strong>BSDF &#x3D; BRDF + BTDF</strong></p>
+<p><img src="/images/Games101/17/14.png"></p>
+<h2 id="3-4-微表面材质（Microfacet-Material）"><a href="#3-4-微表面材质（Microfacet-Material）" class="headerlink" title="3.4 微表面材质（Microfacet Material）"></a>3.4 微表面材质（Microfacet Material）</h2><h3 id="3-4-1-概述"><a href="#3-4-1-概述" class="headerlink" title="3.4.1 概述"></a>3.4.1 概述</h3><p><strong>基本思想</strong>：</p>
+<ul>
+<li><strong>如果离一个物体足够远，那么就看不到表面的细节，取而代之的是表面上的物体对表面的作用，即对光总体的效应。</strong></li>
+</ul>
+<p><strong>例子</strong>：</p>
+<ul>
+<li>如下图太阳找到澳大利亚，澳大利亚的不同地形反映出来的是一个比较亮的材质。</li>
+</ul>
+<p><img src="/images/Games101/17/15.png"></p>
+<h3 id="3-4-2-微表面原理（Microfacet-Theory）"><a href="#3-4-2-微表面原理（Microfacet-Theory）" class="headerlink" title="3.4.2 微表面原理（Microfacet Theory）"></a>3.4.2 微表面原理（Microfacet Theory）</h3><p>微表面模型认为从<strong>远处看到的是材质外观</strong>，从<strong>近处看到的几何</strong>。</p>
+<p><strong>关键</strong> 研究微表面法线的分布。如下图所示，<strong>不同的法线分布会产生不同的材质</strong>：</p>
+<ul>
+<li><strong>法线分布集中就是 Glossy；</strong></li>
+<li><strong>分散就是 Diffuse。</strong></li>
+</ul>
+<p><img src="/images/Games101/17/16.png"></p>
+<h3 id="3-4-3-Microfacet-BRDF（微表面的BRDF）"><a href="#3-4-3-Microfacet-BRDF（微表面的BRDF）" class="headerlink" title="3.4.3 Microfacet BRDF（微表面的BRDF）"></a>3.4.3 Microfacet BRDF（微表面的BRDF）</h3><p>Microfacet BRDF主要由三项构成：</p>
+<ul>
+<li><strong>Fresnel term</strong>：不同入射方向带来不同程度的反射，侧重能量。</li>
+<li><strong>distribution of normals</strong>：法线分布，表示对于给定方向分布的值是多少。结合半程向量h就可以确定什么样的微表面可以从入射反射到出射（半程向量离法线越近越能反射）。</li>
+<li><strong>shadowing-masking term</strong>：几何项，由于自遮挡现象使得有些微表面的作用。当光线几乎平着的打到微表面就容易发生shadow-masking。</li>
+</ul>
+<p><img src="/images/Games101/17/17.png"></p>
+<h2 id="3-5-各项同性-各向异性材质（Isotropic-Anisotropic-Material-BRDFs-）"><a href="#3-5-各项同性-各向异性材质（Isotropic-Anisotropic-Material-BRDFs-）" class="headerlink" title="3.5 各项同性&#x2F;各向异性材质（Isotropic &#x2F; Anisotropic Material (BRDFs)）"></a>3.5 各项同性&#x2F;各向异性材质（Isotropic &#x2F; Anisotropic Material (BRDFs)）</h2><h3 id="3-5-1-概述"><a href="#3-5-1-概述" class="headerlink" title="3.5.1 概述"></a>3.5.1 概述</h3><p>各向异性会产生如下效果。</p>
+<p><img src="/images/Games101/17/18.png"></p>
+<p><strong>关键</strong>：各向异性的表面的法线分布具有方向性。</p>
+<p><img src="/images/Games101/17/19.png"></p>
+<h3 id="3-5-2-各向同性与各向异性的区别"><a href="#3-5-2-各向同性与各向异性的区别" class="headerlink" title="3.5.2 各向同性与各向异性的区别"></a>3.5.2 各向同性与各向异性的区别</h3><p><strong>区别：</strong>如果BRDF不满足在方位角上旋转得到的还是相同的BRDF，则称为是各向异性材质。</p>
+<p><strong>简单来说各向同性的 BRDF 只和相对的方位角有关，而各向异性材质不止和相对方位角有关还和绝对方位角有关。</strong></p>
+<p><img src="/images/Games101/17/20.png"></p>
+<h1 id="4-BRDFs-的性质"><a href="#4-BRDFs-的性质" class="headerlink" title="4. BRDFs 的性质"></a>4. BRDFs 的性质</h1><ul>
+<li>BRDF 是<strong>非负</strong>的：</li>
+<li><img src="/images/Games101/17/21.png"></li>
+<li>BRDF 是<strong>线性的，可拆分</strong>：</li>
+<li><img src="/images/Games101/17/22.png"></li>
+<li>BRDF 具<strong>有可逆性</strong>（Reciprocity）：交换入射方向和出射方向的角色，得到相同的 BRDF。</li>
+<li><img src="/images/Games101/17/23.png"></li>
+<li>BRDF <strong>能量守恒</strong>：</li>
+<li><img src="/images/Games101/17/24.png"></li>
+<li><strong>各向同性与各向异性：</strong></li>
+<li><img src="/images/Games101/17/25.png"></li>
+</ul>
+<h1 id="5-测量-BRDFs"><a href="#5-测量-BRDFs" class="headerlink" title="5. 测量 BRDFs"></a>5. 测量 BRDFs</h1><p>只有测量出的 BRDF 才是真正的 BRDF。</p>
+<h2 id="5-1-动机"><a href="#5-1-动机" class="headerlink" title="5.1 动机"></a>5.1 动机</h2><ul>
+<li><strong>避免计算 BRDF 模型，只要测量出来就可以用。</strong></li>
+<li><strong>计算的不一定准确，但测量能准确的得出真实世界的材质。</strong></li>
+</ul>
+<p><img src="/images/Games101/17/26.png"></p>
+<h2 id="5-2-测量方法"><a href="#5-2-测量方法" class="headerlink" title="5.2 测量方法"></a>5.2 测量方法</h2><p>测量 BRDF 就是让光影和相机从各个方向去照去拍。</p>
+<p><img src="/images/Games101/17/27.png"></p>
+<p>下图是测量工具：gonioreflectometer，可以精确到0.1°的级别。</p>
+<p><img src="/images/Games101/17/28.png"></p>
+<h2 id="5-3-伪代码和优化"><a href="#5-3-伪代码和优化" class="headerlink" title="5.3 伪代码和优化"></a>5.3 伪代码和优化</h2><p><strong>伪代码：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">foreach outgoing direction wo</span><br><span class="line">	move light to illuminate surface with a thin beam from wo</span><br><span class="line">	foreach incoming direction wi</span><br><span class="line">		move senser to be at direction wi from surface</span><br><span class="line">		measure incident radiance</span><br></pre></td></tr></table></figure>
+
+<p><strong>优化：</strong></p>
+<ul>
+<li><strong>各向同性把维度从 4 维减少到了3维</strong></li>
+<li><strong>使用可逆性减少了一般的测量</strong></li>
+<li><strong>使用更加巧妙的光学测量</strong></li>
+</ul>
+<h2 id="5-3-表示-BRDF"><a href="#5-3-表示-BRDF" class="headerlink" title="5.3 表示 BRDF"></a>5.3 表示 BRDF</h2><h3 id="5-3-1-要求"><a href="#5-3-1-要求" class="headerlink" title="5.3.1 要求"></a>5.3.1 要求</h3><ul>
+<li>紧凑的表示</li>
+<li>测量数据的准确表示</li>
+<li>对随意一对方向的高效预测</li>
+<li>可用于重要性抽样的良好分布</li>
+</ul>
+<h3 id="5-3-2-表格化表示（Tabular-Representation）"><a href="#5-3-2-表格化表示（Tabular-Representation）" class="headerlink" title="5.3.2 表格化表示（Tabular Representation）"></a>5.3.2 表格化表示（Tabular Representation）</h3><p>把规则空间采样存储到三维数组 ( θi , θo , ∣ ϕi − ϕo ∣) 里。</p>
+<p>参数化角度以更好地匹配镜面反射。</p>
+<p>一般需要将测量值重新采样到表格中。</p>
+<p><img src="/images/Games101/17/30.png"></p>
+<h1 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h1><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43399489/article/details/121711731?spm=1001.2014.3001.5502">图形学笔记（十五）材质和外观 —— 菲涅尔项、常见材质（微表面材质、各向同性与各向异性）、BSDF、BRDF的性质、测量BRDF-CSDN博客</a></p>
+<p>好多好难… </p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>FJBQ
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://example.com/2024/01/13/games101/Lec%2017/" title="【Games 101】Lec 17：材质和外观">http://example.com/2024/01/13/games101/Lec 17/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Games-%E7%B3%BB%E5%88%97/" rel="tag"># Games 系列</a>
+              <a href="/tags/Games-101/" rel="tag"># Games 101</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2024/01/13/games101/Lec%2015/" rel="prev" title="【Games 101】Lec 15：光线追踪 3（辐射度量学，光传输，全局光照）">
+      <i class="fa fa-chevron-left"></i> 【Games 101】Lec 15：光线追踪 3（辐射度量学，光传输，全局光照）
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC81OTA5Ni8zNTU1OA=="></div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Lecture-17%EF%BC%9AMaterials-and-Appearances"><span class="nav-number">1.</span> <span class="nav-text">Lecture 17：Materials and Appearances</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E5%A4%96%E8%A7%82%E5%92%8C%E6%9D%90%E8%B4%A8"><span class="nav-number">2.</span> <span class="nav-text">1. 外观和材质</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E5%8F%8D%E5%B0%84%E5%92%8C%E6%8A%98%E5%B0%84"><span class="nav-number">3.</span> <span class="nav-text">2. 反射和折射</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-%E5%AE%8C%E5%85%A8%E9%95%9C%E9%9D%A2%E5%8F%8D%E5%B0%84%EF%BC%88Perfect-Specular-Reflection%EF%BC%89"><span class="nav-number">3.1.</span> <span class="nav-text">2.1 完全镜面反射（Perfect Specular Reflection）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-%E6%8A%98%E5%B0%84%EF%BC%88Specular-Refraction%EF%BC%89"><span class="nav-number">3.2.</span> <span class="nav-text">2.2 折射（Specular Refraction）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-1-%E6%8A%98%E5%B0%84%E5%AE%9A%E5%BE%8B%EF%BC%88Snell%E2%80%99s-Law%EF%BC%89"><span class="nav-number">3.2.1.</span> <span class="nav-text">2.2.1 折射定律（Snell’s Law）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-2-Snell%E2%80%99s-Window-Circle-%E7%8E%B0%E8%B1%A1"><span class="nav-number">3.2.2.</span> <span class="nav-text">2.2.2 Snell’s Window &#x2F; Circle 现象</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-%E8%8F%B2%E6%B6%85%E5%B0%94%E9%A1%B9%EF%BC%88Fresnel-Reflection-Term%EF%BC%89"><span class="nav-number">3.3.</span> <span class="nav-text">2.3 菲涅尔项（Fresnel Reflection &#x2F; Term）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-2-Fresnel-Term-%E5%85%AC%E5%BC%8F"><span class="nav-number">3.3.1.</span> <span class="nav-text">2.3.2 Fresnel Term 公式</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-%E5%B8%B8%E8%A7%81%E6%9D%90%E8%B4%A8"><span class="nav-number">4.</span> <span class="nav-text">3. 常见材质</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-%E6%BC%AB%E5%8F%8D%E5%B0%84%E6%9D%90%E8%B4%A8%EF%BC%88Diffuse-Lambertian-Material%EF%BC%89"><span class="nav-number">4.1.</span> <span class="nav-text">3.1 漫反射材质（Diffuse &#x2F; Lambertian Material）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-Glossy-material%EF%BC%88BDRF%EF%BC%89"><span class="nav-number">4.2.</span> <span class="nav-text">3.2 Glossy material（BDRF）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-Ideal-reflective-refractive-material-BSDF"><span class="nav-number">4.3.</span> <span class="nav-text">3.3 Ideal reflective &#x2F; refractive material(BSDF*)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-4-%E5%BE%AE%E8%A1%A8%E9%9D%A2%E6%9D%90%E8%B4%A8%EF%BC%88Microfacet-Material%EF%BC%89"><span class="nav-number">4.4.</span> <span class="nav-text">3.4 微表面材质（Microfacet Material）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-1-%E6%A6%82%E8%BF%B0"><span class="nav-number">4.4.1.</span> <span class="nav-text">3.4.1 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-2-%E5%BE%AE%E8%A1%A8%E9%9D%A2%E5%8E%9F%E7%90%86%EF%BC%88Microfacet-Theory%EF%BC%89"><span class="nav-number">4.4.2.</span> <span class="nav-text">3.4.2 微表面原理（Microfacet Theory）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-3-Microfacet-BRDF%EF%BC%88%E5%BE%AE%E8%A1%A8%E9%9D%A2%E7%9A%84BRDF%EF%BC%89"><span class="nav-number">4.4.3.</span> <span class="nav-text">3.4.3 Microfacet BRDF（微表面的BRDF）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-5-%E5%90%84%E9%A1%B9%E5%90%8C%E6%80%A7-%E5%90%84%E5%90%91%E5%BC%82%E6%80%A7%E6%9D%90%E8%B4%A8%EF%BC%88Isotropic-Anisotropic-Material-BRDFs-%EF%BC%89"><span class="nav-number">4.5.</span> <span class="nav-text">3.5 各项同性&#x2F;各向异性材质（Isotropic &#x2F; Anisotropic Material (BRDFs)）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-5-1-%E6%A6%82%E8%BF%B0"><span class="nav-number">4.5.1.</span> <span class="nav-text">3.5.1 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-5-2-%E5%90%84%E5%90%91%E5%90%8C%E6%80%A7%E4%B8%8E%E5%90%84%E5%90%91%E5%BC%82%E6%80%A7%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">4.5.2.</span> <span class="nav-text">3.5.2 各向同性与各向异性的区别</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-BRDFs-%E7%9A%84%E6%80%A7%E8%B4%A8"><span class="nav-number">5.</span> <span class="nav-text">4. BRDFs 的性质</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-%E6%B5%8B%E9%87%8F-BRDFs"><span class="nav-number">6.</span> <span class="nav-text">5. 测量 BRDFs</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#5-1-%E5%8A%A8%E6%9C%BA"><span class="nav-number">6.1.</span> <span class="nav-text">5.1 动机</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-2-%E6%B5%8B%E9%87%8F%E6%96%B9%E6%B3%95"><span class="nav-number">6.2.</span> <span class="nav-text">5.2 测量方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-3-%E4%BC%AA%E4%BB%A3%E7%A0%81%E5%92%8C%E4%BC%98%E5%8C%96"><span class="nav-number">6.3.</span> <span class="nav-text">5.3 伪代码和优化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-3-%E8%A1%A8%E7%A4%BA-BRDF"><span class="nav-number">6.4.</span> <span class="nav-text">5.3 表示 BRDF</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-3-1-%E8%A6%81%E6%B1%82"><span class="nav-number">6.4.1.</span> <span class="nav-text">5.3.1 要求</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-3-2-%E8%A1%A8%E6%A0%BC%E5%8C%96%E8%A1%A8%E7%A4%BA%EF%BC%88Tabular-Representation%EF%BC%89"><span class="nav-number">6.4.2.</span> <span class="nav-text">5.3.2 表格化表示（Tabular Representation）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83%EF%BC%9A"><span class="nav-number">7.</span> <span class="nav-text">参考：</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="FJBQ"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">FJBQ</p>
+  <div class="site-description" itemprop="description">坚定 坚持 坚强</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">27</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2023-10 – 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">FJBQ</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共33.6k字</span>
+</div>
+
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <span id="busuanzi_container_site_pv">总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+    <span class="post-meta-divider">|</span>
+    <span id="busuanzi_container_site_uv">总访客数<span id="busuanzi_value_site_uv"></span>人</span>
+    <span class="post-meta-divider">|</span>
+<!-- 不蒜子计数初始值纠正 -->
+<script>
+$(document).ready(function() {
+
+    var int = setInterval(fixCount, 50);  // 50ms周期检测函数
+    var countOffset = 20000;  // 初始化首次数据
+
+    function fixCount() {            
+       if (document.getElementById("busuanzi_container_site_pv").style.display != "none")
+        {
+            $("#busuanzi_value_site_pv").html(parseInt($("#busuanzi_value_site_pv").html()) + countOffset); 
+            clearInterval(int);
+        }                  
+        if ($("#busuanzi_container_site_pv").css("display") != "none")
+        {
+            $("#busuanzi_value_site_uv").html(parseInt($("#busuanzi_value_site_uv").html()) + countOffset); // 加上初始数据 
+            clearInterval(int); // 停止检测
+        }  
+    }
+       	
+});
+</script> 
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+<script>
+NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"left","width":150,"height":225,"hOffset":-15,"vOffset":-15},"mobile":{"show":false},"react":{"opacity":1},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
