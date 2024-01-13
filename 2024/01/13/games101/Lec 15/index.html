@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"manual","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Lecture 15：Ray Tracing 3 (Light Transport &amp; Global Illumination)这节课讲的是 Light Transport &amp; Global Illumination 当然首先包含了上一节课最后的辐射度量学； ps：这几节课是真的难… 1. 辐射度量学（Basic radiometry）1.1 概述辐射度量学的动机： 光源中定义L&amp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【Games 101】Lec 15：光线追踪 3（辐射度量学，光传输，全局光照）">
+<meta property="og:url" content="http://example.com/2024/01/13/games101/Lec%2015/index.html">
+<meta property="og:site_name" content="FJBQ">
+<meta property="og:description" content="Lecture 15：Ray Tracing 3 (Light Transport &amp; Global Illumination)这节课讲的是 Light Transport &amp; Global Illumination 当然首先包含了上一节课最后的辐射度量学； ps：这几节课是真的难… 1. 辐射度量学（Basic radiometry）1.1 概述辐射度量学的动机： 光源中定义L&amp;">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/images/Games101/15/01.png">
+<meta property="og:image" content="http://example.com/images/Games101/15/02.png">
+<meta property="og:image" content="http://example.com/images/Games101/15/03.png">
+<meta property="og:image" content="http://example.com/images/Games101/15/04.png">
+<meta property="og:image" content="http://example.com/images/Games101/15/05.png">
+<meta property="og:image" content="http://example.com/images/Games101/15/06.png">
+<meta property="og:image" content="http://example.com/images/Games101/15/07.png">
+<meta property="og:image" content="http://example.com/images/Games101/15/08.png">
+<meta property="og:image" content="http://example.com/images/Games101/15/09.png">
+<meta property="og:image" content="http://example.com/images/Games101/15/10.png">
+<meta property="og:image" content="http://example.com/images/Games101/15/11.png">
+<meta property="og:image" content="http://example.com/images/Games101/15/12.png">
+<meta property="og:image" content="http://example.com/images/Games101/15/13.png">
+<meta property="og:image" content="http://example.com/images/Games101/15/14.png">
+<meta property="og:image" content="http://example.com/images/Games101/15/15.png">
+<meta property="og:image" content="http://example.com/images/Games101/15/16.png">
+<meta property="og:image" content="http://example.com/images/Games101/15/17.png">
+<meta property="og:image" content="http://example.com/images/Games101/15/18.png">
+<meta property="og:image" content="http://example.com/images/Games101/15/19.png">
+<meta property="og:image" content="http://example.com/images/Games101/15/20.png">
+<meta property="og:image" content="http://example.com/images/Games101/15/21.png">
+<meta property="og:image" content="http://example.com/images/Games101/15/22.png">
+<meta property="og:image" content="http://example.com/images/Games101/15/23.png">
+<meta property="og:image" content="http://example.com/images/Games101/15/24.png">
+<meta property="og:image" content="http://example.com/images/Games101/15/25.png">
+<meta property="article:published_time" content="2024-01-13T05:16:57.619Z">
+<meta property="article:modified_time" content="2024-01-13T07:00:31.278Z">
+<meta property="article:author" content="FJBQ">
+<meta property="article:tag" content="Games 系列">
+<meta property="article:tag" content="Games 101">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/Games101/15/01.png">
+
+<link rel="canonical" href="http://example.com/2024/01/13/games101/Lec%2015/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>【Games 101】Lec 15：光线追踪 3（辐射度量学，光传输，全局光照） | FJBQ</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/rss2.xml" title="FJBQ" type="application/rss+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">FJBQ</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-resources">
+
+    <a href="/resources/" rel="section"><i class="fa fa-download fa-fw"></i>资源</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/01/13/games101/Lec%2015/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="FJBQ">
+      <meta itemprop="description" content="坚定 坚持 坚强">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FJBQ">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          【Games 101】Lec 15：光线追踪 3（辐射度量学，光传输，全局光照）
+        </h1>
+
+        <div class="post-meta">
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2024-01-13 13:16:57 / 修改时间：15:00:31" itemprop="dateCreated datePublished" datetime="2024-01-13T13:16:57+08:00">2024-01-13</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">Games 系列</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/Games-101/" itemprop="url" rel="index"><span itemprop="name">Games 101</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Lecture-15：Ray-Tracing-3-Light-Transport-Global-Illumination"><a href="#Lecture-15：Ray-Tracing-3-Light-Transport-Global-Illumination" class="headerlink" title="Lecture 15：Ray Tracing 3 (Light Transport &amp; Global Illumination)"></a>Lecture 15：Ray Tracing 3 (Light Transport &amp; Global Illumination)</h1><p>这节课讲的是 <strong>Light Transport &amp; Global Illumination</strong> 当然首先包含了上一节课最后的辐射度量学；</p>
+<p>ps：这几节课是真的难…</p>
+<h1 id="1-辐射度量学（Basic-radiometry）"><a href="#1-辐射度量学（Basic-radiometry）" class="headerlink" title="1. 辐射度量学（Basic radiometry）"></a>1. 辐射度量学（Basic radiometry）</h1><h2 id="1-1-概述"><a href="#1-1-概述" class="headerlink" title="1.1 概述"></a>1.1 概述</h2><p><strong>辐射度量学的动机：</strong></p>
+<p>光源中定义L&#x3D;10，但是10代表的是什么无法确定，缺少单位。</p>
+<p><strong>定义：</strong></p>
+<p>辐射度量学就是<strong>在物理上准确度量光照</strong>的方法。</p>
+<p>它定义了一系列的方法和单位，准确的定义了光在空间中的属性：</p>
+<ul>
+<li>Radiant flux（辐射通量）</li>
+<li>intensity（辐射强度）</li>
+<li>irradiance（辐射[照]度）</li>
+<li>radiance（辐[射]亮度）</li>
+</ul>
+<h2 id="1-2-角，立体角（solid-angle），微分立体角"><a href="#1-2-角，立体角（solid-angle），微分立体角" class="headerlink" title="1.2 角，立体角（solid angle），微分立体角"></a>1.2 角，立体角（solid angle），微分立体角</h2><ol>
+<li><strong>角 Angle：</strong> 圆上的弧长与半径的比值。</li>
+</ol>
+<p><img src="/images/Games101/15/01.png"></p>
+<ol start="2">
+<li><strong>立体角（solid angle）：球面上的面积和半径平方的比值。</strong>（弧度制在三维空间的延申）</li>
+</ol>
+<p><img src="/images/Games101/15/02.png"></p>
+<ol start="3">
+<li><strong>微分立体角（Differential）</strong></li>
+</ol>
+<p><img src="/images/Games101/15/03.png"></p>
+<blockquote>
+<p>dA 是球面上的微分面积，近似成长方形</p>
+</blockquote>
+<p>通过积分可以得到，整个球的立体角是 <strong>4π</strong> 。</p>
+<p><img src="/images/Games101/15/04.png"></p>
+<h2 id="1-3-Radiant-Energy-and-Flux-Power"><a href="#1-3-Radiant-Energy-and-Flux-Power" class="headerlink" title="1.3 Radiant Energy and Flux (Power)"></a>1.3 Radiant Energy and Flux (Power)</h2><h3 id="1-3-1-Radiant-Energy"><a href="#1-3-1-Radiant-Energy" class="headerlink" title="1.3.1 Radiant Energy"></a>1.3.1 Radiant Energy</h3><p><strong>定义：Radiant energy是一种电磁辐射的能量。它由 <strong>焦耳</strong>（J&#x3D;Joule）单位来度量，用符号</strong>Q<strong>来表示。</strong></p>
+<p><img src="/images/Games101/15/05.png"></p>
+<h3 id="1-3-2-Radient-Flux-Power"><a href="#1-3-2-Radient-Flux-Power" class="headerlink" title="1.3.2 Radient Flux(Power)"></a>1.3.2 Radient Flux(Power)</h3><p><strong>定义：</strong></p>
+<ul>
+<li><strong>Radient flux(Power) 是单位时间的发射出的、反射的、传播的和接收的能量。</strong></li>
+<li>或者：<strong>单位时间辐射出光子的数量</strong></li>
+</ul>
+<p><img src="/images/Games101/15/06.png"></p>
+<h2 id="1-4-与光相关的物理量"><a href="#1-4-与光相关的物理量" class="headerlink" title="1.4 与光相关的物理量"></a>1.4 与光相关的物理量</h2><p>主要是区别下面三种物理量：</p>
+<ul>
+<li><strong>Radiant Intensity</strong>：光源辐射出的能量；</li>
+<li><strong>Irrdiance</strong>：物体表面接收的光的能量；</li>
+<li><strong>Radiance</strong>：光线在传播过程中的能量；</li>
+</ul>
+<p><img src="/images/Games101/15/07.png"></p>
+<h3 id="1-4-1-Radient-intensity"><a href="#1-4-1-Radient-intensity" class="headerlink" title="1.4.1 Radient intensity"></a>1.4.1 Radient intensity</h3><p><strong>定义：</strong></p>
+<ul>
+<li>Radient intensity是 <strong>每单位立体角</strong> 辐射的能量。</li>
+</ul>
+<p><img src="/images/Games101/15/08.png"></p>
+<h3 id="1-4-2-Irradiance"><a href="#1-4-2-Irradiance" class="headerlink" title="1.4.2 Irradiance"></a>1.4.2 Irradiance</h3><p><strong>定义：</strong></p>
+<ul>
+<li><strong>Irradiance</strong> 是<strong>单位面积的辐射通量</strong>（面必须和光线<strong>垂直</strong>，否则要变成和投影面垂直的）。</li>
+</ul>
+<p><img src="/images/Games101/15/09.png"></p>
+<p><strong>Irradiance 例子：</strong></p>
+<ul>
+<li>冬夏温度之分是因为点光源辐射的能量到达辐射点的角度不同步（阳光和不同区域的夹角不同），导致接收的能量不同。</li>
+<li>Irradiance 会衰减（不是 Intensity 衰减）</li>
+</ul>
+<p><img src="/images/Games101/15/10.png"></p>
+<h3 id="1-4-3-Radiance"><a href="#1-4-3-Radiance" class="headerlink" title="1.4.3 Radiance"></a>1.4.3 Radiance</h3><p>Radiance 描述光线在传播过程中的属性。</p>
+<p><strong>定义：</strong></p>
+<ul>
+<li>单位面积，单位立体角接受的能力；</li>
+<li>或者理解为：<strong>在单位面积，单位立体角 发出的能量</strong>；</li>
+</ul>
+<p><img src="/images/Games101/15/11.png"></p>
+<p><strong>注意：</strong></p>
+<p>因为 <strong>Irradiance</strong> 是<strong>单位面积的辐射通量</strong>，<strong>Intensity</strong> 是<strong>单位立体角发出的能量</strong>。</p>
+<p>所以 Radiance是<strong>每单位立体角的 Irradiance</strong>，Radiance是<strong>每单位面积的正交 Intensity</strong>。</p>
+<h4 id="1-4-3-1-Incident-Radiance"><a href="#1-4-3-1-Incident-Radiance" class="headerlink" title="1.4.3.1 Incident Radiance"></a>1.4.3.1 Incident Radiance</h4><p>Incident Radiance 是每<strong>单位立体角</strong>的<strong>到达</strong>表面的 <strong>Irradiance</strong>。</p>
+<p><img src="/images/Games101/15/12.png"></p>
+<h4 id="1-4-3-2-Exiting-Radiance"><a href="#1-4-3-2-Exiting-Radiance" class="headerlink" title="1.4.3.2 Exiting Radiance"></a>1.4.3.2 Exiting Radiance</h4><p>Exiting surface radiance 是<strong>每单位面积</strong>向某个角度辐射出的 <strong>Intensity</strong>（这里参考文章里面应该是写错了）。</p>
+<p><img src="/images/Games101/15/13.png"></p>
+<h2 id="1-5-Irradiance-和-Radiance"><a href="#1-5-Irradiance-和-Radiance" class="headerlink" title="1.5 Irradiance 和 Radiance"></a>1.5 Irradiance 和 Radiance</h2><p><strong>Irradiance</strong>：被区域 dA 吸收的所有的能量。</p>
+<p><strong>Radiance</strong>：被区域 dA 的来自d ω 的能量（多了一个立体角）。</p>
+<p><img src="/images/Games101/15/14.png"></p>
+<h2 id="1-6-各向同性点光源-Isotropic-Point-Source"><a href="#1-6-各向同性点光源-Isotropic-Point-Source" class="headerlink" title="1.6 各向同性点光源 Isotropic Point Source"></a>1.6 各向同性点光源 Isotropic Point Source</h2><p>如果点光源均匀的辐射出光，则可以得到点光源的强度 <strong>I</strong> 如下所示。</p>
+<p><img src="/images/Games101/15/15.png"></p>
+<h1 id="2-双向反射分布函数-Bidirectional-Reflectance-Distribution-Function（BRDF）"><a href="#2-双向反射分布函数-Bidirectional-Reflectance-Distribution-Function（BRDF）" class="headerlink" title="2. 双向反射分布函数 Bidirectional Reflectance Distribution Function（BRDF）"></a>2. 双向反射分布函数 Bidirectional Reflectance Distribution Function（BRDF）</h1><p><strong>引入</strong> ：</p>
+<ul>
+<li>来自于 <strong>ωi 立体角</strong>的 <strong>Radiance</strong> 转化成 dA 接受的能量E，然后能量E会变成向着任何其他方向 ω 的 Radiance。</li>
+</ul>
+<p><strong>意义：</strong></p>
+<ul>
+<li><strong>BRDF</strong> 用于<strong>表示某个微小面积 dA 从某个微小立体角 dωi 接受的 Irradiance 会如何被分配到不同的立体角去。</strong></li>
+</ul>
+<p><strong>定义：</strong></p>
+<p><strong>如下图所示，从来自 ωi 立体角的 Irradiance（dE(ωi))，经过单位面积吸收后，向某一立体角 ωr 发射出去，发射出去的 Radiance 是 dLr(x , ωr)</strong></p>
+<p><img src="/images/Games101/15/16.png"></p>
+<p><strong>BRDF 用于表示从每个入射方向进来的光线会每个向出射方向 ωr 反射的能量多少。</strong></p>
+<p><strong>BRDF 就是任何一个出射方向的 Radiance 的微分 除以 在入射点上 Irradiance的微</strong>分，BRDF 如下所示。</p>
+<p><img src="/images/Games101/15/17.png"></p>
+<h2 id="2-1-反射方程（The-Reflection-Equation）"><a href="#2-1-反射方程（The-Reflection-Equation）" class="headerlink" title="2.1 反射方程（The Reflection Equation）"></a>2.1 反射方程（The Reflection Equation）</h2><p>BRDF 是描述光线对物体时如何作用的，所以可以<strong>用于定义不同的材质</strong>。</p>
+<p><strong>把每一个方向对出射方向的贡献积分起来就会获得向某个方向反射出光照的结果。</strong></p>
+<p><img src="/images/Games101/15/18.png"></p>
+<p>反射radiance取决于入射radiance，而入射Radiance不仅取决于光源，还有<strong>被其他物体反射的光</strong>，具有递归关系。</p>
+<p><img src="/images/Games101/15/19.png"></p>
+<h2 id="2-2-渲染方程（The-Rendering-Equation）"><a href="#2-2-渲染方程（The-Rendering-Equation）" class="headerlink" title="2.2 渲染方程（The Rendering Equation）"></a>2.2 渲染方程（The Rendering Equation）</h2><p><strong>渲染方程</strong> &#x3D; <strong>加上自己辐射的 Radiance</strong> + <strong>反射方程</strong></p>
+<p><img src="/images/Games101/15/20.png"></p>
+<p>注意：</p>
+<ul>
+<li><p>这里默认所有的方向 ω 都是向外的。</p>
+</li>
+<li><p>而且此时考虑的照亮到这一点的都是光源</p>
+</li>
+</ul>
+<p><strong>但是实际上照亮这一点的不仅仅有光源的 Radiance，还有可能是其他物体反射过来的 Radiance；</strong></p>
+<p>如果<strong>考虑其他物体反射的radiance</strong>，就把反射物体和反射面当成光源，可以把渲染方程写成更通用的形式。</p>
+<p><img src="/images/Games101/15/21.png"></p>
+<p><strong>以上的式子可以简单的表达为：</strong></p>
+<p><img src="/images/Games101/15/22.png"></p>
+<p><strong>K为反射操作符，进一步简写为：</strong></p>
+<p><img src="/images/Games101/15/23.png"></p>
+<p>可以看出L是递归定义的。</p>
+<h3 id="2-2-1-结论"><a href="#2-2-1-结论" class="headerlink" title="2.2.1 结论"></a>2.2.1 结论</h3><p>简写渲染方程（L&#x3D; E + K L）的目的是解出 L。</p>
+<p><strong>解L的方法如下所示，其中K也可以理解成反射次数，反射次数越多，项越多，K^2 代表光弹射两次。</strong></p>
+<p><img src="/images/Games101/15/24.png"></p>
+<p><strong>全局光照 &#x3D; 直接光照（E） + 间接光照（KE + K^2E + K^3E + …）</strong></p>
+<p><img src="/images/Games101/15/25.png"></p>
+<p><strong>光栅化的着色一般只有 E+EK，而后面的间接光照部分光栅化难以做到，一般使用光线追踪（路径追踪）来进行计算。</strong></p>
+<h1 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h1><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43399489/article/details/121655346?spm=1001.2014.3001.5502">图形学笔记（十三）光线追踪3——双向反射分布函数BRDF（反射方程、递归方程）、辐射度量学基础radiometry、立体角、Radiant Energy、Flux、Irrdiance、Radiance_irrdiance 测量仪-CSDN博客</a></p>
+<p><strong>好难…</strong></p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>FJBQ
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://example.com/2024/01/13/games101/Lec%2015/" title="【Games 101】Lec 15：光线追踪 3（辐射度量学，光传输，全局光照）">http://example.com/2024/01/13/games101/Lec 15/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Games-%E7%B3%BB%E5%88%97/" rel="tag"># Games 系列</a>
+              <a href="/tags/Games-101/" rel="tag"># Games 101</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2024/01/13/games101/Lec%2016/" rel="prev" title="">
+      <i class="fa fa-chevron-left"></i> 
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC81OTA5Ni8zNTU1OA=="></div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Lecture-15%EF%BC%9ARay-Tracing-3-Light-Transport-Global-Illumination"><span class="nav-number">1.</span> <span class="nav-text">Lecture 15：Ray Tracing 3 (Light Transport &amp; Global Illumination)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E8%BE%90%E5%B0%84%E5%BA%A6%E9%87%8F%E5%AD%A6%EF%BC%88Basic-radiometry%EF%BC%89"><span class="nav-number">2.</span> <span class="nav-text">1. 辐射度量学（Basic radiometry）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-%E6%A6%82%E8%BF%B0"><span class="nav-number">2.1.</span> <span class="nav-text">1.1 概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-%E8%A7%92%EF%BC%8C%E7%AB%8B%E4%BD%93%E8%A7%92%EF%BC%88solid-angle%EF%BC%89%EF%BC%8C%E5%BE%AE%E5%88%86%E7%AB%8B%E4%BD%93%E8%A7%92"><span class="nav-number">2.2.</span> <span class="nav-text">1.2 角，立体角（solid angle），微分立体角</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-Radiant-Energy-and-Flux-Power"><span class="nav-number">2.3.</span> <span class="nav-text">1.3 Radiant Energy and Flux (Power)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-1-Radiant-Energy"><span class="nav-number">2.3.1.</span> <span class="nav-text">1.3.1 Radiant Energy</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-2-Radient-Flux-Power"><span class="nav-number">2.3.2.</span> <span class="nav-text">1.3.2 Radient Flux(Power)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-4-%E4%B8%8E%E5%85%89%E7%9B%B8%E5%85%B3%E7%9A%84%E7%89%A9%E7%90%86%E9%87%8F"><span class="nav-number">2.4.</span> <span class="nav-text">1.4 与光相关的物理量</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-1-Radient-intensity"><span class="nav-number">2.4.1.</span> <span class="nav-text">1.4.1 Radient intensity</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-2-Irradiance"><span class="nav-number">2.4.2.</span> <span class="nav-text">1.4.2 Irradiance</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-3-Radiance"><span class="nav-number">2.4.3.</span> <span class="nav-text">1.4.3 Radiance</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-4-3-1-Incident-Radiance"><span class="nav-number">2.4.3.1.</span> <span class="nav-text">1.4.3.1 Incident Radiance</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-4-3-2-Exiting-Radiance"><span class="nav-number">2.4.3.2.</span> <span class="nav-text">1.4.3.2 Exiting Radiance</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-5-Irradiance-%E5%92%8C-Radiance"><span class="nav-number">2.5.</span> <span class="nav-text">1.5 Irradiance 和 Radiance</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-6-%E5%90%84%E5%90%91%E5%90%8C%E6%80%A7%E7%82%B9%E5%85%89%E6%BA%90-Isotropic-Point-Source"><span class="nav-number">2.6.</span> <span class="nav-text">1.6 各向同性点光源 Isotropic Point Source</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E5%8F%8C%E5%90%91%E5%8F%8D%E5%B0%84%E5%88%86%E5%B8%83%E5%87%BD%E6%95%B0-Bidirectional-Reflectance-Distribution-Function%EF%BC%88BRDF%EF%BC%89"><span class="nav-number">3.</span> <span class="nav-text">2. 双向反射分布函数 Bidirectional Reflectance Distribution Function（BRDF）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-%E5%8F%8D%E5%B0%84%E6%96%B9%E7%A8%8B%EF%BC%88The-Reflection-Equation%EF%BC%89"><span class="nav-number">3.1.</span> <span class="nav-text">2.1 反射方程（The Reflection Equation）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-%E6%B8%B2%E6%9F%93%E6%96%B9%E7%A8%8B%EF%BC%88The-Rendering-Equation%EF%BC%89"><span class="nav-number">3.2.</span> <span class="nav-text">2.2 渲染方程（The Rendering Equation）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-1-%E7%BB%93%E8%AE%BA"><span class="nav-number">3.2.1.</span> <span class="nav-text">2.2.1 结论</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83%EF%BC%9A"><span class="nav-number">4.</span> <span class="nav-text">参考：</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="FJBQ"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">FJBQ</p>
+  <div class="site-description" itemprop="description">坚定 坚持 坚强</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">26</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2023-10 – 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">FJBQ</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共30.3k字</span>
+</div>
+
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <span id="busuanzi_container_site_pv">总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+    <span class="post-meta-divider">|</span>
+    <span id="busuanzi_container_site_uv">总访客数<span id="busuanzi_value_site_uv"></span>人</span>
+    <span class="post-meta-divider">|</span>
+<!-- 不蒜子计数初始值纠正 -->
+<script>
+$(document).ready(function() {
+
+    var int = setInterval(fixCount, 50);  // 50ms周期检测函数
+    var countOffset = 20000;  // 初始化首次数据
+
+    function fixCount() {            
+       if (document.getElementById("busuanzi_container_site_pv").style.display != "none")
+        {
+            $("#busuanzi_value_site_pv").html(parseInt($("#busuanzi_value_site_pv").html()) + countOffset); 
+            clearInterval(int);
+        }                  
+        if ($("#busuanzi_container_site_pv").css("display") != "none")
+        {
+            $("#busuanzi_value_site_uv").html(parseInt($("#busuanzi_value_site_uv").html()) + countOffset); // 加上初始数据 
+            clearInterval(int); // 停止检测
+        }  
+    }
+       	
+});
+</script> 
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+<script>
+NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"left","width":150,"height":225,"hOffset":-15,"vOffset":-15},"mobile":{"show":false},"react":{"opacity":1},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

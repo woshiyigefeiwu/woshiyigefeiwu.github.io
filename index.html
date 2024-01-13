@@ -338,6 +338,261 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/01/13/games101/Lec%2015/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="FJBQ">
+      <meta itemprop="description" content="坚定 坚持 坚强">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FJBQ">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/01/13/games101/Lec%2015/" class="post-title-link" itemprop="url">【Games 101】Lec 15：光线追踪 3（辐射度量学，光传输，全局光照）</a>
+        </h2>
+
+        <div class="post-meta">
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2024-01-13 13:16:57 / 修改时间：15:00:31" itemprop="dateCreated datePublished" datetime="2024-01-13T13:16:57+08:00">2024-01-13</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">Games 系列</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/Games-101/" itemprop="url" rel="index"><span itemprop="name">Games 101</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Lecture-15：Ray-Tracing-3-Light-Transport-Global-Illumination"><a href="#Lecture-15：Ray-Tracing-3-Light-Transport-Global-Illumination" class="headerlink" title="Lecture 15：Ray Tracing 3 (Light Transport &amp; Global Illumination)"></a>Lecture 15：Ray Tracing 3 (Light Transport &amp; Global Illumination)</h1><p>这节课讲的是 <strong>Light Transport &amp; Global Illumination</strong> 当然首先包含了上一节课最后的辐射度量学；</p>
+<p>ps：这几节课是真的难…</p>
+<h1 id="1-辐射度量学（Basic-radiometry）"><a href="#1-辐射度量学（Basic-radiometry）" class="headerlink" title="1. 辐射度量学（Basic radiometry）"></a>1. 辐射度量学（Basic radiometry）</h1><h2 id="1-1-概述"><a href="#1-1-概述" class="headerlink" title="1.1 概述"></a>1.1 概述</h2><p><strong>辐射度量学的动机：</strong></p>
+<p>光源中定义L&#x3D;10，但是10代表的是什么无法确定，缺少单位。</p>
+<p><strong>定义：</strong></p>
+<p>辐射度量学就是<strong>在物理上准确度量光照</strong>的方法。</p>
+<p>它定义了一系列的方法和单位，准确的定义了光在空间中的属性：</p>
+<ul>
+<li>Radiant flux（辐射通量）</li>
+<li>intensity（辐射强度）</li>
+<li>irradiance（辐射[照]度）</li>
+<li>radiance（辐[射]亮度）</li>
+</ul>
+<h2 id="1-2-角，立体角（solid-angle），微分立体角"><a href="#1-2-角，立体角（solid-angle），微分立体角" class="headerlink" title="1.2 角，立体角（solid angle），微分立体角"></a>1.2 角，立体角（solid angle），微分立体角</h2><ol>
+<li><strong>角 Angle：</strong> 圆上的弧长与半径的比值。</li>
+</ol>
+<p><img src="/images/Games101/15/01.png"></p>
+<ol start="2">
+<li><strong>立体角（solid angle）：球面上的面积和半径平方的比值。</strong>（弧度制在三维空间的延申）</li>
+</ol>
+<p><img src="/images/Games101/15/02.png"></p>
+<ol start="3">
+<li><strong>微分立体角（Differential）</strong></li>
+</ol>
+<p><img src="/images/Games101/15/03.png"></p>
+<blockquote>
+<p>dA 是球面上的微分面积，近似成长方形</p>
+</blockquote>
+<p>通过积分可以得到，整个球的立体角是 <strong>4π</strong> 。</p>
+<p><img src="/images/Games101/15/04.png"></p>
+<h2 id="1-3-Radiant-Energy-and-Flux-Power"><a href="#1-3-Radiant-Energy-and-Flux-Power" class="headerlink" title="1.3 Radiant Energy and Flux (Power)"></a>1.3 Radiant Energy and Flux (Power)</h2><h3 id="1-3-1-Radiant-Energy"><a href="#1-3-1-Radiant-Energy" class="headerlink" title="1.3.1 Radiant Energy"></a>1.3.1 Radiant Energy</h3><p><strong>定义：Radiant energy是一种电磁辐射的能量。它由 <strong>焦耳</strong>（J&#x3D;Joule）单位来度量，用符号</strong>Q<strong>来表示。</strong></p>
+<p><img src="/images/Games101/15/05.png"></p>
+<h3 id="1-3-2-Radient-Flux-Power"><a href="#1-3-2-Radient-Flux-Power" class="headerlink" title="1.3.2 Radient Flux(Power)"></a>1.3.2 Radient Flux(Power)</h3><p><strong>定义：</strong></p>
+<ul>
+<li><strong>Radient flux(Power) 是单位时间的发射出的、反射的、传播的和接收的能量。</strong></li>
+<li>或者：<strong>单位时间辐射出光子的数量</strong></li>
+</ul>
+<p><img src="/images/Games101/15/06.png"></p>
+<h2 id="1-4-与光相关的物理量"><a href="#1-4-与光相关的物理量" class="headerlink" title="1.4 与光相关的物理量"></a>1.4 与光相关的物理量</h2><p>主要是区别下面三种物理量：</p>
+<ul>
+<li><strong>Radiant Intensity</strong>：光源辐射出的能量；</li>
+<li><strong>Irrdiance</strong>：物体表面接收的光的能量；</li>
+<li><strong>Radiance</strong>：光线在传播过程中的能量；</li>
+</ul>
+<p><img src="/images/Games101/15/07.png"></p>
+<h3 id="1-4-1-Radient-intensity"><a href="#1-4-1-Radient-intensity" class="headerlink" title="1.4.1 Radient intensity"></a>1.4.1 Radient intensity</h3><p><strong>定义：</strong></p>
+<ul>
+<li>Radient intensity是 <strong>每单位立体角</strong> 辐射的能量。</li>
+</ul>
+<p><img src="/images/Games101/15/08.png"></p>
+<h3 id="1-4-2-Irradiance"><a href="#1-4-2-Irradiance" class="headerlink" title="1.4.2 Irradiance"></a>1.4.2 Irradiance</h3><p><strong>定义：</strong></p>
+<ul>
+<li><strong>Irradiance</strong> 是<strong>单位面积的辐射通量</strong>（面必须和光线<strong>垂直</strong>，否则要变成和投影面垂直的）。</li>
+</ul>
+<p><img src="/images/Games101/15/09.png"></p>
+<p><strong>Irradiance 例子：</strong></p>
+<ul>
+<li>冬夏温度之分是因为点光源辐射的能量到达辐射点的角度不同步（阳光和不同区域的夹角不同），导致接收的能量不同。</li>
+<li>Irradiance 会衰减（不是 Intensity 衰减）</li>
+</ul>
+<p><img src="/images/Games101/15/10.png"></p>
+<h3 id="1-4-3-Radiance"><a href="#1-4-3-Radiance" class="headerlink" title="1.4.3 Radiance"></a>1.4.3 Radiance</h3><p>Radiance 描述光线在传播过程中的属性。</p>
+<p><strong>定义：</strong></p>
+<ul>
+<li>单位面积，单位立体角接受的能力；</li>
+<li>或者理解为：<strong>在单位面积，单位立体角 发出的能量</strong>；</li>
+</ul>
+<p><img src="/images/Games101/15/11.png"></p>
+<p><strong>注意：</strong></p>
+<p>因为 <strong>Irradiance</strong> 是<strong>单位面积的辐射通量</strong>，<strong>Intensity</strong> 是<strong>单位立体角发出的能量</strong>。</p>
+<p>所以 Radiance是<strong>每单位立体角的 Irradiance</strong>，Radiance是<strong>每单位面积的正交 Intensity</strong>。</p>
+<h4 id="1-4-3-1-Incident-Radiance"><a href="#1-4-3-1-Incident-Radiance" class="headerlink" title="1.4.3.1 Incident Radiance"></a>1.4.3.1 Incident Radiance</h4><p>Incident Radiance 是每<strong>单位立体角</strong>的<strong>到达</strong>表面的 <strong>Irradiance</strong>。</p>
+<p><img src="/images/Games101/15/12.png"></p>
+<h4 id="1-4-3-2-Exiting-Radiance"><a href="#1-4-3-2-Exiting-Radiance" class="headerlink" title="1.4.3.2 Exiting Radiance"></a>1.4.3.2 Exiting Radiance</h4><p>Exiting surface radiance 是<strong>每单位面积</strong>向某个角度辐射出的 <strong>Intensity</strong>（这里参考文章里面应该是写错了）。</p>
+<p><img src="/images/Games101/15/13.png"></p>
+<h2 id="1-5-Irradiance-和-Radiance"><a href="#1-5-Irradiance-和-Radiance" class="headerlink" title="1.5 Irradiance 和 Radiance"></a>1.5 Irradiance 和 Radiance</h2><p><strong>Irradiance</strong>：被区域 dA 吸收的所有的能量。</p>
+<p><strong>Radiance</strong>：被区域 dA 的来自d ω 的能量（多了一个立体角）。</p>
+<p><img src="/images/Games101/15/14.png"></p>
+<h2 id="1-6-各向同性点光源-Isotropic-Point-Source"><a href="#1-6-各向同性点光源-Isotropic-Point-Source" class="headerlink" title="1.6 各向同性点光源 Isotropic Point Source"></a>1.6 各向同性点光源 Isotropic Point Source</h2><p>如果点光源均匀的辐射出光，则可以得到点光源的强度 <strong>I</strong> 如下所示。</p>
+<p><img src="/images/Games101/15/15.png"></p>
+<h1 id="2-双向反射分布函数-Bidirectional-Reflectance-Distribution-Function（BRDF）"><a href="#2-双向反射分布函数-Bidirectional-Reflectance-Distribution-Function（BRDF）" class="headerlink" title="2. 双向反射分布函数 Bidirectional Reflectance Distribution Function（BRDF）"></a>2. 双向反射分布函数 Bidirectional Reflectance Distribution Function（BRDF）</h1><p><strong>引入</strong> ：</p>
+<ul>
+<li>来自于 <strong>ωi 立体角</strong>的 <strong>Radiance</strong> 转化成 dA 接受的能量E，然后能量E会变成向着任何其他方向 ω 的 Radiance。</li>
+</ul>
+<p><strong>意义：</strong></p>
+<ul>
+<li><strong>BRDF</strong> 用于<strong>表示某个微小面积 dA 从某个微小立体角 dωi 接受的 Irradiance 会如何被分配到不同的立体角去。</strong></li>
+</ul>
+<p><strong>定义：</strong></p>
+<p><strong>如下图所示，从来自 ωi 立体角的 Irradiance（dE(ωi))，经过单位面积吸收后，向某一立体角 ωr 发射出去，发射出去的 Radiance 是 dLr(x , ωr)</strong></p>
+<p><img src="/images/Games101/15/16.png"></p>
+<p><strong>BRDF 用于表示从每个入射方向进来的光线会每个向出射方向 ωr 反射的能量多少。</strong></p>
+<p><strong>BRDF 就是任何一个出射方向的 Radiance 的微分 除以 在入射点上 Irradiance的微</strong>分，BRDF 如下所示。</p>
+<p><img src="/images/Games101/15/17.png"></p>
+<h2 id="2-1-反射方程（The-Reflection-Equation）"><a href="#2-1-反射方程（The-Reflection-Equation）" class="headerlink" title="2.1 反射方程（The Reflection Equation）"></a>2.1 反射方程（The Reflection Equation）</h2><p>BRDF 是描述光线对物体时如何作用的，所以可以<strong>用于定义不同的材质</strong>。</p>
+<p><strong>把每一个方向对出射方向的贡献积分起来就会获得向某个方向反射出光照的结果。</strong></p>
+<p><img src="/images/Games101/15/18.png"></p>
+<p>反射radiance取决于入射radiance，而入射Radiance不仅取决于光源，还有<strong>被其他物体反射的光</strong>，具有递归关系。</p>
+<p><img src="/images/Games101/15/19.png"></p>
+<h2 id="2-2-渲染方程（The-Rendering-Equation）"><a href="#2-2-渲染方程（The-Rendering-Equation）" class="headerlink" title="2.2 渲染方程（The Rendering Equation）"></a>2.2 渲染方程（The Rendering Equation）</h2><p><strong>渲染方程</strong> &#x3D; <strong>加上自己辐射的 Radiance</strong> + <strong>反射方程</strong></p>
+<p><img src="/images/Games101/15/20.png"></p>
+<p>注意：</p>
+<ul>
+<li><p>这里默认所有的方向 ω 都是向外的。</p>
+</li>
+<li><p>而且此时考虑的照亮到这一点的都是光源</p>
+</li>
+</ul>
+<p><strong>但是实际上照亮这一点的不仅仅有光源的 Radiance，还有可能是其他物体反射过来的 Radiance；</strong></p>
+<p>如果<strong>考虑其他物体反射的radiance</strong>，就把反射物体和反射面当成光源，可以把渲染方程写成更通用的形式。</p>
+<p><img src="/images/Games101/15/21.png"></p>
+<p><strong>以上的式子可以简单的表达为：</strong></p>
+<p><img src="/images/Games101/15/22.png"></p>
+<p><strong>K为反射操作符，进一步简写为：</strong></p>
+<p><img src="/images/Games101/15/23.png"></p>
+<p>可以看出L是递归定义的。</p>
+<h3 id="2-2-1-结论"><a href="#2-2-1-结论" class="headerlink" title="2.2.1 结论"></a>2.2.1 结论</h3><p>简写渲染方程（L&#x3D; E + K L）的目的是解出 L。</p>
+<p><strong>解L的方法如下所示，其中K也可以理解成反射次数，反射次数越多，项越多，K^2 代表光弹射两次。</strong></p>
+<p><img src="/images/Games101/15/24.png"></p>
+<p><strong>全局光照 &#x3D; 直接光照（E） + 间接光照（KE + K^2E + K^3E + …）</strong></p>
+<p><img src="/images/Games101/15/25.png"></p>
+<p><strong>光栅化的着色一般只有 E+EK，而后面的间接光照部分光栅化难以做到，一般使用光线追踪（路径追踪）来进行计算。</strong></p>
+<h1 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h1><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43399489/article/details/121655346?spm=1001.2014.3001.5502">图形学笔记（十三）光线追踪3——双向反射分布函数BRDF（反射方程、递归方程）、辐射度量学基础radiometry、立体角、Radiant Energy、Flux、Irrdiance、Radiance_irrdiance 测量仪-CSDN博客</a></p>
+<p><strong>好难…</strong></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/01/13/games101/Lec%2016/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="FJBQ">
+      <meta itemprop="description" content="坚定 坚持 坚强">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FJBQ">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/01/13/games101/Lec%2016/" class="post-title-link" itemprop="url">未命名</a>
+        </h2>
+
+        <div class="post-meta">
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2024-01-13 13:16:57 / 修改时间：13:17:07" itemprop="dateCreated datePublished" datetime="2024-01-13T13:16:57+08:00">2024-01-13</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2024/01/09/games101/Lec%2014/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1540,314 +1795,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2024/01/07/games101/Lec%2005/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="FJBQ">
-      <meta itemprop="description" content="坚定 坚持 坚强">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="FJBQ">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2024/01/07/games101/Lec%2005/" class="post-title-link" itemprop="url">【Games 101】Lec 05：光栅化1（三角形）</a>
-        </h2>
-
-        <div class="post-meta">
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2024-01-07 22:28:29 / 修改时间：22:38:53" itemprop="dateCreated datePublished" datetime="2024-01-07T22:28:29+08:00">2024-01-07</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">Games 系列</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/Games-101/" itemprop="url" rel="index"><span itemprop="name">Games 101</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="Lecture-05-Rasterization-1-Triangles"><a href="#Lecture-05-Rasterization-1-Triangles" class="headerlink" title="Lecture 05 : Rasterization 1 (Triangles)"></a>Lecture 05 : Rasterization 1 (Triangles)</h1><p>光栅化1：<strong>三角形的离散化</strong></p>
-<h2 id="视口变化"><a href="#视口变化" class="headerlink" title="视口变化"></a>视口变化</h2><p><strong>像素的表现形式</strong>：</p>
-<p><img src="/images/Games101/05/01.png"></p>
-<p>前面我们说到，对于正交变换时，我们将物体映射到[-1,1]³ 的立方体中，那么现在我们的问题就是，我们<strong>如何把这个图像映射到屏幕</strong>（[0 , width] [0 , height]）上？</p>
-<p>先不考虑z轴，我们看x y：</p>
-<ul>
-<li>进行缩放</li>
-<li>把原点移动到像素点的位置</li>
-</ul>
-<p><img src="/images/Games101/05/02.png"></p>
-<p>这一步也叫做<strong>视口变换</strong></p>
-<h2 id="光栅化"><a href="#光栅化" class="headerlink" title="光栅化"></a>光栅化</h2><h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p><strong>定义</strong>：<a target="_blank" rel="noopener" href="https://blog.csdn.net/guojia167/article/details/44819995?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522168577735916782427463484%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&request_id=168577735916782427463484&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduend~default-1-44819995-null-null.142%5Ev88%5Econtrol_2,239%5Ev2%5Einsert_chatgpt&utm_term=%E4%BB%80%E4%B9%88%E6%98%AF%E5%85%89%E6%A0%85%E5%8C%96&spm=1018.2226.3001.4187">什么是光栅化</a></p>
-<p>三角形光栅化的核心思想就是：<strong>判断 像素的中心点和三角形的位置关系</strong>！</p>
-<p><strong>三角形</strong>有很多好的<strong>性质</strong>：</p>
-<p><img src="/images/Games101/05/03.png"></p>
-<h3 id="具体方法（采样法）"><a href="#具体方法（采样法）" class="headerlink" title="具体方法（采样法）"></a>具体方法（采样法）</h3><p>记住我们现在要干什么：<strong>判断一个像素（中心点）和三角形之间的关系</strong>；</p>
-<h4 id="采样法"><a href="#采样法" class="headerlink" title="采样法"></a>采样法</h4><p>采样就是将一个函数离散化的过程；</p>
-<p>通俗的讲就是，有一个函数，然后我们通过不同的点去经过这个函数得到不同的结果，从而来判断关系。</p>
-<p>这里采样的方式针对的是<strong>像素的中心</strong>。</p>
-<p><img src="/images/Games101/05/04.png"></p>
-<p><strong>具体例子：</strong></p>
-<p><img src="/images/Games101/05/05.png"></p>
-<p>其中 inside 函数就是判断点是否在三角形内</p>
-<p><img src="/images/Games101/05/06.png"></p>
-<p>这里定义像素位置为（x，y），则像素中心的位置为（x+0.5 , y+0.5），下面是代码：</p>
-<p><img src="/images/Games101/05/07.png"></p>
-<p>那么下面具体的问题就是：<strong>这个 inside 函数怎么写？</strong></p>
-<p><img src="/images/Games101/05/08.png"></p>
-<p>这个很简单嘛，之前学过了，用叉乘可以判断；</p>
-<p>规定三角形方向：p2p1 , p1p0 , p0p2</p>
-<p>然后用这三个向量分别<strong>叉乘</strong>：p2Q , p1Q，p0Q就行；</p>
-<ul>
-<li><strong>如果 都&lt;0 或 都&gt;0 则在三角形里面；</strong></li>
-<li><strong>否则不在</strong></li>
-</ul>
-<p><strong>边缘情况</strong>（中心点点在三角形的边上）我们不做处理</p>
-<p><strong>简化</strong>：</p>
-<ul>
-<li>用包围盒来确定包围这个三角形的最小矩形</li>
-</ul>
-<p><img src="/images/Games101/05/09.png"></p>
-<ul>
-<li>对于每一行都搞一个包围盒（较难实现）</li>
-</ul>
-<p><img src="/images/Games101/05/10.png"></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2024/01/07/games101/Lec%2006/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="FJBQ">
-      <meta itemprop="description" content="坚定 坚持 坚强">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="FJBQ">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2024/01/07/games101/Lec%2006/" class="post-title-link" itemprop="url">【Games 101】Lec 06：光栅化2（抗锯齿 和 深度缓冲）</a>
-        </h2>
-
-        <div class="post-meta">
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2024-01-07 22:28:29 / 修改时间：22:39:53" itemprop="dateCreated datePublished" datetime="2024-01-07T22:28:29+08:00">2024-01-07</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">Games 系列</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/Games-101/" itemprop="url" rel="index"><span itemprop="name">Games 101</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="Lecture-06-Rasterization-2-Antialiasing-and-Z-Buffering"><a href="#Lecture-06-Rasterization-2-Antialiasing-and-Z-Buffering" class="headerlink" title="Lecture 06 : Rasterization 2 (Antialiasing and Z-Buffering)"></a>Lecture 06 : Rasterization 2 (Antialiasing and Z-Buffering)</h1><p>光栅化：<strong>深度测试</strong> 和 <strong>抗锯齿（反走样）</strong></p>
-<h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h2><p>会有锯齿状…</p>
-<p>Aliasing：走样</p>
-<p><img src="/images/Games101/06/01.png"></p>
-<p><strong>采样会有一些问题&#x2F;瑕疵(Artifacts)：</strong></p>
-<ul>
-<li><p>锯齿</p>
-<p><img src="/images/Games101/06/02.png"></p>
-</li>
-<li><p>摩尔纹</p>
-<p><img src="/images/Games101/06/03.png"></p>
-</li>
-<li><p>车轮效应</p>
-<p><img src="/images/Games101/06/04.png"></p>
-</li>
-</ul>
-<p><strong>本质原因：</strong></p>
-<p><strong>信号函数变换的速度太快了，导致采样的速度跟不上信号变换的速度。</strong></p>
-<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><h3 id="方法："><a href="#方法：" class="headerlink" title="方法："></a>方法：</h3><p><strong>反走样（抗锯齿）：</strong></p>
-<ul>
-<li><strong>先对信号进行模糊；</strong></li>
-<li><strong>再采样；</strong></li>
-</ul>
-<p><img src="/images/Games101/06/05.png"></p>
-<p><strong>注意：这两个步骤的顺序不能反着来！！！</strong></p>
-<h3 id="思考问题："><a href="#思考问题：" class="headerlink" title="思考问题："></a><strong>思考问题：</strong></h3><p><strong>那么问题来了：</strong></p>
-<ul>
-<li><p><strong>为什么这么做可以反走样呢？</strong></p>
-</li>
-<li><p><strong>为什么不能反着来呢？</strong></p>
-</li>
-</ul>
-<h3 id="具体分析："><a href="#具体分析：" class="headerlink" title="具体分析："></a>具体分析：</h3><h4 id="首先总结一下走样原因："><a href="#首先总结一下走样原因：" class="headerlink" title="首先总结一下走样原因："></a><strong>首先总结一下走样原因</strong>：</h4><p><strong>采样的频率跟不上信号变化的频率；</strong></p>
-<p><strong>从而导致，同样一个采样频率，采样两个信号函数，会导致相同的采样结果；</strong></p>
-<p>从而出现 “<strong>走样</strong>”。</p>
-<h4 id="走样原因分析："><a href="#走样原因分析：" class="headerlink" title="走样原因分析："></a>走样原因分析：</h4><p>首先解释为什么信号变换很快的时候，采样速度跟不上会导致走样的情况？</p>
-<p><img src="/images/Games101/06/06.png"></p>
-<p>看上面这幅图，当信号变换越来越快的时候，说明信号函数的频率很快也就是比较密，图中虚线表示采样时刻，那么我们可以发现，当变换越来越快的时候，采样出来的点组成的函数越无法表现真实的函数！</p>
-<p>接着我们看下面这张图：</p>
-<p><img src="/images/Games101/06/07.png"></p>
-<p>可以发现，对于相同的采样方式，对蓝色的函数和黑色的函数进行采样，得到的是相同的结果！</p>
-<p>因此这就是<strong>走样</strong>！</p>
-<h4 id="傅里叶变换的作用："><a href="#傅里叶变换的作用：" class="headerlink" title="傅里叶变换的作用："></a>傅里叶变换的作用：</h4><p><strong>滤波</strong>：过滤掉一些特定的频率</p>
-<p><img src="/images/Games101/06/08.png"></p>
-<p>傅里叶变换可以<strong>把一个函数从时域变成频域</strong>！</p>
-<p>也就是说：傅里叶变换能够让我们看到任何信号在各个频率下长什么样。（频谱）</p>
-<p><img src="/images/Games101/06/09.png"></p>
-<p>上面这张图是原始图像</p>
-<p>（左边是<strong>时域</strong>下的，右边是<strong>频域</strong>下的，<strong>表示的是同一张图哦！</strong>）</p>
-<p>在频域的表示形式下，我们用亮度来表示信息的图像多少（在这个频率亮度越亮，表示这个频率的信息越多）</p>
-<p>其实我们可以发现，很多图像的信息都集中在低频处。</p>
-<p>接着，我们看下面这几个例子：</p>
-<ul>
-<li>当图像通过<strong>高通滤波</strong>后变成下面这样：</li>
-</ul>
-<p>边界的地方是高频的（因为突然发生了变化），通过高通滤波（只让高频的通过），就保留了边界</p>
-<p><img src="/images/Games101/06/10.png"></p>
-<ul>
-<li><strong>低通滤波</strong></li>
-</ul>
-<p>模糊了边界</p>
-<p><img src="/images/Games101/06/11.png"></p>
-<ul>
-<li><strong>某一段特定频率</strong></li>
-</ul>
-<p><img src="/images/Games101/06/12.png"></p>
-<h4 id="滤波"><a href="#滤波" class="headerlink" title="滤波"></a>滤波</h4><p>滤波 &#x3D; 卷积（&#x3D; 平均）</p>
-<blockquote>
-<p><strong>首先理解一下卷积</strong></p>
-<p>图像处理中的卷积我们可以简单理解为下面的情况：</p>
-<p>首先我们有一个<strong>滤波模板（滤波器）</strong>，模板里面有对应的值（<strong>概率</strong>）；<br>然后对于每个像素值，我们都通过这个模板去计算一下，生成的值填到中心位置上。（和 数学上的卷积有所不同）</p>
-<p><img src="/images/Games101/06/13.png"></p>
-</blockquote>
-<blockquote>
-<p><strong>定理：</strong></p>
-<p><strong>时域的卷积 &#x3D; 频域的乘积</strong></p>
-<p><strong>时域的乘积 &#x3D; 频域的卷积</strong></p>
-<p><img src="/images/Games101/06/14.png"></p>
-<p><strong>看一个例子解释</strong>：</p>
-<p><img src="/images/Games101/06/15.png"></p>
-<p>上面这张图，通过<strong>时域</strong>范围内的<strong>卷积</strong>可以得到一张模糊的图像；等价于，我们首先将原图像和卷积模板（滤波器）通过傅里叶变换从时域转换为频域，然后将这两图像相乘，最后通过傅里叶逆变换把结果从频域转换为时域；</p>
-<p><strong>逻辑分析</strong>：可以看到，通过滤波器的乘积过后，原图像只保留的低频信息，也就是高频（边界）被丢弃了，导致了模糊。</p>
-<p>同时我们也可以知道，当（滤波器）越大，一个像素将受到越多其他像素的影响，导致图像越模糊，高频信息越加被丢失！</p>
-</blockquote>
-<blockquote>
-<p><strong>从频谱角度理解 采样：</strong></p>
-<p>首先，<strong>采样</strong>就是在<strong>重复原始信号的频谱</strong>；</p>
-<p><img src="/images/Games101/06/16.png"></p>
-<p><strong>采样越少</strong>，对于这频谱就越密，就可能发生<strong>混叠现象</strong>，也就是<strong>走样</strong>。</p>
-<p><img src="/images/Games101/06/17.png"></p>
-</blockquote>
-<h2 id="反走样"><a href="#反走样" class="headerlink" title="反走样"></a>反走样</h2><h3 id="怎么做？"><a href="#怎么做？" class="headerlink" title="怎么做？"></a>怎么做？</h3><ol>
-<li>先做模糊（把高频信息去除，就叫做模糊）</li>
-<li>再采样</li>
-</ol>
-<h3 id="为什么？"><a href="#为什么？" class="headerlink" title="为什么？"></a>为什么？</h3><p>看下面这张图就知道了！</p>
-<p><img src="/images/Games101/06/18.png"></p>
-<p>把高频的去除后发现不会混叠了！</p>
-<p><img src="/images/Games101/06/19.png"></p>
-<h3 id="如何做？"><a href="#如何做？" class="headerlink" title="如何做？"></a>如何做？</h3><p>那么<strong>怎么把图像模糊呢</strong>？？？</p>
-<p>很简单啊，前面不是分析嘛，用一个 <strong>低通滤波器</strong> 和 <strong>原图像</strong> 做个<strong>卷积</strong>就行了！！！</p>
-<p><img src="/images/Games101/06/20.png"></p>
-<p><img src="/images/Games101/06/21.png"></p>
-<p>但是但是，这一步很难…</p>
-<p>所以我们搞了一个近似的做法：MSAA</p>
-<p>就是说，对于每个像素，我们把它分成更小的像素点，通过更多样本来近似了模糊的过程；看下面的例子（它把每个像素点分成了2x2的小像素，然后计算概率）：</p>
-<p><img src="/images/Games101/06/22.png"></p>
-<p><img src="/images/Games101/06/23.png"></p>
-<p><img src="/images/Games101/06/24.png"></p>
-<p><img src="/images/Games101/06/25.png"></p>
-<p><img src="/images/Games101/06/26.png"></p>
-<p><img src="/images/Games101/06/27.png"></p>
-<p>然后采样就行！</p>
-<p><strong>总结：MSAA 不是通过提高采样率，而是通过模糊操</strong>作来 实现反走样；</p>
-<h2 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h2><p><strong>缺点：</strong></p>
-<ul>
-<li>这么规则的分割像素，极大增加了计算量（实际生活中我们用的不是那么规则的分割，可以说是一种优化）</li>
-</ul>
-<p>扩展，除了MSAA，还有其他的抗锯齿的做法：<br><img src="/images/Games101/06/28.png"></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1919,7 +1866,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">24</span>
+          <span class="site-state-item-count">26</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1970,7 +1917,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共28.8k字</span>
+  <span class="post-count">博客全站共30.3k字</span>
 </div>
 
 
