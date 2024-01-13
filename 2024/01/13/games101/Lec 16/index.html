@@ -22,17 +22,42 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"manual","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="坚定 坚持 坚强">
+  <meta name="description" content="Lecture 16：Ray Tracing 4 (Monte Carlo Path Tracing)上一节课最后还讲了一点概率论，比较简单； 介绍了一个概念，后面常用，概率分布（密度）函数：  1. 蒙特卡洛积分（Monte Carlo Integration）1.1 Why？蒙特卡洛（Monte Carlo）积分目的是 解决定积分，但是它难以积分（解析式不好表达，不定积分不好求）的情况。  1">
 <meta property="og:type" content="article">
-<meta property="og:title" content="FJBQ">
+<meta property="og:title" content="【Games 101】Lec 16：光线追踪 4（蒙特卡罗积分，路径追踪）">
 <meta property="og:url" content="http://example.com/2024/01/13/games101/Lec%2016/index.html">
 <meta property="og:site_name" content="FJBQ">
-<meta property="og:description" content="坚定 坚持 坚强">
+<meta property="og:description" content="Lecture 16：Ray Tracing 4 (Monte Carlo Path Tracing)上一节课最后还讲了一点概率论，比较简单； 介绍了一个概念，后面常用，概率分布（密度）函数：  1. 蒙特卡洛积分（Monte Carlo Integration）1.1 Why？蒙特卡洛（Monte Carlo）积分目的是 解决定积分，但是它难以积分（解析式不好表达，不定积分不好求）的情况。  1">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/images/Games101/16/01.png">
+<meta property="og:image" content="http://example.com/images/Games101/16/02.png">
+<meta property="og:image" content="http://example.com/images/Games101/16/03.png">
+<meta property="og:image" content="http://example.com/images/Games101/16/04.png">
+<meta property="og:image" content="http://example.com/images/Games101/16/05.png">
+<meta property="og:image" content="http://example.com/images/Games101/16/06.png">
+<meta property="og:image" content="http://example.com/images/Games101/16/07.png">
+<meta property="og:image" content="http://example.com/images/Games101/16/08.png">
+<meta property="og:image" content="http://example.com/images/Games101/16/09.png">
+<meta property="og:image" content="http://example.com/images/Games101/16/10.png">
+<meta property="og:image" content="http://example.com/images/Games101/16/11.png">
+<meta property="og:image" content="http://example.com/images/Games101/16/12.png">
+<meta property="og:image" content="http://example.com/images/Games101/16/13.png">
+<meta property="og:image" content="http://example.com/images/Games101/16/14.png">
+<meta property="og:image" content="http://example.com/images/Games101/16/15.png">
+<meta property="og:image" content="http://example.com/images/Games101/16/16.png">
+<meta property="og:image" content="http://example.com/images/Games101/16/18.png">
+<meta property="og:image" content="http://example.com/images/Games101/16/19.png">
+<meta property="og:image" content="http://example.com/images/Games101/16/20.png">
+<meta property="og:image" content="http://example.com/images/Games101/16/21.png">
+<meta property="og:image" content="http://example.com/images/Games101/16/22.png">
+<meta property="og:image" content="http://example.com/images/Games101/16/23.png">
 <meta property="article:published_time" content="2024-01-13T05:16:57.619Z">
-<meta property="article:modified_time" content="2024-01-13T05:17:07.592Z">
+<meta property="article:modified_time" content="2024-01-13T08:31:51.015Z">
 <meta property="article:author" content="FJBQ">
+<meta property="article:tag" content="Games 系列">
+<meta property="article:tag" content="Games 101">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/Games101/16/01.png">
 
 <link rel="canonical" href="http://example.com/2024/01/13/games101/Lec%2016/">
 
@@ -47,7 +72,7 @@
   };
 </script>
 
-  <title> | FJBQ</title>
+  <title>【Games 101】Lec 16：光线追踪 4（蒙特卡罗积分，路径追踪） | FJBQ</title>
   
 
 
@@ -186,7 +211,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          
+          【Games 101】Lec 16：光线追踪 4（蒙特卡罗积分，路径追踪）
         </h1>
 
         <div class="post-meta">
@@ -198,7 +223,20 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2024-01-13 13:16:57 / 修改时间：13:17:07" itemprop="dateCreated datePublished" datetime="2024-01-13T13:16:57+08:00">2024-01-13</time>
+              <time title="创建时间：2024-01-13 13:16:57 / 修改时间：16:31:51" itemprop="dateCreated datePublished" datetime="2024-01-13T13:16:57+08:00">2024-01-13</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">Games 系列</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/Games-101/" itemprop="url" rel="index"><span itemprop="name">Games 101</span></a>
+                </span>
             </span>
 
           
@@ -219,7 +257,139 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        
+        <h1 id="Lecture-16：Ray-Tracing-4-Monte-Carlo-Path-Tracing"><a href="#Lecture-16：Ray-Tracing-4-Monte-Carlo-Path-Tracing" class="headerlink" title="Lecture 16：Ray Tracing 4 (Monte Carlo Path Tracing)"></a>Lecture 16：Ray Tracing 4 (Monte Carlo Path Tracing)</h1><p>上一节课最后还讲了一点概率论，比较简单；</p>
+<p>介绍了一个概念，后面常用，<strong>概率分布（密度）函数：</strong></p>
+<p><img src="/images/Games101/16/01.png"></p>
+<h1 id="1-蒙特卡洛积分（Monte-Carlo-Integration）"><a href="#1-蒙特卡洛积分（Monte-Carlo-Integration）" class="headerlink" title="1. 蒙特卡洛积分（Monte Carlo Integration）"></a>1. 蒙特卡洛积分（Monte Carlo Integration）</h1><h2 id="1-1-Why？"><a href="#1-1-Why？" class="headerlink" title="1.1 Why？"></a>1.1 Why？</h2><p><strong>蒙特卡洛（Monte Carlo）积分</strong>目的是 解决定积分，但是它难以积分（解析式不好表达，不定积分不好求）的情况。</p>
+<p><img src="/images/Games101/16/02.png"></p>
+<h2 id="1-2-具体方法"><a href="#1-2-具体方法" class="headerlink" title="1.2 具体方法"></a>1.2 具体方法</h2><h3 id="1-2-1-基本思想"><a href="#1-2-1-基本思想" class="headerlink" title="1.2.1 基本思想"></a>1.2.1 基本思想</h3><p>在积分域内不断采样，获得 y 值，不断的与 ab 范围获得一个个长方形，然后<strong>把所有长方形的面积相加求平均。</strong></p>
+<h3 id="1-2-2-过程"><a href="#1-2-2-过程" class="headerlink" title="1.2.2 过程"></a>1.2.2 过程</h3><p>在积分域 [a,b] 之间不断随机取样 xi，得到结果为 f(xi)，作为长方形的高，那么我们就能得到这次采样的长方形的面积 (b-a)*f(xi)（但是并不准确），当我们多次采样后求平均，那么他就准确了。</p>
+<p>然后，采样的话可以用不同的概率密度函数p(x)；</p>
+<p><strong>对于给定函数 f(x) 的定积分，定义蒙特卡洛（Monte Carlo）积分：</strong></p>
+<p><img src="/images/Games101/16/03.png"></p>
+<p><img src="/images/Games101/16/04.png"></p>
+<p>（其实不是很懂为什么这个 p(xi) 被放在了分母）</p>
+<p><strong>注意：</strong></p>
+<ul>
+<li><strong>N越大，得到的结果越精确。</strong></li>
+<li><strong>在x上积分就一定要在x上取样。</strong></li>
+</ul>
+<h3 id="1-2-3-例子"><a href="#1-2-3-例子" class="headerlink" title="1.2.3 例子"></a>1.2.3 例子</h3><p>假如有一个均匀分布的概率分布函数，则他的蒙特卡洛积分为：</p>
+<p><img src="/images/Games101/16/05.png"></p>
+<p><img src="/images/Games101/16/06.png"></p>
+<h1 id="2-路径追踪"><a href="#2-路径追踪" class="headerlink" title="2. 路径追踪"></a>2. 路径追踪</h1><h2 id="2-1-动机：改进-Whitted-Style-Ray-Tracing"><a href="#2-1-动机：改进-Whitted-Style-Ray-Tracing" class="headerlink" title="2.1 动机：改进 Whitted-Style Ray Tracing"></a>2.1 动机：改进 Whitted-Style Ray Tracing</h2><p>Whitted-Style Ray Tracing 对光线进行了如下假设：</p>
+<ul>
+<li>总是进行镜面反射和折射</li>
+<li>光线在漫反射面停止跳跃</li>
+</ul>
+<h3 id="2-1-1-Whitted-Style-Ray-Tracing-存在的问题"><a href="#2-1-1-Whitted-Style-Ray-Tracing-存在的问题" class="headerlink" title="2.1.1 Whitted-Style Ray Tracing 存在的问题"></a>2.1.1 Whitted-Style Ray Tracing 存在的问题</h3><p><strong>问题1</strong>：</p>
+<ul>
+<li>如下是 Mirror reflection 和 Glossy reflection，但是<strong>对于打到Glossy的物体上的光线，传播的路径不能与Specular完全相同</strong>。</li>
+</ul>
+<p><img src="/images/Games101/16/07.png"></p>
+<p><strong>问题2</strong>：</p>
+<ul>
+<li>对于漫反射物体，如果光线传播到它的表面上，那么还是会有光线传播的，<strong>不应该停止</strong>。</li>
+</ul>
+<p><img src="/images/Games101/16/08.png"></p>
+<blockquote>
+<p>color bleeding：面的颜色流到其他的面上去。 就像上方右图高长方体的左面被全局光照映照出红色。</p>
+</blockquote>
+<h3 id="2-1-2-Whitted-Style-Ray-Tracing问题的解决办法"><a href="#2-1-2-Whitted-Style-Ray-Tracing问题的解决办法" class="headerlink" title="2.1.2 Whitted-Style Ray Tracing问题的解决办法"></a>2.1.2 Whitted-Style Ray Tracing问题的解决办法</h3><p><strong>Whitted-Style Ray Tracing 是错的，但是渲染方程是正确的。</strong></p>
+<p>但是此方程涉及</p>
+<ul>
+<li><strong>解半球的积分</strong><ul>
+<li><strong>解决方法：使用Monte Carlo积分解渲染方程的积分。</strong></li>
+</ul>
+</li>
+<li><strong>递归</strong><ul>
+<li><strong>解决方法：使用俄罗斯轮盘法来结束递归。</strong></li>
+</ul>
+</li>
+</ul>
+<p><img src="/images/Games101/16/09.png"></p>
+<h2 id="2-2-使用Monte-Carlo积分解渲染方程的积分"><a href="#2-2-使用Monte-Carlo积分解渲染方程的积分" class="headerlink" title="2.2 使用Monte Carlo积分解渲染方程的积分"></a>2.2 使用Monte Carlo积分解渲染方程的积分</h2><h3 id="2-2-1-步骤"><a href="#2-2-1-步骤" class="headerlink" title="2.2.1 步骤"></a>2.2.1 步骤</h3><p><strong>目的：渲染下面场景的一像素的直接光照。</strong></p>
+<p><img src="/images/Games101/16/10.png"></p>
+<p><strong>ω0：观测方向，从着色点到观测方向。</strong></p>
+<p><strong>ωi：各个不同的入射的方向。</strong></p>
+<p>这里直接搬了参考文章中的分析：</p>
+<p><img src="/images/Games101/16/11.png"></p>
+<p>对于只考虑直接光照，算法如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">shade(p, wo)</span><br><span class="line">	随机选择 wi ~ pdf 的 N 个方向</span><br><span class="line">	Lo=<span class="number">0.0</span></span><br><span class="line">	<span class="keyword">for</span> 每个 wi</span><br><span class="line">		追踪一个光线r(p,wi)</span><br><span class="line">		<span class="keyword">if</span> 光线打到了光源</span><br><span class="line">			Lo += (<span class="number">1</span>/N) * L_i * f_r * cosine / pdf(wi)</span><br><span class="line">		<span class="keyword">else</span> <span class="keyword">if</span> r达到了一个物体上的q点</span><br><span class="line">			Lo += (<span class="number">1</span>/N) * shade(q,-wi) * f_r * cosine / pdf(wi)			</span><br><span class="line">	<span class="keyword">return</span> Lo</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-2-2-问题：路径追踪解决光线数量爆炸"><a href="#2-2-2-问题：路径追踪解决光线数量爆炸" class="headerlink" title="2.2.2 问题：路径追踪解决光线数量爆炸"></a>2.2.2 问题：路径追踪解决光线数量爆炸</h3><p>使用上面的方法，由于光线跳跃多次，<strong>光线的数量会爆炸</strong>（有递归）<strong>rays &#x3D; N^bounces</strong> ;</p>
+<p><strong>解决方法</strong> 令N &#x3D; 1，即每次只选取 wi~pdf 的一个方向。</p>
+<p><strong>路径追踪就是上面N&#x3D;1的算法</strong> ，即每次路径追踪只是随机选择一个方向反射。</p>
+<p><img src="/images/Games101/16/12.png"></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">shade</span>(p,wo)</span><br><span class="line">	随机选择 wi~pdf 的<span class="number">1</span>个方向</span><br><span class="line">	追踪一个光线<span class="built_in">r</span>(p,wi)</span><br><span class="line">	<span class="keyword">if</span> 光线r打到了光源</span><br><span class="line">		<span class="keyword">return</span> L_i * f_r * cosine / <span class="built_in">pdf</span>(wi)</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span> r达到了一个物体上的q点</span><br><span class="line">		<span class="keyword">return</span> <span class="built_in">shade</span>(q,-wi) * f_r * cosine / <span class="built_in">pdf</span>(wi)			</span><br></pre></td></tr></table></figure>
+
+<p>但是噪声会很大。但是只要对每个像素<strong>trace more paths</strong>并求它们radiance的<strong>平均</strong>就可以减少噪声。如下所示。</p>
+<p><img src="/images/Games101/16/13.png"></p>
+<h3 id="2-2-3-Ray-Generation"><a href="#2-2-3-Ray-Generation" class="headerlink" title="2.2.3 Ray Generation"></a>2.2.3 Ray Generation</h3><p>为了减少噪声，所以每个像素要生成多个光线，进行多次路径追踪，光线生成算法如下。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ray_generation</span>(camPos,pixel)</span><br><span class="line">   在像素中平均的选取N个采样点</span><br><span class="line">   pixel_radiance = <span class="number">0.0</span></span><br><span class="line">   <span class="keyword">for</span> 对于像素中的每个采样点</span><br><span class="line">   	射出一条光线<span class="built_in">r</span>(camPos,cam_to_sample)</span><br><span class="line">   	如果光线击中了场景中的p点</span><br><span class="line">   		pixel_radiance += <span class="number">1</span> / N * <span class="built_in">shade</span>(p, sample_to_cam)</span><br><span class="line">   <span class="keyword">return</span> pixel_radiance</span><br></pre></td></tr></table></figure>
+
+<p>其实这里也有点像蒙特卡洛积分，也是取平均；</p>
+<h2 id="2-3-使用俄罗斯轮盘（RR）解决递归算法停不下来"><a href="#2-3-使用俄罗斯轮盘（RR）解决递归算法停不下来" class="headerlink" title="2.3 使用俄罗斯轮盘（RR）解决递归算法停不下来"></a>2.3 使用俄罗斯轮盘（RR）解决递归算法停不下来</h2><p><strong>问题</strong>：</p>
+<ul>
+<li>虽然现实中的光源跳跃也不会停，但是不停的话递归就无法结束。</li>
+</ul>
+<p><strong>解决方案</strong>：</p>
+<ul>
+<li>Russion Roulette(RR) 俄罗斯轮盘赌。</li>
+</ul>
+<h3 id="2-3-1-RR方法概述"><a href="#2-3-1-RR方法概述" class="headerlink" title="2.3.1 RR方法概述"></a>2.3.1 RR方法概述</h3><p>设定一个概率，0&lt;P&lt;1。</p>
+<ul>
+<li>有概率P，射出光线并且返回着色结果 Lo &#x2F; P；</li>
+<li>有概率1-P不射出光线，并返回结果0；</li>
+</ul>
+<p><strong>用这种方法，仍然可以期望得到值 Lo：</strong></p>
+<p><strong>E &#x3D; P ∗ (Lo &#x2F; P) + (1 − P) ∗ 0 &#x3D; Lo</strong></p>
+<h3 id="2-3-2-RR方法改进后的路径追踪算法"><a href="#2-3-2-RR方法改进后的路径追踪算法" class="headerlink" title="2.3.2 RR方法改进后的路径追踪算法"></a>2.3.2 RR方法改进后的路径追踪算法</h3><p>进行如上改进后，得到的代码如下：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">shade</span>(p,wo)</span><br><span class="line">	手动指定一个概率 P_RR</span><br><span class="line">	在均匀分布[<span class="number">0</span>,<span class="number">1</span>]范围内随机选择ksi。</span><br><span class="line">	<span class="keyword">if</span>(ksi &gt; P_RR) <span class="keyword">return</span> <span class="number">0.0</span>;</span><br><span class="line"></span><br><span class="line">	随机选择 wi~pdf 的<span class="number">1</span>个方向</span><br><span class="line">	追踪一个光线<span class="built_in">r</span>(p,wi)</span><br><span class="line">	<span class="keyword">if</span> 光线r打到了光源</span><br><span class="line">		<span class="keyword">return</span> L_i * f_r * cosine / <span class="built_in">pdf</span>(wi) / P_RR</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span> 光线r达到了一个物体上的q点</span><br><span class="line">		<span class="keyword">return</span> <span class="built_in">shade</span>(q,-wi) * f_r * cosine / <span class="built_in">pdf</span>(wi) / P_RR</span><br></pre></td></tr></table></figure>
+
+<p>这样就能保证递归可以停止。</p>
+<h2 id="2-4-提高-Path-Tracing-的效率"><a href="#2-4-提高-Path-Tracing-的效率" class="headerlink" title="2.4 提高 Path Tracing 的效率"></a>2.4 提高 Path Tracing 的效率</h2><p><strong>问题</strong> 经过以上改进，现在路径追踪算法是正确的了，但是它<strong>不高效</strong>。</p>
+<p><img src="/images/Games101/16/14.png"></p>
+<p>如下图所示，如果均匀的四面八方采样，对于很多光线只有极少数打到光源，大部分都被浪费掉了。</p>
+<p><img src="/images/Games101/16/15.png"></p>
+<p><strong>所以我们直接在光源上采样，pdf &#x3D; 1&#x2F;A，但是渲染方程的积分是在立体角上进行的；</strong></p>
+<p><img src="/images/Games101/16/16.png"></p>
+<p><strong>由于Monte Carlo方程要求在哪里积分就在哪里取样，所以只要把 dω 转变成对 dA 积分即可。</strong></p>
+<p>我们得到立体角和光源面积微分 dA 的关系如下：</p>
+<p><img src="/images/Games101/16/18.png"></p>
+<p><strong>然后重写渲染方程：</strong></p>
+<p><img src="/images/Games101/16/19.png"></p>
+<p><strong>现在我们认为着色结果来源于两部分：</strong></p>
+<ul>
+<li><p><strong>光源的贡献（直接采样光源，无需RR）</strong></p>
+</li>
+<li><p><strong>其他反射（indirect，需要RR）</strong></p>
+</li>
+</ul>
+<p><img src="/images/Games101/16/20.png"></p>
+<p><strong>伪代码如下：</strong></p>
+<p><img src="/images/Games101/16/21.png"></p>
+<p><strong>再考虑另一个问题，如果光源和着色点之间被物体遮挡，则直接返回0。</strong></p>
+<p><img src="/images/Games101/16/22.png"></p>
+<p><strong>到此 Path Tracing 算法完成。</strong></p>
+<h2 id="2-5-Path-Tracing的特点"><a href="#2-5-Path-Tracing的特点" class="headerlink" title="2.5 Path Tracing的特点"></a>2.5 Path Tracing的特点</h2><p><strong>缺点</strong>：路径追踪不好处理点光源。</p>
+<p><strong>优点</strong>：Path Tracing 可以做到照片级真实感PHOTO-REALISTIC（如下所示）。</p>
+<p><img src="/images/Games101/16/23.png"></p>
+<h1 id="3-Raytracing的概念区分"><a href="#3-Raytracing的概念区分" class="headerlink" title="3 Raytracing的概念区分"></a>3 Raytracing的概念区分</h1><p><strong>早期：</strong></p>
+<ul>
+<li>Ray tracing &#x3D;&#x3D; Whitted-style ray tracing</li>
+</ul>
+<p><strong>现代：</strong></p>
+<ul>
+<li>包含所有光线传播方法的集合</li>
+<li>（单向&#x2F;双向）path tracing</li>
+<li>光子映射 Photon mapping</li>
+<li>Metropoils light transport</li>
+<li>VCM &#x2F; UPBR</li>
+</ul>
+<h1 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h1><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43399489/article/details/121617338?spm=1001.2014.3001.5502">图形学笔记（十四）光线追踪4——蒙特卡洛（Monte Carlo）积分、路径追踪详细过程（Whitted-Style的问题于RR（俄罗斯轮盘赌）算法、Ray Generation）、照片级真实感渲染_图形学rr-CSDN博客</a></p>
+<p>太难啦</p>
+
     </div>
 
     
@@ -234,7 +404,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://example.com/2024/01/13/games101/Lec%2016/" title="">http://example.com/2024/01/13/games101/Lec 16/</a>
+    <a href="http://example.com/2024/01/13/games101/Lec%2016/" title="【Games 101】Lec 16：光线追踪 4（蒙特卡罗积分，路径追踪）">http://example.com/2024/01/13/games101/Lec 16/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
@@ -263,6 +433,10 @@
 
 
       <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Games-%E7%B3%BB%E5%88%97/" rel="tag"># Games 系列</a>
+              <a href="/tags/Games-101/" rel="tag"># Games 101</a>
+          </div>
 
         
 
@@ -270,13 +444,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2024/01/09/games101/Lec%2014/" rel="prev" title="【Games 101】Lec 14：光线追踪 2（加速光线追踪 和 辐射度量学）">
-      <i class="fa fa-chevron-left"></i> 【Games 101】Lec 14：光线追踪 2（加速光线追踪 和 辐射度量学）
+    <a href="/2024/01/13/games101/Lec%2015/" rel="prev" title="【Games 101】Lec 15：光线追踪 3（辐射度量学，光传输，全局光照）">
+      <i class="fa fa-chevron-left"></i> 【Games 101】Lec 15：光线追踪 3（辐射度量学，光传输，全局光照）
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2024/01/13/games101/Lec%2015/" rel="next" title="【Games 101】Lec 15：光线追踪 3（辐射度量学，光传输，全局光照）">
-      【Games 101】Lec 15：光线追踪 3（辐射度量学，光传输，全局光照） <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -340,6 +511,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Lecture-16%EF%BC%9ARay-Tracing-4-Monte-Carlo-Path-Tracing"><span class="nav-number">1.</span> <span class="nav-text">Lecture 16：Ray Tracing 4 (Monte Carlo Path Tracing)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E7%A7%AF%E5%88%86%EF%BC%88Monte-Carlo-Integration%EF%BC%89"><span class="nav-number">2.</span> <span class="nav-text">1. 蒙特卡洛积分（Monte Carlo Integration）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-Why%EF%BC%9F"><span class="nav-number">2.1.</span> <span class="nav-text">1.1 Why？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-%E5%85%B7%E4%BD%93%E6%96%B9%E6%B3%95"><span class="nav-number">2.2.</span> <span class="nav-text">1.2 具体方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-1-%E5%9F%BA%E6%9C%AC%E6%80%9D%E6%83%B3"><span class="nav-number">2.2.1.</span> <span class="nav-text">1.2.1 基本思想</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-2-%E8%BF%87%E7%A8%8B"><span class="nav-number">2.2.2.</span> <span class="nav-text">1.2.2 过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-3-%E4%BE%8B%E5%AD%90"><span class="nav-number">2.2.3.</span> <span class="nav-text">1.2.3 例子</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E8%B7%AF%E5%BE%84%E8%BF%BD%E8%B8%AA"><span class="nav-number">3.</span> <span class="nav-text">2. 路径追踪</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-%E5%8A%A8%E6%9C%BA%EF%BC%9A%E6%94%B9%E8%BF%9B-Whitted-Style-Ray-Tracing"><span class="nav-number">3.1.</span> <span class="nav-text">2.1 动机：改进 Whitted-Style Ray Tracing</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-1-Whitted-Style-Ray-Tracing-%E5%AD%98%E5%9C%A8%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">3.1.1.</span> <span class="nav-text">2.1.1 Whitted-Style Ray Tracing 存在的问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-2-Whitted-Style-Ray-Tracing%E9%97%AE%E9%A2%98%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95"><span class="nav-number">3.1.2.</span> <span class="nav-text">2.1.2 Whitted-Style Ray Tracing问题的解决办法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-%E4%BD%BF%E7%94%A8Monte-Carlo%E7%A7%AF%E5%88%86%E8%A7%A3%E6%B8%B2%E6%9F%93%E6%96%B9%E7%A8%8B%E7%9A%84%E7%A7%AF%E5%88%86"><span class="nav-number">3.2.</span> <span class="nav-text">2.2 使用Monte Carlo积分解渲染方程的积分</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-1-%E6%AD%A5%E9%AA%A4"><span class="nav-number">3.2.1.</span> <span class="nav-text">2.2.1 步骤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-2-%E9%97%AE%E9%A2%98%EF%BC%9A%E8%B7%AF%E5%BE%84%E8%BF%BD%E8%B8%AA%E8%A7%A3%E5%86%B3%E5%85%89%E7%BA%BF%E6%95%B0%E9%87%8F%E7%88%86%E7%82%B8"><span class="nav-number">3.2.2.</span> <span class="nav-text">2.2.2 问题：路径追踪解决光线数量爆炸</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-3-Ray-Generation"><span class="nav-number">3.2.3.</span> <span class="nav-text">2.2.3 Ray Generation</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-%E4%BD%BF%E7%94%A8%E4%BF%84%E7%BD%97%E6%96%AF%E8%BD%AE%E7%9B%98%EF%BC%88RR%EF%BC%89%E8%A7%A3%E5%86%B3%E9%80%92%E5%BD%92%E7%AE%97%E6%B3%95%E5%81%9C%E4%B8%8D%E4%B8%8B%E6%9D%A5"><span class="nav-number">3.3.</span> <span class="nav-text">2.3 使用俄罗斯轮盘（RR）解决递归算法停不下来</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-1-RR%E6%96%B9%E6%B3%95%E6%A6%82%E8%BF%B0"><span class="nav-number">3.3.1.</span> <span class="nav-text">2.3.1 RR方法概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-2-RR%E6%96%B9%E6%B3%95%E6%94%B9%E8%BF%9B%E5%90%8E%E7%9A%84%E8%B7%AF%E5%BE%84%E8%BF%BD%E8%B8%AA%E7%AE%97%E6%B3%95"><span class="nav-number">3.3.2.</span> <span class="nav-text">2.3.2 RR方法改进后的路径追踪算法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-4-%E6%8F%90%E9%AB%98-Path-Tracing-%E7%9A%84%E6%95%88%E7%8E%87"><span class="nav-number">3.4.</span> <span class="nav-text">2.4 提高 Path Tracing 的效率</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-5-Path-Tracing%E7%9A%84%E7%89%B9%E7%82%B9"><span class="nav-number">3.5.</span> <span class="nav-text">2.5 Path Tracing的特点</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-Raytracing%E7%9A%84%E6%A6%82%E5%BF%B5%E5%8C%BA%E5%88%86"><span class="nav-number">4.</span> <span class="nav-text">3 Raytracing的概念区分</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83%EF%BC%9A"><span class="nav-number">5.</span> <span class="nav-text">参考：</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -406,7 +578,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共30.3k字</span>
+  <span class="post-count">博客全站共32.1k字</span>
 </div>
 
 
