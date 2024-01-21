@@ -170,7 +170,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/12/30/%E3%80%90UE4%E3%80%91%E5%B0%8F%E7%9F%A5%E8%AF%86%E3%80%81%E9%97%AE%E9%A2%98%20%E6%B1%87%E6%80%BB/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/12/30/games101/GAMES%20101%20%E9%9A%8F%E7%AC%94/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -184,7 +184,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2023/12/30/%E3%80%90UE4%E3%80%91%E5%B0%8F%E7%9F%A5%E8%AF%86%E3%80%81%E9%97%AE%E9%A2%98%20%E6%B1%87%E6%80%BB/" class="post-title-link" itemprop="url">【UE4】小知识 / 问题 汇总</a>
+            <a href="/2023/12/30/games101/GAMES%20101%20%E9%9A%8F%E7%AC%94/" class="post-title-link" itemprop="url">Games 101 随笔</a>
         </h2>
 
         <div class="post-meta">
@@ -199,14 +199,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2023-12-30 21:09:55" itemprop="dateCreated datePublished" datetime="2023-12-30T21:09:55+08:00">2023-12-30</time>
+              <time title="创建时间：2023-12-30 21:22:39" itemprop="dateCreated datePublished" datetime="2023-12-30T21:22:39+08:00">2023-12-30</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-12-03 14:10:48" itemprop="dateModified" datetime="2023-12-03T14:10:48+08:00">2023-12-03</time>
+                <time title="修改时间：2024-01-21 20:57:43" itemprop="dateModified" datetime="2024-01-21T20:57:43+08:00">2024-01-21</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -214,7 +214,11 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/UE4/" itemprop="url" rel="index"><span itemprop="name">UE4</span></a>
+                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">Games 系列</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/Games-101/" itemprop="url" rel="index"><span itemprop="name">Games 101</span></a>
                 </span>
             </span>
 
@@ -229,96 +233,32 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p><strong>记录一些 UE4 常用的知识</strong></p>
-<h1 id="小知识"><a href="#小知识" class="headerlink" title="小知识"></a>小知识</h1><h2 id="输出"><a href="#输出" class="headerlink" title="输出"></a>输出</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 输出日志到文件中</span></span><br><span class="line"><span class="built_in">UE_LOG</span>(LogTemp, Warning, <span class="built_in">TEXT</span>(<span class="string">&quot;Hello&quot;</span>));</span><br><span class="line"><span class="built_in">UE_LOG</span>(LogTemp, Error, <span class="built_in">TEXT</span>(<span class="string">&quot;Hello&quot;</span>));</span><br><span class="line"><span class="built_in">UE_LOG</span>(LogTemp, Log, <span class="built_in">TEXT</span>(<span class="string">&quot;Hello&quot;</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment">// 输出到屏幕上</span></span><br><span class="line">GEngine-&gt;<span class="built_in">AddOnScreenDebugMessage</span>(<span class="number">-1</span>, <span class="number">20</span>, FColor::Yellow, <span class="string">&quot;Hello&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 有时候要输出一下 FSting</span></span><br><span class="line">FString fs = <span class="string">&quot;asd&quot;</span>;</span><br><span class="line"><span class="built_in">UE_LOG</span>(LogTemp, Error, <span class="built_in">TEXT</span>(<span class="string">&quot;%s&quot;</span>), *fs);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="获取"><a href="#获取" class="headerlink" title="获取"></a>获取</h2><h3 id="获取，设置-Actor-的位置和旋转"><a href="#获取，设置-Actor-的位置和旋转" class="headerlink" title="获取，设置 Actor 的位置和旋转"></a>获取，设置 Actor 的位置和旋转</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">FVector NewLocation = <span class="built_in">GetActorLocation</span>();</span><br><span class="line">FRotator NewRotation = <span class="built_in">GetActorRotation</span>();</span><br><span class="line"></span><br><span class="line"><span class="built_in">SetActorLocationAndRotation</span>(NewLocation, NewRotation);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 这些函数都是 Actor 的成员函数，继承后直接用就行了</span></span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="获取-GameState"><a href="#获取-GameState" class="headerlink" title="获取 GameState"></a>获取 GameState</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">AMyGameStateBase* GS = <span class="built_in">Cast</span>&lt;AMyGameStateBase&gt;(<span class="built_in">GetWorld</span>()-&gt;<span class="built_in">GetGameState</span>());</span><br><span class="line"></span><br><span class="line"><span class="built_in">GetWorld</span>() 是 Actor 里面的函数；</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="获取-GameMode"><a href="#获取-GameMode" class="headerlink" title="获取 GameMode"></a>获取 GameMode</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 方法一：</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Kismet/GameplayStatics.h&quot;</span></span></span><br><span class="line"><span class="type">const</span> AMyGameModeBase* GM = <span class="built_in">Cast</span>&lt;AMyGameModeBase&gt;(UGameplayStatics::<span class="built_in">GetGameMode</span>(<span class="keyword">this</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment">// 方法二：</span></span><br><span class="line">AMyGameModeBase* GM = <span class="built_in">Cast</span>&lt;AMyGameModeBase&gt;(<span class="built_in">GetWorld</span>()-&gt;<span class="built_in">GetAuthGameMode</span>());</span><br><span class="line"></span><br><span class="line"><span class="comment">// 方法三：(GetDefaultGameMode() 是 AGameStateBase 里面的)</span></span><br><span class="line"><span class="type">const</span> AMyGameModeBase* GM = <span class="built_in">Cast</span>&lt;AMyGameModeBase&gt;(<span class="built_in">GetDefaultGameMode</span>());</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="通过反射，直接获取蓝图中配置的信息"><a href="#通过反射，直接获取蓝图中配置的信息" class="headerlink" title="通过反射，直接获取蓝图中配置的信息"></a>通过反射，直接获取蓝图中配置的信息</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">FString AIPath = <span class="string">&quot;Blueprint&#x27;&quot;</span>;</span><br><span class="line">AIPath.<span class="built_in">Append</span>(M_SoldierInfoList[i].<span class="built_in">ToString</span>());</span><br><span class="line">AIPath.<span class="built_in">Append</span>(<span class="string">&quot;&#x27;&quot;</span>);</span><br><span class="line">UClass* AIClass = <span class="built_in">LoadClass</span>&lt;AAICharacter_Base&gt;(<span class="literal">NULL</span>, *AIPath);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (AIClass)</span><br><span class="line">&#123;</span><br><span class="line">    AAICharacter_Base* AI_Base = <span class="built_in">Cast</span>&lt;AAICharacter_Base&gt;(AIClass-&gt;<span class="built_in">GetDefaultObject</span>());</span><br><span class="line">    <span class="keyword">if</span> (AI_Base)</span><br><span class="line">    &#123;</span><br><span class="line">    	<span class="comment">// 通过 GetDefaultObject() 获取到的 AI_Base 就是蓝图本身的这个Object；</span></span><br><span class="line">    	<span class="comment">// 然后在这里就可以直接获取到蓝图身上的东西了（我们可以往蓝图上面配置东西）</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-
-
-
-
-
-<h2 id="加载"><a href="#加载" class="headerlink" title="加载"></a>加载</h2><h3 id="从-c-中加载-UI"><a href="#从-c-中加载-UI" class="headerlink" title="从 c++ 中加载 UI"></a>从 c++ 中加载 UI</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 方法1：</span></span><br><span class="line">FString HUDClassLoadPath = <span class="built_in">FString</span>(<span class="built_in">TEXT</span>(<span class="string">&quot;Blueprint&#x27;/Game/Blueprints/HUD.HUD_C&#x27;&quot;</span>));</span><br><span class="line"><span class="keyword">auto</span> MyUIClass = <span class="built_in">LoadClass</span>&lt;UUserWidget&gt;(<span class="literal">NULL</span>, *HUDClassLoadPath);</span><br><span class="line"><span class="keyword">if</span> (MyUIClass != <span class="literal">nullptr</span>)</span><br><span class="line">&#123;</span><br><span class="line">    UUserWidget* MyUI = <span class="built_in">CreateWidget</span>&lt;UUserWidget&gt;(<span class="built_in">GetWorld</span>(), MyUIClass);</span><br><span class="line">    <span class="keyword">if</span> (MyUI != <span class="literal">nullptr</span>) MyUI-&gt;<span class="built_in">AddToViewport</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 方法2：</span></span><br><span class="line">FString UiPath = <span class="built_in">TEXT</span>(<span class="string">&quot;/Script/UMGEditor.WidgetBlueprint&#x27;/Game/Blueprints/HUD.HUD_C&#x27;&quot;</span>);<span class="comment">//动态加载UI 类</span></span><br><span class="line">UClass* MyUIClass = <span class="built_in">LoadClass</span>&lt;UUserWidget&gt;(<span class="literal">nullptr</span>, *UiPath);</span><br><span class="line"><span class="keyword">if</span> (MyUIClass)</span><br><span class="line">&#123;</span><br><span class="line">	UUserWidget* MyUI = UWidgetBlueprintLibrary::<span class="built_in">Create</span>(GWorld, MyUIClass, <span class="literal">nullptr</span>);<span class="comment">//创建蓝图添加到窗口</span></span><br><span class="line">	MyUI-&gt;<span class="built_in">AddToViewport</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">注意：</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">1. 需要包含头文件：</span></span><br><span class="line"><span class="comment">#include &quot;Blueprint/UserWidget.h&quot;</span></span><br><span class="line"><span class="comment">#include &quot;Blueprint/WidgetBlueprintLibrary.h&quot;</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">2. 两种方法都得在当前项目的 .Build.cs 文件中检查是否有包含 &quot;UMG&quot; 模块，没有的话需要添加上去，这样才能编译通过；</span></span><br><span class="line"><span class="comment">PublicDependencyModuleNames.AddRange(new string[] &#123; &quot;Core&quot;, &quot;CoreUObject&quot;, &quot;Engine&quot;, &quot;InputCore&quot;, &quot;HeadMountedDisplay&quot;, &quot;UMG&quot; &#125;);</span></span><br><span class="line"><span class="comment">（看到最后一个没有~）</span></span><br><span class="line"><span class="comment">*/</span> </span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="在-C-代码中设置-GameMode"><a href="#在-C-代码中设置-GameMode" class="headerlink" title="在 C++ 代码中设置 GameMode"></a>在 C++ 代码中设置 GameMode</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// TestGameGameMode 构造函数中设置对应的 GameMode 的参数,当然要先引入下面对应类的头文件</span></span><br><span class="line">ATestGameGameMode::<span class="built_in">ATestGameGameMode</span>()</span><br><span class="line">&#123;</span><br><span class="line">	GameStateClass = ATestGameState::<span class="built_in">StaticClass</span>();</span><br><span class="line">	PlayerControllerClass = ATestPlayerController::<span class="built_in">StaticClass</span>();</span><br><span class="line">	PlayerStateClass = ATestPlayerState::<span class="built_in">StaticClass</span>();</span><br><span class="line">	HUDClass = ATestHUD::<span class="built_in">StaticClass</span>();</span><br><span class="line">	DefaultPawnClass = ATestPawn::<span class="built_in">StaticClass</span>();</span><br><span class="line">	SpectatorClass = ATest_SpectatorPawn::<span class="built_in">StaticClass</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="C-类-加载-蓝图类"><a href="#C-类-加载-蓝图类" class="headerlink" title="C++类 加载 蓝图类"></a>C++类 加载 蓝图类</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">FString CharacterClassLoadPath = <span class="built_in">FString</span>(<span class="built_in">TEXT</span>(<span class="string">&quot;Blueprint&#x27;/Game/ThirdPersonCPP/Blueprints/ThirdPersonCharacter.ThirdPersonCharacter_C&#x27;&quot;</span>));	<span class="comment">// 路径</span></span><br><span class="line">DefaultPawnClass = <span class="built_in">LoadClass</span>&lt;AMyProject02Character&gt;(<span class="literal">NULL</span>, *CharacterClassLoadPath);		<span class="comment">// 动态加载</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 这里需要注意这个 TEXT 里面的规则... 真的是很烦...</span></span><br><span class="line"><span class="comment">// Blueprint&#x27;路径&#x27;；最后的蓝图类是 blueprintname.blueprintname_C</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 注意字符串的拼接</span></span><br><span class="line">	FString s = <span class="string">&quot;Blueprint&#x27;&quot;</span>;</span><br><span class="line">	s.<span class="built_in">Append</span>(ClassPath.<span class="built_in">ToString</span>());	<span class="comment">// ClassPath 是 FSoftClassPath</span></span><br><span class="line">	s.<span class="built_in">Append</span>(<span class="string">&quot;&#x27;&quot;</span>);</span><br><span class="line">	UClass* BP_ProjectileClass = <span class="built_in">LoadClass</span>&lt;AProjectile&gt;(<span class="literal">NULL</span>, *s);</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="创建销毁"><a href="#创建销毁" class="headerlink" title="创建销毁"></a>创建销毁</h2><h3 id="创建组件，初始化组件，使用组件"><a href="#创建组件，初始化组件，使用组件" class="headerlink" title="创建组件，初始化组件，使用组件"></a>创建组件，初始化组件，使用组件</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*--------------- .h 文件-----------------*/</span> 	</span><br><span class="line">UStaticMeshComponent *VisualMesh = <span class="literal">nullptr</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/*--------------- .cpp 文件-----------------*/</span> 	</span><br><span class="line"><span class="comment">// 一般在构造函数里面做</span></span><br><span class="line">VisualMesh = <span class="built_in">CreateDefaultSubobject</span>&lt;UStaticMeshComponent&gt;(<span class="built_in">TEXT</span>(<span class="string">&quot;VisualMesh&quot;</span>));	<span class="comment">// 创建组件</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 把 VisualMesh 作为根组件</span></span><br><span class="line">RootComponent = <span class="built_in">Cast</span>&lt;USceneComponent&gt;(VisualMesh);						</span><br><span class="line"></span><br><span class="line"><span class="comment">// 将组件附在另一个组件下面</span></span><br><span class="line">Box-&gt;<span class="built_in">SetupAttachment</span>(VisualMesh);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 设置碰撞预设</span></span><br><span class="line">VisualMesh-&gt;<span class="built_in">SetCollisionProfileName</span>(<span class="built_in">TEXT</span>(<span class="string">&quot;BlockAllDynamic&quot;</span>));		</span><br><span class="line"></span><br><span class="line"><span class="comment">// 设置模型(注意，ConstructorHelpers::FObjectFinder 只能在构造函数中用，否则会崩溃)</span></span><br><span class="line"><span class="function"><span class="type">static</span> ConstructorHelpers::FObjectFinder&lt;UStaticMesh&gt; <span class="title">CubeVisualAsset</span><span class="params">(TEXT(<span class="string">&quot;/Game/StarterContent/Shapes/Shape_Cube.Shape_Cube&quot;</span>))</span></span>;	<span class="comment">// 注意路径格式</span></span><br><span class="line"><span class="keyword">if</span> (CubeVisualAsset.<span class="built_in">Succeeded</span>())</span><br><span class="line">&#123;</span><br><span class="line">	VisualMesh-&gt;<span class="built_in">SetStaticMesh</span>(CubeVisualAsset.Object);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 设置位置</span></span><br><span class="line">VisualMesh-&gt;<span class="built_in">SetRelativeLocation</span>(<span class="built_in">FVector</span>(<span class="number">0.0f</span>, <span class="number">0.0f</span>, <span class="number">0.0f</span>));</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="创建、销毁Actor"><a href="#创建、销毁Actor" class="headerlink" title="创建、销毁Actor"></a>创建、销毁Actor</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">AMyBox *mybox = <span class="built_in">GetWorld</span>()-&gt;<span class="built_in">SpawnActor</span>&lt;AMyBox&gt;(SpawnLocation, SpawnRotation);	<span class="comment">// 创建</span></span><br><span class="line">mybox-&gt;<span class="built_in">destroy</span>();	<span class="comment">// 销毁</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 创建一个特效类对象，附在MyBox类对象上面（这里的this是MyBox的对象）</span></span><br><span class="line">AMyEffect *MyEffect = <span class="built_in">GetWorld</span>()-&gt;<span class="built_in">SpawnActor</span>&lt;AMyEffect&gt;();</span><br><span class="line">MyEffect-&gt;<span class="built_in">AttachToActor</span>(<span class="keyword">this</span>, FAttachmentTransformRules::KeepRelativeTransform);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 延迟创建 Actor，用于完整的创建，放置还未初始化就被销毁的情况</span></span><br><span class="line">	AProjectile* NewProjectile = <span class="built_in">Cast</span>&lt;AProjectile&gt;(UGameplayStatics::<span class="built_in">BeginDeferredActorSpawnFromClass</span>(<span class="keyword">this</span>, BP_ProjectileClass, SpawnTransform, ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn));</span><br><span class="line">	<span class="keyword">if</span> (NewProjectile)</span><br><span class="line">	&#123;</span><br><span class="line">        <span class="comment">// 在这里就是完成创建之前要做的事情</span></span><br><span class="line">		NewProjectile-&gt;<span class="built_in">SetOwner</span>(<span class="keyword">this</span>);</span><br><span class="line">		NewProjectile-&gt;<span class="built_in">Init</span>(<span class="keyword">this</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	UGameplayStatics::<span class="built_in">FinishSpawningActor</span>(NewProjectile, SpawnTransform);</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="粒子效果的使用实例"><a href="#粒子效果的使用实例" class="headerlink" title="粒子效果的使用实例"></a>粒子效果的使用实例</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">UParticleSystem</span>* PickUpFX;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">UParticleSystem</span>* StaticFX;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Actor 消失，特效不消失</span></span><br><span class="line">UGameplayStatics::<span class="built_in">SpawnEmitterAtLocation</span>(<span class="keyword">this</span>, PickUpFX, <span class="built_in">GetActorLocation</span>());</span><br><span class="line"></span><br><span class="line"><span class="comment">// MeshComp 是一个组件，特效附着在组件上面，Actor销毁，特效也销毁</span></span><br><span class="line">UGameplayStatics::<span class="built_in">SpawnEmitterAttached</span>(StaticFX, MeshComp);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 这一篇将了随着Actor销毁，特效销毁/不销毁 的两种做法。</span></span><br><span class="line">https:<span class="comment">//blog.csdn.net/weixin_36728104/article/details/82893670</span></span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<h2 id="数学计算"><a href="#数学计算" class="headerlink" title="数学计算"></a>数学计算</h2><h3 id="计算两个位置的距离"><a href="#计算两个位置的距离" class="headerlink" title="计算两个位置的距离"></a>计算两个位置的距离</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">FVector::<span class="built_in">Distance</span>(FVector1, Fvector2);</span><br></pre></td></tr></table></figure>
-
-<h3 id="随机数的使用"><a href="#随机数的使用" class="headerlink" title="随机数的使用"></a>随机数的使用</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Kismet/KismetMathLibrary.h&quot;</span></span></span><br><span class="line"><span class="type">float</span> RandomX = UKismetMathLibrary::<span class="built_in">RandomFloatInRange</span>(MIN_X, MAX_X);</span><br></pre></td></tr></table></figure>
-
-<h3 id="时间的使用"><a href="#时间的使用" class="headerlink" title="时间的使用"></a>时间的使用</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 获取当前的游戏时间</span></span><br><span class="line"><span class="type">double</span> CurrentTime = FDateTime::<span class="built_in">Now</span>().<span class="built_in">GetTimeOfDay</span>().<span class="built_in">GetTotalMilliseconds</span>();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 输出年月日</span></span><br><span class="line">FDateTime tt = FDateTime::<span class="built_in">Now</span>();</span><br><span class="line"><span class="type">int</span> year = tt.<span class="built_in">GetYear</span>();</span><br><span class="line"><span class="type">int</span> month = tt.<span class="built_in">GetMonth</span>();</span><br><span class="line"><span class="type">int</span> day = tt.<span class="built_in">GetDay</span>();</span><br><span class="line"><span class="type">int</span> hour = tt.<span class="built_in">GetHour</span>();</span><br><span class="line"><span class="type">int</span> minute = tt.<span class="built_in">GetMinute</span>();</span><br><span class="line"><span class="type">int</span> second = tt.<span class="built_in">GetSecond</span>();</span><br><span class="line"><span class="built_in">UE_LOG</span>(LogTemp, Error, <span class="built_in">TEXT</span>(<span class="string">&quot;Time : %d, %d, %d, %d, %d, %d&quot;</span>), year, month, day, hour, minute, second);</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="定时器的使用"><a href="#定时器的使用" class="headerlink" title="定时器的使用"></a>定时器的使用</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 声明一个定时器 Handle，用于特效对象的延迟销毁</span></span><br><span class="line">FTimerHandle TimerHandle;</span><br><span class="line"><span class="built_in">GetWorldTimerManager</span>().<span class="built_in">SetTimer</span>(TimerHandle, <span class="keyword">this</span>, &amp;AMyEffect::OnDestroyed, <span class="number">2.0f</span>, <span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 检测定时器是否活跃</span></span><br><span class="line"><span class="built_in">GetWorldTimerManager</span>().<span class="built_in">IsTimerActive</span>(M_TimerHandle) == <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 清楚定时器</span></span><br><span class="line"><span class="built_in">GetWorldTimerManager</span>().<span class="built_in">ClearTimer</span>(M_TimerHandle);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 这个可以看一下官方文档</span></span><br><span class="line">https:<span class="comment">//docs.unrealengine.com/4.27/zh-CN/ProgrammingAndScripting/ProgrammingWithCPP/UnrealArchitecture/Timers/</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 但其实关于定时，我们可以通过记录时间的方式来实现，这样更加简单。</span></span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="AI"><a href="#AI" class="headerlink" title="AI"></a>AI</h2><h3 id="运行行为树"><a href="#运行行为树" class="headerlink" title="运行行为树"></a>运行行为树</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">	<span class="built_in">UPROPERTY</span>()</span><br><span class="line">	<span class="keyword">class</span> <span class="title class_">UBehaviorTreeComponent</span>* M_BehaviorTree;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>()</span><br><span class="line">	<span class="keyword">class</span> <span class="title class_">UBlackboardComponent</span>* M_Blackboard;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">UPROPERTY</span>(EditAnywhere, Category = <span class="string">&quot;BaseConfig&quot;</span>)</span><br><span class="line">	<span class="keyword">class</span> <span class="title class_">UBehaviorTree</span>* BTree = <span class="literal">nullptr</span>;</span><br><span class="line"></span><br><span class="line"><span class="function">UBehaviorTree* <span class="title">AAICharacter_Base::GetBTree</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> BTree;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">AAIController_Base::RunAIBehaviorTree</span><span class="params">(APawn* InPawn)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	AAICharacter_Base* AI = <span class="built_in">Cast</span>&lt;AAICharacter_Base&gt;(InPawn);</span><br><span class="line">	<span class="keyword">if</span> (AI &amp;&amp; AI-&gt;<span class="built_in">GetBTree</span>())</span><br><span class="line">	&#123;</span><br><span class="line">		M_Blackboard-&gt;<span class="built_in">InitializeBlackboard</span>(*AI-&gt;<span class="built_in">GetBTree</span>()-&gt;BlackboardAsset);		<span class="comment">// 初始化AI中的黑板，黑板是在行为树中的。</span></span><br><span class="line">		M_BehaviorTree-&gt;<span class="built_in">StartTree</span>(*AI-&gt;<span class="built_in">GetBTree</span>());									<span class="comment">// 开始运行行为树</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="使用感知组件"><a href="#使用感知组件" class="headerlink" title="使用感知组件"></a>使用感知组件</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Perception/AISenseConfig_Sight.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Perception/AIPerceptionComponent.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="built_in">UPROPERTY</span>()</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">UAISenseConfig_Sight</span>* SightConfig = <span class="literal">nullptr</span>;</span><br><span class="line"></span><br><span class="line"><span class="built_in">UPROPERTY</span>()</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">UAIPerceptionComponent</span>* M_AIPerception = <span class="literal">nullptr</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 构造函数</span></span><br><span class="line">AAIController::<span class="built_in">AAIController</span>()</span><br><span class="line">&#123;</span><br><span class="line">	M_AIPerception = <span class="built_in">CreateDefaultSubobject</span>&lt;UAIPerceptionComponent&gt;(<span class="string">&quot;AIPerception&quot;</span>);</span><br><span class="line">	SightConfig = <span class="built_in">CreateDefaultSubobject</span>&lt;UAISenseConfig_Sight&gt;(<span class="built_in">TEXT</span>(<span class="string">&quot;AISightConfig&quot;</span>));</span><br><span class="line">	<span class="keyword">if</span> (M_AIPerception)</span><br><span class="line">	&#123;</span><br><span class="line">		M_AIPerception-&gt;<span class="built_in">ConfigureSense</span>(*SightConfig);</span><br><span class="line">		M_AIPerception-&gt;<span class="built_in">SetDominantSense</span>(SightConfig-&gt;<span class="built_in">GetSenseImplementation</span>());</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 注意绑定感知函数不能在构造函数中，否则不生效，所以放在 BeginPlay 里面</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">AAIController::BeginPlay</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Super::<span class="built_in">BeginPlay</span>();</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (M_AIPerception)</span><br><span class="line">	&#123;</span><br><span class="line">		M_AIPerception-&gt;OnTargetPerceptionUpdated.<span class="built_in">AddDynamic</span>(<span class="keyword">this</span>, &amp;AAIController::OnTargetPerceptionUpdated);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	UAIPerceptionSystem::<span class="built_in">RegisterPerceptionStimuliSource</span>(<span class="keyword">this</span>, UAISense_Sight::<span class="built_in">StaticClass</span>(), <span class="keyword">this</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// 设置 AI 感知组件的参数</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">AAIController_CloseCombat::InitAIPerception</span><span class="params">(APawn* InPawn)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">// 写自己的设置参数逻辑</span></span><br><span class="line">    <span class="comment">// ......</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 注意设置完需要重新配置一下，否则不生效！！！</span></span><br><span class="line">	M_AIPerception-&gt;<span class="built_in">ConfigureSense</span>(*SightConfig);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="枚举的使用"><a href="#枚举的使用" class="headerlink" title="枚举的使用"></a>枚举的使用</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">UENUM</span>(BlueprintType)</span><br><span class="line"><span class="keyword">enum class</span> <span class="title class_">ECampType</span> : uint8</span><br><span class="line">&#123;</span><br><span class="line">	NONE,</span><br><span class="line">	RED		=	<span class="number">1</span>	<span class="built_in">UMETA</span>(DisplayName = <span class="string">&quot;Red&quot;</span>),</span><br><span class="line">	BLUE	=	<span class="number">2</span>	<span class="built_in">UMETA</span>(DisplayName = <span class="string">&quot;Blue&quot;</span>),</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 枚举转换成字符串</span></span><br><span class="line">UEnum* <span class="type">const</span> CampTypeEnum = <span class="built_in">StaticEnum</span>&lt;ECampType&gt;();</span><br><span class="line">FString s = CampTypeEnum-&gt;<span class="built_in">GetDisplayNameTextByValue</span>(<span class="built_in">static_cast</span>&lt;uint8&gt;(ECampType::RED)).<span class="built_in">ToString</span>();</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="遍历-TMap"><a href="#遍历-TMap" class="headerlink" title="遍历 TMap"></a>遍历 TMap</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">TMap&lt;FString, <span class="type">int</span>&gt;::TConstIterator iter = _Map.<span class="built_in">CreateConstIterator</span>(); iter; ++iter)</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><h2 id="导入项目时，vs显示不支持？"><a href="#导入项目时，vs显示不支持？" class="headerlink" title="导入项目时，vs显示不支持？"></a>导入项目时，vs显示不支持？</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">答：vs版本不匹配，可以去网上找找 vs 和 ue 版本的匹配程度；我是：</span><br><span class="line">ue 4.24 &lt;=&gt; vs 2017</span><br><span class="line">ue 4.27 &lt;=&gt; vs 2022</span><br></pre></td></tr></table></figure>
-
-<h2 id="换了之后-vs-编译时显示-sdk-有问题？"><a href="#换了之后-vs-编译时显示-sdk-有问题？" class="headerlink" title="换了之后 vs 编译时显示 sdk 有问题？"></a>换了之后 vs 编译时显示 sdk 有问题？</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">这个搞了好久...盲猜删<span class="number">2017</span>的时候给删掉了...</span><br><span class="line"></span><br><span class="line">报错信息：</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">Could not find NetFxSDK install dir; this will prevent SwarmInterface from installing.  Install a version of .NET Framework SDK at 4.6.0 or higher.	</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"></span><br><span class="line">参考这篇文章：</span><br><span class="line">https:<span class="comment">//zhuanlan.zhihu.com/p/133456753</span></span><br></pre></td></tr></table></figure>
-
-
-
-
+          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p><strong>准备学一下 Games 101, 这一篇记录一下学习笔记 ;</strong></p>
+<p><strong>对应的应该还有 Games 101 作业 ( 希望能够坚持 ! )</strong></p>
+<h1 id="导航"><a href="#导航" class="headerlink" title="导航"></a>导航</h1><h2 id="课程"><a href="#课程" class="headerlink" title="课程"></a>课程</h2><p><a target="_blank" rel="noopener" href="http://fjbq-blog.top/2024/01/07/games101/Lec%2001/">【Games 101】Lec 01：计算机图形学概述</a></p>
+<p><a target="_blank" rel="noopener" href="http://fjbq-blog.top/2024/01/07/games101/Lec%2002/">【Games 101】Lec 02：回顾线性代数</a></p>
+<p><a target="_blank" rel="noopener" href="http://fjbq-blog.top/2024/01/07/games101/Lec%2003/">【Games 101】Lec 03：变换</a></p>
+<p><a target="_blank" rel="noopener" href="http://fjbq-blog.top/2024/01/07/games101/Lec%2004/">【Games 101】Lec 04：变换（续）</a></p>
+<p><a target="_blank" rel="noopener" href="http://fjbq-blog.top/2024/01/07/games101/Lec%2005/">【Games 101】Lec 05：光栅化1（三角形）</a></p>
+<p><a target="_blank" rel="noopener" href="http://fjbq-blog.top/2024/01/07/games101/Lec%2006/">【Games 101】Lec 06：光栅化2（抗锯齿 和 深度缓冲）</a></p>
+<p><a target="_blank" rel="noopener" href="http://fjbq-blog.top/2024/01/07/games101/Lec%2007/">【Games 101】Lec 07：渲染1（光照 阴影 和 图形管线）</a></p>
+<p><a target="_blank" rel="noopener" href="http://fjbq-blog.top/2024/01/07/games101/Lec%2008/">【Games 101】Lec 08：渲染2（阴影 渲染管线 和 纹理映射）</a></p>
+<p><a target="_blank" rel="noopener" href="http://fjbq-blog.top/2024/01/07/games101/Lec%2009/">【Games 101】Lec 09：渲染3（纹理映射（续））</a></p>
+<p><a target="_blank" rel="noopener" href="http://fjbq-blog.top/2024/01/07/games101/Lec%2010/">【Games 101】Lec 10：几何 1 （入门）</a></p>
+<p><a target="_blank" rel="noopener" href="http://fjbq-blog.top/2024/01/08/games101/Lec%2011/">【Games 101】Lec 11：几何 2 （曲线 和 曲面）</a></p>
+<p><a target="_blank" rel="noopener" href="http://fjbq-blog.top/2024/01/08/games101/Lec%2012/">【Games 101】Lec 12：几何 3</a></p>
+<p><a target="_blank" rel="noopener" href="http://fjbq-blog.top/2024/01/09/games101/Lec%2013/">【Games 101】Lec 13：光线追踪 1（Shadow Mapping，Whitted-Style Ray Tracing）</a></p>
+<p><a target="_blank" rel="noopener" href="http://fjbq-blog.top/2024/01/09/games101/Lec%2014/">【Games 101】Lec 14：光线追踪 2（加速光线追踪 和 辐射度量学）</a></p>
+<p><a target="_blank" rel="noopener" href="https://fjbq-blog.top/2024/01/13/games101/Lec%2015/">【Games 101】Lec 15：光线追踪 3（辐射度量学，光传输，全局光照）</a></p>
+<p><a target="_blank" rel="noopener" href="https://fjbq-blog.top/2024/01/13/games101/Lec%2016/">【Games 101】Lec 16：光线追踪 4（蒙特卡罗积分，路径追踪）</a></p>
+<p><a target="_blank" rel="noopener" href="https://fjbq-blog.top/2024/01/13/games101/Lec%2017/">【Games 101】Lec 17：材质和外观</a></p>
+<p><a target="_blank" rel="noopener" href="https://fjbq-blog.top/2024/01/20/games101/Lec%2018/">【Games 101】Lec 18：渲染的前沿话题</a></p>
+<p><a target="_blank" rel="noopener" href="https://fjbq-blog.top/2024/01/20/games101/Lec%2019/">【Games 101】Lec 19：照相机、镜头、光场</a></p>
+<p><a target="_blank" rel="noopener" href="https://fjbq-blog.top/2024/01/20/games101/Lec%2020/">【Games 101】Lec 20：颜色和感知</a></p>
+<p><a target="_blank" rel="noopener" href="https://fjbq-blog.top/2024/01/21/games101/Lec%2021/">【Games 101】Lec 21：动画</a></p>
+<p><a target="_blank" rel="noopener" href="https://fjbq-blog.top/2024/01/21/games101/Lec%2022/">【Games 101】Lec 22：动画（续）</a></p>
+<h2 id="作业"><a href="#作业" class="headerlink" title="作业"></a>作业</h2><p><a target="_blank" rel="noopener" href="http://fjbq-blog.top/2024/01/01/games101/Games%20101%20%E4%BD%9C%E4%B8%9A/">【Games 101】作业</a></p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43399489?type=blog">Magic__Conch-CSDN博客</a></p>
 
       
     </div>
@@ -1169,7 +1109,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2024/01/20/games101/Lec%2018/" class="post-title-link" itemprop="url">【Games 101】Lec 18：渲染的前言话题</a>
+            <a href="/2024/01/20/games101/Lec%2018/" class="post-title-link" itemprop="url">【Games 101】Lec 18：渲染的前沿话题</a>
         </h2>
 
         <div class="post-meta">
@@ -1179,10 +1119,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2024-01-20 14:36:50 / 修改时间：16:47:34" itemprop="dateCreated datePublished" datetime="2024-01-20T14:36:50+08:00">2024-01-20</time>
+              <time title="创建时间：2024-01-20 14:36:50" itemprop="dateCreated datePublished" datetime="2024-01-20T14:36:50+08:00">2024-01-20</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-01-21 20:57:35" itemprop="dateModified" datetime="2024-01-21T20:57:35+08:00">2024-01-21</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -1450,10 +1396,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2024-01-13 20:08:06 / 修改时间：21:22:30" itemprop="dateCreated datePublished" datetime="2024-01-13T20:08:06+08:00">2024-01-13</time>
+              <time title="创建时间：2024-01-13 20:08:06" itemprop="dateCreated datePublished" datetime="2024-01-13T20:08:06+08:00">2024-01-13</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-01-21 20:49:44" itemprop="dateModified" datetime="2024-01-21T20:49:44+08:00">2024-01-21</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -1500,8 +1452,7 @@
 <p><img src="/images/Games101/17/06.png"></p>
 <h3 id="2-2-2-Snell’s-Window-Circle-现象"><a href="#2-2-2-Snell’s-Window-Circle-现象" class="headerlink" title="2.2.2 Snell’s Window &#x2F; Circle 现象"></a>2.2.2 Snell’s Window &#x2F; Circle 现象</h3><p>由于全反射现象，从空气打到水面的光线超过一定角度就无法进入人眼，形成了下面的<strong>Snell’s Window &#x2F; Circle 现象</strong>。</p>
 <p><img src="/images/Games101/17/07.png"></p>
-<h2 id="2-3-菲涅尔项（Fresnel-Reflection-Term）"><a href="#2-3-菲涅尔项（Fresnel-Reflection-Term）" class="headerlink" title="2.3 菲涅尔项（Fresnel Reflection &#x2F; Term）"></a>2.3 菲涅尔项（Fresnel Reflection &#x2F; Term）</h2><p>2.3.1 概述</p>
-<p><strong>反射</strong> 和 <strong>入射光的角度</strong>有关。</p>
+<h2 id="2-3-菲涅尔项（Fresnel-Reflection-Term）"><a href="#2-3-菲涅尔项（Fresnel-Reflection-Term）" class="headerlink" title="2.3 菲涅尔项（Fresnel Reflection &#x2F; Term）"></a>2.3 菲涅尔项（Fresnel Reflection &#x2F; Term）</h2><h3 id="2-3-1-概述"><a href="#2-3-1-概述" class="headerlink" title="2.3.1 概述"></a>2.3.1 概述</h3><p><strong>反射</strong> 和 <strong>入射光的角度</strong>有关。</p>
 <p><img src="/images/Games101/17/08.png"></p>
 <p><strong>比如上面图片中，当入射光线（我们的视线）和桌子的法线越垂直，反射就越明显；</strong></p>
 <p><strong>不同的材质他们的效果是不一样的，比如镜子，那么不论从哪个角度看，反射都很明显；</strong></p>
@@ -1602,203 +1553,6 @@
 <p><img src="/images/Games101/17/30.png"></p>
 <h1 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h1><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43399489/article/details/121711731?spm=1001.2014.3001.5502">图形学笔记（十五）材质和外观 —— 菲涅尔项、常见材质（微表面材质、各向同性与各向异性）、BSDF、BRDF的性质、测量BRDF-CSDN博客</a></p>
 <p>好多好难… </p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2024/01/13/games101/Lec%2015/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="FJBQ">
-      <meta itemprop="description" content="坚定 坚持 坚强">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="FJBQ">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2024/01/13/games101/Lec%2015/" class="post-title-link" itemprop="url">【Games 101】Lec 15：光线追踪 3（辐射度量学，光传输，全局光照）</a>
-        </h2>
-
-        <div class="post-meta">
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2024-01-13 13:16:57 / 修改时间：15:01:38" itemprop="dateCreated datePublished" datetime="2024-01-13T13:16:57+08:00">2024-01-13</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">Games 系列</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/Games-101/" itemprop="url" rel="index"><span itemprop="name">Games 101</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="Lecture-15：Ray-Tracing-3-Light-Transport-Global-Illumination"><a href="#Lecture-15：Ray-Tracing-3-Light-Transport-Global-Illumination" class="headerlink" title="Lecture 15：Ray Tracing 3 (Light Transport &amp; Global Illumination)"></a>Lecture 15：Ray Tracing 3 (Light Transport &amp; Global Illumination)</h1><p>这节课讲的是 <strong>Light Transport &amp; Global Illumination</strong> 当然首先包含了上一节课最后的辐射度量学；</p>
-<p>ps：这几节课是真的难…</p>
-<h1 id="1-辐射度量学（Basic-radiometry）"><a href="#1-辐射度量学（Basic-radiometry）" class="headerlink" title="1. 辐射度量学（Basic radiometry）"></a>1. 辐射度量学（Basic radiometry）</h1><h2 id="1-1-概述"><a href="#1-1-概述" class="headerlink" title="1.1 概述"></a>1.1 概述</h2><p><strong>辐射度量学的动机：</strong></p>
-<p>光源中定义L&#x3D;10，但是10代表的是什么无法确定，缺少单位。</p>
-<p><strong>定义：</strong></p>
-<p>辐射度量学就是<strong>在物理上准确度量光照</strong>的方法。</p>
-<p>它定义了一系列的方法和单位，准确的定义了光在空间中的属性：</p>
-<ul>
-<li>Radiant flux（辐射通量）</li>
-<li>intensity（辐射强度）</li>
-<li>irradiance（辐射[照]度）</li>
-<li>radiance（辐[射]亮度）</li>
-</ul>
-<h2 id="1-2-角，立体角（solid-angle），微分立体角"><a href="#1-2-角，立体角（solid-angle），微分立体角" class="headerlink" title="1.2 角，立体角（solid angle），微分立体角"></a>1.2 角，立体角（solid angle），微分立体角</h2><ol>
-<li><strong>角 Angle：</strong> 圆上的弧长与半径的比值。</li>
-</ol>
-<p><img src="/images/Games101/15/01.png"></p>
-<ol start="2">
-<li><strong>立体角（solid angle）：球面上的面积和半径平方的比值。</strong>（弧度制在三维空间的延申）</li>
-</ol>
-<p><img src="/images/Games101/15/02.png"></p>
-<ol start="3">
-<li><strong>微分立体角（Differential）</strong></li>
-</ol>
-<p><img src="/images/Games101/15/03.png"></p>
-<blockquote>
-<p>dA 是球面上的微分面积，近似成长方形</p>
-</blockquote>
-<p>通过积分可以得到，整个球的立体角是 <strong>4π</strong> 。</p>
-<p><img src="/images/Games101/15/04.png"></p>
-<h2 id="1-3-Radiant-Energy-and-Flux-Power"><a href="#1-3-Radiant-Energy-and-Flux-Power" class="headerlink" title="1.3 Radiant Energy and Flux (Power)"></a>1.3 Radiant Energy and Flux (Power)</h2><h3 id="1-3-1-Radiant-Energy"><a href="#1-3-1-Radiant-Energy" class="headerlink" title="1.3.1 Radiant Energy"></a>1.3.1 Radiant Energy</h3><p><strong>定义：Radiant energy是一种电磁辐射的能量。它由 <strong>焦耳</strong>（J&#x3D;Joule）单位来度量，用符号</strong>Q<strong>来表示。</strong></p>
-<p><img src="/images/Games101/15/05.png"></p>
-<h3 id="1-3-2-Radient-Flux-Power"><a href="#1-3-2-Radient-Flux-Power" class="headerlink" title="1.3.2 Radient Flux(Power)"></a>1.3.2 Radient Flux(Power)</h3><p><strong>定义：</strong></p>
-<ul>
-<li><strong>Radient flux(Power) 是单位时间的发射出的、反射的、传播的和接收的能量。</strong></li>
-<li>或者：<strong>单位时间辐射出光子的数量</strong></li>
-</ul>
-<p><img src="/images/Games101/15/06.png"></p>
-<h2 id="1-4-与光相关的物理量"><a href="#1-4-与光相关的物理量" class="headerlink" title="1.4 与光相关的物理量"></a>1.4 与光相关的物理量</h2><p>主要是区别下面三种物理量：</p>
-<ul>
-<li><strong>Radiant Intensity</strong>：光源辐射出的能量；</li>
-<li><strong>Irrdiance</strong>：物体表面接收的光的能量；</li>
-<li><strong>Radiance</strong>：光线在传播过程中的能量；</li>
-</ul>
-<p><img src="/images/Games101/15/07.png"></p>
-<h3 id="1-4-1-Radient-intensity"><a href="#1-4-1-Radient-intensity" class="headerlink" title="1.4.1 Radient intensity"></a>1.4.1 Radient intensity</h3><p><strong>定义：</strong></p>
-<ul>
-<li>Radient intensity是 <strong>每单位立体角</strong> 辐射的能量。</li>
-</ul>
-<p><img src="/images/Games101/15/08.png"></p>
-<h3 id="1-4-2-Irradiance"><a href="#1-4-2-Irradiance" class="headerlink" title="1.4.2 Irradiance"></a>1.4.2 Irradiance</h3><p><strong>定义：</strong></p>
-<ul>
-<li><strong>Irradiance</strong> 是<strong>单位面积的辐射通量</strong>（面必须和光线<strong>垂直</strong>，否则要变成和投影面垂直的）。</li>
-</ul>
-<p><img src="/images/Games101/15/09.png"></p>
-<p><strong>Irradiance 例子：</strong></p>
-<ul>
-<li>冬夏温度之分是因为点光源辐射的能量到达辐射点的角度不同步（阳光和不同区域的夹角不同），导致接收的能量不同。</li>
-<li>Irradiance 会衰减（不是 Intensity 衰减）</li>
-</ul>
-<p><img src="/images/Games101/15/10.png"></p>
-<h3 id="1-4-3-Radiance"><a href="#1-4-3-Radiance" class="headerlink" title="1.4.3 Radiance"></a>1.4.3 Radiance</h3><p>Radiance 描述光线在传播过程中的属性。</p>
-<p><strong>定义：</strong></p>
-<ul>
-<li>单位面积，单位立体角接受的能力；</li>
-<li>或者理解为：<strong>在单位面积，单位立体角 发出的能量</strong>；</li>
-</ul>
-<p><img src="/images/Games101/15/11.png"></p>
-<p><strong>注意：</strong></p>
-<p>因为 <strong>Irradiance</strong> 是<strong>单位面积的辐射通量</strong>，<strong>Intensity</strong> 是<strong>单位立体角发出的能量</strong>。</p>
-<p>所以 Radiance是<strong>每单位立体角的 Irradiance</strong>，Radiance是<strong>每单位面积的正交 Intensity</strong>。</p>
-<h4 id="1-4-3-1-Incident-Radiance"><a href="#1-4-3-1-Incident-Radiance" class="headerlink" title="1.4.3.1 Incident Radiance"></a>1.4.3.1 Incident Radiance</h4><p>Incident Radiance 是每<strong>单位立体角</strong>的<strong>到达</strong>表面的 <strong>Irradiance</strong>。</p>
-<p><img src="/images/Games101/15/12.png"></p>
-<h4 id="1-4-3-2-Exiting-Radiance"><a href="#1-4-3-2-Exiting-Radiance" class="headerlink" title="1.4.3.2 Exiting Radiance"></a>1.4.3.2 Exiting Radiance</h4><p>Exiting surface radiance 是<strong>每单位面积</strong>向某个角度辐射出的 <strong>Intensity</strong>（这里参考文章里面应该是写错了）。</p>
-<p><img src="/images/Games101/15/13.png"></p>
-<h2 id="1-5-Irradiance-和-Radiance"><a href="#1-5-Irradiance-和-Radiance" class="headerlink" title="1.5 Irradiance 和 Radiance"></a>1.5 Irradiance 和 Radiance</h2><p><strong>Irradiance</strong>：被区域 dA 吸收的所有的能量。</p>
-<p><strong>Radiance</strong>：被区域 dA 的来自d ω 的能量（多了一个立体角）。</p>
-<p><img src="/images/Games101/15/14.png"></p>
-<h2 id="1-6-各向同性点光源-Isotropic-Point-Source"><a href="#1-6-各向同性点光源-Isotropic-Point-Source" class="headerlink" title="1.6 各向同性点光源 Isotropic Point Source"></a>1.6 各向同性点光源 Isotropic Point Source</h2><p>如果点光源均匀的辐射出光，则可以得到点光源的强度 <strong>I</strong> 如下所示。</p>
-<p><img src="/images/Games101/15/15.png"></p>
-<h1 id="2-双向反射分布函数-Bidirectional-Reflectance-Distribution-Function（BRDF）"><a href="#2-双向反射分布函数-Bidirectional-Reflectance-Distribution-Function（BRDF）" class="headerlink" title="2. 双向反射分布函数 Bidirectional Reflectance Distribution Function（BRDF）"></a>2. 双向反射分布函数 Bidirectional Reflectance Distribution Function（BRDF）</h1><p><strong>引入</strong> ：</p>
-<ul>
-<li>来自于 <strong>ωi 立体角</strong>的 <strong>Radiance</strong> 转化成 dA 接受的能量E，然后能量E会变成向着任何其他方向 ω 的 Radiance。</li>
-</ul>
-<p><strong>意义：</strong></p>
-<ul>
-<li><strong>BRDF</strong> 用于<strong>表示某个微小面积 dA 从某个微小立体角 dωi 接受的 Irradiance 会如何被分配到不同的立体角去。</strong></li>
-</ul>
-<p><strong>定义：</strong></p>
-<p><strong>如下图所示，从来自 ωi 立体角的 Irradiance（dE(ωi))，经过单位面积吸收后，向某一立体角 ωr 发射出去，发射出去的 Radiance 是 dLr(x , ωr)</strong></p>
-<p><img src="/images/Games101/15/16.png"></p>
-<p><strong>BRDF 用于表示从每个入射方向进来的光线会每个向出射方向 ωr 反射的能量多少。</strong></p>
-<p><strong>BRDF 就是任何一个出射方向的 Radiance 的微分 除以 在入射点上 Irradiance的微</strong>分，BRDF 如下所示。</p>
-<p><img src="/images/Games101/15/17.png"></p>
-<h2 id="2-1-反射方程（The-Reflection-Equation）"><a href="#2-1-反射方程（The-Reflection-Equation）" class="headerlink" title="2.1 反射方程（The Reflection Equation）"></a>2.1 反射方程（The Reflection Equation）</h2><p>BRDF 是描述光线对物体时如何作用的，所以可以<strong>用于定义不同的材质</strong>。</p>
-<p><strong>把每一个方向对出射方向的贡献积分起来就会获得向某个方向反射出光照的结果。</strong></p>
-<p><img src="/images/Games101/15/18.png"></p>
-<p>反射radiance取决于入射radiance，而入射Radiance不仅取决于光源，还有<strong>被其他物体反射的光</strong>，具有递归关系。</p>
-<p><img src="/images/Games101/15/19.png"></p>
-<h2 id="2-2-渲染方程（The-Rendering-Equation）"><a href="#2-2-渲染方程（The-Rendering-Equation）" class="headerlink" title="2.2 渲染方程（The Rendering Equation）"></a>2.2 渲染方程（The Rendering Equation）</h2><p><strong>渲染方程</strong> &#x3D; <strong>加上自己辐射的 Radiance</strong> + <strong>反射方程</strong></p>
-<p><img src="/images/Games101/15/20.png"></p>
-<p>注意：</p>
-<ul>
-<li><p>这里默认所有的方向 ω 都是向外的。</p>
-</li>
-<li><p>而且此时考虑的照亮到这一点的都是光源</p>
-</li>
-</ul>
-<p><strong>但是实际上照亮这一点的不仅仅有光源的 Radiance，还有可能是其他物体反射过来的 Radiance；</strong></p>
-<p>如果<strong>考虑其他物体反射的radiance</strong>，就把反射物体和反射面当成光源，可以把渲染方程写成更通用的形式。</p>
-<p><img src="/images/Games101/15/21.png"></p>
-<p><strong>以上的式子可以简单的表达为：</strong></p>
-<p><img src="/images/Games101/15/22.png"></p>
-<p><strong>K为反射操作符，进一步简写为：</strong></p>
-<p><img src="/images/Games101/15/23.png"></p>
-<p>可以看出L是递归定义的。</p>
-<h3 id="2-2-1-结论"><a href="#2-2-1-结论" class="headerlink" title="2.2.1 结论"></a>2.2.1 结论</h3><p>简写渲染方程（L&#x3D; E + K L）的目的是解出 L。</p>
-<p><strong>解L的方法如下所示，其中K也可以理解成反射次数，反射次数越多，项越多，K^2 代表光弹射两次。</strong></p>
-<p><img src="/images/Games101/15/24.png"></p>
-<p><strong>全局光照 &#x3D; 直接光照（E） + 间接光照（KE + K^2E + K^3E + …）</strong></p>
-<p><img src="/images/Games101/15/25.png"></p>
-<p><strong>光栅化的着色一般只有 E+EK，而后面的间接光照部分光栅化难以做到，一般使用光线追踪（路径追踪）来进行计算。</strong></p>
-<h1 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h1><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43399489/article/details/121655346?spm=1001.2014.3001.5502">图形学笔记（十三）光线追踪3——双向反射分布函数BRDF（反射方程、递归方程）、辐射度量学基础radiometry、立体角、Radiant Energy、Flux、Irrdiance、Radiance_irrdiance 测量仪-CSDN博客</a></p>
-<p><strong>好难…</strong> </p>
-<p><strong>光做笔记都要写好久好久…</strong></p>
 
       
     </div>
@@ -2003,6 +1757,203 @@
 </ul>
 <h1 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h1><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43399489/article/details/121617338?spm=1001.2014.3001.5502">图形学笔记（十四）光线追踪4——蒙特卡洛（Monte Carlo）积分、路径追踪详细过程（Whitted-Style的问题于RR（俄罗斯轮盘赌）算法、Ray Generation）、照片级真实感渲染_图形学rr-CSDN博客</a></p>
 <p>太难啦</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/01/13/games101/Lec%2015/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="FJBQ">
+      <meta itemprop="description" content="坚定 坚持 坚强">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FJBQ">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/01/13/games101/Lec%2015/" class="post-title-link" itemprop="url">【Games 101】Lec 15：光线追踪 3（辐射度量学，光传输，全局光照）</a>
+        </h2>
+
+        <div class="post-meta">
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2024-01-13 13:16:57 / 修改时间：15:01:38" itemprop="dateCreated datePublished" datetime="2024-01-13T13:16:57+08:00">2024-01-13</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">Games 系列</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/Games-101/" itemprop="url" rel="index"><span itemprop="name">Games 101</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Lecture-15：Ray-Tracing-3-Light-Transport-Global-Illumination"><a href="#Lecture-15：Ray-Tracing-3-Light-Transport-Global-Illumination" class="headerlink" title="Lecture 15：Ray Tracing 3 (Light Transport &amp; Global Illumination)"></a>Lecture 15：Ray Tracing 3 (Light Transport &amp; Global Illumination)</h1><p>这节课讲的是 <strong>Light Transport &amp; Global Illumination</strong> 当然首先包含了上一节课最后的辐射度量学；</p>
+<p>ps：这几节课是真的难…</p>
+<h1 id="1-辐射度量学（Basic-radiometry）"><a href="#1-辐射度量学（Basic-radiometry）" class="headerlink" title="1. 辐射度量学（Basic radiometry）"></a>1. 辐射度量学（Basic radiometry）</h1><h2 id="1-1-概述"><a href="#1-1-概述" class="headerlink" title="1.1 概述"></a>1.1 概述</h2><p><strong>辐射度量学的动机：</strong></p>
+<p>光源中定义L&#x3D;10，但是10代表的是什么无法确定，缺少单位。</p>
+<p><strong>定义：</strong></p>
+<p>辐射度量学就是<strong>在物理上准确度量光照</strong>的方法。</p>
+<p>它定义了一系列的方法和单位，准确的定义了光在空间中的属性：</p>
+<ul>
+<li>Radiant flux（辐射通量）</li>
+<li>intensity（辐射强度）</li>
+<li>irradiance（辐射[照]度）</li>
+<li>radiance（辐[射]亮度）</li>
+</ul>
+<h2 id="1-2-角，立体角（solid-angle），微分立体角"><a href="#1-2-角，立体角（solid-angle），微分立体角" class="headerlink" title="1.2 角，立体角（solid angle），微分立体角"></a>1.2 角，立体角（solid angle），微分立体角</h2><ol>
+<li><strong>角 Angle：</strong> 圆上的弧长与半径的比值。</li>
+</ol>
+<p><img src="/images/Games101/15/01.png"></p>
+<ol start="2">
+<li><strong>立体角（solid angle）：球面上的面积和半径平方的比值。</strong>（弧度制在三维空间的延申）</li>
+</ol>
+<p><img src="/images/Games101/15/02.png"></p>
+<ol start="3">
+<li><strong>微分立体角（Differential）</strong></li>
+</ol>
+<p><img src="/images/Games101/15/03.png"></p>
+<blockquote>
+<p>dA 是球面上的微分面积，近似成长方形</p>
+</blockquote>
+<p>通过积分可以得到，整个球的立体角是 <strong>4π</strong> 。</p>
+<p><img src="/images/Games101/15/04.png"></p>
+<h2 id="1-3-Radiant-Energy-and-Flux-Power"><a href="#1-3-Radiant-Energy-and-Flux-Power" class="headerlink" title="1.3 Radiant Energy and Flux (Power)"></a>1.3 Radiant Energy and Flux (Power)</h2><h3 id="1-3-1-Radiant-Energy"><a href="#1-3-1-Radiant-Energy" class="headerlink" title="1.3.1 Radiant Energy"></a>1.3.1 Radiant Energy</h3><p><strong>定义：Radiant energy是一种电磁辐射的能量。它由 <strong>焦耳</strong>（J&#x3D;Joule）单位来度量，用符号</strong>Q<strong>来表示。</strong></p>
+<p><img src="/images/Games101/15/05.png"></p>
+<h3 id="1-3-2-Radient-Flux-Power"><a href="#1-3-2-Radient-Flux-Power" class="headerlink" title="1.3.2 Radient Flux(Power)"></a>1.3.2 Radient Flux(Power)</h3><p><strong>定义：</strong></p>
+<ul>
+<li><strong>Radient flux(Power) 是单位时间的发射出的、反射的、传播的和接收的能量。</strong></li>
+<li>或者：<strong>单位时间辐射出光子的数量</strong></li>
+</ul>
+<p><img src="/images/Games101/15/06.png"></p>
+<h2 id="1-4-与光相关的物理量"><a href="#1-4-与光相关的物理量" class="headerlink" title="1.4 与光相关的物理量"></a>1.4 与光相关的物理量</h2><p>主要是区别下面三种物理量：</p>
+<ul>
+<li><strong>Radiant Intensity</strong>：光源辐射出的能量；</li>
+<li><strong>Irrdiance</strong>：物体表面接收的光的能量；</li>
+<li><strong>Radiance</strong>：光线在传播过程中的能量；</li>
+</ul>
+<p><img src="/images/Games101/15/07.png"></p>
+<h3 id="1-4-1-Radient-intensity"><a href="#1-4-1-Radient-intensity" class="headerlink" title="1.4.1 Radient intensity"></a>1.4.1 Radient intensity</h3><p><strong>定义：</strong></p>
+<ul>
+<li>Radient intensity是 <strong>每单位立体角</strong> 辐射的能量。</li>
+</ul>
+<p><img src="/images/Games101/15/08.png"></p>
+<h3 id="1-4-2-Irradiance"><a href="#1-4-2-Irradiance" class="headerlink" title="1.4.2 Irradiance"></a>1.4.2 Irradiance</h3><p><strong>定义：</strong></p>
+<ul>
+<li><strong>Irradiance</strong> 是<strong>单位面积的辐射通量</strong>（面必须和光线<strong>垂直</strong>，否则要变成和投影面垂直的）。</li>
+</ul>
+<p><img src="/images/Games101/15/09.png"></p>
+<p><strong>Irradiance 例子：</strong></p>
+<ul>
+<li>冬夏温度之分是因为点光源辐射的能量到达辐射点的角度不同步（阳光和不同区域的夹角不同），导致接收的能量不同。</li>
+<li>Irradiance 会衰减（不是 Intensity 衰减）</li>
+</ul>
+<p><img src="/images/Games101/15/10.png"></p>
+<h3 id="1-4-3-Radiance"><a href="#1-4-3-Radiance" class="headerlink" title="1.4.3 Radiance"></a>1.4.3 Radiance</h3><p>Radiance 描述光线在传播过程中的属性。</p>
+<p><strong>定义：</strong></p>
+<ul>
+<li>单位面积，单位立体角接受的能力；</li>
+<li>或者理解为：<strong>在单位面积，单位立体角 发出的能量</strong>；</li>
+</ul>
+<p><img src="/images/Games101/15/11.png"></p>
+<p><strong>注意：</strong></p>
+<p>因为 <strong>Irradiance</strong> 是<strong>单位面积的辐射通量</strong>，<strong>Intensity</strong> 是<strong>单位立体角发出的能量</strong>。</p>
+<p>所以 Radiance是<strong>每单位立体角的 Irradiance</strong>，Radiance是<strong>每单位面积的正交 Intensity</strong>。</p>
+<h4 id="1-4-3-1-Incident-Radiance"><a href="#1-4-3-1-Incident-Radiance" class="headerlink" title="1.4.3.1 Incident Radiance"></a>1.4.3.1 Incident Radiance</h4><p>Incident Radiance 是每<strong>单位立体角</strong>的<strong>到达</strong>表面的 <strong>Irradiance</strong>。</p>
+<p><img src="/images/Games101/15/12.png"></p>
+<h4 id="1-4-3-2-Exiting-Radiance"><a href="#1-4-3-2-Exiting-Radiance" class="headerlink" title="1.4.3.2 Exiting Radiance"></a>1.4.3.2 Exiting Radiance</h4><p>Exiting surface radiance 是<strong>每单位面积</strong>向某个角度辐射出的 <strong>Intensity</strong>（这里参考文章里面应该是写错了）。</p>
+<p><img src="/images/Games101/15/13.png"></p>
+<h2 id="1-5-Irradiance-和-Radiance"><a href="#1-5-Irradiance-和-Radiance" class="headerlink" title="1.5 Irradiance 和 Radiance"></a>1.5 Irradiance 和 Radiance</h2><p><strong>Irradiance</strong>：被区域 dA 吸收的所有的能量。</p>
+<p><strong>Radiance</strong>：被区域 dA 的来自d ω 的能量（多了一个立体角）。</p>
+<p><img src="/images/Games101/15/14.png"></p>
+<h2 id="1-6-各向同性点光源-Isotropic-Point-Source"><a href="#1-6-各向同性点光源-Isotropic-Point-Source" class="headerlink" title="1.6 各向同性点光源 Isotropic Point Source"></a>1.6 各向同性点光源 Isotropic Point Source</h2><p>如果点光源均匀的辐射出光，则可以得到点光源的强度 <strong>I</strong> 如下所示。</p>
+<p><img src="/images/Games101/15/15.png"></p>
+<h1 id="2-双向反射分布函数-Bidirectional-Reflectance-Distribution-Function（BRDF）"><a href="#2-双向反射分布函数-Bidirectional-Reflectance-Distribution-Function（BRDF）" class="headerlink" title="2. 双向反射分布函数 Bidirectional Reflectance Distribution Function（BRDF）"></a>2. 双向反射分布函数 Bidirectional Reflectance Distribution Function（BRDF）</h1><p><strong>引入</strong> ：</p>
+<ul>
+<li>来自于 <strong>ωi 立体角</strong>的 <strong>Radiance</strong> 转化成 dA 接受的能量E，然后能量E会变成向着任何其他方向 ω 的 Radiance。</li>
+</ul>
+<p><strong>意义：</strong></p>
+<ul>
+<li><strong>BRDF</strong> 用于<strong>表示某个微小面积 dA 从某个微小立体角 dωi 接受的 Irradiance 会如何被分配到不同的立体角去。</strong></li>
+</ul>
+<p><strong>定义：</strong></p>
+<p><strong>如下图所示，从来自 ωi 立体角的 Irradiance（dE(ωi))，经过单位面积吸收后，向某一立体角 ωr 发射出去，发射出去的 Radiance 是 dLr(x , ωr)</strong></p>
+<p><img src="/images/Games101/15/16.png"></p>
+<p><strong>BRDF 用于表示从每个入射方向进来的光线会每个向出射方向 ωr 反射的能量多少。</strong></p>
+<p><strong>BRDF 就是任何一个出射方向的 Radiance 的微分 除以 在入射点上 Irradiance的微</strong>分，BRDF 如下所示。</p>
+<p><img src="/images/Games101/15/17.png"></p>
+<h2 id="2-1-反射方程（The-Reflection-Equation）"><a href="#2-1-反射方程（The-Reflection-Equation）" class="headerlink" title="2.1 反射方程（The Reflection Equation）"></a>2.1 反射方程（The Reflection Equation）</h2><p>BRDF 是描述光线对物体时如何作用的，所以可以<strong>用于定义不同的材质</strong>。</p>
+<p><strong>把每一个方向对出射方向的贡献积分起来就会获得向某个方向反射出光照的结果。</strong></p>
+<p><img src="/images/Games101/15/18.png"></p>
+<p>反射radiance取决于入射radiance，而入射Radiance不仅取决于光源，还有<strong>被其他物体反射的光</strong>，具有递归关系。</p>
+<p><img src="/images/Games101/15/19.png"></p>
+<h2 id="2-2-渲染方程（The-Rendering-Equation）"><a href="#2-2-渲染方程（The-Rendering-Equation）" class="headerlink" title="2.2 渲染方程（The Rendering Equation）"></a>2.2 渲染方程（The Rendering Equation）</h2><p><strong>渲染方程</strong> &#x3D; <strong>加上自己辐射的 Radiance</strong> + <strong>反射方程</strong></p>
+<p><img src="/images/Games101/15/20.png"></p>
+<p>注意：</p>
+<ul>
+<li><p>这里默认所有的方向 ω 都是向外的。</p>
+</li>
+<li><p>而且此时考虑的照亮到这一点的都是光源</p>
+</li>
+</ul>
+<p><strong>但是实际上照亮这一点的不仅仅有光源的 Radiance，还有可能是其他物体反射过来的 Radiance；</strong></p>
+<p>如果<strong>考虑其他物体反射的radiance</strong>，就把反射物体和反射面当成光源，可以把渲染方程写成更通用的形式。</p>
+<p><img src="/images/Games101/15/21.png"></p>
+<p><strong>以上的式子可以简单的表达为：</strong></p>
+<p><img src="/images/Games101/15/22.png"></p>
+<p><strong>K为反射操作符，进一步简写为：</strong></p>
+<p><img src="/images/Games101/15/23.png"></p>
+<p>可以看出L是递归定义的。</p>
+<h3 id="2-2-1-结论"><a href="#2-2-1-结论" class="headerlink" title="2.2.1 结论"></a>2.2.1 结论</h3><p>简写渲染方程（L&#x3D; E + K L）的目的是解出 L。</p>
+<p><strong>解L的方法如下所示，其中K也可以理解成反射次数，反射次数越多，项越多，K^2 代表光弹射两次。</strong></p>
+<p><img src="/images/Games101/15/24.png"></p>
+<p><strong>全局光照 &#x3D; 直接光照（E） + 间接光照（KE + K^2E + K^3E + …）</strong></p>
+<p><img src="/images/Games101/15/25.png"></p>
+<p><strong>光栅化的着色一般只有 E+EK，而后面的间接光照部分光栅化难以做到，一般使用光线追踪（路径追踪）来进行计算。</strong></p>
+<h1 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h1><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43399489/article/details/121655346?spm=1001.2014.3001.5502">图形学笔记（十三）光线追踪3——双向反射分布函数BRDF（反射方程、递归方程）、辐射度量学基础radiometry、立体角、Radiant Energy、Flux、Irrdiance、Radiance_irrdiance 测量仪-CSDN博客</a></p>
+<p><strong>好难…</strong> </p>
+<p><strong>光做笔记都要写好久好久…</strong></p>
 
       
     </div>
@@ -2324,7 +2275,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共41.3k字</span>
+  <span class="post-count">博客全站共41.4k字</span>
 </div>
 
 
