@@ -9,8 +9,68 @@
     <atom:link href="http://example.com/rss2.xml" rel="self" type="application/rss+xml"/>
     
     <description>坚定 坚持 坚强</description>
-    <pubDate>Sat, 20 Jan 2024 15:28:49 GMT</pubDate>
+    <pubDate>Sun, 21 Jan 2024 10:02:42 GMT</pubDate>
     <generator>http://hexo.io/</generator>
+    
+    <item>
+      <title>【Games 101】Lec 22：动画（续）</title>
+      <link>http://example.com/2024/01/21/games101/Lec%2022/</link>
+      <guid>http://example.com/2024/01/21/games101/Lec%2022/</guid>
+      <pubDate>Sun, 21 Jan 2024 05:52:23 GMT</pubDate>
+      
+        
+        
+      <description>&lt;h1 id=&quot;Lecture-22：Animation-cont&quot;&gt;&lt;a href=&quot;#Lecture-22：Animation-cont&quot; class=&quot;headerlink&quot; title=&quot;Lecture 22：Animation (cont.)&quot;&gt;&lt;/a&gt;Lecture </description>
+        
+      
+      
+      
+      <content:encoded><![CDATA[<h1 id="Lecture-22：Animation-cont"><a href="#Lecture-22：Animation-cont" class="headerlink" title="Lecture 22：Animation (cont.)"></a>Lecture 22：Animation (cont.)</h1><h2 id="1-单个粒子模拟（Single-Particle-Simulation）"><a href="#1-单个粒子模拟（Single-Particle-Simulation）" class="headerlink" title="1 单个粒子模拟（Single Particle Simulation）"></a>1 单个粒子模拟（Single Particle Simulation）</h2><h2 id="1-1-单个粒子的运动"><a href="#1-1-单个粒子的运动" class="headerlink" title="1.1 单个粒子的运动"></a>1.1 单个粒子的运动</h2><p>首先研究一个粒子的运动然后泛化到大多数粒子。</p><p>我们线认为粒子的运动由速度场(velocity vector field)决定，这个速度场就是一个位置和时间的函数：v（x，t）</p><p>知道粒子的位置和时间，就知道它的速度；（这个函数我们现在是已知的）</p><p><img src="/images/Games101/22/01.png"></p><p>那么，计算粒子的位置（随时间变化）需要解一个一阶的常微分方程(不存在对其他变量的微分或导数First-order意味着只存在一阶导数)：</p><p><img src="/images/Games101/22/02.png"></p><h2 id="1-2-欧拉方法（Euler’s-Method）"><a href="#1-2-欧拉方法（Euler’s-Method）" class="headerlink" title="1.2 欧拉方法（Euler’s Method）"></a>1.2 欧拉方法（Euler’s Method）</h2><h3 id="1-2-1-概述"><a href="#1-2-1-概述" class="headerlink" title="1.2.1 概述"></a>1.2.1 概述</h3><p>欧拉方法是一种简单的<strong>迭代方法</strong>，<strong>经常被使用</strong>、<strong>不准确</strong>、大多数都<strong>不稳定</strong>。</p><p>可以使用欧拉方法对给定初始位置和速度场的点求解经过时间t后所处的位置。</p><p><img src="/images/Games101/22/03.png"></p><h3 id="1-2-2-误差"><a href="#1-2-2-误差" class="headerlink" title="1.2.2 误差"></a>1.2.2 误差</h3><p>使用数值计算的方法积分，误差会累计，最后的Euler积分结果会很差。</p><p><img src="/images/Games101/22/04.png"></p><h3 id="1-2-3-欧拉方法的不稳定性（Instability-of-the-Euler-Method）"><a href="#1-2-3-欧拉方法的不稳定性（Instability-of-the-Euler-Method）" class="headerlink" title="1.2.3 欧拉方法的不稳定性（Instability of the Euler Method）"></a>1.2.3 欧拉方法的不稳定性（Instability of the Euler Method）</h3><p>如下图，粒子的轨迹始终不能沿着圆形或指定的轨迹。</p><p><img src="/images/Games101/22/05.png"></p><p>即欧拉方法有两个关键的问题：</p><ul><li>误差随着时间步长 Δt 的增加而增加。</li><li>不稳定性是一个普遍且严重的问题，它能造成模拟 diverge。</li></ul><h3 id="1-2-4-Errors-和-Instability"><a href="#1-2-4-Errors-和-Instability" class="headerlink" title="1.2.4 Errors 和 Instability"></a>1.2.4 Errors 和 Instability</h3><p>用有限差分数值积分法求解<br>导致两个问题:<br><strong>Errors</strong>：</p><ul><li>每个时间步的误差累积。精度随着模拟的进行而降低</li><li>在图形应用中，准确性可能不是关键</li></ul><p><strong>Instability</strong>：</p><ul><li>错误可以复合，导致模拟甚至发散当底层系统没有</li><li>缺乏稳定性是模拟中的一个基本问题不容忽视</li></ul><h2 id="1-3-克服不稳定性的方法"><a href="#1-3-克服不稳定性的方法" class="headerlink" title="1.3 克服不稳定性的方法"></a>1.3 克服不稳定性的方法</h2><h3 id="1-3-1-概述"><a href="#1-3-1-概述" class="headerlink" title="1.3.1 概述"></a>1.3.1 概述</h3><ul><li>中点法&#x2F;修正欧拉法<ul><li>起点和终点的平均速度</li></ul></li><li>自适应步长<ul><li>递归地比较一步和两个半步，直到可以接受错误</li></ul></li><li>隐式方法<ul><li>使用下一个时间步骤的速度(硬)</li></ul></li><li>基于位置&#x2F; Verlet的集成<ul><li>在时间步长后约束粒子的位置和速度</li></ul></li></ul><h3 id="1-3-2-中点法（Midpoint-Method）"><a href="#1-3-2-中点法（Midpoint-Method）" class="headerlink" title="1.3.2 中点法（Midpoint Method）"></a>1.3.2 中点法（Midpoint Method）</h3><ul><li>使用欧拉方法计算，点到达A( a )。</li><li>使用欧拉方法计算上一步起始点与A点的导数( b )。</li><li>使用中点的导数来重新更新位置( c )。</li></ul><p><img src="/images/Games101/22/06.png"></p><p>中点法比欧拉方法多了一个二次的项。</p><p><img src="/images/Games101/22/07.png"></p><h3 id="1-3-3-自适应步长法（Adaptive-Step-Size）"><a href="#1-3-3-自适应步长法（Adaptive-Step-Size）" class="headerlink" title="1.3.3 自适应步长法（Adaptive Step Size）"></a>1.3.3 自适应步长法（Adaptive Step Size）</h3><ul><li>使用步长为T计算一个欧拉步骤来获得 X(T)</li><li>计算两个欧拉步骤，步长为T&#x2F;2，获得 X(T&#x2F;2)</li><li>计算error ∣∣ X(T) − X(T&#x2F;2) ∣∣</li><li>If ( error &gt; threshold ) 减少步长并重复上面的步骤。</li></ul><p><img src="/images/Games101/22/08.png"></p><p>Adaptive 是基于 error 估计选择步长的方法，非常实用，但可能得到的步长会很小。</p><h3 id="1-3-3-隐式欧拉方法"><a href="#1-3-3-隐式欧拉方法" class="headerlink" title="1.3.3 隐式欧拉方法"></a>1.3.3 隐式欧拉方法</h3><p>也被称作后向方法，使用下一时间的导数来计算当前的步骤。</p><p><img src="/images/Games101/22/09.png"></p><p><img src="/images/Games101/22/10.png"></p><p><strong>定义与量化 “stability” （稳定性）的方法</strong></p><ul><li>使用局部截断误差（每个Δ \DeltaΔ的误差）&#x2F; 总截断累积误差（整体累加后的误差）来研究稳定性。</li><li>研究数的大小无意义，有意义的事研究它们的阶。</li><li>隐式欧拉方法的阶数为1，意味着局部截断误差为 O(h^2) 且全局阶段误差为 O(h)（h就是步长，定义为 Δt）。</li><li>O(h)的理解:如果将 h 减半，预期误差也会减半。</li></ul><p><img src="/images/Games101/22/11.png"></p><h3 id="1-3-4-Runge-Kutta-Families"><a href="#1-3-4-Runge-Kutta-Families" class="headerlink" title="1.3.4 Runge-Kutta Families"></a>1.3.4 Runge-Kutta Families</h3><p>Runge-Kutta方法是一系列用于求解 ODE 的高级方法。</p><p><strong>特点</strong></p><ul><li>擅长处理非线性问题。</li><li>它的四阶版是使用最广泛的，又名 RK4。</li></ul><p><img src="/images/Games101/22/12.png"></p><p>h就是步长，也就是 Δt</p><h3 id="1-3-5-Position-Based-Verlet-Integration"><a href="#1-3-5-Position-Based-Verlet-Integration" class="headerlink" title="1.3.5 Position-Based &#x2F; Verlet Integration"></a>1.3.5 Position-Based &#x2F; Verlet Integration</h3><p>这是一种不基于物理的方法，通过调整物体的位置使物体满足某种性质。</p><p><strong>思想：</strong></p><ul><li>在修改欧拉前步（forward-step）之后，约束粒子的位置以防止divergent、不稳定的现象。</li><li>使用约束位置计算速度。</li><li>这两种思想都会耗散能量，使其具有稳定性。</li></ul><p><strong>特点：</strong></p><ul><li>快速又简单。</li><li>不是基于物理模拟的，不满足能量守恒。</li></ul><h1 id="2-刚体模拟（Rigid-Body-Simulation）"><a href="#2-刚体模拟（Rigid-Body-Simulation）" class="headerlink" title="2 刚体模拟（Rigid Body Simulation）"></a>2 刚体模拟（Rigid Body Simulation）</h1><p>刚体模拟与模拟单个粒子相似，只需额外考虑一些属性（角度，角速度）</p><p><img src="/images/Games101/22/13.png"></p><h1 id="3-流体模拟（Fluid-Simulation）"><a href="#3-流体模拟（Fluid-Simulation）" class="headerlink" title="3 流体模拟（Fluid Simulation）"></a>3 流体模拟（Fluid Simulation）</h1><h3 id="3-1-基于位置的简单流体模拟方法"><a href="#3-1-基于位置的简单流体模拟方法" class="headerlink" title="3.1 基于位置的简单流体模拟方法"></a>3.1 基于位置的简单流体模拟方法</h3><p><strong>关键思想</strong></p><ul><li>认为水是由刚体小球组成的。</li><li>认为水是不可压缩的。</li><li>只要某处的密度海绵，就需要通过改变粒子的位置来“纠正”。</li><li>需要知道任何位置的密度的梯度。</li><li>使用梯度下降法来进行更新。</li></ul><p><img src="/images/Games101/22/14.png"></p><h2 id="3-2-质点法和网络法（Eulerian-vs-Lagrangian）"><a href="#3-2-质点法和网络法（Eulerian-vs-Lagrangian）" class="headerlink" title="3.2 质点法和网络法（Eulerian vs. Lagrangian）"></a>3.2 质点法和网络法（Eulerian vs. Lagrangian）</h2><p><img src="/images/Games101/22/15.png"></p><h2 id="3-3-Material-Point-Method-MPM"><a href="#3-3-Material-Point-Method-MPM" class="headerlink" title="3.3 Material Point Method (MPM)"></a>3.3 Material Point Method (MPM)</h2><p>MPM 是一种混合的(Hybrid)，结合 Eulerian 和 Lagrangian 的方法。</p><ul><li>Lagrangian：认为粒子带有材质属性。</li><li>Eulerian：使用网格来做数值积分。</li><li>lnteraction：粒子将属性传递给网格，网格执行更新，然后插值回粒子。</li></ul><p><img src="/images/Games101/22/16.png"></p><h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://blog.csdn.net/weixin_43399489/article/details/121934159">图形学笔记（二十）粒子、刚体、流体的模拟—— 欧拉方法、Errors 和 Instability、中点法、自适应步长、隐式欧拉方法、Runge-Kutta方法、刚体与流体模拟（质点法、网格法、MPM）_隐式mpm-CSDN博客</a></p><p>结束，下面把作业做一做，然后打算做个玩具渲染器（当作毕设了…）</p>]]></content:encoded>
+      
+      
+      <category domain="http://example.com/categories/Games-%E7%B3%BB%E5%88%97/">Games 系列</category>
+      
+      <category domain="http://example.com/categories/Games-%E7%B3%BB%E5%88%97/Games-101/">Games 101</category>
+      
+      
+      <category domain="http://example.com/tags/Games-%E7%B3%BB%E5%88%97/">Games 系列</category>
+      
+      <category domain="http://example.com/tags/Games-101/">Games 101</category>
+      
+      
+      <comments>http://example.com/2024/01/21/games101/Lec%2022/#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>【Games 101】Lec 21：动画</title>
+      <link>http://example.com/2024/01/21/games101/Lec%2021/</link>
+      <guid>http://example.com/2024/01/21/games101/Lec%2021/</guid>
+      <pubDate>Sun, 21 Jan 2024 05:52:23 GMT</pubDate>
+      
+        
+        
+      <description>&lt;h1 id=&quot;Lecture-21：Animation&quot;&gt;&lt;a href=&quot;#Lecture-21：Animation&quot; class=&quot;headerlink&quot; title=&quot;Lecture 21：Animation&quot;&gt;&lt;/a&gt;Lecture 21：Animation&lt;/h1&gt;&lt;</description>
+        
+      
+      
+      
+      <content:encoded><![CDATA[<h1 id="Lecture-21：Animation"><a href="#Lecture-21：Animation" class="headerlink" title="Lecture 21：Animation"></a>Lecture 21：Animation</h1><h1 id="1-概述"><a href="#1-概述" class="headerlink" title="1 概述"></a>1 概述</h1><p>“Bring things to life”</p><ul><li>交流的工具</li><li>美学引导技术</li></ul><p>建模的扩展</p><ul><li>把3d模型延申到时间的维度</li></ul><p>输出：按顺序播放的图片序列，提供一种运动感。</p><ul><li>电影：24 fps</li><li>Video（通常）：30 fps</li><li>Virtual reality：90 fps</li></ul><h1 id="2-Historical-Points-in-Animation"><a href="#2-Historical-Points-in-Animation" class="headerlink" title="2 Historical Points in Animation"></a>2 Historical Points in Animation</h1><p>这个看一下PPT就行…</p><p><img src="/images/Games101/21/01.png"></p><h1 id="3-动画技术"><a href="#3-动画技术" class="headerlink" title="3 动画技术"></a>3 动画技术</h1><h2 id="3-1-关键帧动画（Keyframe-Animation）"><a href="#3-1-关键帧动画（Keyframe-Animation）" class="headerlink" title="3.1 关键帧动画（Keyframe Animation）"></a>3.1 关键帧动画（Keyframe Animation）</h2><ul><li>动画师 创建关键帧</li><li>人或计算机 创建中间的帧</li></ul><p><img src="/images/Games101/21/02.png"></p><p>关键帧动画一般使用插值方法来进行补帧，把每一帧当作参数值的向量，下面是线性插值。</p><p><img src="/images/Games101/21/03.png"></p><p>用样条进行优化：</p><p><img src="/images/Games101/21/04.png"></p><h2 id="3-2-物理仿真（Physical-Simulation）"><a href="#3-2-物理仿真（Physical-Simulation）" class="headerlink" title="3.2 物理仿真（Physical Simulation）"></a>3.2 物理仿真（Physical Simulation）</h2><h3 id="3-2-1-概述"><a href="#3-2-1-概述" class="headerlink" title="3.2.1 概述"></a>3.2.1 概述</h3><p>F &#x3D; ma</p><p>使用数值模拟生成物体的运动</p><p><img src="/images/Games101/21/05.png"></p><p>例子：</p><ul><li>布料模拟（ Cloth Simulation）</li><li>流体（ Fluids ）</li><li>质点弹簧系统（ Mass Spring System）</li><li>头发（ Hair ）</li><li>质点弹簧网格（Mass Spring Mesh）</li></ul><h3 id="3-2-2-质点弹簧系统（Mass-Spring-System）"><a href="#3-2-2-质点弹簧系统（Mass-Spring-System）" class="headerlink" title="3.2.2 质点弹簧系统（Mass Spring System）"></a>3.2.2 质点弹簧系统（Mass Spring System）</h3><ol><li><strong>简单的弹簧</strong></li></ol><p>理想化的弹簧：没有长度，作用力会导致位移。</p><p><strong>胡克定律：</strong></p><p><img src="/images/Games101/21/06.png"></p><ol start="2"><li><strong>非0长度的弹簧</strong></li></ol><p><img src="/images/Games101/21/07.png"></p><p><strong>问题：永远震动下去。</strong></p><p><strong>定义概念：</strong></p><p><img src="/images/Games101/21/08.png"></p><p><strong>引入能量损失</strong></p><ul><li>表现得像运动中的粘性阻力</li><li>在速度方向上减慢运动</li><li>kd为阻尼系数</li></ul><p><img src="/images/Games101/21/09.png"></p><p><strong>问题：所有运动都会停止（不能表现弹簧内部的损耗）。</strong></p><p><strong>弹簧的内部阻尼（Internal Damping for Spring）</strong></p><p>只阻尼内部，由弹簧驱动的运动。</p><p><img src="/images/Games101/21/10.png"></p><p>Viscous drag 仅限于弹簧长度的变化，不会减慢弹簧系统的整体运动(例如，整体平移或旋转)</p><p>Note: 这只是一种特殊的阻尼(damping)。</p><ol start="3"><li><strong>来自弹簧的结构</strong></li></ol><p><img src="/images/Games101/21/11.png"></p><p>弹簧结构的连接可以决定一个图形的行为，比如改进下面的连接来模拟布料。</p><p><img src="/images/Games101/21/12.png"></p><p>原来的不足之处：</p><ul><li>切变会影响形状。</li><li>会使原来的形状不在一个平面上。</li></ul><p>改进之后：</p><p><img src="/images/Games101/21/13.png"></p><ul><li><strong>在对角线连接弹簧会抵抗切变。</strong></li><li><strong>在两个对角线都连切线避免了各向异性。</strong></li><li><strong>红色的弹簧会避免 out-of-plane bending（两条对角线竖直方向会弯折）。</strong></li></ul><p>其他模型：<strong>有限元方法FEM（Finite Element Method）</strong></p><p>（代替弹簧系统的一种模拟布料的办法）</p><p>常用来做汽车碰撞，主要思想是<strong>力与力之间存在传导</strong>，效果如下。</p><p><img src="/images/Games101/21/14.png"></p><h3 id="3-2-3-粒子系统（Particle-System）"><a href="#3-2-3-粒子系统（Particle-System）" class="headerlink" title="3.2.3 粒子系统（Particle System）"></a>3.2.3 粒子系统（Particle System）</h3><ul><li>粒子系统就是将动态的系统建模为大量粒子的集合</li><li>每个粒子的运动都是由一组物理(或非物理)力定义的。</li><li>粒子系统是在图形和游戏上很流行的技术。</li><li>具备可扩展性：粒子越少，速度越快，粒子越多，速度越慢。</li></ul><p><strong>挑战</strong></p><ul><li>可能需要许多粒子(例如流体)</li><li>可能需要加速结构(例如寻找最近的粒子进行如引力的相互作用)</li></ul><p><strong>步骤</strong></p><ol><li>创建新的粒子（如果需要的话）。</li><li>计算每个粒子的力。</li><li>更新每个粒子的位置和速度。</li><li>移除死掉的粒子。</li><li>渲染粒子。</li></ol><p><strong>粒子系统的作用力</strong></p><ul><li>引力和斥力（repulsion） 如：万有引力、磁力、弹力（Springs）、弹簧、推进力（propulsion）。（eg：万有引力）</li><li>阻力（Damping forces）：摩擦（Friction），空气阻力（air drag），粘度 （viscosity）…</li><li>碰撞（Collisions）：墙壁、容器、固定的物体…。与动态物体、人物身体部位等…。</li></ul><p><strong>模拟动物集群（Simulated Flocking as an ODE）</strong></p><p>需要考虑一个例子的各种作用力</p><p><img src="/images/Games101/21/15.png"></p><h1 id="4-运动学-Kinematics"><a href="#4-运动学-Kinematics" class="headerlink" title="4 运动学 Kinematics"></a>4 运动学 Kinematics</h1><h2 id="4-1-正向运动学（Forward-Kinematics）"><a href="#4-1-正向运动学（Forward-Kinematics）" class="headerlink" title="4.1 正向运动学（Forward Kinematics）"></a>4.1 正向运动学（Forward Kinematics）</h2><p><strong>Articulated skeleton</strong></p><ul><li><strong>Topology 是一种拓扑结构（描述什么与什么连接）</strong></li><li><strong>关节（joints）间的几何关系。</strong></li><li><strong>树形结构</strong></li></ul><p><strong>Joint types（关节类型）</strong></p><ul><li><strong>Pin（1D rotation）：在平面内旋转</strong></li><li><strong>Ball（2D rotation）：可以旋转到不同的平面</strong></li><li><strong>Prismatic joint（translation）：可以拉长</strong></li></ul><p><img src="/images/Games101/21/16.png"></p><p>例子：2D中简单的两端骨骼。</p><p>Animator 提供角度，计算机决定 end-effector 的位置p。</p><p>Animation 是用角度参数与时间的函数来描述的。</p><p><img src="/images/Games101/21/17.png"></p><p><strong>优点：</strong></p><ul><li>直接控制方便</li><li>便于实施</li></ul><p><strong>缺点：</strong></p><ul><li>动画可能难以用物理的方式来制作（不直观，艺术家不喜欢）</li><li>消耗动画师的时间</li></ul><h2 id="4-2-逆向运动学（Inverse-Kinematics）"><a href="#4-2-逆向运动学（Inverse-Kinematics）" class="headerlink" title="4.2 逆向运动学（Inverse Kinematics）"></a>4.2 逆向运动学（Inverse Kinematics）</h2><p><strong>概述：</strong></p><p>根据尖端获得关节的角度位置。</p><p>Animator 提供 end-effector 的位置，计算机决定满足限制的 joint 角度。</p><p>计算方法：</p><p><img src="/images/Games101/21/18.png"></p><p><strong>问题：</strong></p><ul><li>解不唯一</li><li>解可能不存在</li></ul><p><img src="/images/Games101/21/19.png"></p><p><strong>N-link lK 问题优化方法</strong></p><ul><li>选择一个初始构型。</li><li>定义一个 error metric（如：目标与当前位置之间距离的平方）。</li><li>计算误差梯度作为构形的函数</li><li>应用梯度下降(或牛顿法，或其他优化程序)</li></ul><h2 id="4-3-应用"><a href="#4-3-应用" class="headerlink" title="4.3 应用"></a>4.3 应用</h2><h3 id="4-3-1-Rigging-绑定"><a href="#4-3-1-Rigging-绑定" class="headerlink" title="4.3.1 Rigging 绑定"></a>4.3.1 Rigging 绑定</h3><p>Rigging 是一套高级角色控制，允许更快速和直观地修改姿势、变形、表情等。</p><ul><li>就像提线木偶的线一样。</li><li>捕捉所有有意义的角色变化。</li><li>因角色而异。</li><li>制作昂贵</li><li>具有人工误差并需要艺术和技术的训练。</li></ul><p><img src="/images/Games101/21/20.png"></p><h3 id="4-3-2-混合形状（Blend-Shapes）"><a href="#4-3-2-混合形状（Blend-Shapes）" class="headerlink" title="4.3.2 混合形状（Blend Shapes）"></a>4.3.2 混合形状（Blend Shapes）</h3><p>直接在曲面之间进行插值。</p><p><img src="/images/Games101/21/21.png"></p><p>最简单的方案：取顶点位置的线性组合，样条用于控制随着时间的推移权重的选择。</p><h3 id="4-3-3-动作捕捉（Motion-Capture）"><a href="#4-3-3-动作捕捉（Motion-Capture）" class="headerlink" title="4.3.3 动作捕捉（Motion Capture）"></a>4.3.3 动作捕捉（Motion Capture）</h3><p>Motion Capture 是创建动画序列的数据驱动方法。</p><p>下面是三种动捕设备（光学、磁力和机械）。</p><p><img src="/images/Games101/21/22.png"></p><p><strong>优点：</strong></p><ul><li>非常贴近真实</li><li>可以快速的过去大量的真实数据。</li></ul><p><strong>缺点：</strong></p><ul><li>准备工作复杂且高花费。</li><li>捕捉到的动画可能不满足艺术家的需要，需要选择。</li></ul><h2 id="5-动画-电影生产的-Pipeline"><a href="#5-动画-电影生产的-Pipeline" class="headerlink" title="5 动画&#x2F;电影生产的 Pipeline"></a>5 动画&#x2F;电影生产的 Pipeline</h2><p><img src="/images/Games101/21/23.png"></p><h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://blog.csdn.net/weixin_43399489/article/details/121895993?ops_request_misc=%7B%22request_id%22:%22170581620516800225512166%22,%22scm%22:%2220140713.130102334.pc_blog.%22%7D&request_id=170581620516800225512166&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~blog~first_rank_ecpm_v1~rank_v31_ecpm-14-121895993-null-null.nonecase&utm_term=%E5%9B%BE%E5%BD%A2%E5%AD%A6%E7%AC%94%E8%AE%B0&spm=1018.2226.3001.4450">图形学笔记（十九）动画 —— 动画的历史、关键帧插值、物理仿真、质点弹簧系统、粒子系统、（反向IK）动力学、Rigging 绑定、Blend Shapes、动作捕捉_骨骼 逆运动学 动作捕捉 刚体模拟 流体模拟-CSDN博客</a></p>]]></content:encoded>
+      
+      
+      <category domain="http://example.com/categories/Games-%E7%B3%BB%E5%88%97/">Games 系列</category>
+      
+      <category domain="http://example.com/categories/Games-%E7%B3%BB%E5%88%97/Games-101/">Games 101</category>
+      
+      
+      <category domain="http://example.com/tags/Games-%E7%B3%BB%E5%88%97/">Games 系列</category>
+      
+      <category domain="http://example.com/tags/Games-101/">Games 101</category>
+      
+      
+      <comments>http://example.com/2024/01/21/games101/Lec%2021/#disqus_thread</comments>
+      
+    </item>
     
     <item>
       <title>【Games 101】Lec 20：颜色和感知</title>
@@ -249,66 +309,6 @@
       
       
       <comments>http://example.com/2024/01/09/games101/Lec%2013/#disqus_thread</comments>
-      
-    </item>
-    
-    <item>
-      <title>【Games 101】Lec 12：几何 3</title>
-      <link>http://example.com/2024/01/08/games101/Lec%2012/</link>
-      <guid>http://example.com/2024/01/08/games101/Lec%2012/</guid>
-      <pubDate>Mon, 08 Jan 2024 15:01:07 GMT</pubDate>
-      
-        
-        
-      <description>&lt;h1 id=&quot;Lecture-12：Geometry-3&quot;&gt;&lt;a href=&quot;#Lecture-12：Geometry-3&quot; class=&quot;headerlink&quot; title=&quot;Lecture 12：Geometry 3&quot;&gt;&lt;/a&gt;Lecture 12：Geometry 3&lt;/</description>
-        
-      
-      
-      
-      <content:encoded><![CDATA[<h1 id="Lecture-12：Geometry-3"><a href="#Lecture-12：Geometry-3" class="headerlink" title="Lecture 12：Geometry 3"></a>Lecture 12：Geometry 3</h1><h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>这节课主要讲的是 <strong>曲面细分</strong>，<strong>曲面简化</strong> 和 <strong>阴影</strong>；</p><p>这篇文章记录 曲面细分 和 曲面简化，阴影放在下一篇文章；</p><h1 id="曲面细分"><a href="#曲面细分" class="headerlink" title="曲面细分"></a>曲面细分</h1><p>曲面细分一般来说，需要先增加点的数量，然后再调整点的位置。</p><h2 id="Loop细分"><a href="#Loop细分" class="headerlink" title="Loop细分"></a>Loop细分</h2><h3 id="概述-1"><a href="#概述-1" class="headerlink" title="概述"></a>概述</h3><p>整体步骤：</p><ul><li>增加三角形数量；</li><li>改变三角形位置，让模型看上去更加光滑；</li><li><img src="/images/Games101/12/01.png"></li></ul><h3 id="具体算法"><a href="#具体算法" class="headerlink" title="具体算法"></a>具体算法</h3><ul><li>把每个三角形分成4个（这里就会产生新的顶点）</li></ul><p><img src="/images/Games101/12/02.png"></p><ul><li>根据权重分配新的顶点（新顶点和旧顶点的调整方式不同）。<ul><li><strong>更新 新顶点</strong>：周围几个点的加权平均；</li><li><strong>更新 旧顶点</strong>：根据自己原本的位置和自己周围顶点的位置来进行加权平均（n是顶点的度数）</li></ul></li></ul><p><img src="/images/Games101/12/03.png"></p><p><img src="/images/Games101/12/04.png"></p><h3 id="Loop细分结果"><a href="#Loop细分结果" class="headerlink" title="Loop细分结果"></a>Loop细分结果</h3><p><img src="/images/Games101/12/05.png"></p><h2 id="Catmull-Clark细分（General-Mesh）"><a href="#Catmull-Clark细分（General-Mesh）" class="headerlink" title="Catmull-Clark细分（General Mesh）"></a>Catmull-Clark细分（General Mesh）</h2><p>Loop 细分只能解决三角形网格的细分问题，对于一般的情况（一般的网格面）可以采用Catmull-Clark细分。</p><h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><p><strong>非四边形面</strong>（Non-quad face）：顾名思义。<br><strong>奇异点</strong>（Extraordinary vertex）：度数不为 4 的点。</p><p><img src="/images/Games101/12/06.png"></p><h3 id="Catmull-Clark细分算法"><a href="#Catmull-Clark细分算法" class="headerlink" title="Catmull-Clark细分算法"></a>Catmull-Clark细分算法</h3><ul><li><strong>增加新的点</strong><ul><li>取每个面的一个点（比如重心）</li><li>取每个边的中点</li><li>将所有新添加的点做连接</li><li><img src="/images/Games101/12/07.png"></li><li>在一次细分后会引入两个新的奇异点。</li><li>新奇异点的度数为3，其他奇异点的度数不变。</li><li>经过一次细分，所有非四边形面会消失。</li><li>细分之后，每个非四边形面都会变成一个奇异点（以后再细分奇异点和非四边形面都不会发生变化了）。</li><li><img src="/images/Games101/12/08.png"></li></ul></li><li><strong>调整规则</strong><ul><li>对于 <strong>新点</strong>，<strong>面上的点</strong>和<strong>边上的点</strong>位置更新规则如下：</li><li><img src="/images/Games101/12/09.png"></li><li>对于 <strong>旧点</strong>：</li><li><img src="/images/Games101/12/10.png"></li></ul></li></ul><h3 id="Catmull-Clark细分结果"><a href="#Catmull-Clark细分结果" class="headerlink" title="Catmull-Clark细分结果"></a>Catmull-Clark细分结果</h3><p><img src="/images/Games101/12/11.png"></p><h1 id="曲面简化"><a href="#曲面简化" class="headerlink" title="曲面简化"></a>曲面简化</h1><h2 id="概述-2"><a href="#概述-2" class="headerlink" title="概述"></a>概述</h2><p>目标：减少三角形的数量并保留整体的形状。</p><p><img src="/images/Games101/12/12.png"></p><h2 id="做法：边坍缩（Collapsing-An-Edge）"><a href="#做法：边坍缩（Collapsing-An-Edge）" class="headerlink" title="做法：边坍缩（Collapsing An Edge）"></a>做法：边坍缩（Collapsing An Edge）</h2><p><img src="/images/Games101/12/13.png"></p><h2 id="优化：二次误差度量"><a href="#优化：二次误差度量" class="headerlink" title="优化：二次误差度量"></a>优化：二次误差度量</h2><p><strong>二次误差度量（Quadric Error Metrics）</strong></p><ul><li>它用来表示曲面简化带来的误差的大小。</li><li>用局部顶点做平均效果是不好的。</li><li>二次误差：在平面中找一个点，使得这个点与它相关联的面的距离平方和达到最小，将这个点作为新的点；</li></ul><p><img src="/images/Games101/12/14.png"></p><p><strong>做法：</strong></p><ul><li>首先将每条边的二次误差值，作为他们各自的分数；</li><li>首先选一条分数最小的，进行边塌缩；</li><li>此时其他边的分数会变化，所以更新所有边的分数；</li><li>然后继续重复上面的操作；</li></ul><p>（可以用堆来实现，是贪心算法的结果）</p><p><img src="/images/Games101/12/15.png"></p>]]></content:encoded>
-      
-      
-      <category domain="http://example.com/categories/Games-%E7%B3%BB%E5%88%97/">Games 系列</category>
-      
-      <category domain="http://example.com/categories/Games-%E7%B3%BB%E5%88%97/Games-101/">Games 101</category>
-      
-      
-      <category domain="http://example.com/tags/Games-%E7%B3%BB%E5%88%97/">Games 系列</category>
-      
-      <category domain="http://example.com/tags/Games-101/">Games 101</category>
-      
-      
-      <comments>http://example.com/2024/01/08/games101/Lec%2012/#disqus_thread</comments>
-      
-    </item>
-    
-    <item>
-      <title>【Games 101】Lec 11：几何 2 （曲线 和 曲面）</title>
-      <link>http://example.com/2024/01/08/games101/Lec%2011/</link>
-      <guid>http://example.com/2024/01/08/games101/Lec%2011/</guid>
-      <pubDate>Mon, 08 Jan 2024 13:42:58 GMT</pubDate>
-      
-        
-        
-      <description>&lt;h1 id=&quot;Lecture-11：Geometry-2-Curves-and-Surfaces&quot;&gt;&lt;a href=&quot;#Lecture-11：Geometry-2-Curves-and-Surfaces&quot; class=&quot;headerlink&quot; title=&quot;Lecture 11</description>
-        
-      
-      
-      
-      <content:encoded><![CDATA[<h1 id="Lecture-11：Geometry-2-Curves-and-Surfaces"><a href="#Lecture-11：Geometry-2-Curves-and-Surfaces" class="headerlink" title="Lecture 11：Geometry 2 (Curves and Surfaces)"></a>Lecture 11：Geometry 2 (Curves and Surfaces)</h1><h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>这节课主要讲了几何中的 曲线 和 曲面；</p><p>前面一段是在讲几何的显示表示，放在放一篇文章了；</p><h1 id="贝塞尔曲线"><a href="#贝塞尔曲线" class="headerlink" title="贝塞尔曲线"></a>贝塞尔曲线</h1><h2 id="概述-1"><a href="#概述-1" class="headerlink" title="概述"></a>概述</h2><p>用一系列的控制点来定义某一条曲线。这些控制点使用切线来定义贝塞尔曲线。</p><p><img src="/images/Games101/11/01.png"></p><p>看上图，注意曲线起始方向沿着P0 P1，结束方向沿着P2 P3；</p><p> （不要求曲线经过控制点，但一定要经过起止点 和 极值点（控制点关于时间插值出来的点））</p><h2 id="计算贝塞尔曲线——de-Casteljau-算法"><a href="#计算贝塞尔曲线——de-Casteljau-算法" class="headerlink" title="计算贝塞尔曲线——de Casteljau 算法"></a>计算贝塞尔曲线——de Casteljau 算法</h2><p>首先我们<strong>把整个曲线映射到 [0，1] 的时间轴上</strong>；</p><p><strong>曲线上的每个点都是关于时间 t（0，1 之间）的插值的结果</strong>；</p><p>这也是为什么贝塞尔曲线是<strong>显示</strong>的表示（做了映射）；</p><p>下面看看是如何具体做映射的：</p><ul><li>给定三个控制点生成的贝塞尔曲线称为二次贝塞尔曲线（quadratic Bezier）。</li></ul><p><img src="/images/Games101/11/02.png"></p><ul><li>使用线性插值插入一个点（假设起点是时间0，终点是时间1），假设当前这个点对应时间轴的上 t ，按时间轴的比例，标记出一个线段上的插值点 b01;</li></ul><p><img src="/images/Games101/11/03.png"></p><ul><li>对于每个第一层（原始的）线段都做一下插值，变成：</li></ul><p><img src="/images/Games101/11/04.png"></p><ul><li>然后继续，同理，对于第二层的线段也同样操作，直至剩下一个点；</li></ul><p><img src="/images/Games101/11/05.png"></p><ul><li>这样我们只是得到了一个 t 的插值后的点，我们对 [0, 1] 所有的 t 都进行插值，最终就能得到这个曲线；</li></ul><p><img src="/images/Games101/11/06.png"></p><h2 id="贝塞尔曲线代数公式"><a href="#贝塞尔曲线代数公式" class="headerlink" title="贝塞尔曲线代数公式"></a>贝塞尔曲线代数公式</h2><p><strong>推导：</strong></p><p><img src="/images/Games101/11/07.png"></p><p>如果有n+1个控制点（从0开始编号），可以得到n阶的贝塞尔曲线。</p><p><img src="/images/Games101/11/08.png"></p><p><strong>Bernstein 多项式：</strong></p><p><img src="/images/Games101/11/09.png"></p><p>例如，当 n&#x3D;3 时，公式为：</p><p><img src="/images/Games101/11/10.png"></p><h2 id="贝塞尔曲线的性质"><a href="#贝塞尔曲线的性质" class="headerlink" title="贝塞尔曲线的性质"></a>贝塞尔曲线的性质</h2><p><img src="/images/Games101/11/11.png"></p><h1 id="逐段（Piecewise）贝塞尔曲线"><a href="#逐段（Piecewise）贝塞尔曲线" class="headerlink" title="逐段（Piecewise）贝塞尔曲线"></a>逐段（Piecewise）贝塞尔曲线</h1><h2 id="概述-2"><a href="#概述-2" class="headerlink" title="概述"></a>概述</h2><p>由于当控制点太多，曲线难以被控制点控制。</p><p>所以<strong>逐段</strong>定义贝塞尔曲线（一般用<strong>四个控制点</strong>）。</p><p><img src="/images/Games101/11/12.png"></p><p>如果要让不同的分段之间光滑过渡，只需要在<strong>切线上连续</strong>（<strong>方向</strong>和<strong>大小</strong>上）。</p><h2 id="分段贝塞尔曲线的连续性"><a href="#分段贝塞尔曲线的连续性" class="headerlink" title="分段贝塞尔曲线的连续性"></a>分段贝塞尔曲线的连续性</h2><p><img src="/images/Games101/11/13.png"></p><h1 id="其他类型的曲线"><a href="#其他类型的曲线" class="headerlink" title="其他类型的曲线"></a>其他类型的曲线</h1><h2 id="样条-Spline"><a href="#样条-Spline" class="headerlink" title="样条 Spline"></a>样条 Spline</h2><p>一个连续的曲线是由一系列控制点控制点，在任意一个地方可以满足一定的连续性。</p><p>简单来说就是一个可控的曲线。</p><h2 id="B样条-B-Splines"><a href="#B样条-B-Splines" class="headerlink" title="B样条 B-Splines"></a>B样条 B-Splines</h2><ul><li>贝塞尔曲线的扩展（具有局部性，容易控制），就是基函数（basis）样条。</li><li>比贝塞尔曲线需要更多的信息。</li><li>满足贝塞尔曲线的所有性质。</li><li>难</li></ul><h1 id="（贝塞尔）曲面"><a href="#（贝塞尔）曲面" class="headerlink" title="（贝塞尔）曲面"></a>（贝塞尔）曲面</h1><h2 id="概述-3"><a href="#概述-3" class="headerlink" title="概述"></a>概述</h2><p>把贝塞尔曲线的概念延申到平面上。</p><p><img src="/images/Games101/11/14.png"></p><p>回顾一下，每段贝塞尔曲线是4个点的线性插值的结果；</p><p>所以，每一片贝塞尔曲面是16控制点，两次线性插值的结果：</p><p>第一次先 4 组（每组四个）进行一次线性插值，得到四条贝塞尔曲线，然后对于四条曲线，我们再插值一次，得到曲面：</p><p><img src="/images/Games101/11/15.png"></p><p>规范的讲：</p><p>输入：<strong>4*4 控制点</strong></p><p>输出：<strong>一个在 [0,1] ^2 内的 (u,v) 参数化的二维曲面</strong></p><p>反过来讲，<strong>给一个 贝塞尔曲面上参数化后的 (u,v)，我们就能知道 (u,v) 对应的是曲面上的哪个点。</strong></p>]]></content:encoded>
-      
-      
-      <category domain="http://example.com/categories/Games-%E7%B3%BB%E5%88%97/">Games 系列</category>
-      
-      <category domain="http://example.com/categories/Games-%E7%B3%BB%E5%88%97/Games-101/">Games 101</category>
-      
-      
-      <category domain="http://example.com/tags/Games-%E7%B3%BB%E5%88%97/">Games 系列</category>
-      
-      <category domain="http://example.com/tags/Games-101/">Games 101</category>
-      
-      
-      <comments>http://example.com/2024/01/08/games101/Lec%2011/#disqus_thread</comments>
       
     </item>
     

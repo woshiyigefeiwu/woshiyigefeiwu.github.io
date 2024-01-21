@@ -170,6 +170,375 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/01/09/games101/Lec%2013/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="FJBQ">
+      <meta itemprop="description" content="坚定 坚持 坚强">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FJBQ">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/01/09/games101/Lec%2013/" class="post-title-link" itemprop="url">【Games 101】Lec 13：光线追踪 1（Shadow Mapping，Whitted-Style Ray Tracing）</a>
+        </h2>
+
+        <div class="post-meta">
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2024-01-09 21:13:23" itemprop="dateCreated datePublished" datetime="2024-01-09T21:13:23+08:00">2024-01-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-01-10 00:24:07" itemprop="dateModified" datetime="2024-01-10T00:24:07+08:00">2024-01-10</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">Games 系列</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/Games-101/" itemprop="url" rel="index"><span itemprop="name">Games 101</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Lecture-13：Ray-Tracing-1-Shadow-Mapping，Whitted-Style-Ray-Tracing"><a href="#Lecture-13：Ray-Tracing-1-Shadow-Mapping，Whitted-Style-Ray-Tracing" class="headerlink" title="Lecture 13：Ray Tracing 1 (Shadow Mapping，Whitted-Style Ray Tracing)"></a>Lecture 13：Ray Tracing 1 (Shadow Mapping，Whitted-Style Ray Tracing)</h1><h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>这一节课主要讲了 <strong>阴影</strong> 和 <strong>光线追踪</strong>；</p>
+<p>光纤追踪这一部分有点难啊… </p>
+<p>挺抽象的，不太好理解…</p>
+<h1 id="Shadow-Mapping"><a href="#Shadow-Mapping" class="headerlink" title="Shadow Mapping"></a>Shadow Mapping</h1><h2 id="概述-1"><a href="#概述-1" class="headerlink" title="概述"></a>概述</h2><p>Shadow Mapping<strong>本质是一种图像空间</strong>的算法。</p>
+<p>我们之前学的都没有考虑到<strong>阴影</strong>，现在考虑一下这个东西；</p>
+<h2 id="具体算法"><a href="#具体算法" class="headerlink" title="具体算法"></a>具体算法</h2><ul>
+<li>从光源渲染，从光源看场景，可以求出深度图（点到光源的深度）（z-buffer）</li>
+<li><img src="/images/Games101/13/01.png"></li>
+<li>从相机渲染，也就是从相机发出光线，可以得到我们看到的点，然后求这些点到光源的深度；如果这个深度和从光源渲染的深度是一样的，则说明这个点没有被遮挡；否则说明，这个点被遮挡了；</li>
+<li><img src="/images/Games101/13/02.png"></li>
+</ul>
+<h2 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h2><p><img src="/images/Games101/13/03.png"></p>
+<h2 id="问题分析"><a href="#问题分析" class="headerlink" title="问题分析"></a>问题分析</h2><ul>
+<li>生成的是硬阴影（只对点光源（没有体积））。</li>
+<li>阴影的效果取决于shadow map的分辨率。</li>
+<li>涉及浮点精度比较的问题，导致渲染出来的效果一般。</li>
+</ul>
+<h2 id="软阴影和硬阴影"><a href="#软阴影和硬阴影" class="headerlink" title="软阴影和硬阴影"></a>软阴影和硬阴影</h2><p>下面图中，左上是硬阴影，左下是软阴影；</p>
+<p><img src="/images/Games101/13/04.png"></p>
+<h3 id="软阴影的原理"><a href="#软阴影的原理" class="headerlink" title="软阴影的原理"></a>软阴影的原理</h3><p>由于点光源有大小，会形成<strong>本影（Umbra）区域</strong>和<strong>半影（Penumbra）区域</strong>。所以会形成阴影的过渡。</p>
+<h2 id="进行光线追踪（Ray-Tracing）的原因"><a href="#进行光线追踪（Ray-Tracing）的原因" class="headerlink" title="进行光线追踪（Ray Tracing）的原因"></a>进行光线追踪（Ray Tracing）的原因</h2><p><img src="/images/Games101/13/05.png"></p>
+<ul>
+<li><strong>难以做软阴影</strong>；</li>
+<li><strong>难以表现光线多次弹射，比如间接光照</strong>；</li>
+<li><strong>光栅化很快但是质量较低</strong>；</li>
+<li><strong>光线追踪很准确，但是很慢</strong>；</li>
+</ul>
+<p>光栅化：实时（游戏），光线追踪：离线（动画）。</p>
+<p>光线追踪一帧就要花10K个计算机小时</p>
+<p>光栅化和光线追踪都是成像方式。</p>
+<h1 id="光线追踪（算法）"><a href="#光线追踪（算法）" class="headerlink" title="光线追踪（算法）"></a>光线追踪（算法）</h1><h2 id="光线的一些定义概念"><a href="#光线的一些定义概念" class="headerlink" title="光线的一些定义概念"></a>光线的一些定义概念</h2><ul>
+<li><p>光线沿直线传播。</p>
+</li>
+<li><p>光线和光线不会发生碰撞。</p>
+</li>
+<li><p>光线会从光源发出，打到场景中，经过反射折射等最终进入人眼（光线具有可逆性）。</p>
+</li>
+</ul>
+<h2 id="光线投影（Ray-Casting）"><a href="#光线投影（Ray-Casting）" class="headerlink" title="光线投影（Ray Casting）"></a>光线投影（Ray Casting）</h2><p>光线投射是<strong>光线追踪中用于生成初始光线的第一步。</strong></p>
+<ul>
+<li><p>通过每个像素投射一条光线来生成图像</p>
+</li>
+<li><p>通过向光源发送光线来检查阴影</p>
+</li>
+</ul>
+<p><strong>具体的讲：</strong></p>
+<ul>
+<li>从视点开始经过像素获得与场景中物体最近的交点。</li>
+<li><img src="/images/Games101/13/06.png"></li>
+<li>将交点和和光源连线，判断这个点是否对光源可见，从而确定该点是否是阴影；</li>
+<li><img src="/images/Games101/13/07.png"></li>
+<li>然后计算着色，并将结果写回像素；</li>
+</ul>
+<h2 id="Recursive（Whitted-Style）-Ray-Tracing"><a href="#Recursive（Whitted-Style）-Ray-Tracing" class="headerlink" title="Recursive（Whitted- Style） Ray Tracing"></a>Recursive（Whitted- Style） Ray Tracing</h2><p>这个光线追踪算法可以看成是优化，<strong>它考虑了反射和折射的光线</strong>。</p>
+<p><img src="/images/Games101/13/08.png"></p>
+<p>对<strong>每一个弹射点都要计算着色的值</strong>，然后<strong>把所有着色的值都加到像素的值里面</strong>去。</p>
+<p>当然这里需要考虑能量的衰减：</p>
+<p><img src="/images/Games101/13/09.png"></p>
+<p>光线有不同的分类：</p>
+<p><img src="/images/Games101/13/10.png"></p>
+<p><strong>上面只是讲了大概应该怎么做，下面具体的讲细节。</strong></p>
+<h2 id="光线和表面的交点（Ray-Surface-Intersection）"><a href="#光线和表面的交点（Ray-Surface-Intersection）" class="headerlink" title="光线和表面的交点（Ray-Surface Intersection）"></a>光线和表面的交点（Ray-Surface Intersection）</h2><p>回顾一下上面，首先光线追踪的第一步，是不是要求一条光线和表面的交点？</p>
+<h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><h4 id="光线"><a href="#光线" class="headerlink" title="光线"></a>光线</h4><p>光线在数学上定义成 <strong>有起点和方向的射线</strong>，用 t 来表示时间，则我们可以得到射线的一个表达式：</p>
+<p><img src="/images/Games101/13/11.png"></p>
+<ul>
+<li>r(t)：是 t 时刻射线上的点；</li>
+<li>o：是起始点；</li>
+<li>d：表示方向，感觉可以理解为速度；</li>
+</ul>
+<h4 id="平面"><a href="#平面" class="headerlink" title="平面"></a>平面</h4><p>通过一个<strong>法向量</strong>和一个<strong>平面上的点</strong>来进行定义。</p>
+<p><img src="/images/Games101/13/12.png"></p>
+<p><strong>平面的表达式</strong> 平面是满足下面条件所有p点的集合。</p>
+<h3 id="光线-和-球-求交"><a href="#光线-和-球-求交" class="headerlink" title="光线 和 球 求交"></a>光线 和 球 求交</h3><p>这个很简单，带进去就行；</p>
+<p><img src="/images/Games101/13/13.png"></p>
+<p><img src="/images/Games101/13/14.png"></p>
+<h3 id="光线-和-隐式表面-求交"><a href="#光线-和-隐式表面-求交" class="headerlink" title="光线 和 隐式表面 求交"></a>光线 和 隐式表面 求交</h3><p>也是一样的，带入：</p>
+<p><img src="/images/Games101/13/15.png"></p>
+<h3 id="光线-和-三角形面-求交"><a href="#光线-和-三角形面-求交" class="headerlink" title="光线 和 三角形面 求交"></a>光线 和 三角形面 求交</h3><h4 id="为什么"><a href="#为什么" class="headerlink" title="为什么"></a>为什么</h4><p>光线和三角形求交有如下作用：</p>
+<ul>
+<li>渲染：可见性、阴影、光照…</li>
+<li>几何：可以判断点是再物体内还是物体外。<br>对任何一个封闭的曲面，在内部找一个点，如果点在形状内，那么从这个点发出的任意方向的射线与此物体的交点数量一定是奇数。</li>
+</ul>
+<p><img src="/images/Games101/13/16.png"></p>
+<h4 id="具体算法-1"><a href="#具体算法-1" class="headerlink" title="具体算法"></a>具体算法</h4><p>简单的办法是让场景中的每个三角形与光线进行求交计算，但是有如下严重问题。</p>
+<ul>
+<li>简单但是运算量大。</li>
+<li>可以有0或1个交点。</li>
+</ul>
+<p>因为<strong>三角形在平面内</strong>，所以可以把光线和三角形求交拆成两个问题：</p>
+<ul>
+<li><p>让光线与平面求交（目前与平面求交比与三角形求交容易）。</p>
+</li>
+<li><p>判断与平面的交点是否在三角形内。</p>
+</li>
+</ul>
+<p><strong>也就是说：光线与平面求交再判断是否在三角形内！</strong></p>
+<p><img src="/images/Games101/13/17.png"></p>
+<p>通过上面的图，可以求出 t，进而求出 r(t) （也就是交点）；</p>
+<p>然后再判断交点是否在三角形里面；</p>
+<h4 id="Moller-Trumbore-（MT）算法"><a href="#Moller-Trumbore-（MT）算法" class="headerlink" title="Moller Trumbore （MT）算法"></a>Moller Trumbore （MT）算法</h4><p>通过上面我们可以知道，我们需要两步来求解；</p>
+<p>MT 算法通过<strong>使用重心坐标</strong>来同时判断点是否在三角形里面；</p>
+<p>在下面的式子中，左边是光线的表达式，右边是三角形上一点的重心坐标形式。</p>
+<p><img src="/images/Games101/13/18.png"></p>
+<p>根据上面的等式解出来 <strong>t ，b1 ，b2</strong>（<strong>三个方程，三个未知数</strong>，也可以使用克莱默法则）。</p>
+<p><img src="/images/Games101/13/19.png"></p>
+<p>如果解出来的 <strong>t ，b1 ，b2 ，1-b1-b2</strong> 都<strong>大于0</strong>，则说明解是有意义的。</p>
+<h1 id="包围盒（Bounding-Volumes）"><a href="#包围盒（Bounding-Volumes）" class="headerlink" title="包围盒（Bounding Volumes）"></a>包围盒（Bounding Volumes）</h1><h2 id="概述-2"><a href="#概述-2" class="headerlink" title="概述"></a>概述</h2><p>原始的做法是让每个像素的光线要和<strong>所有三角形面求交点</strong>，计算量太大，那么如何让这个过程加速呢？如果我们圈定包围盒，<strong>连与包围盒都不相交的三角形就不用接着算了</strong>，那么就可以很大的减少计算量。</p>
+<p><img src="/images/Games101/13/20.png"></p>
+<p><strong>基本思想</strong>：使用一个简单的几何体来包围一个复杂的物体，如果光线不能碰到包围盒，那么就不用再计算其与里面物体的（三角形的）交点。</p>
+<p>这样就能少算很多很多 三角形和光线 的求交运算；</p>
+<h2 id="求光线与长方体的交点"><a href="#求光线与长方体的交点" class="headerlink" title="求光线与长方体的交点"></a>求光线与长方体的交点</h2><p>3D物体通常的包围盒是长方体。<br>一个重要理解：<strong>长方体是三对不同的面形成的交集</strong>。</p>
+<p><img src="/images/Games101/13/21.png"></p>
+<p>我们使用的包围盒通常是<strong>轴对齐（AABB）包围盒</strong>。Axis-Aligned Bounding Box(AABB)<br>经过以上分析，现在问题就变成了<strong>求光线和轴对齐包围盒的交点；</strong></p>
+<h2 id="求光线和轴对齐包围盒的交点"><a href="#求光线和轴对齐包围盒的交点" class="headerlink" title="求光线和轴对齐包围盒的交点"></a>求光线和轴对齐包围盒的交点</h2><h3 id="考虑2维的情况"><a href="#考虑2维的情况" class="headerlink" title="考虑2维的情况"></a>考虑2维的情况</h3><p>先分析简单的，2维的长方形；</p>
+<p>由于前面提到的光线方程是参数方程，所以只要我们计算光线什么时候会和一对平行的边有<strong>交点</strong>（计算 <strong>t-min , t-max</strong>），就可以求出<strong>光线进入和离开这个边的时间</strong>。</p>
+<p><img src="/images/Games101/13/22.png"></p>
+<p>看上面的图：</p>
+<p>首先注意到长方形有两对边；</p>
+<p><strong>左边的图</strong>：是求光线和<strong>左右两边</strong>的相交时的<strong>时间</strong>；</p>
+<p><strong>中间的图</strong>：是求光线和<strong>上下两边</strong>的相交时的<strong>时间</strong>；</p>
+<p>然后对这两段<strong>求交集</strong>，，此时 <strong>t-min , t-max</strong> 就分别代表着<strong>光线进入和离开长方体的时间</strong>。</p>
+<h3 id="考虑3维的情况"><a href="#考虑3维的情况" class="headerlink" title="考虑3维的情况"></a>考虑3维的情况</h3><p>根据2维的情况，我们<strong>推导出3维的情况的性质</strong>：</p>
+<ul>
+<li>只有当光线<strong>进入了所有的对面</strong>，才能说光线进入了盒子。</li>
+<li>只要光线<strong>离开任意一个对面</strong>，光线就离开了盒子。</li>
+</ul>
+<hr>
+<p>然后通过上面我们知道，Box 有3对面，也就是每一对面，光线都能和这对面求一组 t-min , t-max；</p>
+<p><strong>所以再根据上面的性质可以求出光线进入 BOX 的 t （t-enter）和 离开 BOX 的 t（t-exit）</strong></p>
+<p><strong>t-enter &#x3D; max( t1-min , t2-min , t3-min )</strong></p>
+<p><strong>t-exit &#x3D; min( t1-max , t2-max , t3-max )</strong></p>
+<p>ti 表示第 i 对面；</p>
+<hr>
+<p><strong>t为负时的意义：</strong></p>
+<ul>
+<li>如果 <strong>t-exit &lt; 0</strong>，说明<strong>盒子在光线背后</strong>，说明<strong>没有交点</strong>。</li>
+<li>如果 <strong>t-exit &gt;&#x3D; 0 &amp;&amp; t-enter &lt; 0</strong>，说明<strong>光线的起点在盒子里</strong>，一定有交点。</li>
+</ul>
+<hr>
+<p><strong>结论：</strong></p>
+<p>如果满足 <strong>t-enter &lt; t-exit &amp;&amp; t-exit &gt;&#x3D; 0</strong>，则说明光线与AABB包围盒有交点。</p>
+<hr>
+<p><img src="/images/Games101/13/23.png"></p>
+<p><img src="/images/Games101/13/24.png"></p>
+<h3 id="使用轴对齐-AABB-概念的原因"><a href="#使用轴对齐-AABB-概念的原因" class="headerlink" title="使用轴对齐(AABB)概念的原因"></a>使用轴对齐(AABB)概念的原因</h3><p>主要目的是<strong>简化计算</strong>。<br>普通情况计算 t：</p>
+<p><img src="/images/Games101/13/25.png"></p>
+<p>轴对齐的情况下计算t（只需要考虑各方向的分量即可）：</p>
+<p><img src="/images/Games101/13/26.png"></p>
+<hr>
+<p>ok，这个就是这一节课的内容…</p>
+<p>这一节课是真的多，写了好久好久…</p>
+<p>关于包围盒只是讲了怎么做，但是还没讲怎么用（下一节？）</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/01/08/games101/Lec%2012/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="FJBQ">
+      <meta itemprop="description" content="坚定 坚持 坚强">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FJBQ">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/01/08/games101/Lec%2012/" class="post-title-link" itemprop="url">【Games 101】Lec 12：几何 3</a>
+        </h2>
+
+        <div class="post-meta">
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2024-01-08 23:01:07 / 修改时间：23:33:32" itemprop="dateCreated datePublished" datetime="2024-01-08T23:01:07+08:00">2024-01-08</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">Games 系列</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/Games-101/" itemprop="url" rel="index"><span itemprop="name">Games 101</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Lecture-12：Geometry-3"><a href="#Lecture-12：Geometry-3" class="headerlink" title="Lecture 12：Geometry 3"></a>Lecture 12：Geometry 3</h1><h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>这节课主要讲的是 <strong>曲面细分</strong>，<strong>曲面简化</strong> 和 <strong>阴影</strong>；</p>
+<p>这篇文章记录 曲面细分 和 曲面简化，阴影放在下一篇文章；</p>
+<h1 id="曲面细分"><a href="#曲面细分" class="headerlink" title="曲面细分"></a>曲面细分</h1><p>曲面细分一般来说，需要先增加点的数量，然后再调整点的位置。</p>
+<h2 id="Loop细分"><a href="#Loop细分" class="headerlink" title="Loop细分"></a>Loop细分</h2><h3 id="概述-1"><a href="#概述-1" class="headerlink" title="概述"></a>概述</h3><p>整体步骤：</p>
+<ul>
+<li>增加三角形数量；</li>
+<li>改变三角形位置，让模型看上去更加光滑；</li>
+<li><img src="/images/Games101/12/01.png"></li>
+</ul>
+<h3 id="具体算法"><a href="#具体算法" class="headerlink" title="具体算法"></a>具体算法</h3><ul>
+<li>把每个三角形分成4个（这里就会产生新的顶点）</li>
+</ul>
+<p><img src="/images/Games101/12/02.png"></p>
+<ul>
+<li>根据权重分配新的顶点（新顶点和旧顶点的调整方式不同）。<ul>
+<li><strong>更新 新顶点</strong>：周围几个点的加权平均；</li>
+<li><strong>更新 旧顶点</strong>：根据自己原本的位置和自己周围顶点的位置来进行加权平均（n是顶点的度数）</li>
+</ul>
+</li>
+</ul>
+<p><img src="/images/Games101/12/03.png"></p>
+<p><img src="/images/Games101/12/04.png"></p>
+<h3 id="Loop细分结果"><a href="#Loop细分结果" class="headerlink" title="Loop细分结果"></a>Loop细分结果</h3><p><img src="/images/Games101/12/05.png"></p>
+<h2 id="Catmull-Clark细分（General-Mesh）"><a href="#Catmull-Clark细分（General-Mesh）" class="headerlink" title="Catmull-Clark细分（General Mesh）"></a>Catmull-Clark细分（General Mesh）</h2><p>Loop 细分只能解决三角形网格的细分问题，对于一般的情况（一般的网格面）可以采用Catmull-Clark细分。</p>
+<h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><p><strong>非四边形面</strong>（Non-quad face）：顾名思义。<br><strong>奇异点</strong>（Extraordinary vertex）：度数不为 4 的点。</p>
+<p><img src="/images/Games101/12/06.png"></p>
+<h3 id="Catmull-Clark细分算法"><a href="#Catmull-Clark细分算法" class="headerlink" title="Catmull-Clark细分算法"></a>Catmull-Clark细分算法</h3><ul>
+<li><strong>增加新的点</strong><ul>
+<li>取每个面的一个点（比如重心）</li>
+<li>取每个边的中点</li>
+<li>将所有新添加的点做连接</li>
+<li><img src="/images/Games101/12/07.png"></li>
+<li>在一次细分后会引入两个新的奇异点。</li>
+<li>新奇异点的度数为3，其他奇异点的度数不变。</li>
+<li>经过一次细分，所有非四边形面会消失。</li>
+<li>细分之后，每个非四边形面都会变成一个奇异点（以后再细分奇异点和非四边形面都不会发生变化了）。</li>
+<li><img src="/images/Games101/12/08.png"></li>
+</ul>
+</li>
+<li><strong>调整规则</strong><ul>
+<li>对于 <strong>新点</strong>，<strong>面上的点</strong>和<strong>边上的点</strong>位置更新规则如下：</li>
+<li><img src="/images/Games101/12/09.png"></li>
+<li>对于 <strong>旧点</strong>：</li>
+<li><img src="/images/Games101/12/10.png"></li>
+</ul>
+</li>
+</ul>
+<h3 id="Catmull-Clark细分结果"><a href="#Catmull-Clark细分结果" class="headerlink" title="Catmull-Clark细分结果"></a>Catmull-Clark细分结果</h3><p><img src="/images/Games101/12/11.png"></p>
+<h1 id="曲面简化"><a href="#曲面简化" class="headerlink" title="曲面简化"></a>曲面简化</h1><h2 id="概述-2"><a href="#概述-2" class="headerlink" title="概述"></a>概述</h2><p>目标：减少三角形的数量并保留整体的形状。</p>
+<p><img src="/images/Games101/12/12.png"></p>
+<h2 id="做法：边坍缩（Collapsing-An-Edge）"><a href="#做法：边坍缩（Collapsing-An-Edge）" class="headerlink" title="做法：边坍缩（Collapsing An Edge）"></a>做法：边坍缩（Collapsing An Edge）</h2><p><img src="/images/Games101/12/13.png"></p>
+<h2 id="优化：二次误差度量"><a href="#优化：二次误差度量" class="headerlink" title="优化：二次误差度量"></a>优化：二次误差度量</h2><p><strong>二次误差度量（Quadric Error Metrics）</strong></p>
+<ul>
+<li>它用来表示曲面简化带来的误差的大小。</li>
+<li>用局部顶点做平均效果是不好的。</li>
+<li>二次误差：在平面中找一个点，使得这个点与它相关联的面的距离平方和达到最小，将这个点作为新的点；</li>
+</ul>
+<p><img src="/images/Games101/12/14.png"></p>
+<p><strong>做法：</strong></p>
+<ul>
+<li>首先将每条边的二次误差值，作为他们各自的分数；</li>
+<li>首先选一条分数最小的，进行边塌缩；</li>
+<li>此时其他边的分数会变化，所以更新所有边的分数；</li>
+<li>然后继续重复上面的操作；</li>
+</ul>
+<p>（可以用堆来实现，是贪心算法的结果）</p>
+<p><img src="/images/Games101/12/15.png"></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2024/01/08/games101/Lec%2011/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1492,220 +1861,10 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2024/01/07/games101/Lec%2002/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="FJBQ">
-      <meta itemprop="description" content="坚定 坚持 坚强">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="FJBQ">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2024/01/07/games101/Lec%2002/" class="post-title-link" itemprop="url">【Games 101】Lec 02：回顾线性代数</a>
-        </h2>
-
-        <div class="post-meta">
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2024-01-07 22:28:26 / 修改时间：22:35:28" itemprop="dateCreated datePublished" datetime="2024-01-07T22:28:26+08:00">2024-01-07</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">Games 系列</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/Games-101/" itemprop="url" rel="index"><span itemprop="name">Games 101</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="Lecture-02-Review-of-Linear-Algebra"><a href="#Lecture-02-Review-of-Linear-Algebra" class="headerlink" title="Lecture 02: Review of Linear Algebra"></a>Lecture 02: Review of Linear Algebra</h1><h2 id="向量"><a href="#向量" class="headerlink" title="向量"></a>向量</h2><h3 id="向量的模："><a href="#向量的模：" class="headerlink" title="向量的模："></a>向量的模：</h3><ul>
-<li>作用：一般可以用来将一个向量变成一个<strong>单位向量</strong></li>
-</ul>
-<h3 id="单位向量："><a href="#单位向量：" class="headerlink" title="单位向量："></a>单位向量：</h3><ul>
-<li>作用：一般用于判断一个向量的<strong>方向</strong></li>
-</ul>
-<h3 id="向量点乘："><a href="#向量点乘：" class="headerlink" title="向量点乘："></a>向量点乘：</h3><p><img src="/images/Games101/02/01.png"></p>
-<p><img src="/images/Games101/02/02.png"></p>
-<p><img src="/images/Games101/02/03.png"></p>
-<p><img src="/images/Games101/02/04.png"></p>
-<p><strong>作用：</strong></p>
-<ul>
-<li><strong>计算</strong>两个向量之间的<strong>夹角</strong>（如果两个向量是单位向量的话很方便）</li>
-<li><strong>求</strong>出一个向量在另一个向量的<strong>投影</strong>（投影有什么用？可以用于分解原来的向量）</li>
-<li>点乘可以告诉我们<strong>两个向量间的大体方向</strong>：<ul>
-<li>点乘结果 &gt; 0，则说明是 forward</li>
-<li>点乘结果 &lt; 0，则说明是 backward</li>
-<li>点乘结果 &#x3D; 0，则说明是 垂直</li>
-</ul>
-</li>
-<li>点乘还可以告诉我们<strong>两个向量有多接近</strong>：点乘结果（从进到远）：1 -&gt; 0 -&gt; -1</li>
-</ul>
-<h3 id="向量叉乘："><a href="#向量叉乘：" class="headerlink" title="向量叉乘："></a>向量叉乘：</h3><p><img src="/images/Games101/02/05.png"></p>
-<p><img src="/images/Games101/02/06.png"></p>
-<p><strong>作用：</strong></p>
-<ul>
-<li>用于定义三维空间中的坐标系；</li>
-<li><strong>判断 左 右</strong>：<ul>
-<li>规定向外z为正，如果 axb 得到结果为正，则说明b在a左边；</li>
-</ul>
-</li>
-<li><strong>判断 内 外</strong>：<ul>
-<li>依次看 ab x ap，bc x ap，ca x ap 的结果；</li>
-<li>如果 <strong>都是&gt;0</strong>（p都在三条边的左边）或者 <strong>都是&lt;0</strong>（p都在三条边的右边），则说明 p 在三角形内部；</li>
-</ul>
-</li>
-</ul>
-<p><img src="/images/Games101/02/07.png"></p>
-<h2 id="矩阵"><a href="#矩阵" class="headerlink" title="矩阵"></a>矩阵</h2><p><strong>作用：</strong>就是用来做一些 <strong>空间变换</strong></p>
-<h3 id="矩阵相乘"><a href="#矩阵相乘" class="headerlink" title="矩阵相乘"></a>矩阵相乘</h3><p>前提是内标相同；</p>
-<p>没有交换律，但是有分配律和结合律；</p>
-<p><img src="/images/Games101/02/08.png"></p>
-<h3 id="矩阵-乘-向量"><a href="#矩阵-乘-向量" class="headerlink" title="矩阵 乘 向量"></a>矩阵 乘 向量</h3><p>用于变换：比如对于一个向量，我们要让他关于y轴对称，那么我们要让这个向量乘什么矩阵呢？</p>
-<p><img src="/images/Games101/02/09.png"></p>
-<h3 id="转置"><a href="#转置" class="headerlink" title="转置"></a>转置</h3><p>转置：每个元素的行列交换</p>
-<p><img src="/images/Games101/02/10.png"></p>
-<h3 id="单位矩阵"><a href="#单位矩阵" class="headerlink" title="单位矩阵"></a>单位矩阵</h3><p>对角线都是1，其他都是0；</p>
-<p>作用：</p>
-<ul>
-<li>用于求 矩阵的逆</li>
-</ul>
-<p><img src="/images/Games101/02/11.png"></p>
-<h3 id="向量相乘-和-矩阵相乘-的关系"><a href="#向量相乘-和-矩阵相乘-的关系" class="headerlink" title="向量相乘 和 矩阵相乘 的关系"></a>向量相乘 和 矩阵相乘 的关系</h3><p><img src="/images/Games101/02/12.png"></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2024/01/07/games101/Lec%2001/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="FJBQ">
-      <meta itemprop="description" content="坚定 坚持 坚强">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="FJBQ">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2024/01/07/games101/Lec%2001/" class="post-title-link" itemprop="url">【Games 101】Lec 01：计算机图形学概述</a>
-        </h2>
-
-        <div class="post-meta">
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2024-01-07 22:28:12 / 修改时间：22:34:11" itemprop="dateCreated datePublished" datetime="2024-01-07T22:28:12+08:00">2024-01-07</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">Games 系列</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/Games-101/" itemprop="url" rel="index"><span itemprop="name">Games 101</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="Lecture-01-Overview-of-Computer-Graphics"><a href="#Lecture-01-Overview-of-Computer-Graphics" class="headerlink" title="Lecture 01: Overview of Computer Graphics"></a>Lecture 01: Overview of Computer Graphics</h1><p>计算机图形学下关于“实时”的定义：&gt;30fps，&lt;30fps称为离线</p>
-<p><img src="/images/Games101/01/01.png"></p>
-<p>model：真实模型<br>image：图像</p>
-<p><strong>计算机图形学（渲染）：</strong></p>
-<ul>
-<li>（model） -&gt; （image）</li>
-<li>（model） -&gt; （model）</li>
-</ul>
-<p><strong>计算机视觉：</strong></p>
-<ul>
-<li>（image）-&gt;（model）</li>
-<li>（image）-&gt;（image）</li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1773,7 +1932,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">30</span>
+          <span class="site-state-item-count">32</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1824,7 +1983,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共38.5k字</span>
+  <span class="post-count">博客全站共41.3k字</span>
 </div>
 
 

@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"manual","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Lecture 21：Animation1 概述“Bring things to life”  交流的工具 美学引导技术  建模的扩展  把3d模型延申到时间的维度  输出：按顺序播放的图片序列，提供一种运动感。  电影：24 fps Video（通常）：30 fps Virtual reality：90 fps  2 Historical Points in Animation这个看一下PPT就">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【Games 101】Lec 21：动画">
+<meta property="og:url" content="http://example.com/2024/01/21/games101/Lec%2021/index.html">
+<meta property="og:site_name" content="FJBQ">
+<meta property="og:description" content="Lecture 21：Animation1 概述“Bring things to life”  交流的工具 美学引导技术  建模的扩展  把3d模型延申到时间的维度  输出：按顺序播放的图片序列，提供一种运动感。  电影：24 fps Video（通常）：30 fps Virtual reality：90 fps  2 Historical Points in Animation这个看一下PPT就">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/images/Games101/21/01.png">
+<meta property="og:image" content="http://example.com/images/Games101/21/02.png">
+<meta property="og:image" content="http://example.com/images/Games101/21/03.png">
+<meta property="og:image" content="http://example.com/images/Games101/21/04.png">
+<meta property="og:image" content="http://example.com/images/Games101/21/05.png">
+<meta property="og:image" content="http://example.com/images/Games101/21/06.png">
+<meta property="og:image" content="http://example.com/images/Games101/21/07.png">
+<meta property="og:image" content="http://example.com/images/Games101/21/08.png">
+<meta property="og:image" content="http://example.com/images/Games101/21/09.png">
+<meta property="og:image" content="http://example.com/images/Games101/21/10.png">
+<meta property="og:image" content="http://example.com/images/Games101/21/11.png">
+<meta property="og:image" content="http://example.com/images/Games101/21/12.png">
+<meta property="og:image" content="http://example.com/images/Games101/21/13.png">
+<meta property="og:image" content="http://example.com/images/Games101/21/14.png">
+<meta property="og:image" content="http://example.com/images/Games101/21/15.png">
+<meta property="og:image" content="http://example.com/images/Games101/21/16.png">
+<meta property="og:image" content="http://example.com/images/Games101/21/17.png">
+<meta property="og:image" content="http://example.com/images/Games101/21/18.png">
+<meta property="og:image" content="http://example.com/images/Games101/21/19.png">
+<meta property="og:image" content="http://example.com/images/Games101/21/20.png">
+<meta property="og:image" content="http://example.com/images/Games101/21/21.png">
+<meta property="og:image" content="http://example.com/images/Games101/21/22.png">
+<meta property="og:image" content="http://example.com/images/Games101/21/23.png">
+<meta property="article:published_time" content="2024-01-21T05:52:23.162Z">
+<meta property="article:modified_time" content="2024-01-21T07:23:16.801Z">
+<meta property="article:author" content="FJBQ">
+<meta property="article:tag" content="Games 系列">
+<meta property="article:tag" content="Games 101">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/Games101/21/01.png">
+
+<link rel="canonical" href="http://example.com/2024/01/21/games101/Lec%2021/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>【Games 101】Lec 21：动画 | FJBQ</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/rss2.xml" title="FJBQ" type="application/rss+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">FJBQ</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-resources">
+
+    <a href="/resources/" rel="section"><i class="fa fa-download fa-fw"></i>资源</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/01/21/games101/Lec%2021/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="FJBQ">
+      <meta itemprop="description" content="坚定 坚持 坚强">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FJBQ">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          【Games 101】Lec 21：动画
+        </h1>
+
+        <div class="post-meta">
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2024-01-21 13:52:23 / 修改时间：15:23:16" itemprop="dateCreated datePublished" datetime="2024-01-21T13:52:23+08:00">2024-01-21</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">Games 系列</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/Games-101/" itemprop="url" rel="index"><span itemprop="name">Games 101</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Lecture-21：Animation"><a href="#Lecture-21：Animation" class="headerlink" title="Lecture 21：Animation"></a>Lecture 21：Animation</h1><h1 id="1-概述"><a href="#1-概述" class="headerlink" title="1 概述"></a>1 概述</h1><p>“Bring things to life”</p>
+<ul>
+<li>交流的工具</li>
+<li>美学引导技术</li>
+</ul>
+<p>建模的扩展</p>
+<ul>
+<li>把3d模型延申到时间的维度</li>
+</ul>
+<p>输出：按顺序播放的图片序列，提供一种运动感。</p>
+<ul>
+<li>电影：24 fps</li>
+<li>Video（通常）：30 fps</li>
+<li>Virtual reality：90 fps</li>
+</ul>
+<h1 id="2-Historical-Points-in-Animation"><a href="#2-Historical-Points-in-Animation" class="headerlink" title="2 Historical Points in Animation"></a>2 Historical Points in Animation</h1><p>这个看一下PPT就行…</p>
+<p><img src="/images/Games101/21/01.png"></p>
+<h1 id="3-动画技术"><a href="#3-动画技术" class="headerlink" title="3 动画技术"></a>3 动画技术</h1><h2 id="3-1-关键帧动画（Keyframe-Animation）"><a href="#3-1-关键帧动画（Keyframe-Animation）" class="headerlink" title="3.1 关键帧动画（Keyframe Animation）"></a>3.1 关键帧动画（Keyframe Animation）</h2><ul>
+<li>动画师 创建关键帧</li>
+<li>人或计算机 创建中间的帧</li>
+</ul>
+<p><img src="/images/Games101/21/02.png"></p>
+<p>关键帧动画一般使用插值方法来进行补帧，把每一帧当作参数值的向量，下面是线性插值。</p>
+<p><img src="/images/Games101/21/03.png"></p>
+<p>用样条进行优化：</p>
+<p><img src="/images/Games101/21/04.png"></p>
+<h2 id="3-2-物理仿真（Physical-Simulation）"><a href="#3-2-物理仿真（Physical-Simulation）" class="headerlink" title="3.2 物理仿真（Physical Simulation）"></a>3.2 物理仿真（Physical Simulation）</h2><h3 id="3-2-1-概述"><a href="#3-2-1-概述" class="headerlink" title="3.2.1 概述"></a>3.2.1 概述</h3><p>F &#x3D; ma</p>
+<p>使用数值模拟生成物体的运动</p>
+<p><img src="/images/Games101/21/05.png"></p>
+<p>例子：</p>
+<ul>
+<li>布料模拟（ Cloth Simulation）</li>
+<li>流体（ Fluids ）</li>
+<li>质点弹簧系统（ Mass Spring System）</li>
+<li>头发（ Hair ）</li>
+<li>质点弹簧网格（Mass Spring Mesh）</li>
+</ul>
+<h3 id="3-2-2-质点弹簧系统（Mass-Spring-System）"><a href="#3-2-2-质点弹簧系统（Mass-Spring-System）" class="headerlink" title="3.2.2 质点弹簧系统（Mass Spring System）"></a>3.2.2 质点弹簧系统（Mass Spring System）</h3><ol>
+<li><strong>简单的弹簧</strong></li>
+</ol>
+<p>理想化的弹簧：没有长度，作用力会导致位移。</p>
+<p><strong>胡克定律：</strong></p>
+<p><img src="/images/Games101/21/06.png"></p>
+<ol start="2">
+<li><strong>非0长度的弹簧</strong></li>
+</ol>
+<p><img src="/images/Games101/21/07.png"></p>
+<p><strong>问题：永远震动下去。</strong></p>
+<p><strong>定义概念：</strong></p>
+<p><img src="/images/Games101/21/08.png"></p>
+<p><strong>引入能量损失</strong></p>
+<ul>
+<li>表现得像运动中的粘性阻力</li>
+<li>在速度方向上减慢运动</li>
+<li>kd为阻尼系数</li>
+</ul>
+<p><img src="/images/Games101/21/09.png"></p>
+<p><strong>问题：所有运动都会停止（不能表现弹簧内部的损耗）。</strong></p>
+<p><strong>弹簧的内部阻尼（Internal Damping for Spring）</strong></p>
+<p>只阻尼内部，由弹簧驱动的运动。</p>
+<p><img src="/images/Games101/21/10.png"></p>
+<p>Viscous drag 仅限于弹簧长度的变化，不会减慢弹簧系统的整体运动(例如，整体平移或旋转)</p>
+<p>Note: 这只是一种特殊的阻尼(damping)。</p>
+<ol start="3">
+<li><strong>来自弹簧的结构</strong></li>
+</ol>
+<p><img src="/images/Games101/21/11.png"></p>
+<p>弹簧结构的连接可以决定一个图形的行为，比如改进下面的连接来模拟布料。</p>
+<p><img src="/images/Games101/21/12.png"></p>
+<p>原来的不足之处：</p>
+<ul>
+<li>切变会影响形状。</li>
+<li>会使原来的形状不在一个平面上。</li>
+</ul>
+<p>改进之后：</p>
+<p><img src="/images/Games101/21/13.png"></p>
+<ul>
+<li><strong>在对角线连接弹簧会抵抗切变。</strong></li>
+<li><strong>在两个对角线都连切线避免了各向异性。</strong></li>
+<li><strong>红色的弹簧会避免 out-of-plane bending（两条对角线竖直方向会弯折）。</strong></li>
+</ul>
+<p>其他模型：<strong>有限元方法FEM（Finite Element Method）</strong></p>
+<p>（代替弹簧系统的一种模拟布料的办法）</p>
+<p>常用来做汽车碰撞，主要思想是<strong>力与力之间存在传导</strong>，效果如下。</p>
+<p><img src="/images/Games101/21/14.png"></p>
+<h3 id="3-2-3-粒子系统（Particle-System）"><a href="#3-2-3-粒子系统（Particle-System）" class="headerlink" title="3.2.3 粒子系统（Particle System）"></a>3.2.3 粒子系统（Particle System）</h3><ul>
+<li>粒子系统就是将动态的系统建模为大量粒子的集合</li>
+<li>每个粒子的运动都是由一组物理(或非物理)力定义的。</li>
+<li>粒子系统是在图形和游戏上很流行的技术。</li>
+<li>具备可扩展性：粒子越少，速度越快，粒子越多，速度越慢。</li>
+</ul>
+<p><strong>挑战</strong></p>
+<ul>
+<li>可能需要许多粒子(例如流体)</li>
+<li>可能需要加速结构(例如寻找最近的粒子进行如引力的相互作用)</li>
+</ul>
+<p><strong>步骤</strong></p>
+<ol>
+<li>创建新的粒子（如果需要的话）。</li>
+<li>计算每个粒子的力。</li>
+<li>更新每个粒子的位置和速度。</li>
+<li>移除死掉的粒子。</li>
+<li>渲染粒子。</li>
+</ol>
+<p><strong>粒子系统的作用力</strong></p>
+<ul>
+<li>引力和斥力（repulsion） 如：万有引力、磁力、弹力（Springs）、弹簧、推进力（propulsion）。（eg：万有引力）</li>
+<li>阻力（Damping forces）：摩擦（Friction），空气阻力（air drag），粘度 （viscosity）…</li>
+<li>碰撞（Collisions）：墙壁、容器、固定的物体…。与动态物体、人物身体部位等…。</li>
+</ul>
+<p><strong>模拟动物集群（Simulated Flocking as an ODE）</strong></p>
+<p>需要考虑一个例子的各种作用力</p>
+<p><img src="/images/Games101/21/15.png"></p>
+<h1 id="4-运动学-Kinematics"><a href="#4-运动学-Kinematics" class="headerlink" title="4 运动学 Kinematics"></a>4 运动学 Kinematics</h1><h2 id="4-1-正向运动学（Forward-Kinematics）"><a href="#4-1-正向运动学（Forward-Kinematics）" class="headerlink" title="4.1 正向运动学（Forward Kinematics）"></a>4.1 正向运动学（Forward Kinematics）</h2><p><strong>Articulated skeleton</strong></p>
+<ul>
+<li><strong>Topology 是一种拓扑结构（描述什么与什么连接）</strong></li>
+<li><strong>关节（joints）间的几何关系。</strong></li>
+<li><strong>树形结构</strong></li>
+</ul>
+<p><strong>Joint types（关节类型）</strong></p>
+<ul>
+<li><strong>Pin（1D rotation）：在平面内旋转</strong></li>
+<li><strong>Ball（2D rotation）：可以旋转到不同的平面</strong></li>
+<li><strong>Prismatic joint（translation）：可以拉长</strong></li>
+</ul>
+<p><img src="/images/Games101/21/16.png"></p>
+<p>例子：2D中简单的两端骨骼。</p>
+<p>Animator 提供角度，计算机决定 end-effector 的位置p。</p>
+<p>Animation 是用角度参数与时间的函数来描述的。</p>
+<p><img src="/images/Games101/21/17.png"></p>
+<p><strong>优点：</strong></p>
+<ul>
+<li>直接控制方便</li>
+<li>便于实施</li>
+</ul>
+<p><strong>缺点：</strong></p>
+<ul>
+<li>动画可能难以用物理的方式来制作（不直观，艺术家不喜欢）</li>
+<li>消耗动画师的时间</li>
+</ul>
+<h2 id="4-2-逆向运动学（Inverse-Kinematics）"><a href="#4-2-逆向运动学（Inverse-Kinematics）" class="headerlink" title="4.2 逆向运动学（Inverse Kinematics）"></a>4.2 逆向运动学（Inverse Kinematics）</h2><p><strong>概述：</strong></p>
+<p>根据尖端获得关节的角度位置。</p>
+<p>Animator 提供 end-effector 的位置，计算机决定满足限制的 joint 角度。</p>
+<p>计算方法：</p>
+<p><img src="/images/Games101/21/18.png"></p>
+<p><strong>问题：</strong></p>
+<ul>
+<li>解不唯一</li>
+<li>解可能不存在</li>
+</ul>
+<p><img src="/images/Games101/21/19.png"></p>
+<p><strong>N-link lK 问题优化方法</strong></p>
+<ul>
+<li>选择一个初始构型。</li>
+<li>定义一个 error metric（如：目标与当前位置之间距离的平方）。</li>
+<li>计算误差梯度作为构形的函数</li>
+<li>应用梯度下降(或牛顿法，或其他优化程序)</li>
+</ul>
+<h2 id="4-3-应用"><a href="#4-3-应用" class="headerlink" title="4.3 应用"></a>4.3 应用</h2><h3 id="4-3-1-Rigging-绑定"><a href="#4-3-1-Rigging-绑定" class="headerlink" title="4.3.1 Rigging 绑定"></a>4.3.1 Rigging 绑定</h3><p>Rigging 是一套高级角色控制，允许更快速和直观地修改姿势、变形、表情等。</p>
+<ul>
+<li>就像提线木偶的线一样。</li>
+<li>捕捉所有有意义的角色变化。</li>
+<li>因角色而异。</li>
+<li>制作昂贵</li>
+<li>具有人工误差并需要艺术和技术的训练。</li>
+</ul>
+<p><img src="/images/Games101/21/20.png"></p>
+<h3 id="4-3-2-混合形状（Blend-Shapes）"><a href="#4-3-2-混合形状（Blend-Shapes）" class="headerlink" title="4.3.2 混合形状（Blend Shapes）"></a>4.3.2 混合形状（Blend Shapes）</h3><p>直接在曲面之间进行插值。</p>
+<p><img src="/images/Games101/21/21.png"></p>
+<p>最简单的方案：取顶点位置的线性组合，样条用于控制随着时间的推移权重的选择。</p>
+<h3 id="4-3-3-动作捕捉（Motion-Capture）"><a href="#4-3-3-动作捕捉（Motion-Capture）" class="headerlink" title="4.3.3 动作捕捉（Motion Capture）"></a>4.3.3 动作捕捉（Motion Capture）</h3><p>Motion Capture 是创建动画序列的数据驱动方法。</p>
+<p>下面是三种动捕设备（光学、磁力和机械）。</p>
+<p><img src="/images/Games101/21/22.png"></p>
+<p><strong>优点：</strong></p>
+<ul>
+<li>非常贴近真实</li>
+<li>可以快速的过去大量的真实数据。</li>
+</ul>
+<p><strong>缺点：</strong></p>
+<ul>
+<li>准备工作复杂且高花费。</li>
+<li>捕捉到的动画可能不满足艺术家的需要，需要选择。</li>
+</ul>
+<h2 id="5-动画-电影生产的-Pipeline"><a href="#5-动画-电影生产的-Pipeline" class="headerlink" title="5 动画&#x2F;电影生产的 Pipeline"></a>5 动画&#x2F;电影生产的 Pipeline</h2><p><img src="/images/Games101/21/23.png"></p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43399489/article/details/121895993?ops_request_misc=%7B%22request_id%22:%22170581620516800225512166%22,%22scm%22:%2220140713.130102334.pc_blog.%22%7D&request_id=170581620516800225512166&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~blog~first_rank_ecpm_v1~rank_v31_ecpm-14-121895993-null-null.nonecase&utm_term=%E5%9B%BE%E5%BD%A2%E5%AD%A6%E7%AC%94%E8%AE%B0&spm=1018.2226.3001.4450">图形学笔记（十九）动画 —— 动画的历史、关键帧插值、物理仿真、质点弹簧系统、粒子系统、（反向IK）动力学、Rigging 绑定、Blend Shapes、动作捕捉_骨骼 逆运动学 动作捕捉 刚体模拟 流体模拟-CSDN博客</a></p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>FJBQ
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://example.com/2024/01/21/games101/Lec%2021/" title="【Games 101】Lec 21：动画">http://example.com/2024/01/21/games101/Lec 21/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Games-%E7%B3%BB%E5%88%97/" rel="tag"># Games 系列</a>
+              <a href="/tags/Games-101/" rel="tag"># Games 101</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2024/01/20/games101/Lec%2020/" rel="prev" title="【Games 101】Lec 20：颜色和感知">
+      <i class="fa fa-chevron-left"></i> 【Games 101】Lec 20：颜色和感知
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2024/01/21/games101/Lec%2022/" rel="next" title="【Games 101】Lec 22：动画（续）">
+      【Games 101】Lec 22：动画（续） <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC81OTA5Ni8zNTU1OA=="></div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Lecture-21%EF%BC%9AAnimation"><span class="nav-number">1.</span> <span class="nav-text">Lecture 21：Animation</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E6%A6%82%E8%BF%B0"><span class="nav-number">2.</span> <span class="nav-text">1 概述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-Historical-Points-in-Animation"><span class="nav-number">3.</span> <span class="nav-text">2 Historical Points in Animation</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-%E5%8A%A8%E7%94%BB%E6%8A%80%E6%9C%AF"><span class="nav-number">4.</span> <span class="nav-text">3 动画技术</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-%E5%85%B3%E9%94%AE%E5%B8%A7%E5%8A%A8%E7%94%BB%EF%BC%88Keyframe-Animation%EF%BC%89"><span class="nav-number">4.1.</span> <span class="nav-text">3.1 关键帧动画（Keyframe Animation）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-%E7%89%A9%E7%90%86%E4%BB%BF%E7%9C%9F%EF%BC%88Physical-Simulation%EF%BC%89"><span class="nav-number">4.2.</span> <span class="nav-text">3.2 物理仿真（Physical Simulation）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-1-%E6%A6%82%E8%BF%B0"><span class="nav-number">4.2.1.</span> <span class="nav-text">3.2.1 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-2-%E8%B4%A8%E7%82%B9%E5%BC%B9%E7%B0%A7%E7%B3%BB%E7%BB%9F%EF%BC%88Mass-Spring-System%EF%BC%89"><span class="nav-number">4.2.2.</span> <span class="nav-text">3.2.2 质点弹簧系统（Mass Spring System）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-3-%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F%EF%BC%88Particle-System%EF%BC%89"><span class="nav-number">4.2.3.</span> <span class="nav-text">3.2.3 粒子系统（Particle System）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-%E8%BF%90%E5%8A%A8%E5%AD%A6-Kinematics"><span class="nav-number">5.</span> <span class="nav-text">4 运动学 Kinematics</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-%E6%AD%A3%E5%90%91%E8%BF%90%E5%8A%A8%E5%AD%A6%EF%BC%88Forward-Kinematics%EF%BC%89"><span class="nav-number">5.1.</span> <span class="nav-text">4.1 正向运动学（Forward Kinematics）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-%E9%80%86%E5%90%91%E8%BF%90%E5%8A%A8%E5%AD%A6%EF%BC%88Inverse-Kinematics%EF%BC%89"><span class="nav-number">5.2.</span> <span class="nav-text">4.2 逆向运动学（Inverse Kinematics）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-3-%E5%BA%94%E7%94%A8"><span class="nav-number">5.3.</span> <span class="nav-text">4.3 应用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-1-Rigging-%E7%BB%91%E5%AE%9A"><span class="nav-number">5.3.1.</span> <span class="nav-text">4.3.1 Rigging 绑定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-2-%E6%B7%B7%E5%90%88%E5%BD%A2%E7%8A%B6%EF%BC%88Blend-Shapes%EF%BC%89"><span class="nav-number">5.3.2.</span> <span class="nav-text">4.3.2 混合形状（Blend Shapes）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-3-%E5%8A%A8%E4%BD%9C%E6%8D%95%E6%8D%89%EF%BC%88Motion-Capture%EF%BC%89"><span class="nav-number">5.3.3.</span> <span class="nav-text">4.3.3 动作捕捉（Motion Capture）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E5%8A%A8%E7%94%BB-%E7%94%B5%E5%BD%B1%E7%94%9F%E4%BA%A7%E7%9A%84-Pipeline"><span class="nav-number">5.4.</span> <span class="nav-text">5 动画&#x2F;电影生产的 Pipeline</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">6.</span> <span class="nav-text">参考</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="FJBQ"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">FJBQ</p>
+  <div class="site-description" itemprop="description">坚定 坚持 坚强</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">32</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2023-10 – 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">FJBQ</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共41.3k字</span>
+</div>
+
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <span id="busuanzi_container_site_pv">总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+    <span class="post-meta-divider">|</span>
+    <span id="busuanzi_container_site_uv">总访客数<span id="busuanzi_value_site_uv"></span>人</span>
+    <span class="post-meta-divider">|</span>
+<!-- 不蒜子计数初始值纠正 -->
+<script>
+$(document).ready(function() {
+
+    var int = setInterval(fixCount, 50);  // 50ms周期检测函数
+    var countOffset = 20000;  // 初始化首次数据
+
+    function fixCount() {            
+       if (document.getElementById("busuanzi_container_site_pv").style.display != "none")
+        {
+            $("#busuanzi_value_site_pv").html(parseInt($("#busuanzi_value_site_pv").html()) + countOffset); 
+            clearInterval(int);
+        }                  
+        if ($("#busuanzi_container_site_pv").css("display") != "none")
+        {
+            $("#busuanzi_value_site_uv").html(parseInt($("#busuanzi_value_site_uv").html()) + countOffset); // 加上初始数据 
+            clearInterval(int); // 停止检测
+        }  
+    }
+       	
+});
+</script> 
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+<script>
+NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"left","width":150,"height":225,"hOffset":-15,"vOffset":-15},"mobile":{"show":false},"react":{"opacity":1},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
