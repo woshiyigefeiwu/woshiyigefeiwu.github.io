@@ -22,19 +22,21 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"manual","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="坚定 坚持 坚强">
+  <meta name="description" content="HomeWork 6：加速结构首先，是 Render() 和 Triangle::getIntersection，照着上一节课一样，只是有些地方的形式需要改改； 然后就是此次作业的要求：  理解，并使用加速结构 BVH，找到光线和场景中物体的交点 getIntersection(BVHBuildNode node, const Ray ray)*   判断光线和包围盒是否相交， Intersect">
 <meta property="og:type" content="article">
-<meta property="og:title" content="【Games 101】HomeWork">
+<meta property="og:title" content="【Games 101】HomeWork 6：加速结构">
 <meta property="og:url" content="http://example.com/2024/01/27/games101/HomeWork%206/index.html">
 <meta property="og:site_name" content="FJBQ">
-<meta property="og:description" content="坚定 坚持 坚强">
+<meta property="og:description" content="HomeWork 6：加速结构首先，是 Render() 和 Triangle::getIntersection，照着上一节课一样，只是有些地方的形式需要改改； 然后就是此次作业的要求：  理解，并使用加速结构 BVH，找到光线和场景中物体的交点 getIntersection(BVHBuildNode node, const Ray ray)*   判断光线和包围盒是否相交， Intersect">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/images/Games101/homework/06/01.png">
 <meta property="article:published_time" content="2024-01-27T15:26:48.402Z">
-<meta property="article:modified_time" content="2024-01-27T15:59:41.903Z">
+<meta property="article:modified_time" content="2024-01-29T13:23:21.285Z">
 <meta property="article:author" content="FJBQ">
 <meta property="article:tag" content="Games 系列">
 <meta property="article:tag" content="Games 101">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/Games101/homework/06/01.png">
 
 <link rel="canonical" href="http://example.com/2024/01/27/games101/HomeWork%206/">
 
@@ -49,7 +51,7 @@
   };
 </script>
 
-  <title>【Games 101】HomeWork | FJBQ</title>
+  <title>【Games 101】HomeWork 6：加速结构 | FJBQ</title>
   
 
 
@@ -188,7 +190,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          【Games 101】HomeWork
+          【Games 101】HomeWork 6：加速结构
         </h1>
 
         <div class="post-meta">
@@ -198,10 +200,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2024-01-27 23:26:48 / 修改时间：23:59:41" itemprop="dateCreated datePublished" datetime="2024-01-27T23:26:48+08:00">2024-01-27</time>
+              <time title="创建时间：2024-01-27 23:26:48" itemprop="dateCreated datePublished" datetime="2024-01-27T23:26:48+08:00">2024-01-27</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-01-29 21:23:21" itemprop="dateModified" datetime="2024-01-29T21:23:21+08:00">2024-01-29</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -234,7 +242,39 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        
+        <h1 id="HomeWork-6：加速结构"><a href="#HomeWork-6：加速结构" class="headerlink" title="HomeWork 6：加速结构"></a>HomeWork 6：加速结构</h1><p>首先，是 <strong>Render()</strong> 和 <strong>Triangle::getIntersection</strong>，照着上一节课一样，只是有些地方的形式需要改改；</p>
+<p>然后就是此次作业的要求：</p>
+<ul>
+<li><strong>理解，并使用加速结构 BVH，找到光线和场景中物体的交点</strong><ul>
+<li><em><em>getIntersection(BVHBuildNode</em> node, const Ray ray)</em>*</li>
+</ul>
+</li>
+<li><strong>判断光线和包围盒是否相交，</strong><ul>
+<li><strong>IntersectP(const Ray&amp; ray, const Vector3f&amp; invDir, const std::array&lt;int, 3&gt;&amp; dirIsNeg)</strong></li>
+</ul>
+</li>
+</ul>
+<p>对于知识点参考这一节课：</p>
+<p><a target="_blank" rel="noopener" href="http://fjbq-blog.top/2024/01/09/games101/Lec%2014/">【Games 101】Lec 14：光线追踪 2（加速光线追踪 和 辐射度量学）</a></p>
+<p><strong>Renderer.cpp</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 这个还是一样的，照着上一个作业的写就行（注意有些东西变了）</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Renderer::Render</span><span class="params">(<span class="type">const</span> Scene&amp; scene)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 帧缓冲区，用于保存返回的颜色</span></span><br><span class="line">    <span class="function">std::vector&lt;Vector3f&gt; <span class="title">framebuffer</span><span class="params">(scene.width * scene.height)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="type">float</span> scale = <span class="built_in">tan</span>(<span class="built_in">deg2rad</span>(scene.fov * <span class="number">0.5</span>));</span><br><span class="line">    <span class="type">float</span> imageAspectRatio = scene.width / (<span class="type">float</span>)scene.height;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 这个视点变了</span></span><br><span class="line">    <span class="function">Vector3f <span class="title">eye_pos</span><span class="params">(<span class="number">-1</span>, <span class="number">5</span>, <span class="number">10</span>)</span></span>;</span><br><span class="line">    <span class="type">int</span> m = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">uint32_t</span> j = <span class="number">0</span>; j &lt; scene.height; ++j)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">uint32_t</span> i = <span class="number">0</span>; i &lt; scene.width; ++i)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="type">float</span> x = (<span class="number">2</span> * (i + <span class="number">0.5</span>) / (<span class="type">float</span>)scene.width - <span class="number">1</span>) * imageAspectRatio * scale;</span><br><span class="line">            <span class="type">float</span> y = (<span class="number">1</span> - <span class="number">2</span> * (j + <span class="number">0.5</span>) / (<span class="type">float</span>)scene.height) * scale;</span><br><span class="line"></span><br><span class="line">            Vector3f dir = <span class="built_in">Vector3f</span>(x, y, <span class="number">-1</span>); <span class="comment">// Don&#x27;t forget to normalize this direction!</span></span><br><span class="line">            dir = <span class="built_in">normalize</span>(dir);</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 这里不是直接调用 castRay 了... 是先定义光线ray，然后在传到scene的castray方法中。</span></span><br><span class="line">            <span class="function">Ray <span class="title">ray</span><span class="params">(eye_pos,dir)</span></span>;</span><br><span class="line">            framebuffer[m++] = scene.<span class="built_in">castRay</span>(ray,<span class="number">0</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">UpdateProgress</span>(j / (<span class="type">float</span>)scene.height);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">UpdateProgress</span>(<span class="number">1.f</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// save framebuffer to file</span></span><br><span class="line">    FILE* fp = <span class="built_in">fopen</span>(<span class="string">&quot;binary.ppm&quot;</span>, <span class="string">&quot;wb&quot;</span>);</span><br><span class="line">    (<span class="type">void</span>)<span class="built_in">fprintf</span>(fp, <span class="string">&quot;P6\n%d %d\n255\n&quot;</span>, scene.width, scene.height);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">auto</span> i = <span class="number">0</span>; i &lt; scene.height * scene.width; ++i) &#123;</span><br><span class="line">        <span class="type">static</span> <span class="type">unsigned</span> <span class="type">char</span> color[<span class="number">3</span>];</span><br><span class="line">        color[<span class="number">0</span>] = (<span class="type">unsigned</span> <span class="type">char</span>)(<span class="number">255</span> * <span class="built_in">clamp</span>(<span class="number">0</span>, <span class="number">1</span>, framebuffer[i].x));</span><br><span class="line">        color[<span class="number">1</span>] = (<span class="type">unsigned</span> <span class="type">char</span>)(<span class="number">255</span> * <span class="built_in">clamp</span>(<span class="number">0</span>, <span class="number">1</span>, framebuffer[i].y));</span><br><span class="line">        color[<span class="number">2</span>] = (<span class="type">unsigned</span> <span class="type">char</span>)(<span class="number">255</span> * <span class="built_in">clamp</span>(<span class="number">0</span>, <span class="number">1</span>, framebuffer[i].z));</span><br><span class="line">        <span class="built_in">fwrite</span>(color, <span class="number">1</span>, <span class="number">3</span>, fp);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">fclose</span>(fp);    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>Triangle::getIntersection</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">inline</span> Intersection <span class="title">Triangle::getIntersection</span><span class="params">(Ray ray)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 射线和三角形的交点（结构体，存了一些交点信息）</span></span><br><span class="line">    Intersection inter;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 说明不是入射光线</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">dotProduct</span>(ray.direction, normal) &gt; <span class="number">0</span>) <span class="keyword">return</span> inter;</span><br><span class="line"></span><br><span class="line">    <span class="type">double</span> u, v, t_tmp = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 相当于 S1</span></span><br><span class="line">    Vector3f pvec = <span class="built_in">crossProduct</span>(ray.direction, e2);</span><br><span class="line">    <span class="type">double</span> det = <span class="built_in">dotProduct</span>(e1, pvec);</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">fabs</span>(det) &lt; EPSILON) <span class="keyword">return</span> inter;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 相当于 1/dotProduct(S1,E1)</span></span><br><span class="line">    <span class="type">double</span> det_inv = <span class="number">1.</span> / det;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 相当于 S</span></span><br><span class="line">    Vector3f tvec = ray.origin - v0;</span><br><span class="line">    u = <span class="built_in">dotProduct</span>(tvec, pvec) * det_inv;</span><br><span class="line">    <span class="keyword">if</span> (u &lt; <span class="number">0</span> || u &gt; <span class="number">1</span>) <span class="keyword">return</span> inter;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 相当于 S2</span></span><br><span class="line">    Vector3f qvec = <span class="built_in">crossProduct</span>(tvec, e1);</span><br><span class="line">    v = <span class="built_in">dotProduct</span>(ray.direction, qvec) * det_inv;</span><br><span class="line">    <span class="keyword">if</span> (v &lt; <span class="number">0</span> || u + v &gt; <span class="number">1</span>) <span class="keyword">return</span> inter;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 相当于 t</span></span><br><span class="line">    t_tmp = <span class="built_in">dotProduct</span>(e2, qvec) * det_inv;</span><br><span class="line">    <span class="keyword">if</span> (t_tmp &lt;= <span class="number">0</span>) <span class="keyword">return</span> inter;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 下面完善一下交点信息</span></span><br><span class="line">    <span class="comment">// 标记相交</span></span><br><span class="line">    inter.happened=<span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 求一下坐标，Ray中重载了(), ray(t_tmp) = ray.origin + ray.direction * t_tmp</span></span><br><span class="line">    inter.coords = <span class="built_in">Vector3f</span>(<span class="built_in">ray</span>(t_tmp));</span><br><span class="line">    inter.distance = t_tmp;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 交点是在这个三角形上，所以把这个三角形的材质、法线和指针传给交点。</span></span><br><span class="line">    inter.m = m;</span><br><span class="line">    inter.normal = normal;</span><br><span class="line">    inter.obj = <span class="keyword">this</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> inter;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>BVH.cpp</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    BVH 加速结构，获取 光线 和 以node为根结点的子树 的交点</span></span><br><span class="line"><span class="comment">    这个照着课上的为代码写就行了</span></span><br><span class="line"><span class="comment">    好像一个节点最多包含一个物体</span></span><br><span class="line"><span class="comment">    规范一点，注意指针的判空</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function">Intersection <span class="title">BVHAccel::getIntersection</span><span class="params">(BVHBuildNode* node, <span class="type">const</span> Ray&amp; ray)</span> <span class="type">const</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Intersection inter;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(node == <span class="literal">nullptr</span>) <span class="keyword">return</span> inter;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 当前节点是叶子节点，直接返回和这个物体的交点就行</span></span><br><span class="line">    <span class="keyword">if</span>(node-&gt;left == <span class="literal">nullptr</span> &amp;&amp; node-&gt;right == <span class="literal">nullptr</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(node-&gt;object != <span class="literal">nullptr</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            inter = node-&gt;object-&gt;<span class="built_in">getIntersection</span>(ray);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> inter;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 记录光线的方向</span></span><br><span class="line">    std::array&lt;<span class="type">int</span>, 3&gt; dirIsNeg;</span><br><span class="line">    dirIsNeg[<span class="number">0</span>] = <span class="built_in">int</span>(ray.direction.x &lt; <span class="number">0</span>);</span><br><span class="line">    dirIsNeg[<span class="number">1</span>] = <span class="built_in">int</span>(ray.direction.y &lt; <span class="number">0</span>);</span><br><span class="line">    dirIsNeg[<span class="number">2</span>] = <span class="built_in">int</span>(ray.direction.z &lt; <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">    Intersection inter1, inter2;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 看看是否和左边的包围盒相交</span></span><br><span class="line">    <span class="keyword">if</span>(node-&gt;left != <span class="literal">nullptr</span> &amp;&amp; node-&gt;left-&gt;bounds.<span class="built_in">IntersectP</span>(ray, ray.direction_inv, dirIsNeg))</span><br><span class="line">    &#123;</span><br><span class="line">        inter1 = <span class="built_in">getIntersection</span>(node-&gt;left,ray);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 看看是否和右边的包围盒相交</span></span><br><span class="line">    <span class="keyword">if</span>(node-&gt;right != <span class="literal">nullptr</span> &amp;&amp; node-&gt;right-&gt;bounds.<span class="built_in">IntersectP</span>(ray, ray.direction_inv, dirIsNeg))</span><br><span class="line">    &#123;</span><br><span class="line">        inter2 = <span class="built_in">getIntersection</span>(node-&gt;right,ray);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 如果有两个交点，返回最近的那个</span></span><br><span class="line">    <span class="keyword">return</span> inter1.distance &lt; inter2.distance ? inter1 : inter2;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>Bounds3.hpp</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 这个函数的作用是判断包围盒 BoundingBox 与光线是否相交</span></span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="type">bool</span> <span class="title">Bounds3::IntersectP</span><span class="params">(<span class="type">const</span> Ray&amp; ray, <span class="type">const</span> Vector3f&amp; invDir, <span class="type">const</span> std::array&lt;<span class="type">int</span>, <span class="number">3</span>&gt;&amp; dirIsNeg)</span> <span class="type">const</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// invDir: ray direction(x,y,z), invDir = (1.0/x,1.0/y,1.0/z)，使用这个是因为乘法比除法快</span></span><br><span class="line">    <span class="comment">// dirIsNeg: ray direction(x,y,z), dirIsNeg = [int(x&gt;0),int(y&gt;0),int(z&gt;0)], 用这个来简化你的逻辑</span></span><br><span class="line">    </span><br><span class="line">    <span class="type">float</span> tx_min = (pMin.x - ray.origin.x) * invDir.x;</span><br><span class="line">    <span class="type">float</span> tx_max = (pMax.x - ray.origin.x) * invDir.x;</span><br><span class="line">    <span class="keyword">if</span> (dirIsNeg[<span class="number">0</span>]) std::<span class="built_in">swap</span>(tx_min, tx_max);</span><br><span class="line">    </span><br><span class="line">    <span class="type">float</span> ty_min = (pMin.y - ray.origin.y) * invDir.y;</span><br><span class="line">    <span class="type">float</span> ty_max = (pMax.y - ray.origin.y) * invDir.y;</span><br><span class="line">    <span class="keyword">if</span> (dirIsNeg[<span class="number">1</span>]) std::<span class="built_in">swap</span>(ty_min, ty_max);</span><br><span class="line">    </span><br><span class="line">    <span class="type">float</span> tz_min = (pMin.z - ray.origin.z) * invDir.z;</span><br><span class="line">    <span class="type">float</span> tz_max = (pMax.z - ray.origin.z) * invDir.z;</span><br><span class="line">    <span class="keyword">if</span> (dirIsNeg[<span class="number">2</span>]) std::<span class="built_in">swap</span>(tz_min, tz_max);</span><br><span class="line"></span><br><span class="line">    <span class="type">float</span> t_enter = std::<span class="built_in">max</span>(std::<span class="built_in">max</span>(tx_min, ty_min), tz_min);</span><br><span class="line">    <span class="type">float</span> t_exit = std::<span class="built_in">min</span>(std::<span class="built_in">min</span>(tx_max, ty_max), tz_max);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> t_exit &gt; <span class="number">0.0f</span> &amp;&amp; t_enter &lt; t_exit;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>结果：</strong></p>
+<p><img src="/images/Games101/homework/06/01.png"></p>
+
     </div>
 
     
@@ -249,7 +289,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://example.com/2024/01/27/games101/HomeWork%206/" title="【Games 101】HomeWork">http://example.com/2024/01/27/games101/HomeWork 6/</a>
+    <a href="http://example.com/2024/01/27/games101/HomeWork%206/" title="【Games 101】HomeWork 6：加速结构">http://example.com/2024/01/27/games101/HomeWork 6/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
@@ -289,12 +329,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2024/01/27/games101/HomeWork%205/" rel="prev" title="【Games 101】HomeWork">
-      <i class="fa fa-chevron-left"></i> 【Games 101】HomeWork
+    <a href="/2024/01/27/games101/HomeWork%205/" rel="prev" title="【Games 101】HomeWork 5：光线与三角形相交">
+      <i class="fa fa-chevron-left"></i> 【Games 101】HomeWork 5：光线与三角形相交
     </a></div>
       <div class="post-nav-item">
-    <a href="/2024/01/27/games101/HomeWork%207/" rel="next" title="【Games 101】HomeWork">
-      【Games 101】HomeWork <i class="fa fa-chevron-right"></i>
+    <a href="/2024/01/27/games101/HomeWork%207/" rel="next" title="【Games 101】HomeWork 7：路径追踪">
+      【Games 101】HomeWork 7：路径追踪 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -359,6 +399,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#HomeWork-6%EF%BC%9A%E5%8A%A0%E9%80%9F%E7%BB%93%E6%9E%84"><span class="nav-number">1.</span> <span class="nav-text">HomeWork 6：加速结构</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -425,7 +466,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共48.8k字</span>
+  <span class="post-count">博客全站共52.5k字</span>
 </div>
 
 
