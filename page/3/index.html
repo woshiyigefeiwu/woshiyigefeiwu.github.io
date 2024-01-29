@@ -170,6 +170,618 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/01/08/games101/Lec%2012/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="FJBQ">
+      <meta itemprop="description" content="坚定 坚持 坚强">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FJBQ">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/01/08/games101/Lec%2012/" class="post-title-link" itemprop="url">【Games 101】Lec 12：几何 3</a>
+        </h2>
+
+        <div class="post-meta">
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2024-01-08 23:01:07 / 修改时间：23:33:32" itemprop="dateCreated datePublished" datetime="2024-01-08T23:01:07+08:00">2024-01-08</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">Games 系列</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/Games-101/" itemprop="url" rel="index"><span itemprop="name">Games 101</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Lecture-12：Geometry-3"><a href="#Lecture-12：Geometry-3" class="headerlink" title="Lecture 12：Geometry 3"></a>Lecture 12：Geometry 3</h1><h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>这节课主要讲的是 <strong>曲面细分</strong>，<strong>曲面简化</strong> 和 <strong>阴影</strong>；</p>
+<p>这篇文章记录 曲面细分 和 曲面简化，阴影放在下一篇文章；</p>
+<h1 id="曲面细分"><a href="#曲面细分" class="headerlink" title="曲面细分"></a>曲面细分</h1><p>曲面细分一般来说，需要先增加点的数量，然后再调整点的位置。</p>
+<h2 id="Loop细分"><a href="#Loop细分" class="headerlink" title="Loop细分"></a>Loop细分</h2><h3 id="概述-1"><a href="#概述-1" class="headerlink" title="概述"></a>概述</h3><p>整体步骤：</p>
+<ul>
+<li>增加三角形数量；</li>
+<li>改变三角形位置，让模型看上去更加光滑；</li>
+<li><img src="/images/Games101/12/01.png"></li>
+</ul>
+<h3 id="具体算法"><a href="#具体算法" class="headerlink" title="具体算法"></a>具体算法</h3><ul>
+<li>把每个三角形分成4个（这里就会产生新的顶点）</li>
+</ul>
+<p><img src="/images/Games101/12/02.png"></p>
+<ul>
+<li>根据权重分配新的顶点（新顶点和旧顶点的调整方式不同）。<ul>
+<li><strong>更新 新顶点</strong>：周围几个点的加权平均；</li>
+<li><strong>更新 旧顶点</strong>：根据自己原本的位置和自己周围顶点的位置来进行加权平均（n是顶点的度数）</li>
+</ul>
+</li>
+</ul>
+<p><img src="/images/Games101/12/03.png"></p>
+<p><img src="/images/Games101/12/04.png"></p>
+<h3 id="Loop细分结果"><a href="#Loop细分结果" class="headerlink" title="Loop细分结果"></a>Loop细分结果</h3><p><img src="/images/Games101/12/05.png"></p>
+<h2 id="Catmull-Clark细分（General-Mesh）"><a href="#Catmull-Clark细分（General-Mesh）" class="headerlink" title="Catmull-Clark细分（General Mesh）"></a>Catmull-Clark细分（General Mesh）</h2><p>Loop 细分只能解决三角形网格的细分问题，对于一般的情况（一般的网格面）可以采用Catmull-Clark细分。</p>
+<h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><p><strong>非四边形面</strong>（Non-quad face）：顾名思义。<br><strong>奇异点</strong>（Extraordinary vertex）：度数不为 4 的点。</p>
+<p><img src="/images/Games101/12/06.png"></p>
+<h3 id="Catmull-Clark细分算法"><a href="#Catmull-Clark细分算法" class="headerlink" title="Catmull-Clark细分算法"></a>Catmull-Clark细分算法</h3><ul>
+<li><strong>增加新的点</strong><ul>
+<li>取每个面的一个点（比如重心）</li>
+<li>取每个边的中点</li>
+<li>将所有新添加的点做连接</li>
+<li><img src="/images/Games101/12/07.png"></li>
+<li>在一次细分后会引入两个新的奇异点。</li>
+<li>新奇异点的度数为3，其他奇异点的度数不变。</li>
+<li>经过一次细分，所有非四边形面会消失。</li>
+<li>细分之后，每个非四边形面都会变成一个奇异点（以后再细分奇异点和非四边形面都不会发生变化了）。</li>
+<li><img src="/images/Games101/12/08.png"></li>
+</ul>
+</li>
+<li><strong>调整规则</strong><ul>
+<li>对于 <strong>新点</strong>，<strong>面上的点</strong>和<strong>边上的点</strong>位置更新规则如下：</li>
+<li><img src="/images/Games101/12/09.png"></li>
+<li>对于 <strong>旧点</strong>：</li>
+<li><img src="/images/Games101/12/10.png"></li>
+</ul>
+</li>
+</ul>
+<h3 id="Catmull-Clark细分结果"><a href="#Catmull-Clark细分结果" class="headerlink" title="Catmull-Clark细分结果"></a>Catmull-Clark细分结果</h3><p><img src="/images/Games101/12/11.png"></p>
+<h1 id="曲面简化"><a href="#曲面简化" class="headerlink" title="曲面简化"></a>曲面简化</h1><h2 id="概述-2"><a href="#概述-2" class="headerlink" title="概述"></a>概述</h2><p>目标：减少三角形的数量并保留整体的形状。</p>
+<p><img src="/images/Games101/12/12.png"></p>
+<h2 id="做法：边坍缩（Collapsing-An-Edge）"><a href="#做法：边坍缩（Collapsing-An-Edge）" class="headerlink" title="做法：边坍缩（Collapsing An Edge）"></a>做法：边坍缩（Collapsing An Edge）</h2><p><img src="/images/Games101/12/13.png"></p>
+<h2 id="优化：二次误差度量"><a href="#优化：二次误差度量" class="headerlink" title="优化：二次误差度量"></a>优化：二次误差度量</h2><p><strong>二次误差度量（Quadric Error Metrics）</strong></p>
+<ul>
+<li>它用来表示曲面简化带来的误差的大小。</li>
+<li>用局部顶点做平均效果是不好的。</li>
+<li>二次误差：在平面中找一个点，使得这个点与它相关联的面的距离平方和达到最小，将这个点作为新的点；</li>
+</ul>
+<p><img src="/images/Games101/12/14.png"></p>
+<p><strong>做法：</strong></p>
+<ul>
+<li>首先将每条边的二次误差值，作为他们各自的分数；</li>
+<li>首先选一条分数最小的，进行边塌缩；</li>
+<li>此时其他边的分数会变化，所以更新所有边的分数；</li>
+<li>然后继续重复上面的操作；</li>
+</ul>
+<p>（可以用堆来实现，是贪心算法的结果）</p>
+<p><img src="/images/Games101/12/15.png"></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/01/08/games101/Lec%2011/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="FJBQ">
+      <meta itemprop="description" content="坚定 坚持 坚强">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FJBQ">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/01/08/games101/Lec%2011/" class="post-title-link" itemprop="url">【Games 101】Lec 11：几何 2 （曲线 和 曲面）</a>
+        </h2>
+
+        <div class="post-meta">
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2024-01-08 21:42:58 / 修改时间：22:23:12" itemprop="dateCreated datePublished" datetime="2024-01-08T21:42:58+08:00">2024-01-08</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">Games 系列</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/Games-101/" itemprop="url" rel="index"><span itemprop="name">Games 101</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Lecture-11：Geometry-2-Curves-and-Surfaces"><a href="#Lecture-11：Geometry-2-Curves-and-Surfaces" class="headerlink" title="Lecture 11：Geometry 2 (Curves and Surfaces)"></a>Lecture 11：Geometry 2 (Curves and Surfaces)</h1><h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>这节课主要讲了几何中的 曲线 和 曲面；</p>
+<p>前面一段是在讲几何的显示表示，放在放一篇文章了；</p>
+<h1 id="贝塞尔曲线"><a href="#贝塞尔曲线" class="headerlink" title="贝塞尔曲线"></a>贝塞尔曲线</h1><h2 id="概述-1"><a href="#概述-1" class="headerlink" title="概述"></a>概述</h2><p>用一系列的控制点来定义某一条曲线。这些控制点使用切线来定义贝塞尔曲线。</p>
+<p><img src="/images/Games101/11/01.png"></p>
+<p>看上图，注意曲线起始方向沿着P0 P1，结束方向沿着P2 P3；</p>
+<p> （不要求曲线经过控制点，但一定要经过起止点 和 极值点（控制点关于时间插值出来的点））</p>
+<h2 id="计算贝塞尔曲线——de-Casteljau-算法"><a href="#计算贝塞尔曲线——de-Casteljau-算法" class="headerlink" title="计算贝塞尔曲线——de Casteljau 算法"></a>计算贝塞尔曲线——de Casteljau 算法</h2><p>首先我们<strong>把整个曲线映射到 [0，1] 的时间轴上</strong>；</p>
+<p><strong>曲线上的每个点都是关于时间 t（0，1 之间）的插值的结果</strong>；</p>
+<p>这也是为什么贝塞尔曲线是<strong>显示</strong>的表示（做了映射）；</p>
+<p>下面看看是如何具体做映射的：</p>
+<ul>
+<li>给定三个控制点生成的贝塞尔曲线称为二次贝塞尔曲线（quadratic Bezier）。</li>
+</ul>
+<p><img src="/images/Games101/11/02.png"></p>
+<ul>
+<li>使用线性插值插入一个点（假设起点是时间0，终点是时间1），假设当前这个点对应时间轴的上 t ，按时间轴的比例，标记出一个线段上的插值点 b01;</li>
+</ul>
+<p><img src="/images/Games101/11/03.png"></p>
+<ul>
+<li>对于每个第一层（原始的）线段都做一下插值，变成：</li>
+</ul>
+<p><img src="/images/Games101/11/04.png"></p>
+<ul>
+<li>然后继续，同理，对于第二层的线段也同样操作，直至剩下一个点；</li>
+</ul>
+<p><img src="/images/Games101/11/05.png"></p>
+<ul>
+<li>这样我们只是得到了一个 t 的插值后的点，我们对 [0, 1] 所有的 t 都进行插值，最终就能得到这个曲线；</li>
+</ul>
+<p><img src="/images/Games101/11/06.png"></p>
+<h2 id="贝塞尔曲线代数公式"><a href="#贝塞尔曲线代数公式" class="headerlink" title="贝塞尔曲线代数公式"></a>贝塞尔曲线代数公式</h2><p><strong>推导：</strong></p>
+<p><img src="/images/Games101/11/07.png"></p>
+<p>如果有n+1个控制点（从0开始编号），可以得到n阶的贝塞尔曲线。</p>
+<p><img src="/images/Games101/11/08.png"></p>
+<p><strong>Bernstein 多项式：</strong></p>
+<p><img src="/images/Games101/11/09.png"></p>
+<p>例如，当 n&#x3D;3 时，公式为：</p>
+<p><img src="/images/Games101/11/10.png"></p>
+<h2 id="贝塞尔曲线的性质"><a href="#贝塞尔曲线的性质" class="headerlink" title="贝塞尔曲线的性质"></a>贝塞尔曲线的性质</h2><p><img src="/images/Games101/11/11.png"></p>
+<h1 id="逐段（Piecewise）贝塞尔曲线"><a href="#逐段（Piecewise）贝塞尔曲线" class="headerlink" title="逐段（Piecewise）贝塞尔曲线"></a>逐段（Piecewise）贝塞尔曲线</h1><h2 id="概述-2"><a href="#概述-2" class="headerlink" title="概述"></a>概述</h2><p>由于当控制点太多，曲线难以被控制点控制。</p>
+<p>所以<strong>逐段</strong>定义贝塞尔曲线（一般用<strong>四个控制点</strong>）。</p>
+<p><img src="/images/Games101/11/12.png"></p>
+<p>如果要让不同的分段之间光滑过渡，只需要在<strong>切线上连续</strong>（<strong>方向</strong>和<strong>大小</strong>上）。</p>
+<h2 id="分段贝塞尔曲线的连续性"><a href="#分段贝塞尔曲线的连续性" class="headerlink" title="分段贝塞尔曲线的连续性"></a>分段贝塞尔曲线的连续性</h2><p><img src="/images/Games101/11/13.png"></p>
+<h1 id="其他类型的曲线"><a href="#其他类型的曲线" class="headerlink" title="其他类型的曲线"></a>其他类型的曲线</h1><h2 id="样条-Spline"><a href="#样条-Spline" class="headerlink" title="样条 Spline"></a>样条 Spline</h2><p>一个连续的曲线是由一系列控制点控制点，在任意一个地方可以满足一定的连续性。</p>
+<p>简单来说就是一个可控的曲线。</p>
+<h2 id="B样条-B-Splines"><a href="#B样条-B-Splines" class="headerlink" title="B样条 B-Splines"></a>B样条 B-Splines</h2><ul>
+<li>贝塞尔曲线的扩展（具有局部性，容易控制），就是基函数（basis）样条。</li>
+<li>比贝塞尔曲线需要更多的信息。</li>
+<li>满足贝塞尔曲线的所有性质。</li>
+<li>难</li>
+</ul>
+<h1 id="（贝塞尔）曲面"><a href="#（贝塞尔）曲面" class="headerlink" title="（贝塞尔）曲面"></a>（贝塞尔）曲面</h1><h2 id="概述-3"><a href="#概述-3" class="headerlink" title="概述"></a>概述</h2><p>把贝塞尔曲线的概念延申到平面上。</p>
+<p><img src="/images/Games101/11/14.png"></p>
+<p>回顾一下，每段贝塞尔曲线是4个点的线性插值的结果；</p>
+<p>所以，每一片贝塞尔曲面是16控制点，两次线性插值的结果：</p>
+<p>第一次先 4 组（每组四个）进行一次线性插值，得到四条贝塞尔曲线，然后对于四条曲线，我们再插值一次，得到曲面：</p>
+<p><img src="/images/Games101/11/15.png"></p>
+<p>规范的讲：</p>
+<p>输入：<strong>4*4 控制点</strong></p>
+<p>输出：<strong>一个在 [0,1] ^2 内的 (u,v) 参数化的二维曲面</strong></p>
+<p>反过来讲，<strong>给一个 贝塞尔曲面上参数化后的 (u,v)，我们就能知道 (u,v) 对应的是曲面上的哪个点。</strong></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/01/07/games101/Lec%2008/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="FJBQ">
+      <meta itemprop="description" content="坚定 坚持 坚强">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FJBQ">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/01/07/games101/Lec%2008/" class="post-title-link" itemprop="url">【Games 101】Lec 08：渲染2（阴影 渲染管线 和 纹理映射）</a>
+        </h2>
+
+        <div class="post-meta">
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2024-01-07 22:29:15 / 修改时间：22:43:45" itemprop="dateCreated datePublished" datetime="2024-01-07T22:29:15+08:00">2024-01-07</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">Games 系列</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/Games-101/" itemprop="url" rel="index"><span itemprop="name">Games 101</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Lecture-8：Shading-2-Shading-Pipeline-and-Texture-Mapping"><a href="#Lecture-8：Shading-2-Shading-Pipeline-and-Texture-Mapping" class="headerlink" title="Lecture 8：Shading 2 (Shading, Pipeline and Texture Mapping)"></a>Lecture 8：Shading 2 (Shading, Pipeline and Texture Mapping)</h1><p><img src="/images/Games101/08/01.png"></p>
+<p><img src="/images/Games101/08/02.png"></p>
+<h2 id="Blinn-Phong-模型的后两种"><a href="#Blinn-Phong-模型的后两种" class="headerlink" title="Blinn-Phong 模型的后两种"></a>Blinn-Phong 模型的后两种</h2><h3 id="高光像（高光反射-镜面反射）"><a href="#高光像（高光反射-镜面反射）" class="headerlink" title="高光像（高光反射 &#x2F; 镜面反射）"></a>高光像（高光反射 &#x2F; 镜面反射）</h3><blockquote>
+<p>当我们<strong>观察方向</strong>和<strong>光线反射的方向</strong>很接近的时候，那么就会产生镜面反射；</p>
+<p><img src="/images/Games101/08/03.png"></p>
+<p>怎么算？？</p>
+<p>Blinn-Phong 模型中做了一个改进，它发现了，<strong>观察方向和光线反射的方向很接近 &lt;&#x3D;&gt; 平面的法向量和半程向量很接近</strong>，所以考虑下面的计算方法：</p>
+<p><img src="/images/Games101/08/04.png"></p>
+<p><strong>指数 p 的一个作用：控制高光的衰减大小</strong></p>
+<p><img src="/images/Games101/08/05.png"></p>
+<p><img src="/images/Games101/08/06.png"></p>
+</blockquote>
+<h3 id="环境反射（间接反射）"><a href="#环境反射（间接反射）" class="headerlink" title="环境反射（间接反射）"></a>环境反射（间接反射）</h3><blockquote>
+<p>大胆假设：任何一个点接收到环境的光是一样的！</p>
+<p><img src="/images/Games101/08/07.png"></p>
+<p><strong>Ia：表示来自环境的光强</strong><br><strong>Ka：系数</strong></p>
+<p>所以可以看到，环境光是一个<strong>常数</strong>，和观测方向无关！</p>
+</blockquote>
+<h3 id="Blinn-Phong-模型-小结："><a href="#Blinn-Phong-模型-小结：" class="headerlink" title="Blinn-Phong 模型 小结："></a>Blinn-Phong 模型 小结：</h3><p>把所有的光加起来就是最终结果：</p>
+<p><img src="/images/Games101/08/08.png"></p>
+<p>所以：</p>
+<p><strong>Blinn-Phong 模型</strong> &#x3D; <strong>漫反射模型</strong> + <strong>高光反射&#x2F;镜面反射</strong> + <strong>环境反射</strong></p>
+<h2 id="着色频率"><a href="#着色频率" class="headerlink" title="着色频率"></a>着色频率</h2><h3 id="着色模型"><a href="#着色模型" class="headerlink" title="着色模型"></a>着色模型</h3><blockquote>
+<p>着色频率不同产生不同的效果：</p>
+<p><img src="/images/Games101/08/09.png"></p>
+<hr>
+<p><strong>第一种：对每个三角形的平面进行着色；</strong><br>（求法线）</p>
+<p><img src="/images/Games101/08/10.png"></p>
+<hr>
+<p><strong>第二种：对于每个顶点求一个法线，然后进行着色；</strong></p>
+<p><img src="/images/Games101/08/11.png"></p>
+<hr>
+<p><strong>第三种：对于每个像素我们都去着色；</strong></p>
+<p>（对每个像素都去求一个法线）</p>
+<p><img src="/images/Games101/08/12.png"></p>
+<hr>
+<p>要看情况使用不同的着色频率，当我们的物体的平面比较多的时候（模型足够复杂），这时候我们就可以直接用简单的着色模型了，最终的效果也不会差。</p>
+<p><img src="/images/Games101/08/13.png"></p>
+</blockquote>
+<h3 id="定义一些东西"><a href="#定义一些东西" class="headerlink" title="定义一些东西"></a>定义一些东西</h3><blockquote>
+<p><strong>定义每个顶点的法向量</strong></p>
+<p><img src="/images/Games101/08/14.png"></p>
+<p><strong>顶点的法向量 &#x3D; 相关的面的法向量的加权平均值</strong></p>
+<hr>
+<p><strong>定义每个像素的法向量</strong></p>
+<p><img src="/images/Games101/08/15.png"></p>
+<p><strong>像素的法向量 &#x3D; 顶点法向量平面的重心坐标</strong></p>
+</blockquote>
+<h2 id="图形管线（实时渲染管线）"><a href="#图形管线（实时渲染管线）" class="headerlink" title="图形管线（实时渲染管线）"></a>图形管线（实时渲染管线）</h2><blockquote>
+<p><strong>Graphics (Real-time Rendering) Pipeline</strong></p>
+<p><strong>定义：如何从 一个场景 -&gt; 一张图 的过程</strong></p>
+<p>就是一些列不同的操作：</p>
+<p><img src="/images/Games101/08/16.png"></p>
+<ol start="0">
+<li><strong>3D模型</strong></li>
+<li><strong>顶点处理</strong></li>
+<li><strong>三角形处理</strong></li>
+<li><strong>光栅化</strong></li>
+<li><strong>着色</strong></li>
+<li><strong>输出</strong></li>
+</ol>
+<hr>
+<p>现代GPU允许我们自己定义这些操作，所以也叫做 <strong>可编程渲染管线</strong>（也就是我们讲的<strong>Shader</strong>）</p>
+<p>具体的讲：</p>
+<p>对于一个顶点或者一个像素，我们可以自己编程计算，自己规定这个点或者像素最后显示的颜色；（只用统一写一次，应用于每一个点）</p>
+<p><strong>顶点着色器</strong>：给每个点写一个着色的程序</p>
+<p><strong>像素着色器 &#x2F; 片元着色器</strong>：给每个像素写一个着色的程序 </p>
+<p><img src="/images/Games101/08/17.png"></p>
+<p><img src="/images/Games101/08/18.png"></p>
+</blockquote>
+<h2 id="现代图形学发展"><a href="#现代图形学发展" class="headerlink" title="现代图形学发展"></a>现代图形学发展</h2><p><img src="/images/Games101/08/19.png"></p>
+<h2 id="纹理映射（Texture-Mapping）"><a href="#纹理映射（Texture-Mapping）" class="headerlink" title="纹理映射（Texture Mapping）"></a>纹理映射（Texture Mapping）</h2><blockquote>
+<p><strong>定义一个点的不同属性</strong>，具体讲，对于一个三维空间，我们都可以把它展开成二维平面，从而和图像对于；</p>
+<p><img src="/images/Games101/08/20.png"></p>
+<p>那么现在我们要解决的问题就是，我们如何<strong>将一张图像（纹理）贴到三维的物体</strong>上面？（这个过程就是纹理映射）</p>
+<p><img src="/images/Games101/08/21.png"></p>
+<p>其实问题就是，对于物体上的三角形，我们要怎么映射到纹理上的三角形。</p>
+<p>这个问题比较复杂…这里我们规定已经是映射好了的。</p>
+<p><strong>纹理的坐标</strong>：</p>
+<p><img src="/images/Games101/08/22.png"></p>
+<p><img src="/images/Games101/08/23.png"></p>
+<p>U V 都在 0~1 之内</p>
+</blockquote>
+<hr>
+<p><strong>思考：</strong></p>
+<ul>
+<li><p>假设我们知道了三角形三个点对应的纹理坐标，我们如何知道三角形内部任意一点的纹理坐标（U V）？</p>
+</li>
+<li><p>在三角形的三个顶点有各自不同的属性，如何在三角形内部做一个平滑的过渡，使得我们能快速知道三角形内部任意一点通过插值之后的属性是多少？（<strong>重心坐标</strong>）</p>
+</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/01/07/games101/Lec%2003/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="FJBQ">
+      <meta itemprop="description" content="坚定 坚持 坚强">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FJBQ">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/01/07/games101/Lec%2003/" class="post-title-link" itemprop="url">【Games 101】Lec 03：变换</a>
+        </h2>
+
+        <div class="post-meta">
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2024-01-07 22:28:30 / 修改时间：22:36:50" itemprop="dateCreated datePublished" datetime="2024-01-07T22:28:30+08:00">2024-01-07</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">Games 系列</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/Games-101/" itemprop="url" rel="index"><span itemprop="name">Games 101</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Lecture-03-Transformation"><a href="#Lecture-03-Transformation" class="headerlink" title="Lecture 03: Transformation"></a>Lecture 03: Transformation</h1><p><img src="/images/Games101/03/01.png"></p>
+<h2 id="二维变换"><a href="#二维变换" class="headerlink" title="二维变换"></a>二维变换</h2><h3 id="缩放变换"><a href="#缩放变换" class="headerlink" title="缩放变换"></a>缩放变换</h3><p><img src="/images/Games101/03/02.png"></p>
+<p>用矩阵表示，矩阵就叫<strong>缩放矩阵</strong></p>
+<p><strong>对称变换</strong>一下：</p>
+<p><img src="/images/Games101/03/03.png"></p>
+<p><strong>复杂一点的</strong>：</p>
+<p>这里的 x 的变换 和 y 是有关系的 x’ &#x3D; x + ay</p>
+<p><img src="/images/Games101/03/04.png"></p>
+<h3 id="旋转变换"><a href="#旋转变换" class="headerlink" title="旋转变换"></a>旋转变换</h3><p><img src="/images/Games101/03/05.png"></p>
+<p><strong>推导：</strong></p>
+<p>推关系（x’ 和 x）（y’ 和 y）：（<strong>利用特殊点（1，0）</strong>）</p>
+<p><img src="/images/Games101/03/06.png"></p>
+<p>从上图可以得到：</p>
+<p>A &#x3D; cosθ</p>
+<p>C &#x3D; sinθ</p>
+<p>同理，用特殊点（0，1）算出B D</p>
+<p>B &#x3D; -sinθ</p>
+<p>D &#x3D; cosθ</p>
+<p>所以可以得到<strong>旋转矩阵</strong> Rθ；</p>
+<p><strong>记忆：</strong></p>
+<p>记图，然后自己推到一下就行！</p>
+<p><strong>性质：</strong></p>
+<p><strong>旋转矩阵的转置 &lt;&#x3D;&gt; 旋转矩阵的逆</strong></p>
+<p>如果一个 <strong>矩阵转置 &#x3D; 矩阵的逆</strong>，则这个矩阵叫做<strong>正交矩阵</strong></p>
+<p><img src="/images/Games101/03/07.png"></p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p><strong>线性变换：输入坐标 * 矩阵 &#x3D; 输出坐标</strong></p>
+<p><img src="/images/Games101/03/08.png"></p>
+<p>上面的例子统称为<strong>线性变换</strong></p>
+<h2 id="齐次坐标（统一变换）"><a href="#齐次坐标（统一变换）" class="headerlink" title="齐次坐标（统一变换）"></a>齐次坐标（统一变换）</h2><h3 id="为什么？"><a href="#为什么？" class="headerlink" title="为什么？"></a>为什么？</h3><p>当我们平移图像的时候，可以发现我们无法用之前的简单的矩阵x向量的形式表示，而是得用下面的表示方法：</p>
+<p><img src="/images/Games101/03/09.png"></p>
+<p>所以，<strong>平移不属于线性变换</strong>；</p>
+<p>但是我们不想要它特殊，所以引入了<strong>齐次坐标</strong>，<strong>用于表示各种变换</strong>！</p>
+<h3 id="怎么做？"><a href="#怎么做？" class="headerlink" title="怎么做？"></a>怎么做？</h3><p>首先，用<strong>三个数</strong>来表示一个<strong>二维向量</strong>；</p>
+<p><strong>相当于就是把二维变成三维，然后用特殊的数字去表示三维</strong>！</p>
+<ul>
+<li>点：第三维是 1</li>
+<li>向量：第三维是 0</li>
+</ul>
+<p>这样就能通过齐次坐标的方式，把所有的变换都表示成 <strong>矩阵 x 向量</strong> 的形式；</p>
+<p><img src="/images/Games101/03/10.png"></p>
+<p><strong>为什么向量第三维是 0 ？</strong></p>
+<p>这么做是为了保证向量的平移不变性；</p>
+<p>同时保证了在一些运算下仍然是正确的；</p>
+<p>在齐次坐标下：point1 + point2 &#x3D; point 1 2 的中点</p>
+<p><img src="/images/Games101/03/11.png"></p>
+<p>(x1,y1,w)转置 + (x2,y2,w)转置</p>
+<p>&#x3D;&gt; ( (x1+x2) , (y1+y2) , 2w )转置</p>
+<p>&#x3D;&gt; ( (x1+x2)&#x2F;2w , (y1+y2)&#x2F;2w , 1)</p>
+<h3 id="小结-1"><a href="#小结-1" class="headerlink" title="小结"></a>小结</h3><p><strong>仿射变换：</strong></p>
+<p><img src="/images/Games101/03/12.png"></p>
+<p><strong>齐次变换：</strong></p>
+<p><img src="/images/Games101/03/13.png"></p>
+<p>注意到，在表示<strong>二维坐标的仿射变换</strong>中，<strong>齐次变换矩阵</strong>的最后一行都是<strong>（0，0，1）</strong>；</p>
+<p>注意是有条件的，二维坐标，仿射变换.</p>
+<p><strong>验证：</strong>（缩放，旋转，平移）</p>
+<p><img src="/images/Games101/03/14.png"></p>
+<h2 id="逆变换"><a href="#逆变换" class="headerlink" title="逆变换"></a>逆变换</h2><p>要变换回来，则乘以<strong>变换矩阵的逆矩阵</strong></p>
+<p><img src="/images/Games101/03/15.png"></p>
+<h3 id="变换组合"><a href="#变换组合" class="headerlink" title="变换组合"></a>变换组合</h3><p>首先规定，这里默认的旋转是 以0,0为中心，逆时针 旋转的；</p>
+<p>变换的顺序很重要；</p>
+<p><strong>变换组合</strong> 其实本质上就是对应着 <strong>矩阵的乘法！！！</strong></p>
+<p>当矩阵乘法的<strong>顺序不同</strong>，得到的变换<strong>结果</strong>也是<strong>不同</strong>的。</p>
+<p><strong>举个例子</strong>：</p>
+<p><img src="/images/Games101/03/16.png"></p>
+<p>在这个变换中，我们需要先旋转45度，再平移；</p>
+<p>那么对应的数学结果就是：</p>
+<p><img src="/images/Games101/03/17.png"></p>
+<p><strong>总结：</strong></p>
+<p><strong>我们按照变换的顺序，在原向量的基础上，往原向量的左边，从右往左依次乘上变换矩阵</strong></p>
+<p><img src="/images/Games101/03/18.png"></p>
+<p><strong>值得注意的是</strong>：矩阵乘法有结合律！</p>
+<h3 id="变换的分解"><a href="#变换的分解" class="headerlink" title="变换的分解"></a>变换的分解</h3><p><img src="/images/Games101/03/19.png"></p>
+<h2 id="三维变换"><a href="#三维变换" class="headerlink" title="三维变换"></a>三维变换</h2><p>同理，在三维变换中，也有平移这样的非线性变换操作；</p>
+<p>所以继续引入齐次坐标；</p>
+<p>用四个数去表示三维空间；</p>
+<p>三维变成四维，第四维度取特殊值；</p>
+<ul>
+<li>描述<strong>点</strong>，最后一维为1；</li>
+<li>描述<strong>向量</strong>，最后一维为0；</li>
+</ul>
+<p><img src="/images/Games101/03/20.png"></p>
+<p>当 w !&#x3D; 0 时，齐次坐标下的点 (x , y, z , w) , 则表示三维空间中的点 (x&#x2F;w , y&#x2F;w , z&#x2F;w)</p>
+<p>将 x y z 都 &#x2F;w 就可以表示成三维空间中的点了！</p>
+<p><img src="/images/Games101/03/21.png"></p>
+<p>同样的，在描述三维空间中的反射变换时，变换矩阵的最后一行是（0，0，0，1）；</p>
+<p>平移操作还是体现在最后一列；</p>
+<p>值得注意的是 : </p>
+<p>当我们写出齐次坐标的时候，它表示的其实是：<br><strong>先线性变换，在进行平移</strong>！</p>
+<p><strong>具体的变换 :</strong> </p>
+<p><img src="/images/Games101/03/22.png"></p>
+<p><img src="/images/Games101/03/23.png"></p>
+<p>这里注意一下绕y轴为啥是反的？这个和轴的顺序和右手螺旋定则有关；</p>
+<h2 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h2><p><img src="/images/Games101/03/24.png"></p>
+<p>任意一个3D的旋转，都可以分解为分别绕x y z轴旋转；</p>
+<p>a β γ 称为<strong>欧拉角</strong></p>
+<p><strong>Rodrigues’ 旋转公式</strong>：</p>
+<p>就是能把任意一个旋转分解为绕 x y z 的旋转：</p>
+<p><img src="/images/Games101/03/25.png"></p>
+<p>n向量：旋转轴（可以理解为一个方向向量，且规定n过原点）</p>
+<p>a：旋转角度</p>
+<p><strong>推导</strong>：</p>
+<p><img src="/images/Games101/03/26.png"></p>
+<p><strong>扩展 :</strong> </p>
+<p><strong>四元数 : 主要用于两个旋转之间的插值</strong></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2024/01/07/games101/Lec%2004/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1144,475 +1756,10 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2024/01/07/games101/Lec%2001/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="FJBQ">
-      <meta itemprop="description" content="坚定 坚持 坚强">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="FJBQ">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2024/01/07/games101/Lec%2001/" class="post-title-link" itemprop="url">【Games 101】Lec 01：计算机图形学概述</a>
-        </h2>
-
-        <div class="post-meta">
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2024-01-07 22:28:12 / 修改时间：22:34:11" itemprop="dateCreated datePublished" datetime="2024-01-07T22:28:12+08:00">2024-01-07</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">Games 系列</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/Games-101/" itemprop="url" rel="index"><span itemprop="name">Games 101</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="Lecture-01-Overview-of-Computer-Graphics"><a href="#Lecture-01-Overview-of-Computer-Graphics" class="headerlink" title="Lecture 01: Overview of Computer Graphics"></a>Lecture 01: Overview of Computer Graphics</h1><p>计算机图形学下关于“实时”的定义：&gt;30fps，&lt;30fps称为离线</p>
-<p><img src="/images/Games101/01/01.png"></p>
-<p>model：真实模型<br>image：图像</p>
-<p><strong>计算机图形学（渲染）：</strong></p>
-<ul>
-<li>（model） -&gt; （image）</li>
-<li>（model） -&gt; （model）</li>
-</ul>
-<p><strong>计算机视觉：</strong></p>
-<ul>
-<li>（image）-&gt;（model）</li>
-<li>（image）-&gt;（image）</li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2024/01/07/games101/Lec%2010/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="FJBQ">
-      <meta itemprop="description" content="坚定 坚持 坚强">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="FJBQ">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2024/01/07/games101/Lec%2010/" class="post-title-link" itemprop="url">【Games 101】Lec 10：几何 1 （入门）</a>
-        </h2>
-
-        <div class="post-meta">
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2024-01-07 18:15:11 / 修改时间：21:59:10" itemprop="dateCreated datePublished" datetime="2024-01-07T18:15:11+08:00">2024-01-07</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">Games 系列</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/Games-101/" itemprop="url" rel="index"><span itemprop="name">Games 101</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="Lecture-10：Geometry-1-Introduction"><a href="#Lecture-10：Geometry-1-Introduction" class="headerlink" title="Lecture 10：Geometry 1 (Introduction)"></a>Lecture 10：Geometry 1 (Introduction)</h1><p>这节课主要讲：</p>
-<ul>
-<li>纹理的应用（放在上一篇文章了）</li>
-<li>几何的表示方法</li>
-</ul>
-<h2 id="几何的表示方法"><a href="#几何的表示方法" class="headerlink" title="几何的表示方法"></a>几何的表示方法</h2><ul>
-<li><strong>隐式</strong>的几何表示</li>
-<li><strong>显示</strong>的几何表示</li>
-</ul>
-<h3 id="隐式的几何表示（Implicit）"><a href="#隐式的几何表示（Implicit）" class="headerlink" title="隐式的几何表示（Implicit）"></a>隐式的几何表示（Implicit）</h3><h4 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h4><p>简单的讲就是，在空间中找到满足特定关系的点，用坐标公式表达一下；</p>
-<p><img src="/images/Games101/10/01.png"></p>
-<p><strong>优点：</strong></p>
-<ul>
-<li>很容易判断点是否在面上。（将点代入f(x,y,z)，正数表示点在图形外，负数表示点在图形内，0表示点在图形上。）</li>
-<li>表述起来很容易（对存储很有利）。</li>
-<li>容易做面与光线求交。</li>
-<li>容易描述和处理拓扑结构。</li>
-</ul>
-<p><strong>缺点：</strong></p>
-<ul>
-<li>不好描述复杂的形状；</li>
-<li>不好知道这个面上有哪些点；</li>
-<li>很难从式子中看出表示的是什么形状。</li>
-</ul>
-<p><strong>分类：</strong></p>
-<ul>
-<li><strong>构造立体几何 CSG（Constructive Solid Geometry）（Implict）</strong></li>
-<li><strong>距离函数 Distance Function（Implict）</strong></li>
-<li><strong>水平集 Level Set Methods(Implict)</strong></li>
-<li><strong>分形 Fractals(Implict)</strong></li>
-</ul>
-<h4 id="构造立体几何-CSG（Constructive-Solid-Geometry）"><a href="#构造立体几何-CSG（Constructive-Solid-Geometry）" class="headerlink" title="构造立体几何 CSG（Constructive Solid Geometry）"></a>构造立体几何 CSG（Constructive Solid Geometry）</h4><p>通过一系列基本几何的基本布尔运算来定义新的几何。</p>
-<p><img src="/images/Games101/10/02.png"></p>
-<h4 id="距离函数-Distance-Function"><a href="#距离函数-Distance-Function" class="headerlink" title="距离函数 Distance Function"></a>距离函数 Distance Function</h4><p>给出任何一个位置到物体的最短距离。对一个点不描述表面，而是描述点到表面的最近距离。</p>
-<p>把两个物体的距离函数都算出来然后把两个距离函数做融合（blending）</p>
-<p>这个挺妙的；</p>
-<p><img src="/images/Games101/10/03.png"></p>
-<p>比如：混合一个移动的边界</p>
-<p><img src="/images/Games101/10/04.png"></p>
-<p>通过blend两个SDF可以得到移动后的边界。</p>
-<p>分别求出两个物体对应的距离函数， 然后把他们blend起来，然后恢复成原本的面（找出SDF 的值为0的位置）</p>
-<h4 id="水平集-Level-Set-Methods"><a href="#水平集-Level-Set-Methods" class="headerlink" title="水平集 Level Set Methods"></a>水平集 Level Set Methods</h4><p>封闭形式的方程很难描述复杂的形状，所以选择一种替代方案：</p>
-<p><strong>存储一个值近似函数的网格（可以是二维的也可以是三维的）</strong></p>
-<p>通过找到插值为0的位置来找到表面，它具有一个对形状更加显示的控制。</p>
-<p><img src="/images/Games101/10/05.png"></p>
-<p><strong>eg：</strong>如果有一个三维的纹理表示人体不同位置的骨密度，可以让密度函数&#x3D;某个具体的值，然后找到所有满足这个等式的位置，就可以得到一个表面。</p>
-<p><img src="/images/Games101/10/06.png"></p>
-<h4 id="分形-Fractals"><a href="#分形-Fractals" class="headerlink" title="分形 Fractals"></a>分形 Fractals</h4><p>局部和整体相似，一直递归；</p>
-<p>eg：雪花，西兰花等；</p>
-<p>这些类型的几何在渲染时会造成强烈的走样。</p>
-<p><img src="/images/Games101/10/07.png"></p>
-<h3 id="显示的几何表示（Explicit）"><a href="#显示的几何表示（Explicit）" class="headerlink" title="显示的几何表示（Explicit）"></a>显示的几何表示（Explicit）</h3><h4 id="概述-1"><a href="#概述-1" class="headerlink" title="概述"></a>概述</h4><p>所有的点直接给出，或通过参数映射定义表面。</p>
-<p><img src="/images/Games101/10/08.png"></p>
-<p><strong>优点：</strong>对于表示形状很容易。</p>
-<p><strong>缺点：</strong>不好判断点是否在表面上（或内、外）。</p>
-<p><strong>分类：</strong></p>
-<ul>
-<li><strong>点云 （Point Cloud）</strong></li>
-<li><strong>多边形网格（Polygon Mesh）</strong></li>
-</ul>
-<h4 id="点云（Point-Cloud）"><a href="#点云（Point-Cloud）" class="headerlink" title="点云（Point Cloud）"></a>点云（Point Cloud）</h4><ul>
-<li>简单的表示为点的列表(x,y,z)</li>
-<li>可以简单的表示任何一种几何图形</li>
-<li>对于表示大数据集是很有用的（&gt;&gt;1 point&#x2F;pixel）</li>
-<li>经常被转换成多边形网格</li>
-<li>难以在采样不足的区域画出来</li>
-</ul>
-<p><img src="/images/Games101/10/09.png"></p>
-<h4 id="多边形网格（Polygon-Mesh）"><a href="#多边形网格（Polygon-Mesh）" class="headerlink" title="多边形网格（Polygon Mesh）"></a>多边形网格（Polygon Mesh）</h4><ul>
-<li>存储点和多边形（通常是三角形或四边形）</li>
-<li>容易去处理&#x2F;模拟，进行自适应采样</li>
-<li>数据结构比较复杂</li>
-<li>图形学中最常用的表示</li>
-</ul>
-<p><img src="/images/Games101/10/10.png"></p>
-<p><strong>表示方式：The Wavefront Object File（.obj）格式</strong></p>
-<p>它是一个文本文件，由指定的顶点、法线、纹理坐标和它们的连接组成。</p>
-<p>如下图表示了一个立方体：</p>
-<p>v是顶点坐标</p>
-<p>vn是法线（多了两条是因为建模误差）</p>
-<p>vt是纹理坐标</p>
-<p>f(face)表示面，比如f 5&#x2F;1&#x2F;1 1&#x2F;2&#x2F;1 4&#x2F;3&#x2F;1 表示这个三角形面是由第5、1、4个顶点组成的，三个点的纹理坐标是第1、2、3对应的纹理坐标，这个面的法线是第一条法线。</p>
-<p><img src="/images/Games101/10/11.png"></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2024/01/01/games101/Games%20101%20%E4%BD%9C%E4%B8%9A/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="FJBQ">
-      <meta itemprop="description" content="坚定 坚持 坚强">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="FJBQ">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2024/01/01/games101/Games%20101%20%E4%BD%9C%E4%B8%9A/" class="post-title-link" itemprop="url">【Games 101】作业</a>
-        </h2>
-
-        <div class="post-meta">
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2024-01-01 17:19:58" itemprop="dateCreated datePublished" datetime="2024-01-01T17:19:58+08:00">2024-01-01</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-01-29 21:47:31" itemprop="dateModified" datetime="2024-01-29T21:47:31+08:00">2024-01-29</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">Games 系列</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/Games-101/" itemprop="url" rel="index"><span itemprop="name">Games 101</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>test</p>
-<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p><strong>这边文章记录一下 Games 101 的作业 , 希望能够坚持 !</strong></p>
-<p><strong>可以参考这三个大佬的分析</strong>：</p>
-<p><a target="_blank" rel="noopener" href="https://www.zhihu.com/people/cheng-feng-28-76/posts">Keanu - 知乎 (zhihu.com)</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.zhihu.com/people/stardustToStardust/posts">柚子没有贝壳味 - 知乎 (zhihu.com)</a></p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43399489?type=blog">Magic__Conch-CSDN博客</a></p>
-<p><strong>Eigen 库：</strong></p>
-<p><a target="_blank" rel="noopener" href="https://eigen.tuxfamily.org/dox/">Eigen: Main Page</a></p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/hongge_smile/article/details/107296658">Eigen库学习教程(全)_find_package(eigen3 3 required)-CSDN博客</a></p>
-<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/293023673">快速入门矩阵运算——开源库Eigen - 知乎 (zhihu.com)</a></p>
-<p><strong>ps：做起来真的感觉不简单啊！</strong></p>
-<h1 id="作业0：虚拟机的使用"><a href="#作业0：虚拟机的使用" class="headerlink" title="作业0：虚拟机的使用"></a>作业0：虚拟机的使用</h1><p>配环境…</p>
-<p>真的是一波三折啊，捣鼓了好久…</p>
-<p>还好虚拟机里面什么都有了</p>
-<p>首先按照 pdf 里面的流程走就行了，下面记录一下一些问题：</p>
-<h2 id="黑屏…"><a href="#黑屏…" class="headerlink" title="黑屏…"></a>黑屏…</h2><p>我是重启之后就会黑屏，还没输入密码呢…</p>
-<p>这个问题我直接删掉虚拟机，如何重新创建一个就好了；</p>
-<h2 id="安装-增强功能-显示-无法挂载光盘什么的"><a href="#安装-增强功能-显示-无法挂载光盘什么的" class="headerlink" title="安装 增强功能 显示 无法挂载光盘什么的"></a>安装 增强功能 显示 无法挂载光盘什么的</h2><p>首先检查一下虚拟机是否有 VBox_GAs_… 光盘，有的话先弹出他，然后再尝试安装；</p>
-<p>然后可能会失败，看下面这两篇：</p>
-<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/560813527">VirtualBox 安装 ubuntu后安装增强工具无效的解决办法 - 知乎 (zhihu.com)</a></p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_34777600/article/details/99337930">VirtualBox：unable to access “VBox_GAS_6.8.XXX-CSDN博客</a></p>
-<p>成功安装之后就能：</p>
-<p>调整虚拟机的分辨率；</p>
-<p>主机和虚拟机之间拖拽文件；</p>
-<p>等；</p>
-<p>然后继续照着 pdf 里面操作就行了</p>
-<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><p><strong>下面是作业0的代码：</strong></p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;cmath&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;eigen3/Eigen/Core&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;eigen3/Eigen/Dense&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Test</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 这个一些基本运算</span></span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;Example of cpp \n&quot;</span>;</span><br><span class="line">    <span class="type">float</span> a = <span class="number">1.0</span>, b = <span class="number">2.0</span>;</span><br><span class="line">    std::cout &lt;&lt; a &lt;&lt; std::endl;</span><br><span class="line">    std::cout &lt;&lt; a/b &lt;&lt; std::endl;</span><br><span class="line">    std::cout &lt;&lt; std::<span class="built_in">sqrt</span>(b) &lt;&lt; std::endl;</span><br><span class="line">    std::cout &lt;&lt; std::<span class="built_in">acos</span>(<span class="number">-1</span>) &lt;&lt; std::endl;</span><br><span class="line">    std::cout &lt;&lt; std::<span class="built_in">sin</span>(<span class="number">30.0</span>/<span class="number">180.0</span>*<span class="built_in">acos</span>(<span class="number">-1</span>)) &lt;&lt; std::endl;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Example of vector</span></span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;Example of vector \n&quot;</span>;</span><br><span class="line">    <span class="comment">//这个 Vector3f 是定义了一个三维向量，float(注意这里其实也就是一个 3x1 的矩阵)</span></span><br><span class="line">    <span class="function">Eigen::Vector3f <span class="title">v</span><span class="params">(<span class="number">1.0f</span>,<span class="number">2.0f</span>,<span class="number">3.0f</span>)</span></span>;</span><br><span class="line">    <span class="function">Eigen::Vector3f <span class="title">w</span><span class="params">(<span class="number">1.0f</span>,<span class="number">0.0f</span>,<span class="number">0.0f</span>)</span></span>;</span><br><span class="line">    <span class="comment">// vector output</span></span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;Example of output \n&quot;</span>;</span><br><span class="line">    std::cout &lt;&lt; v &lt;&lt; std::endl;</span><br><span class="line">    <span class="comment">// vector add</span></span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;Example of add \n&quot;</span>;</span><br><span class="line">    std::cout &lt;&lt; v + w &lt;&lt; std::endl;</span><br><span class="line">    <span class="comment">// vector scalar multiply</span></span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;Example of scalar multiply \n&quot;</span>;</span><br><span class="line">    std::cout &lt;&lt; v * <span class="number">3.0f</span> &lt;&lt; std::endl;</span><br><span class="line">    std::cout &lt;&lt; <span class="number">2.0f</span> * v &lt;&lt; std::endl;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Example of matrix</span></span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;Example of matrix \n&quot;</span>;</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">        这个 Matrix3f 是定义了一个3x3的float的矩阵；</span></span><br><span class="line"><span class="comment">        其实跳进去看源码就知道了，通过模板和宏定义实现的；</span></span><br><span class="line"><span class="comment">    */</span> </span><br><span class="line">    Eigen::Matrix3f i,j,ans;</span><br><span class="line">    i &lt;&lt; <span class="number">1.0</span>, <span class="number">2.0</span>, <span class="number">3.0</span>, <span class="number">4.0</span>, <span class="number">5.0</span>, <span class="number">6.0</span>, <span class="number">7.0</span>, <span class="number">8.0</span>, <span class="number">9.0</span>;</span><br><span class="line">    j &lt;&lt; <span class="number">2.0</span>, <span class="number">3.0</span>, <span class="number">1.0</span>, <span class="number">4.0</span>, <span class="number">6.0</span>, <span class="number">5.0</span>, <span class="number">9.0</span>, <span class="number">7.0</span>, <span class="number">8.0</span>;</span><br><span class="line">    <span class="comment">// matrix output</span></span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;Example of output \n&quot;</span>;</span><br><span class="line">    cout &lt;&lt; i &lt;&lt; <span class="string">&quot;\n\n&quot;</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// matrix add i + j</span></span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;this is matrix add : \n&quot;</span>;</span><br><span class="line">    ans = i + j;</span><br><span class="line">    cout &lt;&lt; ans &lt;&lt; <span class="string">&quot;\n\n&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// matrix scalar multiply i * 2.0</span></span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;this is matrix scalar multiply : \n&quot;</span>;</span><br><span class="line">    ans = i * <span class="number">20</span>;</span><br><span class="line">    cout &lt;&lt; ans &lt;&lt; <span class="string">&quot;\n\n&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// matrix multiply i * j</span></span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;this is matrix multiply : \n&quot;</span>;</span><br><span class="line">    ans = i * j;</span><br><span class="line">    cout &lt;&lt; ans &lt;&lt; <span class="string">&quot;\n\n&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">    matrix multiply vector i * v</span></span><br><span class="line"><span class="comment">    这个就是定义一个自定义大小的float矩阵，我这里定义的是 1x3 的；</span></span><br><span class="line"><span class="comment">    因为 v 是一个 1x3 的，i 是一个 3x3 的；</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;this is matrix multiply vector : \n&quot;</span>;</span><br><span class="line">    <span class="function">Eigen::MatrixXf <span class="title">ans1</span><span class="params">(<span class="number">1</span>,<span class="number">3</span>)</span></span>;</span><br><span class="line">    ans1 = i * v;</span><br><span class="line">    cout &lt;&lt; ans1 &lt;&lt; <span class="string">&quot;\n\n&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">作业描述:</span></span><br><span class="line"><span class="comment">    给定一个点 P=(2,1), 将该点绕原点先逆时针旋转 45◦，再平移 (1,2), 计算出变换后点的坐标（要求用齐次坐标进行计算）。</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">分析：</span></span><br><span class="line"><span class="comment">    1. 首先说到要用齐次坐标表示，我们回顾一下，2维的点用齐次坐标表示，则需要加上一个1的维，也就是（2，1，1）；</span></span><br><span class="line"><span class="comment">    2. 然后平移旋转，我们可以构造一个旋转矩阵，然后将这个坐标和这个旋转矩阵相乘，完成旋转变换；</span></span><br><span class="line"><span class="comment">    3. 最后对于平移，我们同样可以构造一个平移矩阵，然后相乘就行，完成平移变换；</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    想不起来的可以回顾一下这里：http://fjbq-blog.top/2023/12/30/GAMES%20101%20%E9%9A%8F%E7%AC%94/</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 将角度转换为弧度</span></span><br><span class="line"><span class="function"><span class="type">double</span> <span class="title">DegToRad</span><span class="params">(<span class="type">double</span> Deg)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> Deg / <span class="number">180.0</span> * M_PI;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">solve</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// (2,1) 的点的齐次坐标表示（3 x 1 的矩阵）</span></span><br><span class="line">    <span class="function">Eigen::Vector3f <span class="title">Point</span><span class="params">(<span class="number">2.0</span>, <span class="number">1.0</span>, <span class="number">1.0</span>)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 旋转变换</span></span><br><span class="line">    <span class="type">double</span> Deg = <span class="number">45.0</span>;</span><br><span class="line">    <span class="type">double</span> Rad = <span class="built_in">DegToRad</span>(Deg);</span><br><span class="line"></span><br><span class="line">    Eigen::Matrix3f RotationMatrix;</span><br><span class="line">    RotationMatrix  &lt;&lt;  <span class="built_in">cos</span>(Rad), -<span class="built_in">sin</span>(Rad), <span class="number">0</span>,</span><br><span class="line">                        <span class="built_in">sin</span>(Rad), <span class="built_in">cos</span>(Rad), <span class="number">0</span>,</span><br><span class="line">                        <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>;</span><br><span class="line">    </span><br><span class="line">    Point = RotationMatrix * Point;</span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;旋转变换之后：\n&quot;</span> &lt;&lt; Point &lt;&lt; <span class="string">&quot;\n\n&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 平移变换</span></span><br><span class="line">    <span class="type">double</span> tx = <span class="number">1.0</span>;</span><br><span class="line">    <span class="type">double</span> ty = <span class="number">2.0</span>;</span><br><span class="line"></span><br><span class="line">    Eigen::Matrix3f TranslationMatrix;</span><br><span class="line">    TranslationMatrix &lt;&lt;    <span class="number">1</span>, <span class="number">0</span>, tx,</span><br><span class="line">                            <span class="number">0</span>, <span class="number">1</span>, ty,</span><br><span class="line">                            <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    Point = TranslationMatrix * Point;</span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;最终结果：\n&quot;</span> &lt;&lt; Point &lt;&lt;<span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">solve</span>();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p><img src="/images/Games101/homework/00/00.png"></p>
-<h1 id="作业1：旋转与投影"><a href="#作业1：旋转与投影" class="headerlink" title="作业1：旋转与投影"></a>作业1：旋转与投影</h1><h2 id="代码："><a href="#代码：" class="headerlink" title="代码："></a>代码：</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    模型变换：</span></span><br><span class="line"><span class="comment">        逐个元素地构建模型变换矩阵并返回该矩阵。</span></span><br><span class="line"><span class="comment">        在此函数中，你只需要实现三维中绕 z 轴旋转的变换矩阵，而不用处理平移与缩放。</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    分析：</span></span><br><span class="line"><span class="comment">        这个比较简单，提示也说了我们只需要绕着 z 轴旋转就行；</span></span><br><span class="line"><span class="comment">        回顾一下公式：http://fjbq-blog.top/2023/12/30/GAMES%20101%20%E9%9A%8F%E7%AC%94/</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function">Eigen::Matrix4f <span class="title">get_model_matrix</span><span class="params">(<span class="type">float</span> rotation_angle)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 转换为弧度制</span></span><br><span class="line">    <span class="type">float</span> rotation_angle_rad = rotation_angle / <span class="number">180.0</span> * MY_PI;    </span><br><span class="line"></span><br><span class="line">    <span class="comment">// 创建一个 模型变换矩阵，默认初始化矩阵为单位矩阵</span></span><br><span class="line">    Eigen::Matrix4f model = Eigen::Matrix4f::<span class="built_in">Identity</span>();</span><br><span class="line"></span><br><span class="line">    model &lt;&lt; <span class="built_in">cos</span>(rotation_angle_rad), -<span class="built_in">sin</span>(rotation_angle_rad), <span class="number">0</span>, <span class="number">0</span>,</span><br><span class="line">             <span class="built_in">sin</span>(rotation_angle_rad), <span class="built_in">cos</span>(rotation_angle_rad), <span class="number">0</span>, <span class="number">0</span>,</span><br><span class="line">             <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>,</span><br><span class="line">             <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">    //绕x轴</span></span><br><span class="line"><span class="comment">    model &lt;&lt; 1, 0, 0, 0,</span></span><br><span class="line"><span class="comment">             0, cos(angle), -sin(angle), 0,</span></span><br><span class="line"><span class="comment">             0, sin(angle), cos(angle), 0,</span></span><br><span class="line"><span class="comment">             0, 0, 0, 1;</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    //绕y轴（注意是反的哦）</span></span><br><span class="line"><span class="comment">    model &lt;&lt; cos(angle), 0, sin(angle), 0,</span></span><br><span class="line"><span class="comment">             0, 1, 0, 0,</span></span><br><span class="line"><span class="comment">             -sin(angle), 0, cos(angle), 0,</span></span><br><span class="line"><span class="comment">             0, 0, 0, 1;</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> model;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    投影变换：</span></span><br><span class="line"><span class="comment">        使用给定的参数逐个元素地构建透视投影矩阵并返回该矩阵。</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    分析：</span></span><br><span class="line"><span class="comment">        这个感觉就比较复杂一点了...</span></span><br><span class="line"><span class="comment">        首先根据前面的学习，我们知道 透视投影矩阵 = 正交投影矩阵 * 透视压缩矩阵（注意顺序哦）</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">        其中这个 正交投影矩阵 里面用到的参数需要我们去求一下的...</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function">Eigen::Matrix4f <span class="title">get_projection_matrix</span><span class="params">(<span class="type">float</span> eye_fov, <span class="type">float</span> aspect_ratio, <span class="type">float</span> zNear, <span class="type">float</span> zFar)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">    	怎么感觉知乎大佬的代码怪怪的；</span></span><br><span class="line"><span class="comment">    	这个 zNear，zFar 给的是正数；</span></span><br><span class="line"><span class="comment">    	下面计算的都是用的负数，先转换一下？</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    zNear = -zNear;</span><br><span class="line">    zFar = -zFar;</span><br><span class="line">    </span><br><span class="line">    Eigen::Matrix4f projection = Eigen::Matrix4f::<span class="built_in">Identity</span>();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 透视投影压缩矩阵</span></span><br><span class="line">    Eigen::Matrix4f M_persp;</span><br><span class="line">    M_persp &lt;&lt;  zNear, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>,</span><br><span class="line">                <span class="number">0</span>, zNear, <span class="number">0</span>, <span class="number">0</span>,</span><br><span class="line">                <span class="number">0</span>, <span class="number">0</span>, zNear + zFar, -zNear*zFar,</span><br><span class="line">                <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 求一下正交投影矩阵要用到的参数</span></span><br><span class="line">    <span class="type">float</span> alpha = <span class="number">0.5</span> * (eye_fov / <span class="number">180.0f</span> * MY_PI);     <span class="comment">// 视野角度的一半</span></span><br><span class="line">    <span class="type">float</span> yTop = -zNear * std::<span class="built_in">tan</span>(alpha);              <span class="comment">// 因为这里的z给的是负数，所以加负号之后再转换</span></span><br><span class="line">    <span class="type">float</span> yBottom = -yTop;</span><br><span class="line">    <span class="type">float</span> xRight = yTop * aspect_ratio;                 <span class="comment">// aspect_ratio 是 xy 的比例</span></span><br><span class="line">    <span class="type">float</span> xLeft = -xRight;</span><br><span class="line"></span><br><span class="line">    Eigen::Matrix4f M_trans;</span><br><span class="line">    M_trans &lt;&lt;  <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, -(xLeft + xRight) / <span class="number">2</span>,</span><br><span class="line">                <span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>, -(yTop + yBottom) / <span class="number">2</span>,</span><br><span class="line">                <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>, -(zNear + zFar) / <span class="number">2</span>,</span><br><span class="line">                <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    Eigen::Matrix4f M_ortho;</span><br><span class="line">    M_ortho &lt;&lt;  <span class="number">2</span> / (xRight - xLeft), <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>,</span><br><span class="line">                <span class="number">0</span>, <span class="number">2</span> / (yTop - yBottom), <span class="number">0</span>, <span class="number">0</span>,</span><br><span class="line">                <span class="number">0</span>, <span class="number">0</span>, <span class="number">2</span> / (zNear - zFar), <span class="number">0</span>,</span><br><span class="line">                <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 这个就是 正交投影矩阵</span></span><br><span class="line">    M_ortho = M_ortho * M_trans;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 透视投影矩阵 = 正交投影矩阵 * 透视压缩矩阵（注意顺序哦）</span></span><br><span class="line">    projection = M_ortho * M_persp * projection;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> projection;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    进阶 模型变换矩阵：绕任意轴旋转</span></span><br><span class="line"><span class="comment">    参考的是知乎大佬的：https://zhuanlan.zhihu.com/p/448904350</span></span><br><span class="line"><span class="comment">    用 n 表示一个过原点的向量</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function">Eigen::Matrix4f <span class="title">get_random_model_matrix</span><span class="params">(Eigen::Vector3f n,<span class="type">float</span> rotation_angle)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Eigen::Matrix4f model = Eigen::Matrix4f::<span class="built_in">Identity</span>();</span><br><span class="line">    Eigen::Matrix3f I = Eigen::Matrix3f::<span class="built_in">Identity</span>();</span><br><span class="line">    </span><br><span class="line">    <span class="type">float</span> angle = rotation_angle / <span class="number">180.0f</span> * MY_PI ;</span><br><span class="line">    <span class="type">float</span> nx = n[<span class="number">0</span>];</span><br><span class="line">    <span class="type">float</span> ny = n[<span class="number">1</span>];</span><br><span class="line">    <span class="type">float</span> nz = n[<span class="number">2</span>];</span><br><span class="line">    </span><br><span class="line">    Eigen::Matrix3f N;</span><br><span class="line">    N &lt;&lt; <span class="number">0</span>, -nz, ny,</span><br><span class="line">         nz, <span class="number">0</span>, -nx,</span><br><span class="line">         -ny, nx, <span class="number">0</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 公式</span></span><br><span class="line">    Eigen::Matrix3f R = std::<span class="built_in">cos</span>(angle) * I + (<span class="number">1</span> - std::<span class="built_in">cos</span>(angle)) * n * n.<span class="built_in">transpose</span>() + std::<span class="built_in">sin</span>(angle) * N;</span><br><span class="line">    </span><br><span class="line">    model &lt;&lt; <span class="built_in">R</span>(<span class="number">0</span>, <span class="number">0</span>), <span class="built_in">R</span>(<span class="number">0</span>, <span class="number">1</span>), <span class="built_in">R</span>(<span class="number">0</span>, <span class="number">2</span>), <span class="number">0</span>,</span><br><span class="line">             <span class="built_in">R</span>(<span class="number">1</span>, <span class="number">0</span>), <span class="built_in">R</span>(<span class="number">1</span>, <span class="number">1</span>), <span class="built_in">R</span>(<span class="number">1</span>, <span class="number">2</span>), <span class="number">0</span>,</span><br><span class="line">             <span class="built_in">R</span>(<span class="number">2</span>, <span class="number">0</span>), <span class="built_in">R</span>(<span class="number">2</span>, <span class="number">1</span>), <span class="built_in">R</span>(<span class="number">2</span>, <span class="number">2</span>), <span class="number">0</span>,</span><br><span class="line">             <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> model;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="结果："><a href="#结果：" class="headerlink" title="结果："></a>结果：</h2><p><img src="/images/Games101/homework/01/01.png"></p>
-<p><img src="/images/Games101/homework/01/02.png"></p>
-<h1 id="作业2：Triangles-and-Z-buffering（光栅化-和-抗锯齿）"><a href="#作业2：Triangles-and-Z-buffering（光栅化-和-抗锯齿）" class="headerlink" title="作业2：Triangles and Z-buffering（光栅化 和 抗锯齿）"></a>作业2：Triangles and Z-buffering（光栅化 和 抗锯齿）</h1><h2 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Eigen::Matrix4f <span class="title">get_projection_matrix</span><span class="params">(<span class="type">float</span> eye_fov, <span class="type">float</span> aspect_ratio, <span class="type">float</span> zNear, <span class="type">float</span> zFar)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">    	这个里的 zNear，zFar 给的又是负数了...</span></span><br><span class="line"><span class="comment">    	所以这里是不用反转的...</span></span><br><span class="line"><span class="comment">    	不然结果会相反，大家可以试试</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    </span><br><span class="line">    Eigen::Matrix4f projection = Eigen::Matrix4f::<span class="built_in">Identity</span>();</span><br><span class="line">	...</span><br><span class="line">    <span class="keyword">return</span> projection;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 判断点是否在三角形内（我这里用的是叉积）</span></span><br><span class="line"><span class="function"><span class="type">static</span> <span class="type">bool</span> <span class="title">insideTriangle</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> y, <span class="type">const</span> Vector3f* _v)</span></span></span><br><span class="line"><span class="function"></span>&#123;   </span><br><span class="line">    <span class="comment">// 这个表示叉积后的方向，0 表示负，1 表示正</span></span><br><span class="line">    <span class="type">int</span> flag = <span class="number">-1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">3</span>; i++) </span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// the current point</span></span><br><span class="line">        Eigen::Vector3f p0 = &#123;x, y, <span class="number">0</span>&#125;;</span><br><span class="line">        <span class="comment">// the 1st vertex</span></span><br><span class="line">        Eigen::Vector3f p1 = _v[i];</span><br><span class="line">        <span class="comment">// the 2nd vertex</span></span><br><span class="line">        Eigen::Vector3f p2 = _v[(i+<span class="number">1</span>)%<span class="number">3</span>];</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 第一个向量 (p1-p0)</span></span><br><span class="line">        Eigen::Vector3f v1 = p1-p0;</span><br><span class="line">        <span class="comment">// 第二个向量 (p1-p2)</span></span><br><span class="line">        Eigen::Vector3f v2 = p1-p2;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 求一下叉积</span></span><br><span class="line">        <span class="type">float</span> cp = v1.<span class="built_in">cross</span>(v2).<span class="built_in">z</span>();</span><br><span class="line">        <span class="keyword">if</span>(cp == <span class="number">0</span>) <span class="keyword">continue</span>;</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> sign = cp &lt; <span class="number">0</span> ? <span class="number">0</span>: <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">if</span>(flag == <span class="number">-1</span>) flag = sign;</span><br><span class="line">        <span class="keyword">if</span>(flag != sign) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 三角形光栅化</span></span><br><span class="line"><span class="type">void</span> rst::rasterizer::<span class="built_in">rasterize_triangle</span>(<span class="type">const</span> Triangle&amp; t) </span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">auto</span> v = t.<span class="built_in">toVector4</span>();</span><br><span class="line">    </span><br><span class="line">    <span class="type">int</span> min_x = INT_MAX;</span><br><span class="line">    <span class="type">int</span> max_x = INT_MIN;</span><br><span class="line">    <span class="type">int</span> min_y = INT_MAX;</span><br><span class="line">    <span class="type">int</span> max_y = INT_MIN;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 求一下三角形的包围盒</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">auto</span> point : v) <span class="comment">//获取包围盒边界</span></span><br><span class="line">    &#123;</span><br><span class="line">        min_x = <span class="built_in">min</span>(min_x, point[<span class="number">0</span>]);</span><br><span class="line">        max_x = <span class="built_in">max</span>(max_x, point[<span class="number">0</span>]);</span><br><span class="line">        min_y = <span class="built_in">min</span>(min_y, point[<span class="number">1</span>]);</span><br><span class="line">        max_y = <span class="built_in">max</span>(max_y, point[<span class="number">1</span>]);</span><br><span class="line">    &#125; </span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 遍历包围盒里面的点</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> y = min_y; y &lt;= max_y; y++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> x = min_x; x &lt;= max_x; x++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">insideTriangle</span>((<span class="type">float</span>)x+<span class="number">0.5</span>, (<span class="type">float</span>)y+<span class="number">0.5</span>, t.v))</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="comment">// 获取像素点在三角形内的 “重心坐标的系数”</span></span><br><span class="line">                <span class="keyword">auto</span>[alpha, beta, gamma] = <span class="built_in">computeBarycentric2D</span>(x+<span class="number">0.5</span>, y+<span class="number">0.5</span>, t.v);</span><br><span class="line">                </span><br><span class="line">               	<span class="comment">// 计算这个像素点的深度</span></span><br><span class="line">                <span class="type">float</span> w_reciprocal = <span class="number">1.0</span>/(alpha / v[<span class="number">0</span>].<span class="built_in">w</span>() + beta / v[<span class="number">1</span>].<span class="built_in">w</span>() + gamma / v[<span class="number">2</span>].<span class="built_in">w</span>());</span><br><span class="line">                <span class="type">float</span> z_interpolated = alpha * v[<span class="number">0</span>].<span class="built_in">z</span>() / v[<span class="number">0</span>].<span class="built_in">w</span>() + beta * v[<span class="number">1</span>].<span class="built_in">z</span>() / v[<span class="number">1</span>].<span class="built_in">w</span>() + gamma * v[<span class="number">2</span>].<span class="built_in">z</span>() / v[<span class="number">2</span>].<span class="built_in">w</span>();</span><br><span class="line">                z_interpolated *= w_reciprocal;</span><br><span class="line"></span><br><span class="line">                <span class="comment">// 判断当前z值是否小于原来z表此位置的z值</span></span><br><span class="line">                <span class="keyword">if</span> (z_interpolated &lt; depth_buf[<span class="built_in">get_index</span>(x, y)]) </span><br><span class="line">                &#123;</span><br><span class="line">                    Eigen::Vector3f p = &#123; (<span class="type">float</span>)x,(<span class="type">float</span>)y, z_interpolated &#125;; <span class="comment">// 当前坐标</span></span><br><span class="line">                    <span class="built_in">set_pixel</span>(p, t.<span class="built_in">getColor</span>()); </span><br><span class="line">                    depth_buf[<span class="built_in">get_index</span>(x, y)] = z_interpolated; <span class="comment">// 更新z值</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>提高的抗锯齿可以看这里：</strong></p>
-<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/454001952">Games101｜作业2 + 光栅化 + SSAA vs MSAA + 黑边问题 - 知乎 (zhihu.com)</a></p>
-<p><strong>分析的太棒了！</strong></p>
-<h2 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h2><p><img src="/images/Games101/homework/02/01.png"></p>
-<h2 id="补一下提高-嘻嘻嘻"><a href="#补一下提高-嘻嘻嘻" class="headerlink" title="补一下提高 嘻嘻嘻"></a>补一下提高 嘻嘻嘻</h2><p><strong>rasterizer.hpp 添加</strong></p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">std::vector&lt;Eigen::Vector3f&gt; color_list;</span><br></pre></td></tr></table></figure>
-
-<p><strong>rasterizer.cpp</strong></p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 判断点是否在三角形内（我这里用的是叉积）</span></span><br><span class="line"><span class="function"><span class="type">static</span> <span class="type">bool</span> <span class="title">insideTriangle</span><span class="params">(<span class="type">float</span> x, <span class="type">float</span> y, <span class="type">const</span> Vector3f* _v)</span></span></span><br><span class="line"><span class="function"></span>&#123;   </span><br><span class="line">    <span class="comment">// 这个表示叉积后的方向，0 表示负，1 表示正</span></span><br><span class="line">    <span class="type">int</span> flag = <span class="number">-1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">3</span>; i++) </span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// the current point</span></span><br><span class="line">        Eigen::Vector3f p0 = &#123;x, y, <span class="number">0</span>&#125;;</span><br><span class="line">        <span class="comment">// the 1st vertex</span></span><br><span class="line">        Eigen::Vector3f p1 = _v[i];</span><br><span class="line">        <span class="comment">// the 2nd vertex</span></span><br><span class="line">        Eigen::Vector3f p2 = _v[(i+<span class="number">1</span>)%<span class="number">3</span>];</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 第一个向量 (p1-p0)</span></span><br><span class="line">        Eigen::Vector3f v1 = p1-p0;</span><br><span class="line">        <span class="comment">// 第二个向量 (p1-p2)</span></span><br><span class="line">        Eigen::Vector3f v2 = p1-p2;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 求一下叉积         float cp = v1.cross(v2).z();</span></span><br><span class="line">        <span class="keyword">if</span>(cp == <span class="number">0</span>) <span class="keyword">continue</span>;</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> sign = cp &lt; <span class="number">0</span> ? <span class="number">0</span>: <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">if</span>(flag == <span class="number">-1</span>) flag = sign;</span><br><span class="line">        <span class="keyword">if</span>(flag != sign) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* ------------------------------------------------------------------------------- */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 四个采样点 float dx[] = &#123;0.25, 0.25, 0.75, 0.75&#125;;</span></span><br><span class="line"><span class="type">float</span> dy[] = &#123;<span class="number">0.25</span>, <span class="number">0.75</span>, <span class="number">0.25</span>, <span class="number">0.75</span>&#125;;</span><br><span class="line"><span class="comment">// 三角形光栅化</span></span><br><span class="line"><span class="type">void</span> rst::rasterizer::<span class="built_in">rasterize_triangle</span>(<span class="type">const</span> Triangle&amp; t) </span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">auto</span> v = t.<span class="built_in">toVector4</span>();</span><br><span class="line">    </span><br><span class="line">    <span class="type">int</span> min_x = INT_MAX;</span><br><span class="line">    <span class="type">int</span> max_x = INT_MIN;</span><br><span class="line">    <span class="type">int</span> min_y = INT_MAX;</span><br><span class="line">    <span class="type">int</span> max_y = INT_MIN;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 求一下三角形的包围盒</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">auto</span> point : v) <span class="comment">//获取包围盒边界     &#123;</span></span><br><span class="line">        min_x = <span class="built_in">min</span>((<span class="type">float</span>)min_x, point[<span class="number">0</span>]);</span><br><span class="line">        max_x = <span class="built_in">max</span>((<span class="type">float</span>)max_x, point[<span class="number">0</span>]);</span><br><span class="line">        min_y = <span class="built_in">min</span>((<span class="type">float</span>)min_y, point[<span class="number">1</span>]);</span><br><span class="line">        max_y = <span class="built_in">max</span>((<span class="type">float</span>)max_y, point[<span class="number">1</span>]);</span><br><span class="line">    &#125; </span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 遍历包围盒里面的点     for (int y = min_y; y &lt; max_y; y++)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> x = min_x; x &lt; max_x; x++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">// 取四个点(MSAA)</span></span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;<span class="number">4</span>;i++)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="type">float</span> xx = (<span class="type">double</span>)x + dx[i];</span><br><span class="line">                <span class="type">float</span> yy = (<span class="type">double</span>)y + dy[i];</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (<span class="built_in">insideTriangle</span>(xx, yy, t.v))</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="comment">// 获取像素点在三角形内的 “重心坐标的系数”</span></span><br><span class="line">                	<span class="keyword">auto</span>[alpha, beta, gamma] = <span class="built_in">computeBarycentric2D</span>(x+<span class="number">0.5</span>, y+<span class="number">0.5</span>, t.v);</span><br><span class="line">                </span><br><span class="line">               		<span class="comment">// 计算这个像素点的深度</span></span><br><span class="line">                    <span class="type">float</span> w_reciprocal = <span class="number">1.0</span>/(alpha / v[<span class="number">0</span>].<span class="built_in">w</span>() + beta / v[<span class="number">1</span>].<span class="built_in">w</span>() + gamma / v[<span class="number">2</span>].<span class="built_in">w</span>());</span><br><span class="line">                    <span class="type">float</span> z_interpolated = alpha * v[<span class="number">0</span>].<span class="built_in">z</span>() / v[<span class="number">0</span>].<span class="built_in">w</span>() + beta * v[<span class="number">1</span>].<span class="built_in">z</span>() / v[<span class="number">1</span>].<span class="built_in">w</span>() + gamma * v[<span class="number">2</span>].<span class="built_in">z</span>() / v[<span class="number">2</span>].<span class="built_in">w</span>();</span><br><span class="line">                    z_interpolated *= w_reciprocal;</span><br><span class="line"></span><br><span class="line">                    <span class="comment">// 判断当前z值是否小于原来z表此位置的z值                     if (z_interpolated &lt; depth_buf[get_index(x, y)*4+i]) </span></span><br><span class="line">                    &#123;</span><br><span class="line">                        <span class="comment">// 更新这个采样点                         depth_buf[get_index(x, y)*4+i] = z_interpolated;</span></span><br><span class="line">                        color_list[<span class="built_in">get_index</span>(x, y)*<span class="number">4</span>+i] = t.<span class="built_in">getColor</span>();</span><br><span class="line"></span><br><span class="line">                        <span class="comment">// 重新算一下这个像素点的颜色(取平均)</span></span><br><span class="line">                        <span class="function">Eigen::Vector3f <span class="title">new_color</span><span class="params">(<span class="number">0.0f</span>, <span class="number">0.0f</span>, <span class="number">0.0f</span>)</span></span>;</span><br><span class="line">                        <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>;j&lt;<span class="number">4</span>;j++) </span><br><span class="line">                            new_color += color_list[<span class="built_in">get_index</span>(x, y)*<span class="number">4</span>+j];</span><br><span class="line">                        new_color /= <span class="number">4</span>;</span><br><span class="line"></span><br><span class="line">                        <span class="comment">// 更新当前像素的值                         Eigen::Vector3f p = &#123; (float)x,(float)y, z_interpolated &#125;;</span></span><br><span class="line">                        <span class="built_in">set_pixel</span>(p, new_color);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="结果-1"><a href="#结果-1" class="headerlink" title="结果"></a>结果</h2><p><img src="/images/Games101/homework/02/02.png"></p>
-<p><strong>结果对比：</strong></p>
-<p><img src="/images/Games101/homework/02/03.png"></p>
-<p><img src="/images/Games101/homework/02/04.png"></p>
-<p><strong>太神奇啦！</strong></p>
-<h1 id="作业3-Pipeline-and-Shading（渲染小奶牛）"><a href="#作业3-Pipeline-and-Shading（渲染小奶牛）" class="headerlink" title="作业3 Pipeline and Shading（渲染小奶牛）"></a>作业3 Pipeline and Shading（渲染小奶牛）</h1><h1 id="作业4"><a href="#作业4" class="headerlink" title="作业4"></a>作业4</h1><h1 id="作业5"><a href="#作业5" class="headerlink" title="作业5"></a>作业5</h1><h1 id="作业6"><a href="#作业6" class="headerlink" title="作业6"></a>作业6</h1><h1 id="作业7"><a href="#作业7" class="headerlink" title="作业7"></a>作业7</h1><h1 id="作业8"><a href="#作业8" class="headerlink" title="作业8"></a>作业8</h1>
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/12/30/%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="FJBQ">
-      <meta itemprop="description" content="坚定 坚持 坚强">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="FJBQ">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/12/30/%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/" class="post-title-link" itemprop="url">My First Blog</a>
-        </h2>
-
-        <div class="post-meta">
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2023-12-30 21:09:55" itemprop="dateCreated datePublished" datetime="2023-12-30T21:09:55+08:00">2023-12-30</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-01-01 23:04:48" itemprop="dateModified" datetime="2024-01-01T23:04:48+08:00">2024-01-01</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/" itemprop="url" rel="index"><span itemprop="name">使用指南</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="这篇文章记录一下-Blog-的一些使用指南："><a href="#这篇文章记录一下-Blog-的一些使用指南：" class="headerlink" title="这篇文章记录一下 Blog 的一些使用指南："></a>这篇文章记录一下 Blog 的一些使用指南：</h1><p>source&#x2F;_posts：里面放的就是文章，要写文章就加一篇上去；</p>
-<p>文章的分类和标签在上面加上去就行；</p>
-<hr>
-<h1 id="操作流程"><a href="#操作流程" class="headerlink" title="操作流程"></a>操作流程</h1><p>全部改完之后，在 Blog 文件夹打开 git bash，执行下面命令：<br><strong>hexo clean</strong><br><strong>hexo g</strong><br><strong>hexo d</strong></p>
-<p><strong>hexo cl &amp;&amp; hexo g &amp;&amp; hexo d</strong></p>
-<hr>
-<h1 id="插入图片"><a href="#插入图片" class="headerlink" title="插入图片"></a>插入图片</h1><p>首先在 _config.yml 配置文件里面的这个：<br>post_asset_folder: false<br>这个一定要为 false，之前不小心设置为 true 了，然后就一直插入失败…</p>
-<p><strong>语法</strong>：<br><img src="/images/%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/1.png"></p>
-<ol>
-<li><p><strong>md 语法</strong>：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">![](/images/使用指南/1.png)</span><br><span class="line"></span><br><span class="line">![](images/使用指南/1.png)</span><br></pre></td></tr></table></figure>
-</li>
-<li><p><strong>html 语法</strong>：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;img src=&quot;/images/使用指南/1.png&quot;&gt;</span><br></pre></td></tr></table></figure></li>
-</ol>
-<p>images 文件夹是在 source 下面自己创建的！</p>
-<p>路径名好像不能有空格。</p>
-<p>test</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1680,7 +1827,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">37</span>
+          <span class="site-state-item-count">41</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1731,7 +1878,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共48.8k字</span>
+  <span class="post-count">博客全站共52.5k字</span>
 </div>
 
 
