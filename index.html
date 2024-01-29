@@ -206,7 +206,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-01-29 21:47:07" itemprop="dateModified" datetime="2024-01-29T21:47:07+08:00">2024-01-29</time>
+                <time title="修改时间：2024-01-29 21:59:56" itemprop="dateModified" datetime="2024-01-29T21:59:56+08:00">2024-01-29</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -263,6 +263,10 @@
 <p><a target="_blank" rel="noopener" href="https://fjbq-blog.top/2024/01/27/games101/HomeWork%202/">【Games 101】HomeWork 2：Triangles and Z-buffering（光栅化 和 抗锯齿）</a></p>
 <p><a target="_blank" rel="noopener" href="https://fjbq-blog.top/2024/01/27/games101/HomeWork%203/">【Games 101】HomeWork 3：Pipeline and Shading（渲染小奶牛）</a></p>
 <p><a target="_blank" rel="noopener" href="https://fjbq-blog.top/2024/01/27/games101/HomeWork%204/">【Games 101】HomeWork 4：Bézier 曲线</a></p>
+<p><a target="_blank" rel="noopener" href="https://fjbq-blog.top/2024/01/29/games101/HomeWork%205/">【Games 101】HomeWork 5：光线与三角形相交</a></p>
+<p><a target="_blank" rel="noopener" href="https://fjbq-blog.top/2024/01/29/games101/HomeWork%206/">【Games 101】HomeWork 6：加速结构</a></p>
+<p><a target="_blank" rel="noopener" href="https://fjbq-blog.top/2024/01/29/games101/HomeWork%207/">【Games 101】HomeWork 7：路径追踪</a></p>
+<p><a target="_blank" rel="noopener" href="https://fjbq-blog.top/2024/01/29/games101/HomeWork%208/">【Games 101】HomeWork 8：质点弹簧系统</a></p>
 <h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><strong>可以参考这三个大佬的分析</strong>：</p>
 <p><a target="_blank" rel="noopener" href="https://www.zhihu.com/people/cheng-feng-28-76/posts">Keanu - 知乎 (zhihu.com)</a></p>
 <p><a target="_blank" rel="noopener" href="https://www.zhihu.com/people/stardustToStardust/posts">柚子没有贝壳味 - 知乎 (zhihu.com)</a></p>
@@ -407,7 +411,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2024-01-29 21:54:27 / 修改时间：21:23:21" itemprop="dateCreated datePublished" datetime="2024-01-29T21:54:27+08:00">2024-01-29</time>
+              <time title="创建时间：2024-01-29 21:54:27 / 修改时间：21:57:53" itemprop="dateCreated datePublished" datetime="2024-01-29T21:54:27+08:00">2024-01-29</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -461,7 +465,7 @@
 
 
 
-<p>Bounds3.hpp</p>
+<p><strong>Bounds3.hpp</strong></p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 这个函数的作用是判断包围盒 BoundingBox 与光线是否相交</span></span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="type">bool</span> <span class="title">Bounds3::IntersectP</span><span class="params">(<span class="type">const</span> Ray&amp; ray, <span class="type">const</span> Vector3f&amp; invDir, <span class="type">const</span> std::array&lt;<span class="type">int</span>, <span class="number">3</span>&gt;&amp; dirIsNeg)</span> <span class="type">const</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// invDir: ray direction(x,y,z), invDir = (1.0/x,1.0/y,1.0/z)，使用这个是因为乘法比除法快</span></span><br><span class="line">    <span class="comment">// dirIsNeg: ray direction(x,y,z), dirIsNeg = [int(x&gt;0),int(y&gt;0),int(z&gt;0)], 用这个来简化你的逻辑</span></span><br><span class="line">    </span><br><span class="line">    <span class="type">float</span> tx_min = (pMin.x - ray.origin.x) * invDir.x;</span><br><span class="line">    <span class="type">float</span> tx_max = (pMax.x - ray.origin.x) * invDir.x;</span><br><span class="line">    <span class="keyword">if</span> (dirIsNeg[<span class="number">0</span>]) std::<span class="built_in">swap</span>(tx_min, tx_max);</span><br><span class="line">    </span><br><span class="line">    <span class="type">float</span> ty_min = (pMin.y - ray.origin.y) * invDir.y;</span><br><span class="line">    <span class="type">float</span> ty_max = (pMax.y - ray.origin.y) * invDir.y;</span><br><span class="line">    <span class="keyword">if</span> (dirIsNeg[<span class="number">1</span>]) std::<span class="built_in">swap</span>(ty_min, ty_max);</span><br><span class="line">    </span><br><span class="line">    <span class="type">float</span> tz_min = (pMin.z - ray.origin.z) * invDir.z;</span><br><span class="line">    <span class="type">float</span> tz_max = (pMax.z - ray.origin.z) * invDir.z;</span><br><span class="line">    <span class="keyword">if</span> (dirIsNeg[<span class="number">2</span>]) std::<span class="built_in">swap</span>(tz_min, tz_max);</span><br><span class="line"></span><br><span class="line">    <span class="type">float</span> t_enter = std::<span class="built_in">max</span>(std::<span class="built_in">max</span>(tx_min, ty_min), tz_min);</span><br><span class="line">    <span class="type">float</span> t_exit = std::<span class="built_in">min</span>(std::<span class="built_in">min</span>(tx_max, ty_max), tz_max);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> t_exit &gt; <span class="number">0.0f</span> &amp;&amp; t_enter &lt; t_exit;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p><strong>结果：</strong></p>
@@ -599,7 +603,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2024-01-29 21:54:27 / 修改时间：21:38:55" itemprop="dateCreated datePublished" datetime="2024-01-29T21:54:27+08:00">2024-01-29</time>
+              <time title="创建时间：2024-01-29 21:54:27 / 修改时间：22:00:49" itemprop="dateCreated datePublished" datetime="2024-01-29T21:54:27+08:00">2024-01-29</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -636,6 +640,7 @@
 
 <p><strong>结果：</strong></p>
 <p><img src="/images/Games101/homework/08/01.png"></p>
+<p><img src="/images/Games101/homework/08/02.png"></p>
 
       
     </div>
@@ -1112,7 +1117,7 @@
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1180,7 +1185,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">41</span>
+          <span class="site-state-item-count">40</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1231,7 +1236,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共52.5k字</span>
+  <span class="post-count">博客全站共49.4k字</span>
 </div>
 
 
