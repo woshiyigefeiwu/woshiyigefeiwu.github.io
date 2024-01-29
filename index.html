@@ -382,395 +382,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2024/01/27/games101/HomeWork%208/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="FJBQ">
-      <meta itemprop="description" content="坚定 坚持 坚强">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="FJBQ">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2024/01/27/games101/HomeWork%208/" class="post-title-link" itemprop="url">【Games 101】HomeWork 8：质点弹簧系统</a>
-        </h2>
-
-        <div class="post-meta">
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2024-01-27 23:26:50" itemprop="dateCreated datePublished" datetime="2024-01-27T23:26:50+08:00">2024-01-27</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-01-29 21:38:55" itemprop="dateModified" datetime="2024-01-29T21:38:55+08:00">2024-01-29</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">Games 系列</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/Games-101/" itemprop="url" rel="index"><span itemprop="name">Games 101</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="HomeWork-8：质点弹簧系统"><a href="#HomeWork-8：质点弹簧系统" class="headerlink" title="HomeWork 8：质点弹簧系统"></a>HomeWork 8：质点弹簧系统</h1><p>这节课比较简单，都是套公式就行；</p>
-<p>有个点得提一下，一开始sb了，在src里面间的build文件夹，然后cmake，结果一直报错…</p>
-<p>实际上是应该在上一级建的…（也就是 build 和 src 文件夹同一级）</p>
-<p>知识点参考的课程：</p>
-<p><a target="_blank" rel="noopener" href="https://fjbq-blog.top/2024/01/21/games101/Lec%2021/">【Games 101】Lec 21：动画</a></p>
-<p><strong>rope.cpp</strong></p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">        构造函数</span></span><br><span class="line"><span class="comment">        这个构造函数应该可以创建一个新的绳子(Rope) 对象，该对象从start 开始，end 结束，包含 num_nodes 个节点。</span></span><br><span class="line"><span class="comment">        </span></span><br><span class="line"><span class="comment">        - start：起始节点的坐标</span></span><br><span class="line"><span class="comment">        - end：最终节点的坐标</span></span><br><span class="line"><span class="comment">        - num_nodes：节点个数</span></span><br><span class="line"><span class="comment">        - node_mass：节点的质量</span></span><br><span class="line"><span class="comment">        - k：弹簧的弪度系数</span></span><br><span class="line"><span class="comment">        - pinned_nodes：弹簧两个端点的索引</span></span><br><span class="line"><span class="comment">    */</span> </span><br><span class="line">    Rope::<span class="built_in">Rope</span>(Vector2D start, Vector2D end, <span class="type">int</span> num_nodes, <span class="type">float</span> node_mass, <span class="type">float</span> k, vector&lt;<span class="type">int</span>&gt; pinned_nodes)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// 初始化质点</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; num_nodes; ++i)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">// 转成double再做除法，否则就会截断成int</span></span><br><span class="line">            Vector2D pos = start + (end - start) * ((<span class="type">double</span>)i / ((<span class="type">double</span>)num_nodes - <span class="number">1.0</span>));</span><br><span class="line">            masses.<span class="built_in">push_back</span>(<span class="keyword">new</span> <span class="built_in">Mass</span>(pos, node_mass, <span class="literal">false</span>));</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 初始化弹簧</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; num_nodes - <span class="number">1</span>; ++i)</span><br><span class="line">        &#123;</span><br><span class="line">            springs.<span class="built_in">push_back</span>(<span class="keyword">new</span> <span class="built_in">Spring</span>(masses[i], masses[i + <span class="number">1</span>], k));</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">auto</span> &amp;i : pinned_nodes) </span><br><span class="line">        &#123;</span><br><span class="line">            masses[i]-&gt;pinned = <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 显式 / 半隐式欧拉法</span></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">Rope::simulateEuler</span><span class="params">(<span class="type">float</span> <span class="type">delta_t</span>, Vector2D gravity)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="comment">// 实现胡克定律：遍历所有的弹簧，根据拉伸的长度计算拉力（套公式就行）</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">auto</span> &amp;s : springs)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="type">double</span> len = (s-&gt;m1-&gt;position - s-&gt;m2-&gt;position).<span class="built_in">norm</span>();</span><br><span class="line">            s-&gt;m1-&gt;forces += -(s-&gt;k) * (s-&gt;m1-&gt;position - s-&gt;m2-&gt;position) / len * (len - s-&gt;rest_length);</span><br><span class="line">            s-&gt;m2-&gt;forces += -(s-&gt;k) * (s-&gt;m2-&gt;position - s-&gt;m1-&gt;position) / len * (len - s-&gt;rest_length);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 更新 加速度，速度，位置（也是套公式就行）</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">auto</span> &amp;m : masses)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (!m-&gt;pinned)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="comment">/*</span></span><br><span class="line"><span class="comment">                    加上重力作用下的力，然后计算新的速度和位置</span></span><br><span class="line"><span class="comment">                    隐式：先更新速度，再更新位置</span></span><br><span class="line"><span class="comment">                    显式：先更新位置，再更新速度（直接就飞出去了...）</span></span><br><span class="line"><span class="comment">                */</span></span><br><span class="line"></span><br><span class="line">                <span class="comment">// 加上质点的重力，重力 = 重力加速度 * 质量</span></span><br><span class="line">                m-&gt;forces += gravity * m-&gt;mass;</span><br><span class="line"></span><br><span class="line">                <span class="comment">// 增加全局阻尼力</span></span><br><span class="line">                <span class="type">float</span> k_d = <span class="number">0.005</span>;       </span><br><span class="line">                Vector2D f_d = -k_d * m-&gt;velocity;</span><br><span class="line"></span><br><span class="line">                <span class="comment">// 加上阻尼的力</span></span><br><span class="line">                m-&gt;forces += f_d;</span><br><span class="line"></span><br><span class="line">                <span class="comment">// 加速度</span></span><br><span class="line">                Vector2D a = m-&gt;forces / m-&gt;mass;</span><br><span class="line"></span><br><span class="line">                m-&gt;velocity += a * <span class="type">delta_t</span>;                 <span class="comment">// 再更新速度</span></span><br><span class="line">                m-&gt;position += m-&gt;velocity * <span class="type">delta_t</span>;       <span class="comment">// 先更新位置，就是用上一时刻的速度更新</span></span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// Reset all forces on each mass</span></span><br><span class="line">            m-&gt;forces = <span class="built_in">Vector2D</span>(<span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 显式 Verlet 法</span></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">Rope::simulateVerlet</span><span class="params">(<span class="type">float</span> <span class="type">delta_t</span>, Vector2D gravity)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">auto</span> &amp;s : springs)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="type">double</span> len = (s-&gt;m1-&gt;position - s-&gt;m2-&gt;position).<span class="built_in">norm</span>();</span><br><span class="line">            s-&gt;m1-&gt;forces += -(s-&gt;k) * (s-&gt;m1-&gt;position - s-&gt;m2-&gt;position) / len * (len - s-&gt;rest_length);</span><br><span class="line">            s-&gt;m2-&gt;forces += -(s-&gt;k) * (s-&gt;m2-&gt;position - s-&gt;m1-&gt;position) / len * (len - s-&gt;rest_length);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">auto</span> &amp;m : masses)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (!m-&gt;pinned)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="comment">/*</span></span><br><span class="line"><span class="comment">                    显示Verlet法：把弹簧的长度保持原长作为约束，移动每个质点的位置</span></span><br><span class="line"><span class="comment">                    也是套公式就行：</span></span><br><span class="line"><span class="comment">                        x(t+1) = x(t) + (1 - damping_factor) * ([x(t) - x(t-1)] + a * dt * dt)</span></span><br><span class="line"><span class="comment">                    可以看到需要 x(t-1)，所以得先存一下</span></span><br><span class="line"><span class="comment">                */</span></span><br><span class="line">                </span><br><span class="line">                <span class="comment">// 加上质点的重力，重力 = 重力加速度 * 质量</span></span><br><span class="line">                m-&gt;forces += gravity * m-&gt;mass;</span><br><span class="line">                Vector2D a = m-&gt;forces/m-&gt;mass;</span><br><span class="line"></span><br><span class="line">                <span class="comment">// x(t-1)</span></span><br><span class="line">                Vector2D lastPosition = m-&gt;position;    </span><br><span class="line"></span><br><span class="line">                <span class="comment">// 阻尼</span></span><br><span class="line">                <span class="type">float</span> damping_factor = <span class="number">0.00005f</span>;</span><br><span class="line"></span><br><span class="line">                <span class="comment">// x(t+1) = x(t) + (1 - damping_factor) * ([x(t) - x(t-1)] + a * dt * dt)</span></span><br><span class="line">                m-&gt;position += (<span class="number">1</span> - damping_factor) * (m-&gt;position - m-&gt;last_position + a * <span class="type">delta_t</span> * <span class="type">delta_t</span>);</span><br><span class="line">                m-&gt;last_position = lastPosition;</span><br><span class="line">            &#125;</span><br><span class="line">            m-&gt;forces = <span class="built_in">Vector2D</span>(<span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>结果：</strong></p>
-<p><img src="/images/Games101/homework/08/01.png"></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2024/01/27/games101/HomeWork%207/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="FJBQ">
-      <meta itemprop="description" content="坚定 坚持 坚强">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="FJBQ">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2024/01/27/games101/HomeWork%207/" class="post-title-link" itemprop="url">【Games 101】HomeWork 7：路径追踪</a>
-        </h2>
-
-        <div class="post-meta">
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2024-01-27 23:26:50" itemprop="dateCreated datePublished" datetime="2024-01-27T23:26:50+08:00">2024-01-27</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-01-29 21:33:29" itemprop="dateModified" datetime="2024-01-29T21:33:29+08:00">2024-01-29</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">Games 系列</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/Games-101/" itemprop="url" rel="index"><span itemprop="name">Games 101</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="HomeWork-7：路径追踪"><a href="#HomeWork-7：路径追踪" class="headerlink" title="HomeWork 7：路径追踪"></a>HomeWork 7：路径追踪</h1><p>首先按照 pdf 里面的操作，将相关函数迁移过来；</p>
-<p>IntersectP 函数最后判断的时候，需要&#x3D;，不然可能会有问题：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">inline</span> <span class="type">bool</span> <span class="title">Bounds3::IntersectP</span><span class="params">(<span class="type">const</span> Ray&amp; ray, <span class="type">const</span> Vector3f&amp; invDir, <span class="type">const</span> std::array&lt;<span class="type">int</span>, <span class="number">3</span>&gt;&amp; dirIsNeg)</span> <span class="type">const</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	...</span><br><span class="line">    <span class="comment">// 注意这里需要 = ，不然好像会出问题</span></span><br><span class="line">    <span class="keyword">return</span> t_exit &gt;= <span class="number">0.0f</span> &amp;&amp; t_enter &lt;= t_exit;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>然后就是本次作业的内容，本次作业要实现的是路径追踪函数；</p>
-<p>  这个作业是真的有点难… 主要是知识点都忘了… </p>
-<p>  建议回去看一遍视频… 然后对照课程中的伪代码一步一步比对实现</p>
-<p>  castRay 这个函数实现的就是路径追踪</p>
-<p>  具体细节看代码里面的注释！</p>
-<p>知识点参考的是这一节课的内容：</p>
-<p><a target="_blank" rel="noopener" href="https://fjbq-blog.top/2024/01/13/games101/Lec%2016/">【Games 101】Lec 16：光线追踪 4（蒙特卡罗积分，路径追踪）</a></p>
-<p><strong>Scene.cpp</strong></p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    这个作业是真的有点难... 主要是知识点都忘了... </span></span><br><span class="line"><span class="comment">    建议回去看一遍视频... 然后对照课程中的伪代码一步一步比对实现</span></span><br><span class="line"><span class="comment">    castRay 这个函数实现的就是路径追踪</span></span><br><span class="line"><span class="comment">    具体细节看代码里面的注释！</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function">Vector3f <span class="title">Scene::castRay</span><span class="params">(<span class="type">const</span> Ray &amp;ray, <span class="type">int</span> depth)</span> <span class="type">const</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 首先，获得光线第一个打到的点（下面叫做着色点吧）</span></span><br><span class="line">    Intersection p = <span class="built_in">intersect</span>(ray);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 没打到，直接返回</span></span><br><span class="line">    <span class="keyword">if</span>(!p.happened) <span class="keyword">return</span> <span class="built_in">Vector3f</span>(<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 如果着色点自己是光源，则直接返回</span></span><br><span class="line">    <span class="keyword">if</span>(p.m-&gt;<span class="built_in">hasEmission</span>())</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> p.m-&gt;<span class="built_in">getEmission</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">        否则，如果该着色点是非光源，按照课程讲的，则分为两部分来求：</span></span><br><span class="line"><span class="comment">        1. 光源对该着色点的贡献（直接对光源取样，不用RR）</span></span><br><span class="line"><span class="comment">        2. 其他非光源对该着色点的贡献（递归求解，用RR）</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 光线的方向</span></span><br><span class="line">    Vector3f wo = ray.direction;</span><br><span class="line">    <span class="comment">// 这个就是第 1 项，光源对该着色点的贡献</span></span><br><span class="line">    <span class="function">Vector3f <span class="title">L_indir</span><span class="params">(<span class="number">0</span>)</span></span>;</span><br><span class="line">    <span class="comment">// 这个就是第 2 项，光源对该着色点的贡献</span></span><br><span class="line">    <span class="function">Vector3f <span class="title">L_dir</span><span class="params">(<span class="number">0</span>)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/*----------------- 1. 光源对该着色点的贡献（直接对光源取样，不用RR）---------------*/</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 对光源进行取样，得到光源的 pdf 和 光源上的点 和 光源的面积密度pdf</span></span><br><span class="line">    Intersection inter_l;       <span class="comment">// 在光源上的交点</span></span><br><span class="line">    <span class="type">float</span> pdf_light;                  <span class="comment">// 光源的 pdf</span></span><br><span class="line">    <span class="built_in">sampleLight</span>(inter_l, pdf_light);</span><br><span class="line">    Vector3f x = inter_l.coords;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 获得着色点p到光源（采样点）的 方向 与 距离</span></span><br><span class="line">    <span class="type">float</span> p2lightDist = (x - p.coords).<span class="built_in">norm</span>();</span><br><span class="line">    Vector3f p2lightDir = (x - p.coords).<span class="built_in">normalized</span>();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 从p点向取样得到的光源方向射出一条光线wi</span></span><br><span class="line">    <span class="function">Ray <span class="title">wi</span><span class="params">(p.coords, p2lightDir)</span></span>;</span><br><span class="line">    <span class="comment">// 从p点向光源方向射出一条光线得到交点 inter_tmp,为判断光源与着色点是否有物体做准备</span></span><br><span class="line">    Intersection inter_tmp = <span class="built_in">intersect</span>(wi);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 判断 着色点p 和 光源之间 中间没有物体阻隔</span></span><br><span class="line">    <span class="keyword">if</span> ((inter_l.coords - inter_tmp.coords).<span class="built_in">norm</span>() &lt; EPSILON * EPSILON)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// 这里我照着伪代码把变量都写出来了，清楚一点</span></span><br><span class="line">        Vector3f L_i = inter_l.emit;</span><br><span class="line">        Vector3f f_r = p.m-&gt;<span class="built_in">eval</span>(wo, wi.direction, p.normal);</span><br><span class="line">        <span class="comment">// （着色点法向量）和（着色点-光源采样点 向量）之间的夹角</span></span><br><span class="line">        <span class="type">float</span> cos0 = <span class="built_in">dotProduct</span>(wi.direction, p.normal);    </span><br><span class="line">        <span class="comment">// （光源平面法向量）和（光源采样点-着色点 向量）之间的夹角</span></span><br><span class="line">        <span class="type">float</span> cos0_ = <span class="built_in">dotProduct</span>(-wi.direction, inter_l.normal);</span><br><span class="line"></span><br><span class="line">        L_dir = L_i * f_r * cos0 * cos0_ / (p2lightDist * p2lightDist) / pdf_light;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/*----------------- 2. 其他非光源对该着色点的贡献（递归求解，用RR）---------------*/</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 俄罗斯轮盘获得随机概率</span></span><br><span class="line">    <span class="type">float</span> P_RR = RussianRoulette;</span><br><span class="line">    <span class="type">int</span> seed = <span class="built_in">rand</span>() % <span class="number">10</span>;</span><br><span class="line">    <span class="comment">// 生存概率</span></span><br><span class="line">    <span class="keyword">if</span> (seed * <span class="number">1.0</span> / <span class="number">10</span> &gt; P_RR) <span class="keyword">return</span> L_dir; </span><br><span class="line">        </span><br><span class="line">    <span class="comment">// 在 着色点p 取样一个新的随机方向</span></span><br><span class="line">    Vector3f wi_new = p.m-&gt;<span class="built_in">sample</span>(wo, p.normal);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 发射出去求与其他物体的交点</span></span><br><span class="line">    <span class="function">Ray <span class="title">r</span><span class="params">(p.coords, wi_new)</span></span>;</span><br><span class="line">    Intersection q = <span class="built_in">intersect</span>(r);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 如果q点的物体不是光源</span></span><br><span class="line">    <span class="keyword">if</span> (q.happened &amp;&amp; !q.obj-&gt;<span class="built_in">hasEmit</span>())</span><br><span class="line">    &#123;</span><br><span class="line">        Vector3f f_r = p.m-&gt;<span class="built_in">eval</span>(wo, wi_new, p.normal);</span><br><span class="line">        <span class="type">float</span> cos0 = <span class="built_in">dotProduct</span>(wi_new, p.normal);</span><br><span class="line">        <span class="type">float</span> pdf_hemi = p.m-&gt;<span class="built_in">pdf</span>(wo,wi_new,p.normal);</span><br><span class="line"></span><br><span class="line">        L_indir = <span class="built_in">castRay</span>(r, depth+<span class="number">1</span>) * f_r * cos0 / pdf_hemi / P_RR;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> L_dir + L_indir;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>路径追踪结果：</strong></p>
-<p>可能是给虚拟机分配的内存和CPU数量少了… 跑了40分钟，主机的CPU也才跑了20多而已…</p>
-<p><img src="/images/Games101/homework/07/01.png"></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2024/01/27/games101/HomeWork%206/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="FJBQ">
-      <meta itemprop="description" content="坚定 坚持 坚强">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="FJBQ">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2024/01/27/games101/HomeWork%206/" class="post-title-link" itemprop="url">【Games 101】HomeWork 6：加速结构</a>
-        </h2>
-
-        <div class="post-meta">
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2024-01-27 23:26:48" itemprop="dateCreated datePublished" datetime="2024-01-27T23:26:48+08:00">2024-01-27</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-01-29 21:23:21" itemprop="dateModified" datetime="2024-01-29T21:23:21+08:00">2024-01-29</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">Games 系列</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/Games-101/" itemprop="url" rel="index"><span itemprop="name">Games 101</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="HomeWork-6：加速结构"><a href="#HomeWork-6：加速结构" class="headerlink" title="HomeWork 6：加速结构"></a>HomeWork 6：加速结构</h1><p>首先，是 <strong>Render()</strong> 和 <strong>Triangle::getIntersection</strong>，照着上一节课一样，只是有些地方的形式需要改改；</p>
-<p>然后就是此次作业的要求：</p>
-<ul>
-<li><strong>理解，并使用加速结构 BVH，找到光线和场景中物体的交点</strong><ul>
-<li><em><em>getIntersection(BVHBuildNode</em> node, const Ray ray)</em>*</li>
-</ul>
-</li>
-<li><strong>判断光线和包围盒是否相交，</strong><ul>
-<li><strong>IntersectP(const Ray&amp; ray, const Vector3f&amp; invDir, const std::array&lt;int, 3&gt;&amp; dirIsNeg)</strong></li>
-</ul>
-</li>
-</ul>
-<p>对于知识点参考这一节课：</p>
-<p><a target="_blank" rel="noopener" href="http://fjbq-blog.top/2024/01/09/games101/Lec%2014/">【Games 101】Lec 14：光线追踪 2（加速光线追踪 和 辐射度量学）</a></p>
-<p><strong>Renderer.cpp</strong></p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 这个还是一样的，照着上一个作业的写就行（注意有些东西变了）</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Renderer::Render</span><span class="params">(<span class="type">const</span> Scene&amp; scene)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 帧缓冲区，用于保存返回的颜色</span></span><br><span class="line">    <span class="function">std::vector&lt;Vector3f&gt; <span class="title">framebuffer</span><span class="params">(scene.width * scene.height)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="type">float</span> scale = <span class="built_in">tan</span>(<span class="built_in">deg2rad</span>(scene.fov * <span class="number">0.5</span>));</span><br><span class="line">    <span class="type">float</span> imageAspectRatio = scene.width / (<span class="type">float</span>)scene.height;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 这个视点变了</span></span><br><span class="line">    <span class="function">Vector3f <span class="title">eye_pos</span><span class="params">(<span class="number">-1</span>, <span class="number">5</span>, <span class="number">10</span>)</span></span>;</span><br><span class="line">    <span class="type">int</span> m = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">uint32_t</span> j = <span class="number">0</span>; j &lt; scene.height; ++j)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">uint32_t</span> i = <span class="number">0</span>; i &lt; scene.width; ++i)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="type">float</span> x = (<span class="number">2</span> * (i + <span class="number">0.5</span>) / (<span class="type">float</span>)scene.width - <span class="number">1</span>) * imageAspectRatio * scale;</span><br><span class="line">            <span class="type">float</span> y = (<span class="number">1</span> - <span class="number">2</span> * (j + <span class="number">0.5</span>) / (<span class="type">float</span>)scene.height) * scale;</span><br><span class="line"></span><br><span class="line">            Vector3f dir = <span class="built_in">Vector3f</span>(x, y, <span class="number">-1</span>); <span class="comment">// Don&#x27;t forget to normalize this direction!</span></span><br><span class="line">            dir = <span class="built_in">normalize</span>(dir);</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 这里不是直接调用 castRay 了... 是先定义光线ray，然后在传到scene的castray方法中。</span></span><br><span class="line">            <span class="function">Ray <span class="title">ray</span><span class="params">(eye_pos,dir)</span></span>;</span><br><span class="line">            framebuffer[m++] = scene.<span class="built_in">castRay</span>(ray,<span class="number">0</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">UpdateProgress</span>(j / (<span class="type">float</span>)scene.height);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">UpdateProgress</span>(<span class="number">1.f</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// save framebuffer to file</span></span><br><span class="line">    FILE* fp = <span class="built_in">fopen</span>(<span class="string">&quot;binary.ppm&quot;</span>, <span class="string">&quot;wb&quot;</span>);</span><br><span class="line">    (<span class="type">void</span>)<span class="built_in">fprintf</span>(fp, <span class="string">&quot;P6\n%d %d\n255\n&quot;</span>, scene.width, scene.height);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">auto</span> i = <span class="number">0</span>; i &lt; scene.height * scene.width; ++i) &#123;</span><br><span class="line">        <span class="type">static</span> <span class="type">unsigned</span> <span class="type">char</span> color[<span class="number">3</span>];</span><br><span class="line">        color[<span class="number">0</span>] = (<span class="type">unsigned</span> <span class="type">char</span>)(<span class="number">255</span> * <span class="built_in">clamp</span>(<span class="number">0</span>, <span class="number">1</span>, framebuffer[i].x));</span><br><span class="line">        color[<span class="number">1</span>] = (<span class="type">unsigned</span> <span class="type">char</span>)(<span class="number">255</span> * <span class="built_in">clamp</span>(<span class="number">0</span>, <span class="number">1</span>, framebuffer[i].y));</span><br><span class="line">        color[<span class="number">2</span>] = (<span class="type">unsigned</span> <span class="type">char</span>)(<span class="number">255</span> * <span class="built_in">clamp</span>(<span class="number">0</span>, <span class="number">1</span>, framebuffer[i].z));</span><br><span class="line">        <span class="built_in">fwrite</span>(color, <span class="number">1</span>, <span class="number">3</span>, fp);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">fclose</span>(fp);    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>Triangle::getIntersection</strong></p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">inline</span> Intersection <span class="title">Triangle::getIntersection</span><span class="params">(Ray ray)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 射线和三角形的交点（结构体，存了一些交点信息）</span></span><br><span class="line">    Intersection inter;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 说明不是入射光线</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">dotProduct</span>(ray.direction, normal) &gt; <span class="number">0</span>) <span class="keyword">return</span> inter;</span><br><span class="line"></span><br><span class="line">    <span class="type">double</span> u, v, t_tmp = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 相当于 S1</span></span><br><span class="line">    Vector3f pvec = <span class="built_in">crossProduct</span>(ray.direction, e2);</span><br><span class="line">    <span class="type">double</span> det = <span class="built_in">dotProduct</span>(e1, pvec);</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">fabs</span>(det) &lt; EPSILON) <span class="keyword">return</span> inter;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 相当于 1/dotProduct(S1,E1)</span></span><br><span class="line">    <span class="type">double</span> det_inv = <span class="number">1.</span> / det;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 相当于 S</span></span><br><span class="line">    Vector3f tvec = ray.origin - v0;</span><br><span class="line">    u = <span class="built_in">dotProduct</span>(tvec, pvec) * det_inv;</span><br><span class="line">    <span class="keyword">if</span> (u &lt; <span class="number">0</span> || u &gt; <span class="number">1</span>) <span class="keyword">return</span> inter;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 相当于 S2</span></span><br><span class="line">    Vector3f qvec = <span class="built_in">crossProduct</span>(tvec, e1);</span><br><span class="line">    v = <span class="built_in">dotProduct</span>(ray.direction, qvec) * det_inv;</span><br><span class="line">    <span class="keyword">if</span> (v &lt; <span class="number">0</span> || u + v &gt; <span class="number">1</span>) <span class="keyword">return</span> inter;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 相当于 t</span></span><br><span class="line">    t_tmp = <span class="built_in">dotProduct</span>(e2, qvec) * det_inv;</span><br><span class="line">    <span class="keyword">if</span> (t_tmp &lt;= <span class="number">0</span>) <span class="keyword">return</span> inter;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 下面完善一下交点信息</span></span><br><span class="line">    <span class="comment">// 标记相交</span></span><br><span class="line">    inter.happened=<span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 求一下坐标，Ray中重载了(), ray(t_tmp) = ray.origin + ray.direction * t_tmp</span></span><br><span class="line">    inter.coords = <span class="built_in">Vector3f</span>(<span class="built_in">ray</span>(t_tmp));</span><br><span class="line">    inter.distance = t_tmp;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 交点是在这个三角形上，所以把这个三角形的材质、法线和指针传给交点。</span></span><br><span class="line">    inter.m = m;</span><br><span class="line">    inter.normal = normal;</span><br><span class="line">    inter.obj = <span class="keyword">this</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> inter;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p><strong>BVH.cpp</strong></p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    BVH 加速结构，获取 光线 和 以node为根结点的子树 的交点</span></span><br><span class="line"><span class="comment">    这个照着课上的为代码写就行了</span></span><br><span class="line"><span class="comment">    好像一个节点最多包含一个物体</span></span><br><span class="line"><span class="comment">    规范一点，注意指针的判空</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function">Intersection <span class="title">BVHAccel::getIntersection</span><span class="params">(BVHBuildNode* node, <span class="type">const</span> Ray&amp; ray)</span> <span class="type">const</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Intersection inter;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(node == <span class="literal">nullptr</span>) <span class="keyword">return</span> inter;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 当前节点是叶子节点，直接返回和这个物体的交点就行</span></span><br><span class="line">    <span class="keyword">if</span>(node-&gt;left == <span class="literal">nullptr</span> &amp;&amp; node-&gt;right == <span class="literal">nullptr</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(node-&gt;object != <span class="literal">nullptr</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            inter = node-&gt;object-&gt;<span class="built_in">getIntersection</span>(ray);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> inter;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 记录光线的方向</span></span><br><span class="line">    std::array&lt;<span class="type">int</span>, 3&gt; dirIsNeg;</span><br><span class="line">    dirIsNeg[<span class="number">0</span>] = <span class="built_in">int</span>(ray.direction.x &lt; <span class="number">0</span>);</span><br><span class="line">    dirIsNeg[<span class="number">1</span>] = <span class="built_in">int</span>(ray.direction.y &lt; <span class="number">0</span>);</span><br><span class="line">    dirIsNeg[<span class="number">2</span>] = <span class="built_in">int</span>(ray.direction.z &lt; <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">    Intersection inter1, inter2;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 看看是否和左边的包围盒相交</span></span><br><span class="line">    <span class="keyword">if</span>(node-&gt;left != <span class="literal">nullptr</span> &amp;&amp; node-&gt;left-&gt;bounds.<span class="built_in">IntersectP</span>(ray, ray.direction_inv, dirIsNeg))</span><br><span class="line">    &#123;</span><br><span class="line">        inter1 = <span class="built_in">getIntersection</span>(node-&gt;left,ray);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 看看是否和右边的包围盒相交</span></span><br><span class="line">    <span class="keyword">if</span>(node-&gt;right != <span class="literal">nullptr</span> &amp;&amp; node-&gt;right-&gt;bounds.<span class="built_in">IntersectP</span>(ray, ray.direction_inv, dirIsNeg))</span><br><span class="line">    &#123;</span><br><span class="line">        inter2 = <span class="built_in">getIntersection</span>(node-&gt;right,ray);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 如果有两个交点，返回最近的那个</span></span><br><span class="line">    <span class="keyword">return</span> inter1.distance &lt; inter2.distance ? inter1 : inter2;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>Bounds3.hpp</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 这个函数的作用是判断包围盒 BoundingBox 与光线是否相交</span></span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="type">bool</span> <span class="title">Bounds3::IntersectP</span><span class="params">(<span class="type">const</span> Ray&amp; ray, <span class="type">const</span> Vector3f&amp; invDir, <span class="type">const</span> std::array&lt;<span class="type">int</span>, <span class="number">3</span>&gt;&amp; dirIsNeg)</span> <span class="type">const</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// invDir: ray direction(x,y,z), invDir = (1.0/x,1.0/y,1.0/z)，使用这个是因为乘法比除法快</span></span><br><span class="line">    <span class="comment">// dirIsNeg: ray direction(x,y,z), dirIsNeg = [int(x&gt;0),int(y&gt;0),int(z&gt;0)], 用这个来简化你的逻辑</span></span><br><span class="line">    </span><br><span class="line">    <span class="type">float</span> tx_min = (pMin.x - ray.origin.x) * invDir.x;</span><br><span class="line">    <span class="type">float</span> tx_max = (pMax.x - ray.origin.x) * invDir.x;</span><br><span class="line">    <span class="keyword">if</span> (dirIsNeg[<span class="number">0</span>]) std::<span class="built_in">swap</span>(tx_min, tx_max);</span><br><span class="line">    </span><br><span class="line">    <span class="type">float</span> ty_min = (pMin.y - ray.origin.y) * invDir.y;</span><br><span class="line">    <span class="type">float</span> ty_max = (pMax.y - ray.origin.y) * invDir.y;</span><br><span class="line">    <span class="keyword">if</span> (dirIsNeg[<span class="number">1</span>]) std::<span class="built_in">swap</span>(ty_min, ty_max);</span><br><span class="line">    </span><br><span class="line">    <span class="type">float</span> tz_min = (pMin.z - ray.origin.z) * invDir.z;</span><br><span class="line">    <span class="type">float</span> tz_max = (pMax.z - ray.origin.z) * invDir.z;</span><br><span class="line">    <span class="keyword">if</span> (dirIsNeg[<span class="number">2</span>]) std::<span class="built_in">swap</span>(tz_min, tz_max);</span><br><span class="line"></span><br><span class="line">    <span class="type">float</span> t_enter = std::<span class="built_in">max</span>(std::<span class="built_in">max</span>(tx_min, ty_min), tz_min);</span><br><span class="line">    <span class="type">float</span> t_exit = std::<span class="built_in">min</span>(std::<span class="built_in">min</span>(tx_max, ty_max), tz_max);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> t_exit &gt; <span class="number">0.0f</span> &amp;&amp; t_enter &lt; t_exit;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>结果：</strong></p>
-<p><img src="/images/Games101/homework/06/01.png"></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2024/01/27/games101/HomeWork%205/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="FJBQ">
-      <meta itemprop="description" content="坚定 坚持 坚强">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="FJBQ">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2024/01/27/games101/HomeWork%205/" class="post-title-link" itemprop="url">【Games 101】HomeWork 5：光线与三角形相交</a>
-        </h2>
-
-        <div class="post-meta">
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2024-01-27 23:26:47" itemprop="dateCreated datePublished" datetime="2024-01-27T23:26:47+08:00">2024-01-27</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-01-29 20:54:32" itemprop="dateModified" datetime="2024-01-29T20:54:32+08:00">2024-01-29</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">Games 系列</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/Games-101/" itemprop="url" rel="index"><span itemprop="name">Games 101</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="HomeWork-5：光线与三角形相交"><a href="#HomeWork-5：光线与三角形相交" class="headerlink" title="HomeWork 5：光线与三角形相交"></a>HomeWork 5：光线与三角形相交</h1><p>这一个作业主要是光线追踪，我们要实现的是：</p>
-<ul>
-<li>从每个像素打出一条光线；</li>
-<li>判断光线和三角形是否相交</li>
-</ul>
-<p>有的东西课上没有讲，具体的话可以看一下注释！</p>
-<p>同步的知识点在这一片文章：</p>
-<p><a target="_blank" rel="noopener" href="http://fjbq-blog.top/2024/01/09/games101/Lec%2013/">【Games 101】Lec 13：光线追踪 1（Shadow Mapping，Whitted-Style Ray Tracing）</a></p>
-<p><strong>Renderer.cpp</strong></p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    主渲染函数。</span></span><br><span class="line"><span class="comment">    在这里，我们迭代图像中的所有像素，从每个像素打出一条光线到场景中；</span></span><br><span class="line"><span class="comment">    framebuffer 的内容被保存到一个文件中。</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    我的妈，这个是真的有点难哇... 主要是课上也没讲...</span></span><br><span class="line"><span class="comment">    具体可以看这两篇文章：</span></span><br><span class="line"><span class="comment">        https://zhuanlan.zhihu.com/p/475136497</span></span><br><span class="line"><span class="comment">        https://www.scratchapixel.com/lessons/3d-basic-rendering/ray-tracing-generating-camera-rays/generating-camera-rays.html</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    特别是第二篇，分析的特别清楚！</span></span><br><span class="line"><span class="comment">    看完就知道要干嘛了（就是需要变换一下坐标）</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Renderer::Render</span><span class="params">(<span class="type">const</span> Scene&amp; scene)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 帧缓冲区，用于保存返回的颜色</span></span><br><span class="line">    <span class="function">std::vector&lt;Vector3f&gt; <span class="title">framebuffer</span><span class="params">(scene.width * scene.height)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="type">float</span> scale = std::<span class="built_in">tan</span>(<span class="built_in">deg2rad</span>(scene.fov * <span class="number">0.5f</span>));</span><br><span class="line">    <span class="type">float</span> imageAspectRatio = scene.width / (<span class="type">float</span>)scene.height;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 使用这个变量作为眼睛的位置来开始你的光线。</span></span><br><span class="line">    <span class="function">Vector3f <span class="title">eye_pos</span><span class="params">(<span class="number">0</span>)</span></span>;</span><br><span class="line">    <span class="type">int</span> m = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span>; j &lt; scene.height; ++j)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; scene.width; ++i)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">/*</span></span><br><span class="line"><span class="comment">                <span class="doctag">TODO:</span>找到当前像素的x和y位置，以获得通过它的方向矢量。</span></span><br><span class="line"><span class="comment">                此外，不要忘记将它们与变量*scale*相乘，并将x(水平)变量与*imageAspectRatio*相乘</span></span><br><span class="line"><span class="comment">            */</span>   </span><br><span class="line">            <span class="type">float</span> x = (<span class="number">2.0</span> * i / scene.width - <span class="number">1.0</span>) * scale * imageAspectRatio;</span><br><span class="line">            <span class="type">float</span> y = (<span class="number">1.0</span> - <span class="number">2.0</span> *j / scene.height) * scale;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 别忘了归一化这个方向</span></span><br><span class="line">            Vector3f dir = <span class="built_in">Vector3f</span>(x, y, <span class="number">-1</span>); <span class="comment">// Don&#x27;t forget to normalize this direction!</span></span><br><span class="line">            dir = <span class="built_in">normalize</span>(dir);</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 调用 castRay 来获取最终的颜色</span></span><br><span class="line">            framebuffer[m++] = <span class="built_in">castRay</span>(eye_pos, dir, scene, <span class="number">0</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 输出一下？</span></span><br><span class="line">        <span class="built_in">UpdateProgress</span>(j / (<span class="type">float</span>)scene.height);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 将缓冲区的颜色保存到文件中（帧缓冲区中的信息将被保存为图像）</span></span><br><span class="line">    FILE* fp = <span class="built_in">fopen</span>(<span class="string">&quot;binary.ppm&quot;</span>, <span class="string">&quot;wb&quot;</span>);</span><br><span class="line">    (<span class="type">void</span>)<span class="built_in">fprintf</span>(fp, <span class="string">&quot;P6\n%d %d\n255\n&quot;</span>, scene.width, scene.height);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">auto</span> i = <span class="number">0</span>; i &lt; scene.height * scene.width; ++i) &#123;</span><br><span class="line">        <span class="type">static</span> <span class="type">unsigned</span> <span class="type">char</span> color[<span class="number">3</span>];</span><br><span class="line">        color[<span class="number">0</span>] = (<span class="type">char</span>)(<span class="number">255</span> * <span class="built_in">clamp</span>(<span class="number">0</span>, <span class="number">1</span>, framebuffer[i].x));</span><br><span class="line">        color[<span class="number">1</span>] = (<span class="type">char</span>)(<span class="number">255</span> * <span class="built_in">clamp</span>(<span class="number">0</span>, <span class="number">1</span>, framebuffer[i].y));</span><br><span class="line">        color[<span class="number">2</span>] = (<span class="type">char</span>)(<span class="number">255</span> * <span class="built_in">clamp</span>(<span class="number">0</span>, <span class="number">1</span>, framebuffer[i].z));</span><br><span class="line">        <span class="built_in">fwrite</span>(color, <span class="number">1</span>, <span class="number">3</span>, fp);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">fclose</span>(fp);    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>Triangle.hpp</strong></p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    判断射线是否和三角形相交</span></span><br><span class="line"><span class="comment">    用 Moller Trumbore 算法，这个直接套公式解出来就行</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">rayTriangleIntersect</span><span class="params">(<span class="type">const</span> Vector3f&amp; v0, <span class="type">const</span> Vector3f&amp; v1, <span class="type">const</span> Vector3f&amp; v2, <span class="type">const</span> Vector3f&amp; orig,</span></span></span><br><span class="line"><span class="params"><span class="function">                          <span class="type">const</span> Vector3f&amp; dir, <span class="type">float</span>&amp; tnear, <span class="type">float</span>&amp; u, <span class="type">float</span>&amp; v)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Vector3f E1 = v1 - v0;</span><br><span class="line">    Vector3f E2 = v2 - v0;</span><br><span class="line">    Vector3f S = orig - v0;</span><br><span class="line">    Vector3f S1 = <span class="built_in">crossProduct</span>(dir, E2);</span><br><span class="line">    Vector3f S2 = <span class="built_in">crossProduct</span>(S, E1);</span><br><span class="line"></span><br><span class="line">    <span class="type">float</span> t = <span class="built_in">dotProduct</span>(S2,E2) / <span class="built_in">dotProduct</span>(S1,E1);</span><br><span class="line">    <span class="type">float</span> b1 = <span class="built_in">dotProduct</span>(S1,S) / <span class="built_in">dotProduct</span>(S1,E1);</span><br><span class="line">    <span class="type">float</span> b2 = <span class="built_in">dotProduct</span>(S2,dir) / <span class="built_in">dotProduct</span>(S1,E1);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 都 &gt;0 才表示有解</span></span><br><span class="line">    <span class="keyword">if</span>(t &gt; <span class="number">0</span> &amp;&amp; b1 &gt; <span class="number">0</span> &amp;&amp; b2 &gt; <span class="number">0</span> &amp;&amp; <span class="number">1</span> - (b1 + b2) &gt; <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        tnear = t;</span><br><span class="line">        u = b1;</span><br><span class="line">        v = b2;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>光线追踪结果：</strong></p>
-<p><img src="/images/Games101/homework/05/01.png"></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2024/01/27/games101/HomeWork%204/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1133,10 +744,827 @@
   
   
 
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/01/21/games101/Lec%2022/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="FJBQ">
+      <meta itemprop="description" content="坚定 坚持 坚强">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FJBQ">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/01/21/games101/Lec%2022/" class="post-title-link" itemprop="url">【Games 101】Lec 22：动画（续）</a>
+        </h2>
+
+        <div class="post-meta">
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2024-01-21 13:52:23 / 修改时间：18:02:42" itemprop="dateCreated datePublished" datetime="2024-01-21T13:52:23+08:00">2024-01-21</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">Games 系列</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/Games-101/" itemprop="url" rel="index"><span itemprop="name">Games 101</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Lecture-22：Animation-cont"><a href="#Lecture-22：Animation-cont" class="headerlink" title="Lecture 22：Animation (cont.)"></a>Lecture 22：Animation (cont.)</h1><h2 id="1-单个粒子模拟（Single-Particle-Simulation）"><a href="#1-单个粒子模拟（Single-Particle-Simulation）" class="headerlink" title="1 单个粒子模拟（Single Particle Simulation）"></a>1 单个粒子模拟（Single Particle Simulation）</h2><h2 id="1-1-单个粒子的运动"><a href="#1-1-单个粒子的运动" class="headerlink" title="1.1 单个粒子的运动"></a>1.1 单个粒子的运动</h2><p>首先研究一个粒子的运动然后泛化到大多数粒子。</p>
+<p>我们线认为粒子的运动由速度场(velocity vector field)决定，这个速度场就是一个位置和时间的函数：v（x，t）</p>
+<p>知道粒子的位置和时间，就知道它的速度；（这个函数我们现在是已知的）</p>
+<p><img src="/images/Games101/22/01.png"></p>
+<p>那么，计算粒子的位置（随时间变化）需要解一个一阶的常微分方程(不存在对其他变量的微分或导数First-order意味着只存在一阶导数)：</p>
+<p><img src="/images/Games101/22/02.png"></p>
+<h2 id="1-2-欧拉方法（Euler’s-Method）"><a href="#1-2-欧拉方法（Euler’s-Method）" class="headerlink" title="1.2 欧拉方法（Euler’s Method）"></a>1.2 欧拉方法（Euler’s Method）</h2><h3 id="1-2-1-概述"><a href="#1-2-1-概述" class="headerlink" title="1.2.1 概述"></a>1.2.1 概述</h3><p>欧拉方法是一种简单的<strong>迭代方法</strong>，<strong>经常被使用</strong>、<strong>不准确</strong>、大多数都<strong>不稳定</strong>。</p>
+<p>可以使用欧拉方法对给定初始位置和速度场的点求解经过时间t后所处的位置。</p>
+<p><img src="/images/Games101/22/03.png"></p>
+<h3 id="1-2-2-误差"><a href="#1-2-2-误差" class="headerlink" title="1.2.2 误差"></a>1.2.2 误差</h3><p>使用数值计算的方法积分，误差会累计，最后的Euler积分结果会很差。</p>
+<p><img src="/images/Games101/22/04.png"></p>
+<h3 id="1-2-3-欧拉方法的不稳定性（Instability-of-the-Euler-Method）"><a href="#1-2-3-欧拉方法的不稳定性（Instability-of-the-Euler-Method）" class="headerlink" title="1.2.3 欧拉方法的不稳定性（Instability of the Euler Method）"></a>1.2.3 欧拉方法的不稳定性（Instability of the Euler Method）</h3><p>如下图，粒子的轨迹始终不能沿着圆形或指定的轨迹。</p>
+<p><img src="/images/Games101/22/05.png"></p>
+<p>即欧拉方法有两个关键的问题：</p>
+<ul>
+<li>误差随着时间步长 Δt 的增加而增加。</li>
+<li>不稳定性是一个普遍且严重的问题，它能造成模拟 diverge。</li>
+</ul>
+<h3 id="1-2-4-Errors-和-Instability"><a href="#1-2-4-Errors-和-Instability" class="headerlink" title="1.2.4 Errors 和 Instability"></a>1.2.4 Errors 和 Instability</h3><p>用有限差分数值积分法求解<br>导致两个问题:<br><strong>Errors</strong>：</p>
+<ul>
+<li>每个时间步的误差累积。精度随着模拟的进行而降低</li>
+<li>在图形应用中，准确性可能不是关键</li>
+</ul>
+<p><strong>Instability</strong>：</p>
+<ul>
+<li>错误可以复合，导致模拟甚至发散当底层系统没有</li>
+<li>缺乏稳定性是模拟中的一个基本问题不容忽视</li>
+</ul>
+<h2 id="1-3-克服不稳定性的方法"><a href="#1-3-克服不稳定性的方法" class="headerlink" title="1.3 克服不稳定性的方法"></a>1.3 克服不稳定性的方法</h2><h3 id="1-3-1-概述"><a href="#1-3-1-概述" class="headerlink" title="1.3.1 概述"></a>1.3.1 概述</h3><ul>
+<li>中点法&#x2F;修正欧拉法<ul>
+<li>起点和终点的平均速度</li>
+</ul>
+</li>
+<li>自适应步长<ul>
+<li>递归地比较一步和两个半步，直到可以接受错误</li>
+</ul>
+</li>
+<li>隐式方法<ul>
+<li>使用下一个时间步骤的速度(硬)</li>
+</ul>
+</li>
+<li>基于位置&#x2F; Verlet的集成<ul>
+<li>在时间步长后约束粒子的位置和速度</li>
+</ul>
+</li>
+</ul>
+<h3 id="1-3-2-中点法（Midpoint-Method）"><a href="#1-3-2-中点法（Midpoint-Method）" class="headerlink" title="1.3.2 中点法（Midpoint Method）"></a>1.3.2 中点法（Midpoint Method）</h3><ul>
+<li>使用欧拉方法计算，点到达A( a )。</li>
+<li>使用欧拉方法计算上一步起始点与A点的导数( b )。</li>
+<li>使用中点的导数来重新更新位置( c )。</li>
+</ul>
+<p><img src="/images/Games101/22/06.png"></p>
+<p>中点法比欧拉方法多了一个二次的项。</p>
+<p><img src="/images/Games101/22/07.png"></p>
+<h3 id="1-3-3-自适应步长法（Adaptive-Step-Size）"><a href="#1-3-3-自适应步长法（Adaptive-Step-Size）" class="headerlink" title="1.3.3 自适应步长法（Adaptive Step Size）"></a>1.3.3 自适应步长法（Adaptive Step Size）</h3><ul>
+<li>使用步长为T计算一个欧拉步骤来获得 X(T)</li>
+<li>计算两个欧拉步骤，步长为T&#x2F;2，获得 X(T&#x2F;2)</li>
+<li>计算error ∣∣ X(T) − X(T&#x2F;2) ∣∣</li>
+<li>If ( error &gt; threshold ) 减少步长并重复上面的步骤。</li>
+</ul>
+<p><img src="/images/Games101/22/08.png"></p>
+<p>Adaptive 是基于 error 估计选择步长的方法，非常实用，但可能得到的步长会很小。</p>
+<h3 id="1-3-3-隐式欧拉方法"><a href="#1-3-3-隐式欧拉方法" class="headerlink" title="1.3.3 隐式欧拉方法"></a>1.3.3 隐式欧拉方法</h3><p>也被称作后向方法，使用下一时间的导数来计算当前的步骤。</p>
+<p><img src="/images/Games101/22/09.png"></p>
+<p><img src="/images/Games101/22/10.png"></p>
+<p><strong>定义与量化 “stability” （稳定性）的方法</strong></p>
+<ul>
+<li>使用局部截断误差（每个Δ \DeltaΔ的误差）&#x2F; 总截断累积误差（整体累加后的误差）来研究稳定性。</li>
+<li>研究数的大小无意义，有意义的事研究它们的阶。</li>
+<li>隐式欧拉方法的阶数为1，意味着局部截断误差为 O(h^2) 且全局阶段误差为 O(h)（h就是步长，定义为 Δt）。</li>
+<li>O(h)的理解:如果将 h 减半，预期误差也会减半。</li>
+</ul>
+<p><img src="/images/Games101/22/11.png"></p>
+<h3 id="1-3-4-Runge-Kutta-Families"><a href="#1-3-4-Runge-Kutta-Families" class="headerlink" title="1.3.4 Runge-Kutta Families"></a>1.3.4 Runge-Kutta Families</h3><p>Runge-Kutta方法是一系列用于求解 ODE 的高级方法。</p>
+<p><strong>特点</strong></p>
+<ul>
+<li>擅长处理非线性问题。</li>
+<li>它的四阶版是使用最广泛的，又名 RK4。</li>
+</ul>
+<p><img src="/images/Games101/22/12.png"></p>
+<p>h就是步长，也就是 Δt</p>
+<h3 id="1-3-5-Position-Based-Verlet-Integration"><a href="#1-3-5-Position-Based-Verlet-Integration" class="headerlink" title="1.3.5 Position-Based &#x2F; Verlet Integration"></a>1.3.5 Position-Based &#x2F; Verlet Integration</h3><p>这是一种不基于物理的方法，通过调整物体的位置使物体满足某种性质。</p>
+<p><strong>思想：</strong></p>
+<ul>
+<li>在修改欧拉前步（forward-step）之后，约束粒子的位置以防止divergent、不稳定的现象。</li>
+<li>使用约束位置计算速度。</li>
+<li>这两种思想都会耗散能量，使其具有稳定性。</li>
+</ul>
+<p><strong>特点：</strong></p>
+<ul>
+<li>快速又简单。</li>
+<li>不是基于物理模拟的，不满足能量守恒。</li>
+</ul>
+<h1 id="2-刚体模拟（Rigid-Body-Simulation）"><a href="#2-刚体模拟（Rigid-Body-Simulation）" class="headerlink" title="2 刚体模拟（Rigid Body Simulation）"></a>2 刚体模拟（Rigid Body Simulation）</h1><p>刚体模拟与模拟单个粒子相似，只需额外考虑一些属性（角度，角速度）</p>
+<p><img src="/images/Games101/22/13.png"></p>
+<h1 id="3-流体模拟（Fluid-Simulation）"><a href="#3-流体模拟（Fluid-Simulation）" class="headerlink" title="3 流体模拟（Fluid Simulation）"></a>3 流体模拟（Fluid Simulation）</h1><h3 id="3-1-基于位置的简单流体模拟方法"><a href="#3-1-基于位置的简单流体模拟方法" class="headerlink" title="3.1 基于位置的简单流体模拟方法"></a>3.1 基于位置的简单流体模拟方法</h3><p><strong>关键思想</strong></p>
+<ul>
+<li>认为水是由刚体小球组成的。</li>
+<li>认为水是不可压缩的。</li>
+<li>只要某处的密度海绵，就需要通过改变粒子的位置来“纠正”。</li>
+<li>需要知道任何位置的密度的梯度。</li>
+<li>使用梯度下降法来进行更新。</li>
+</ul>
+<p><img src="/images/Games101/22/14.png"></p>
+<h2 id="3-2-质点法和网络法（Eulerian-vs-Lagrangian）"><a href="#3-2-质点法和网络法（Eulerian-vs-Lagrangian）" class="headerlink" title="3.2 质点法和网络法（Eulerian vs. Lagrangian）"></a>3.2 质点法和网络法（Eulerian vs. Lagrangian）</h2><p><img src="/images/Games101/22/15.png"></p>
+<h2 id="3-3-Material-Point-Method-MPM"><a href="#3-3-Material-Point-Method-MPM" class="headerlink" title="3.3 Material Point Method (MPM)"></a>3.3 Material Point Method (MPM)</h2><p>MPM 是一种混合的(Hybrid)，结合 Eulerian 和 Lagrangian 的方法。</p>
+<ul>
+<li>Lagrangian：认为粒子带有材质属性。</li>
+<li>Eulerian：使用网格来做数值积分。</li>
+<li>lnteraction：粒子将属性传递给网格，网格执行更新，然后插值回粒子。</li>
+</ul>
+<p><img src="/images/Games101/22/16.png"></p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43399489/article/details/121934159">图形学笔记（二十）粒子、刚体、流体的模拟—— 欧拉方法、Errors 和 Instability、中点法、自适应步长、隐式欧拉方法、Runge-Kutta方法、刚体与流体模拟（质点法、网格法、MPM）_隐式mpm-CSDN博客</a></p>
+<p>结束，下面把作业做一做，然后打算做个玩具渲染器（当作毕设了…）</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/01/21/games101/Lec%2021/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="FJBQ">
+      <meta itemprop="description" content="坚定 坚持 坚强">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FJBQ">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/01/21/games101/Lec%2021/" class="post-title-link" itemprop="url">【Games 101】Lec 21：动画</a>
+        </h2>
+
+        <div class="post-meta">
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2024-01-21 13:52:23 / 修改时间：15:23:16" itemprop="dateCreated datePublished" datetime="2024-01-21T13:52:23+08:00">2024-01-21</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">Games 系列</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/Games-101/" itemprop="url" rel="index"><span itemprop="name">Games 101</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Lecture-21：Animation"><a href="#Lecture-21：Animation" class="headerlink" title="Lecture 21：Animation"></a>Lecture 21：Animation</h1><h1 id="1-概述"><a href="#1-概述" class="headerlink" title="1 概述"></a>1 概述</h1><p>“Bring things to life”</p>
+<ul>
+<li>交流的工具</li>
+<li>美学引导技术</li>
+</ul>
+<p>建模的扩展</p>
+<ul>
+<li>把3d模型延申到时间的维度</li>
+</ul>
+<p>输出：按顺序播放的图片序列，提供一种运动感。</p>
+<ul>
+<li>电影：24 fps</li>
+<li>Video（通常）：30 fps</li>
+<li>Virtual reality：90 fps</li>
+</ul>
+<h1 id="2-Historical-Points-in-Animation"><a href="#2-Historical-Points-in-Animation" class="headerlink" title="2 Historical Points in Animation"></a>2 Historical Points in Animation</h1><p>这个看一下PPT就行…</p>
+<p><img src="/images/Games101/21/01.png"></p>
+<h1 id="3-动画技术"><a href="#3-动画技术" class="headerlink" title="3 动画技术"></a>3 动画技术</h1><h2 id="3-1-关键帧动画（Keyframe-Animation）"><a href="#3-1-关键帧动画（Keyframe-Animation）" class="headerlink" title="3.1 关键帧动画（Keyframe Animation）"></a>3.1 关键帧动画（Keyframe Animation）</h2><ul>
+<li>动画师 创建关键帧</li>
+<li>人或计算机 创建中间的帧</li>
+</ul>
+<p><img src="/images/Games101/21/02.png"></p>
+<p>关键帧动画一般使用插值方法来进行补帧，把每一帧当作参数值的向量，下面是线性插值。</p>
+<p><img src="/images/Games101/21/03.png"></p>
+<p>用样条进行优化：</p>
+<p><img src="/images/Games101/21/04.png"></p>
+<h2 id="3-2-物理仿真（Physical-Simulation）"><a href="#3-2-物理仿真（Physical-Simulation）" class="headerlink" title="3.2 物理仿真（Physical Simulation）"></a>3.2 物理仿真（Physical Simulation）</h2><h3 id="3-2-1-概述"><a href="#3-2-1-概述" class="headerlink" title="3.2.1 概述"></a>3.2.1 概述</h3><p>F &#x3D; ma</p>
+<p>使用数值模拟生成物体的运动</p>
+<p><img src="/images/Games101/21/05.png"></p>
+<p>例子：</p>
+<ul>
+<li>布料模拟（ Cloth Simulation）</li>
+<li>流体（ Fluids ）</li>
+<li>质点弹簧系统（ Mass Spring System）</li>
+<li>头发（ Hair ）</li>
+<li>质点弹簧网格（Mass Spring Mesh）</li>
+</ul>
+<h3 id="3-2-2-质点弹簧系统（Mass-Spring-System）"><a href="#3-2-2-质点弹簧系统（Mass-Spring-System）" class="headerlink" title="3.2.2 质点弹簧系统（Mass Spring System）"></a>3.2.2 质点弹簧系统（Mass Spring System）</h3><ol>
+<li><strong>简单的弹簧</strong></li>
+</ol>
+<p>理想化的弹簧：没有长度，作用力会导致位移。</p>
+<p><strong>胡克定律：</strong></p>
+<p><img src="/images/Games101/21/06.png"></p>
+<ol start="2">
+<li><strong>非0长度的弹簧</strong></li>
+</ol>
+<p><img src="/images/Games101/21/07.png"></p>
+<p><strong>问题：永远震动下去。</strong></p>
+<p><strong>定义概念：</strong></p>
+<p><img src="/images/Games101/21/08.png"></p>
+<p><strong>引入能量损失</strong></p>
+<ul>
+<li>表现得像运动中的粘性阻力</li>
+<li>在速度方向上减慢运动</li>
+<li>kd为阻尼系数</li>
+</ul>
+<p><img src="/images/Games101/21/09.png"></p>
+<p><strong>问题：所有运动都会停止（不能表现弹簧内部的损耗）。</strong></p>
+<p><strong>弹簧的内部阻尼（Internal Damping for Spring）</strong></p>
+<p>只阻尼内部，由弹簧驱动的运动。</p>
+<p><img src="/images/Games101/21/10.png"></p>
+<p>Viscous drag 仅限于弹簧长度的变化，不会减慢弹簧系统的整体运动(例如，整体平移或旋转)</p>
+<p>Note: 这只是一种特殊的阻尼(damping)。</p>
+<ol start="3">
+<li><strong>来自弹簧的结构</strong></li>
+</ol>
+<p><img src="/images/Games101/21/11.png"></p>
+<p>弹簧结构的连接可以决定一个图形的行为，比如改进下面的连接来模拟布料。</p>
+<p><img src="/images/Games101/21/12.png"></p>
+<p>原来的不足之处：</p>
+<ul>
+<li>切变会影响形状。</li>
+<li>会使原来的形状不在一个平面上。</li>
+</ul>
+<p>改进之后：</p>
+<p><img src="/images/Games101/21/13.png"></p>
+<ul>
+<li><strong>在对角线连接弹簧会抵抗切变。</strong></li>
+<li><strong>在两个对角线都连切线避免了各向异性。</strong></li>
+<li><strong>红色的弹簧会避免 out-of-plane bending（两条对角线竖直方向会弯折）。</strong></li>
+</ul>
+<p>其他模型：<strong>有限元方法FEM（Finite Element Method）</strong></p>
+<p>（代替弹簧系统的一种模拟布料的办法）</p>
+<p>常用来做汽车碰撞，主要思想是<strong>力与力之间存在传导</strong>，效果如下。</p>
+<p><img src="/images/Games101/21/14.png"></p>
+<h3 id="3-2-3-粒子系统（Particle-System）"><a href="#3-2-3-粒子系统（Particle-System）" class="headerlink" title="3.2.3 粒子系统（Particle System）"></a>3.2.3 粒子系统（Particle System）</h3><ul>
+<li>粒子系统就是将动态的系统建模为大量粒子的集合</li>
+<li>每个粒子的运动都是由一组物理(或非物理)力定义的。</li>
+<li>粒子系统是在图形和游戏上很流行的技术。</li>
+<li>具备可扩展性：粒子越少，速度越快，粒子越多，速度越慢。</li>
+</ul>
+<p><strong>挑战</strong></p>
+<ul>
+<li>可能需要许多粒子(例如流体)</li>
+<li>可能需要加速结构(例如寻找最近的粒子进行如引力的相互作用)</li>
+</ul>
+<p><strong>步骤</strong></p>
+<ol>
+<li>创建新的粒子（如果需要的话）。</li>
+<li>计算每个粒子的力。</li>
+<li>更新每个粒子的位置和速度。</li>
+<li>移除死掉的粒子。</li>
+<li>渲染粒子。</li>
+</ol>
+<p><strong>粒子系统的作用力</strong></p>
+<ul>
+<li>引力和斥力（repulsion） 如：万有引力、磁力、弹力（Springs）、弹簧、推进力（propulsion）。（eg：万有引力）</li>
+<li>阻力（Damping forces）：摩擦（Friction），空气阻力（air drag），粘度 （viscosity）…</li>
+<li>碰撞（Collisions）：墙壁、容器、固定的物体…。与动态物体、人物身体部位等…。</li>
+</ul>
+<p><strong>模拟动物集群（Simulated Flocking as an ODE）</strong></p>
+<p>需要考虑一个例子的各种作用力</p>
+<p><img src="/images/Games101/21/15.png"></p>
+<h1 id="4-运动学-Kinematics"><a href="#4-运动学-Kinematics" class="headerlink" title="4 运动学 Kinematics"></a>4 运动学 Kinematics</h1><h2 id="4-1-正向运动学（Forward-Kinematics）"><a href="#4-1-正向运动学（Forward-Kinematics）" class="headerlink" title="4.1 正向运动学（Forward Kinematics）"></a>4.1 正向运动学（Forward Kinematics）</h2><p><strong>Articulated skeleton</strong></p>
+<ul>
+<li><strong>Topology 是一种拓扑结构（描述什么与什么连接）</strong></li>
+<li><strong>关节（joints）间的几何关系。</strong></li>
+<li><strong>树形结构</strong></li>
+</ul>
+<p><strong>Joint types（关节类型）</strong></p>
+<ul>
+<li><strong>Pin（1D rotation）：在平面内旋转</strong></li>
+<li><strong>Ball（2D rotation）：可以旋转到不同的平面</strong></li>
+<li><strong>Prismatic joint（translation）：可以拉长</strong></li>
+</ul>
+<p><img src="/images/Games101/21/16.png"></p>
+<p>例子：2D中简单的两端骨骼。</p>
+<p>Animator 提供角度，计算机决定 end-effector 的位置p。</p>
+<p>Animation 是用角度参数与时间的函数来描述的。</p>
+<p><img src="/images/Games101/21/17.png"></p>
+<p><strong>优点：</strong></p>
+<ul>
+<li>直接控制方便</li>
+<li>便于实施</li>
+</ul>
+<p><strong>缺点：</strong></p>
+<ul>
+<li>动画可能难以用物理的方式来制作（不直观，艺术家不喜欢）</li>
+<li>消耗动画师的时间</li>
+</ul>
+<h2 id="4-2-逆向运动学（Inverse-Kinematics）"><a href="#4-2-逆向运动学（Inverse-Kinematics）" class="headerlink" title="4.2 逆向运动学（Inverse Kinematics）"></a>4.2 逆向运动学（Inverse Kinematics）</h2><p><strong>概述：</strong></p>
+<p>根据尖端获得关节的角度位置。</p>
+<p>Animator 提供 end-effector 的位置，计算机决定满足限制的 joint 角度。</p>
+<p>计算方法：</p>
+<p><img src="/images/Games101/21/18.png"></p>
+<p><strong>问题：</strong></p>
+<ul>
+<li>解不唯一</li>
+<li>解可能不存在</li>
+</ul>
+<p><img src="/images/Games101/21/19.png"></p>
+<p><strong>N-link lK 问题优化方法</strong></p>
+<ul>
+<li>选择一个初始构型。</li>
+<li>定义一个 error metric（如：目标与当前位置之间距离的平方）。</li>
+<li>计算误差梯度作为构形的函数</li>
+<li>应用梯度下降(或牛顿法，或其他优化程序)</li>
+</ul>
+<h2 id="4-3-应用"><a href="#4-3-应用" class="headerlink" title="4.3 应用"></a>4.3 应用</h2><h3 id="4-3-1-Rigging-绑定"><a href="#4-3-1-Rigging-绑定" class="headerlink" title="4.3.1 Rigging 绑定"></a>4.3.1 Rigging 绑定</h3><p>Rigging 是一套高级角色控制，允许更快速和直观地修改姿势、变形、表情等。</p>
+<ul>
+<li>就像提线木偶的线一样。</li>
+<li>捕捉所有有意义的角色变化。</li>
+<li>因角色而异。</li>
+<li>制作昂贵</li>
+<li>具有人工误差并需要艺术和技术的训练。</li>
+</ul>
+<p><img src="/images/Games101/21/20.png"></p>
+<h3 id="4-3-2-混合形状（Blend-Shapes）"><a href="#4-3-2-混合形状（Blend-Shapes）" class="headerlink" title="4.3.2 混合形状（Blend Shapes）"></a>4.3.2 混合形状（Blend Shapes）</h3><p>直接在曲面之间进行插值。</p>
+<p><img src="/images/Games101/21/21.png"></p>
+<p>最简单的方案：取顶点位置的线性组合，样条用于控制随着时间的推移权重的选择。</p>
+<h3 id="4-3-3-动作捕捉（Motion-Capture）"><a href="#4-3-3-动作捕捉（Motion-Capture）" class="headerlink" title="4.3.3 动作捕捉（Motion Capture）"></a>4.3.3 动作捕捉（Motion Capture）</h3><p>Motion Capture 是创建动画序列的数据驱动方法。</p>
+<p>下面是三种动捕设备（光学、磁力和机械）。</p>
+<p><img src="/images/Games101/21/22.png"></p>
+<p><strong>优点：</strong></p>
+<ul>
+<li>非常贴近真实</li>
+<li>可以快速的过去大量的真实数据。</li>
+</ul>
+<p><strong>缺点：</strong></p>
+<ul>
+<li>准备工作复杂且高花费。</li>
+<li>捕捉到的动画可能不满足艺术家的需要，需要选择。</li>
+</ul>
+<h2 id="5-动画-电影生产的-Pipeline"><a href="#5-动画-电影生产的-Pipeline" class="headerlink" title="5 动画&#x2F;电影生产的 Pipeline"></a>5 动画&#x2F;电影生产的 Pipeline</h2><p><img src="/images/Games101/21/23.png"></p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43399489/article/details/121895993?ops_request_misc=%7B%22request_id%22:%22170581620516800225512166%22,%22scm%22:%2220140713.130102334.pc_blog.%22%7D&request_id=170581620516800225512166&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~blog~first_rank_ecpm_v1~rank_v31_ecpm-14-121895993-null-null.nonecase&utm_term=%E5%9B%BE%E5%BD%A2%E5%AD%A6%E7%AC%94%E8%AE%B0&spm=1018.2226.3001.4450">图形学笔记（十九）动画 —— 动画的历史、关键帧插值、物理仿真、质点弹簧系统、粒子系统、（反向IK）动力学、Rigging 绑定、Blend Shapes、动作捕捉_骨骼 逆运动学 动作捕捉 刚体模拟 流体模拟-CSDN博客</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/01/20/games101/Lec%2020/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="FJBQ">
+      <meta itemprop="description" content="坚定 坚持 坚强">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FJBQ">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/01/20/games101/Lec%2020/" class="post-title-link" itemprop="url">【Games 101】Lec 20：颜色和感知</a>
+        </h2>
+
+        <div class="post-meta">
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2024-01-20 16:41:43 / 修改时间：23:28:49" itemprop="dateCreated datePublished" datetime="2024-01-20T16:41:43+08:00">2024-01-20</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">Games 系列</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/Games-101/" itemprop="url" rel="index"><span itemprop="name">Games 101</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Lecture-20：Color-and-Perception"><a href="#Lecture-20：Color-and-Perception" class="headerlink" title="Lecture 20：Color and Perception"></a>Lecture 20：Color and Perception</h1><p>东西挺多的…</p>
+<h1 id="1-光场（Light-Field-Lumigraph）"><a href="#1-光场（Light-Field-Lumigraph）" class="headerlink" title="1 光场（Light Field &#x2F; Lumigraph）"></a>1 光场（Light Field &#x2F; Lumigraph）</h1><h2 id="1-1-全光函数（The-Plenoptic-Function）"><a href="#1-1-全光函数（The-Plenoptic-Function）" class="headerlink" title="1.1 全光函数（The Plenoptic Function）"></a>1.1 全光函数（The Plenoptic Function）</h2><p><img src="/images/Games101/20/01.png"></p>
+<p><strong>将整个世界看成是七个维度的函数：</strong></p>
+<ul>
+<li>θ,ϕ：角度</li>
+<li>λ：光的波长信息（表示颜色信息）</li>
+<li>t：时间</li>
+<li>Vx，Vy，Vz：可以改变自己的位置从另外的角度看世界</li>
+</ul>
+<p>P( … ) 这个函数可以表示在任何地方，任何方向，任何时间看到的东西的颜色，这个函数就是<strong>全光函数</strong></p>
+<p><img src="/images/Games101/20/02.png"></p>
+<p><strong>光场就是全光函数的一部分。</strong></p>
+<h2 id="1-2-光线-Ray"><a href="#1-2-光线-Ray" class="headerlink" title="1.2 光线 Ray"></a>1.2 光线 Ray</h2><p><strong>光线是一个5D表示的，包含 3D 的 position 和 2D 的 direction。</strong></p>
+<p><img src="/images/Games101/20/03.png"></p>
+<p><strong>另一种定义方式：两个点定义一条光线。</strong></p>
+<p><strong>它是4D表示的，包含 2D 的 direction 和 2D 的 position。</strong></p>
+<p><img src="/images/Games101/20/04.png"></p>
+<h2 id="1-3-光场"><a href="#1-3-光场" class="headerlink" title="1.3 光场"></a>1.3 光场</h2><h3 id="1-3-1-定义"><a href="#1-3-1-定义" class="headerlink" title="1.3.1 定义"></a>1.3.1 定义</h3><p>想要描述一个物体的视觉信息，只要找出它的包围盒，并记录包围盒表面任意一点向任意方向的发光情况即可。</p>
+<p><strong>光场就是在任何一个位置往任何一个方向去的光照强度。</strong></p>
+<p><img src="/images/Games101/20/05.png"></p>
+<h3 id="1-3-2-光场的作用"><a href="#1-3-2-光场的作用" class="headerlink" title="1.3.2 光场的作用"></a>1.3.2 光场的作用</h3><p>有了光场后，从任意位置都可以看向这个物体，有了<strong>视点</strong>和<strong>看向的方向</strong>，查询4D的函数就可以查询到记录的值（光的强度）。</p>
+<p><img src="/images/Games101/20/06.png"></p>
+<p>有了包围盒之后，就可以<strong>忽略光场内部的细节</strong>，<strong>只要记录包围盒表面的任何位置任何方向的光照信息即可</strong>。</p>
+<p><img src="/images/Games101/20/07.png"></p>
+<h3 id="1-3-3-光场的表示方式"><a href="#1-3-3-光场的表示方式" class="headerlink" title="1.3.3 光场的表示方式"></a>1.3.3 光场的表示方式</h3><ul>
+<li><p>起始点 + 一个角度</p>
+</li>
+<li><p><img src="/images/Games101/20/08.png"></p>
+</li>
+<li><p>两个相互平行的平面，两个点确定一条光线</p>
+</li>
+<li><p><img src="/images/Games101/20/09.png"></p>
+</li>
+<li><p>参数化的表示两个平面（s t）（u v），找到所有 uv 和 st 的对应关系，便可以定义任意一条光线。</p>
+</li>
+</ul>
+<p>下面看一下解释，假设整个世界在 st 面的右边：</p>
+<ul>
+<li><strong>固定 uv 平面点x，从这个点看向 st 面的不同的点yi，然后所有yi的集合相当于就是一张图像（改变x，相当于就是从不同的角度去看这个物体）</strong></li>
+</ul>
+<p><img src="/images/Games101/20/10.png"></p>
+<ul>
+<li><strong>固定 st 平面上的点x，从 uv 面的不同的点 yi 看向x，那么所有的yi的集合就是这个物体的一个方向的结果（改变x，得到的就是这个物体的不同方向上的结果）</strong></li>
+</ul>
+<p><img src="/images/Games101/20/11.png"></p>
+<h3 id="1-3-4-光场摄像机（Light-Field-Camera）"><a href="#1-3-4-光场摄像机（Light-Field-Camera）" class="headerlink" title="1.3.4 光场摄像机（Light Field Camera）"></a>1.3.4 光场摄像机（Light Field Camera）</h3><p><strong>原理：</strong>本来是光都打在一个像素上的，但是现在把像素的位置往后移一下，原来的位置放成一个微透镜，让透镜把来自于不同方向的光分开然后记录下来，然后对于特定方向上的光线重新聚焦。</p>
+<p><img src="/images/Games101/20/12.png"></p>
+<p><img src="/images/Games101/20/13.png"></p>
+<p>还原普通照片的方法：对于每个透镜都选择每一“块”的最底部的像素。</p>
+<p>有了光场之后，可以虚拟移动相机的位置（重新聚焦也是一样的道理）。</p>
+<p><img src="/images/Games101/20/14.png"></p>
+<p><strong>总结</strong>：光场相机能实现虚拟移动相机位置，改变聚焦等功能。</p>
+<p><strong>光场相机特点</strong>：光场摄像机记录了所有的光场信息。</p>
+<p><strong>光场相机的问题</strong></p>
+<ul>
+<li>光场相机的空间上的分辨率不足。</li>
+<li>高成本（胶片分辨率十分高，微透镜很精密）。</li>
+</ul>
+<h1 id="2-颜色"><a href="#2-颜色" class="headerlink" title="2 颜色"></a>2 颜色</h1><p><strong>颜色是人的感知的结果</strong>，他不是光的自然属性。不同波长的光不是“颜色”。</p>
+<h2 id="2-1-颜色的物理学基础"><a href="#2-1-颜色的物理学基础" class="headerlink" title="2.1 颜色的物理学基础"></a>2.1 颜色的物理学基础</h2><h3 id="2-1-1-可见的光的波段"><a href="#2-1-1-可见的光的波段" class="headerlink" title="2.1.1 可见的光的波段"></a>2.1.1 可见的光的波段</h3><p><img src="/images/Games101/20/15.png"></p>
+<h3 id="2-1-2-谱功率密度-Spectral-Power-Distribution-SPD"><a href="#2-1-2-谱功率密度-Spectral-Power-Distribution-SPD" class="headerlink" title="2.1.2 谱功率密度 Spectral Power Distribution(SPD)"></a>2.1.2 谱功率密度 Spectral Power Distribution(SPD)</h3><p>SPD 是光线不同波长的光强分布是多少，如下图所示蓝天能量集中在波长低的部分，日光波长越高能量越大。</p>
+<p><img src="/images/Games101/20/16.png"></p>
+<p><strong>SPD 具有线性性质，即可以叠加。</strong></p>
+<h2 id="2-2-颜色的生物学基础"><a href="#2-2-颜色的生物学基础" class="headerlink" title="2.2 颜色的生物学基础"></a>2.2 颜色的生物学基础</h2><p>人的眼睛是摄像机，瞳孔是光圈，晶状体是透镜（通过肌肉伸缩来控制焦距），视网膜是传感器。</p>
+<p><img src="/images/Games101/20/17.png"></p>
+<h3 id="2-2-1-感光细胞：Rods-and-Cones"><a href="#2-2-1-感光细胞：Rods-and-Cones" class="headerlink" title="2.2.1 感光细胞：Rods and Cones"></a>2.2.1 感光细胞：Rods and Cones</h3><p>视网膜具有感光细胞（Retinel Photoreceptor Cells）：<strong>棒状和锥形细胞（Rods and Cones ）</strong></p>
+<p><strong>Rods（棒状细胞）：感知光的强度，可以得到灰度图。~120 million</strong></p>
+<p><strong>Cones（锥形细胞）：感知光的颜色。~6-7 million</strong></p>
+<p>由于三种类型的细胞对于波长的感光程度不同，<strong>Cones可以进一步划分为三类：S-Cone，M-Cone，L-Cone。</strong></p>
+<p><img src="/images/Games101/20/18.png"></p>
+<h3 id="2-2-2-Tristimulus-Theory-of-Color"><a href="#2-2-2-Tristimulus-Theory-of-Color" class="headerlink" title="2.2.2 Tristimulus Theory of Color"></a>2.2.2 Tristimulus Theory of Color</h3><p>以下是人类锥形细胞的相应曲线，SML是人类最终看到的结果（只是一个数，不是光谱而是积分的结果）。</p>
+<p><img src="/images/Games101/20/19.png"></p>
+<p>每一个光的波长信息不能被人眼测量和大脑接收。</p>
+<p>眼睛值看到了三个 response values（S,M,L），并且是大脑唯一可获取的信息。</p>
+<p><img src="/images/Games101/20/20.png"></p>
+<h3 id="2-2-3-同色异谱（Metamerism）"><a href="#2-2-3-同色异谱（Metamerism）" class="headerlink" title="2.2.3 同色异谱（Metamerism）"></a>2.2.3 同色异谱（Metamerism）</h3><p>Metamerism 是不同的光谱 spectra（ ∞ − dim）会映射到相同（S,M,L）的响应。</p>
+<ul>
+<li>这些似乎会对一个人产生相同的颜色（光谱不一定相同，但颜色可以相同）。</li>
+</ul>
+<p>Metamerism 对颜色reproduction很重要。</p>
+<ul>
+<li>不需要重构出真实世界的整个光谱。</li>
+<li>例如metamer可以在显示器仅使用每个像素的三个颜色便可重现真实场景感知到的光。</li>
+</ul>
+<p><img src="/images/Games101/20/21.png"></p>
+<h2 id="2-3-颜色匹配（Color-Reproduction-Matching）"><a href="#2-3-颜色匹配（Color-Reproduction-Matching）" class="headerlink" title="2.3 颜色匹配（Color Reproduction &#x2F; Matching）"></a>2.3 颜色匹配（Color Reproduction &#x2F; Matching）</h2><p><strong>加色系统 Additive Color</strong></p>
+<ul>
+<li>给定一组主要的光，每个光都有自己的光谱分布（例如使用RGB显示像素）。</li>
+<li>调整这些光的亮度并把它们加在一起。</li>
+<li>颜色最后被标量（R,G,B）描述。</li>
+</ul>
+<p><img src="/images/Games101/20/22.png"></p>
+<p>（可以进行减色）</p>
+<p><strong>CIE RGB Color Matching</strong></p>
+<p>下图图显示每个CIE RGB主要（primary）光匹配x轴上给定波长的单色光需要混合的量。（注意有负的结果）。</p>
+<p>对于任何一个光谱s，感知到的光被下面的公式匹配（缩放CIE RGB原色）。</p>
+<p><img src="/images/Games101/20/23.png"></p>
+<h2 id="2-4-颜色空间（Color-Spaces）"><a href="#2-4-颜色空间（Color-Spaces）" class="headerlink" title="2.4 颜色空间（Color Spaces）"></a>2.4 颜色空间（Color Spaces）</h2><h3 id="2-4-1-Standard-Color-Spaces（标准颜色空间）"><a href="#2-4-1-Standard-Color-Spaces（标准颜色空间）" class="headerlink" title="2.4.1 Standard Color Spaces（标准颜色空间）"></a>2.4.1 Standard Color Spaces（标准颜色空间）</h3><ul>
+<li>先让特定的机器做好之后，让其他机器模仿这种RGB标准。</li>
+<li>现在被广泛采用。</li>
+<li>色域gamut是有限的。</li>
+</ul>
+<h3 id="2-4-2-色域（Gamut）"><a href="#2-4-2-色域（Gamut）" class="headerlink" title="2.4.2 色域（Gamut）"></a>2.4.2 色域（Gamut）</h3><p>Gamut 是被一个原色集生成的所有色度（chromaticities）。</p>
+<p>不同的颜色空间表示不同范围的颜色，具有不同的色域（gamut），即它们覆盖charomaticities的不同区域。</p>
+<p><img src="/images/Games101/20/24.png"></p>
+<h3 id="2-4-3-常见的颜色空间"><a href="#2-4-3-常见的颜色空间" class="headerlink" title="2.4.3 常见的颜色空间"></a>2.4.3 常见的颜色空间</h3><ol>
+<li><h5 id="科学上普遍的颜色空间：CIE-XYZ"><a href="#科学上普遍的颜色空间：CIE-XYZ" class="headerlink" title="科学上普遍的颜色空间：CIE XYZ"></a>科学上普遍的颜色空间：CIE XYZ</h5></li>
+</ol>
+<p>CIE是人造的颜色匹配系统。</p>
+<p>首先设定标准颜色原色组X,Y,Z。</p>
+<ul>
+<li>不存在具有这些匹配函数的原色。</li>
+<li>Y是luminace亮度（亮度与颜色无关）</li>
+</ul>
+<p>这个系统设计成匹配函数严格为正，覆盖所有可见光的范围。</p>
+<p><img src="/images/Games101/20/25.png"></p>
+<ol start="2">
+<li><h5 id="HSV-Color-Space-Hue-Saturation-Value"><a href="#HSV-Color-Space-Hue-Saturation-Value" class="headerlink" title="HSV Color Space(Hue-Saturation-Value)"></a>HSV Color Space(Hue-Saturation-Value)</h5></li>
+</ol>
+<p>HSV 常见于颜色拾取器中（PS中常见）。</p>
+<ul>
+<li><strong>Hue：不同类型的颜色。</strong></li>
+<li><strong>Saturation：更接近白色还是纯色（单一颜色）。</strong></li>
+<li><strong>Brightness：从黑色到某种颜色。</strong></li>
+</ul>
+<p><img src="/images/Games101/20/26.png"></p>
+<ol start="3">
+<li><strong>CIELAB Space(AKA L<em>a</em>b*)</strong></li>
+</ol>
+<p>CIELAB Space是与感知有关的色彩空间。</p>
+<ul>
+<li>L* 是 Lightness（brightness）</li>
+<li>a 和 b 是互补颜色对（a<em>是red-green，b</em>是blue-yellow）。</li>
+</ul>
+<p><img src="/images/Games101/20/27.png"></p>
+<ol start="4">
+<li><strong>CMYK：A Subtractive（减色） Color Space</strong></li>
+</ol>
+<p>Subtractive color model：混合的越多就越暗。</p>
+<p>青色Cyan、洋红Magenta、黄色Yellow和黑色，并（Key Widely）广泛用于打印。</p>
+<p><img src="/images/Games101/20/28.png"></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/01/20/games101/Lec%2019/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="FJBQ">
+      <meta itemprop="description" content="坚定 坚持 坚强">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FJBQ">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/01/20/games101/Lec%2019/" class="post-title-link" itemprop="url">【Games 101】Lec 19：照相机、镜头、光场</a>
+        </h2>
+
+        <div class="post-meta">
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2024-01-20 16:39:46 / 修改时间：19:06:55" itemprop="dateCreated datePublished" datetime="2024-01-20T16:39:46+08:00">2024-01-20</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">Games 系列</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/Games-101/" itemprop="url" rel="index"><span itemprop="name">Games 101</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Lecture-19：Cameras-Lenses-and-Light-Fields"><a href="#Lecture-19：Cameras-Lenses-and-Light-Fields" class="headerlink" title="Lecture 19：Cameras, Lenses and Light Fields"></a>Lecture 19：Cameras, Lenses and Light Fields</h1><h1 id="1-视场（Field-of-View（FOV））"><a href="#1-视场（Field-of-View（FOV））" class="headerlink" title="1. 视场（Field of View（FOV））"></a>1. 视场（Field of View（FOV））</h1><h2 id="1-1-概述"><a href="#1-1-概述" class="headerlink" title="1.1 概述"></a>1.1 概述</h2><p><strong>FOV：看到的角度</strong></p>
+<p><strong>h：高度</strong></p>
+<p><strong>f：焦距</strong></p>
+<p><img src="/images/Games101/19/01.png"></p>
+<h2 id="1-2-焦距（Focal-length）对视场（FOV）的影响"><a href="#1-2-焦距（Focal-length）对视场（FOV）的影响" class="headerlink" title="1.2 焦距（Focal length）对视场（FOV）的影响"></a>1.2 焦距（Focal length）对视场（FOV）的影响</h2><p><strong>当传感器大小一定时，FOV 随着焦距增加而减少。</strong></p>
+<p><img src="/images/Games101/19/02.png"></p>
+<h2 id="1-3-传感器（Sensor）大小对视场的影响"><a href="#1-3-传感器（Sensor）大小对视场的影响" class="headerlink" title="1.3 传感器（Sensor）大小对视场的影响"></a>1.3 传感器（Sensor）大小对视场的影响</h2><p>通常，<strong>相机（传感器）越大，镜头（焦距）越长越好。</strong></p>
+<p><img src="/images/Games101/19/03.png"></p>
+<h1 id="2-曝光-Exposure"><a href="#2-曝光-Exposure" class="headerlink" title="2. 曝光 Exposure"></a>2. 曝光 Exposure</h1><h2 id="2-1-概述"><a href="#2-1-概述" class="headerlink" title="2.1 概述"></a>2.1 概述</h2><ul>
+<li><strong>H&#x3D;T×E</strong></li>
+<li><strong>Exposure &#x3D; Time × Irradiance</strong></li>
+<li><strong>T（曝光时间）由快门（shuttle）控制</strong></li>
+<li><strong>E（Irradiance）由传感器上一个单位区域接收光的能量和镜头的光圈（aperture）和焦距控制。</strong></li>
+</ul>
+<p><img src="/images/Games101/19/04.png"></p>
+<h2 id="2-2-曝光的影响因素"><a href="#2-2-曝光的影响因素" class="headerlink" title="2.2 曝光的影响因素"></a>2.2 曝光的影响因素</h2><ul>
+<li><strong>Aperture size（光圈的大小）：通过打开和关闭 apeture 改变 f-stop。</strong></li>
+<li><strong>Shuttle speed（快门开放的时间）：改变sensors的曝光时间即每个像素接收光的时间，快门越快曝光越少</strong></li>
+<li><strong>ISO （Gain 感光度）：更改传感器值和数字图像值之间的倍率（模拟和&#x2F;或数字）。</strong></li>
+</ul>
+<p><img src="/images/Games101/19/05.png"></p>
+<h2 id="2-3-感光度-ISO（Gain）"><a href="#2-3-感光度-ISO（Gain）" class="headerlink" title="2.3 感光度 ISO（Gain）"></a>2.3 感光度 ISO（Gain）</h2><p><strong>ISO</strong> 是 exposure 的第三个变量，<strong>简单放大ISO信号的同时会方法噪声</strong>。</p>
+<p><strong>Film</strong>：权衡对（grain）的敏感度。</p>
+<p><strong>Digital</strong>：权衡对噪声的敏感度。</p>
+<ul>
+<li>在模拟到数字的转换前乘以信号。</li>
+<li>线性作用（ISO 200需要的光是ISO 100的一半）</li>
+</ul>
+<h2 id="2-4-F-Number-F-Stop-：Exposure-Levels"><a href="#2-4-F-Number-F-Stop-：Exposure-Levels" class="headerlink" title="2.4 F-Number(F-Stop)：Exposure Levels"></a>2.4 F-Number(F-Stop)：Exposure Levels</h2><ul>
+<li>用于描述光圈的</li>
+</ul>
+<p>写作 FN或F&#x2F;N，N就是f-number。<br>简单理解为光圈的直径的倒数。</p>
+<p><strong>正式定义</strong>：<strong>镜头的 f-number 是 焦距 除以 光圈的直径。</strong></p>
+<p><img src="/images/Games101/19/06.png"></p>
+<h2 id="2-5-快门-Physical-Shutter"><a href="#2-5-快门-Physical-Shutter" class="headerlink" title="2.5 快门 Physical Shutter"></a>2.5 快门 Physical Shutter</h2><p>快门可以用于调节曝光度。</p>
+<p><strong>运动模糊（Motion blur）</strong>：由于快门打开有时间会拍摄到一段运动。</p>
+<p>两倍的快门时间意味着两倍的运动模糊。</p>
+<p>运动模糊不一定是坏事，从人的感知角度它可以<strong>形容速度快</strong>从采样角度，它也可以进行<strong>反走样</strong>。</p>
+<p><img src="/images/Games101/19/07.png"></p>
+<p><strong>Rolling shutter</strong>：图像上的不同位置可能会记录不同时间进入的光（会造成扭曲）。</p>
+<h2 id="2-6-F-Stop-vs-Shutter-Speed"><a href="#2-6-F-Stop-vs-Shutter-Speed" class="headerlink" title="2.6 F-Stop vs Shutter Speed"></a>2.6 F-Stop vs Shutter Speed</h2><p>两者可以组合，调节曝光度；</p>
+<p><img src="/images/Games101/19/08.png"></p>
+<p>Photographers 需要权衡景深和运动物体的运动模糊。</p>
+<h2 id="2-7-高速摄影和延时摄影（Fast-and-Slow-Photography）"><a href="#2-7-高速摄影和延时摄影（Fast-and-Slow-Photography）" class="headerlink" title="2.7 高速摄影和延时摄影（Fast and Slow Photography）"></a>2.7 高速摄影和延时摄影（Fast and Slow Photography）</h2><p><strong>High-Speed Photography</strong>：每秒拍更多的照片，也导致快门时间很少（短曝光时间，得用更大的光圈）。</p>
+<p><img src="/images/Games101/19/09.png"></p>
+<p><strong>Long-Exposure Photography</strong>：长曝光时间，小光圈。</p>
+<p><img src="/images/Games101/19/10.png"></p>
+<h1 id="3-薄透镜近似-Thin-Lens-Approximation"><a href="#3-薄透镜近似-Thin-Lens-Approximation" class="headerlink" title="3. 薄透镜近似 Thin Lens Approximation"></a>3. 薄透镜近似 Thin Lens Approximation</h1><p>真正的透镜非常复杂，需要一个简单的方法描述。</p>
+<h2 id="3-1-理想化薄透镜（Ideal-Thin-Lens-Focal-Point）"><a href="#3-1-理想化薄透镜（Ideal-Thin-Lens-Focal-Point）" class="headerlink" title="3.1 理想化薄透镜（Ideal Thin Lens - Focal Point）"></a>3.1 理想化薄透镜（Ideal Thin Lens - Focal Point）</h2><ul>
+<li><strong>所有进入透镜的平行光一定过焦点。</strong></li>
+<li><strong>过交点的在透镜后面一定是平行光。</strong></li>
+<li><strong>认为焦距可以被随意改变（透镜组）。</strong></li>
+</ul>
+<p><img src="/images/Games101/19/11.png"></p>
+<h2 id="3-2-薄透镜公式（The-Thin-Lens-Equation）"><a href="#3-2-薄透镜公式（The-Thin-Lens-Equation）" class="headerlink" title="3.2 薄透镜公式（The Thin Lens Equation）"></a>3.2 薄透镜公式（The Thin Lens Equation）</h2><ul>
+<li><strong>公式：（物距，像距，焦距 三者的关系）</strong></li>
+</ul>
+<p><img src="/images/Games101/19/12.png"></p>
+<ul>
+<li><strong>公式推导：</strong></li>
+</ul>
+<p><img src="/images/Games101/19/13.png"></p>
+<h2 id="3-3-Defocus-Blur"><a href="#3-3-Defocus-Blur" class="headerlink" title="3.3 Defocus Blur"></a>3.3 Defocus Blur</h2><h3 id="3-3-1-Computing-Cicle-of-Confusion-CoC-Size"><a href="#3-3-1-Computing-Cicle-of-Confusion-CoC-Size" class="headerlink" title="3.3.1 Computing Cicle of Confusion(CoC) Size"></a>3.3.1 Computing Cicle of Confusion(CoC) Size</h3><p>如图，Object远离Focal Plane，聚焦后的点不在Sensor Plane上，而是在它前面聚焦，然后光线在聚焦点继续直线传播，到Sensor Plane上就变成了一个圆。（产生了模糊）</p>
+<p><img src="/images/Games101/19/14.png"></p>
+<p>其中：<strong>A是光圈直径，C是CoC的直径。</strong></p>
+<p>Circle of Confusion 与光圈大小成正比。所以看到的东西<strong>是否模糊与光圈的大小有关</strong>。</p>
+<p>将上面的公式与F-Number联系起来。</p>
+<p><img src="/images/Games101/19/15.png"></p>
+<h3 id="3-3-2-Ray-Tracing-Ideal-Thin-Lenses"><a href="#3-3-2-Ray-Tracing-Ideal-Thin-Lenses" class="headerlink" title="3.3.2 Ray Tracing Ideal Thin Lenses"></a>3.3.2 Ray Tracing Ideal Thin Lenses</h3><p><img src="/images/Games101/19/16.png"></p>
+<p><strong>步骤：</strong></p>
+<ul>
+<li>先定义Sensor的大小（成像平面大小），然后定义透镜的属性，即焦距和光圈的大小。</li>
+<li>定义透镜和关注平面的距离 zo（物距）。</li>
+<li>根据透镜方程计算相应的深度 zi（相距）。</li>
+</ul>
+<p><strong>渲染：</strong></p>
+<ul>
+<li>对于每个在sensor上的像素 x′</li>
+<li>在 lens plane上取样随机一点 x′′</li>
+<li>然后知道了通过透镜的光线会打到 x′′′</li>
+<li>计算光线 x′′ → x′′′ 的radiance。</li>
+</ul>
+<h3 id="3-3-3-景深（Depth-of-Field）"><a href="#3-3-3-景深（Depth-of-Field）" class="headerlink" title="3.3.3 景深（Depth of Field）"></a>3.3.3 景深（Depth of Field）</h3><p><strong>景深：</strong>就是指 <strong>成像清晰的一段范围</strong></p>
+<p>或者说：<strong>在场景内对应的CoC足够小的距离范围。</strong></p>
+<p><img src="/images/Games101/19/17.png"></p>
+<p><strong>推导：</strong></p>
+<p><img src="/images/Games101/19/18.png"></p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43399489/article/details/121771735?ops_request_misc=%7B%22request_id%22:%22170567531416800227439114%22,%22scm%22:%2220140713.130102334.pc_blog.%22%7D&request_id=170567531416800227439114&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~blog~first_rank_ecpm_v1~rank_v31_ecpm-10-121771735-null-null.nonecase&utm_term=%E5%9B%BE%E5%BD%A2%E5%AD%A6%E7%AC%94%E8%AE%B0&spm=1018.2226.3001.4450">图形学笔记（十七）相机，棱镜 ——FOV、焦距、曝光、F-Stop、ISO、薄透镜公式、Circle of Confusion Size、景深、理想薄透镜光线追踪_相机凌镜成像-CSDN博客</a></p>
+<p>光场放在了下一篇。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1204,7 +1632,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">41</span>
+          <span class="site-state-item-count">37</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1255,7 +1683,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共52.5k字</span>
+  <span class="post-count">博客全站共48.8k字</span>
 </div>
 
 
