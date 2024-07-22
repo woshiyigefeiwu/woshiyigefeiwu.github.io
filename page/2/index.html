@@ -1540,6 +1540,203 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/01/13/games101/Lec%2015/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="FJBQ">
+      <meta itemprop="description" content="坚定 坚持 坚强">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FJBQ">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/01/13/games101/Lec%2015/" class="post-title-link" itemprop="url">【Games 101】Lec 15：光线追踪 3（辐射度量学，光传输，全局光照）</a>
+        </h2>
+
+        <div class="post-meta">
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2024-01-13 13:16:57 / 修改时间：15:01:38" itemprop="dateCreated datePublished" datetime="2024-01-13T13:16:57+08:00">2024-01-13</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">Games 系列</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/Games-101/" itemprop="url" rel="index"><span itemprop="name">Games 101</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Lecture-15：Ray-Tracing-3-Light-Transport-Global-Illumination"><a href="#Lecture-15：Ray-Tracing-3-Light-Transport-Global-Illumination" class="headerlink" title="Lecture 15：Ray Tracing 3 (Light Transport &amp; Global Illumination)"></a>Lecture 15：Ray Tracing 3 (Light Transport &amp; Global Illumination)</h1><p>这节课讲的是 <strong>Light Transport &amp; Global Illumination</strong> 当然首先包含了上一节课最后的辐射度量学；</p>
+<p>ps：这几节课是真的难…</p>
+<h1 id="1-辐射度量学（Basic-radiometry）"><a href="#1-辐射度量学（Basic-radiometry）" class="headerlink" title="1. 辐射度量学（Basic radiometry）"></a>1. 辐射度量学（Basic radiometry）</h1><h2 id="1-1-概述"><a href="#1-1-概述" class="headerlink" title="1.1 概述"></a>1.1 概述</h2><p><strong>辐射度量学的动机：</strong></p>
+<p>光源中定义L&#x3D;10，但是10代表的是什么无法确定，缺少单位。</p>
+<p><strong>定义：</strong></p>
+<p>辐射度量学就是<strong>在物理上准确度量光照</strong>的方法。</p>
+<p>它定义了一系列的方法和单位，准确的定义了光在空间中的属性：</p>
+<ul>
+<li>Radiant flux（辐射通量）</li>
+<li>intensity（辐射强度）</li>
+<li>irradiance（辐射[照]度）</li>
+<li>radiance（辐[射]亮度）</li>
+</ul>
+<h2 id="1-2-角，立体角（solid-angle），微分立体角"><a href="#1-2-角，立体角（solid-angle），微分立体角" class="headerlink" title="1.2 角，立体角（solid angle），微分立体角"></a>1.2 角，立体角（solid angle），微分立体角</h2><ol>
+<li><strong>角 Angle：</strong> 圆上的弧长与半径的比值。</li>
+</ol>
+<p><img src="/images/Games101/15/01.png"></p>
+<ol start="2">
+<li><strong>立体角（solid angle）：球面上的面积和半径平方的比值。</strong>（弧度制在三维空间的延申）</li>
+</ol>
+<p><img src="/images/Games101/15/02.png"></p>
+<ol start="3">
+<li><strong>微分立体角（Differential）</strong></li>
+</ol>
+<p><img src="/images/Games101/15/03.png"></p>
+<blockquote>
+<p>dA 是球面上的微分面积，近似成长方形</p>
+</blockquote>
+<p>通过积分可以得到，整个球的立体角是 <strong>4π</strong> 。</p>
+<p><img src="/images/Games101/15/04.png"></p>
+<h2 id="1-3-Radiant-Energy-and-Flux-Power"><a href="#1-3-Radiant-Energy-and-Flux-Power" class="headerlink" title="1.3 Radiant Energy and Flux (Power)"></a>1.3 Radiant Energy and Flux (Power)</h2><h3 id="1-3-1-Radiant-Energy"><a href="#1-3-1-Radiant-Energy" class="headerlink" title="1.3.1 Radiant Energy"></a>1.3.1 Radiant Energy</h3><p><strong>定义：Radiant energy是一种电磁辐射的能量。它由 <strong>焦耳</strong>（J&#x3D;Joule）单位来度量，用符号</strong>Q<strong>来表示。</strong></p>
+<p><img src="/images/Games101/15/05.png"></p>
+<h3 id="1-3-2-Radient-Flux-Power"><a href="#1-3-2-Radient-Flux-Power" class="headerlink" title="1.3.2 Radient Flux(Power)"></a>1.3.2 Radient Flux(Power)</h3><p><strong>定义：</strong></p>
+<ul>
+<li><strong>Radient flux(Power) 是单位时间的发射出的、反射的、传播的和接收的能量。</strong></li>
+<li>或者：<strong>单位时间辐射出光子的数量</strong></li>
+</ul>
+<p><img src="/images/Games101/15/06.png"></p>
+<h2 id="1-4-与光相关的物理量"><a href="#1-4-与光相关的物理量" class="headerlink" title="1.4 与光相关的物理量"></a>1.4 与光相关的物理量</h2><p>主要是区别下面三种物理量：</p>
+<ul>
+<li><strong>Radiant Intensity</strong>：光源辐射出的能量；</li>
+<li><strong>Irrdiance</strong>：物体表面接收的光的能量；</li>
+<li><strong>Radiance</strong>：光线在传播过程中的能量；</li>
+</ul>
+<p><img src="/images/Games101/15/07.png"></p>
+<h3 id="1-4-1-Radient-intensity"><a href="#1-4-1-Radient-intensity" class="headerlink" title="1.4.1 Radient intensity"></a>1.4.1 Radient intensity</h3><p><strong>定义：</strong></p>
+<ul>
+<li>Radient intensity是 <strong>每单位立体角</strong> 辐射的能量。</li>
+</ul>
+<p><img src="/images/Games101/15/08.png"></p>
+<h3 id="1-4-2-Irradiance"><a href="#1-4-2-Irradiance" class="headerlink" title="1.4.2 Irradiance"></a>1.4.2 Irradiance</h3><p><strong>定义：</strong></p>
+<ul>
+<li><strong>Irradiance</strong> 是<strong>单位面积的辐射通量</strong>（面必须和光线<strong>垂直</strong>，否则要变成和投影面垂直的）。</li>
+</ul>
+<p><img src="/images/Games101/15/09.png"></p>
+<p><strong>Irradiance 例子：</strong></p>
+<ul>
+<li>冬夏温度之分是因为点光源辐射的能量到达辐射点的角度不同步（阳光和不同区域的夹角不同），导致接收的能量不同。</li>
+<li>Irradiance 会衰减（不是 Intensity 衰减）</li>
+</ul>
+<p><img src="/images/Games101/15/10.png"></p>
+<h3 id="1-4-3-Radiance"><a href="#1-4-3-Radiance" class="headerlink" title="1.4.3 Radiance"></a>1.4.3 Radiance</h3><p>Radiance 描述光线在传播过程中的属性。</p>
+<p><strong>定义：</strong></p>
+<ul>
+<li>单位面积，单位立体角接受的能力；</li>
+<li>或者理解为：<strong>在单位面积，单位立体角 发出的能量</strong>；</li>
+</ul>
+<p><img src="/images/Games101/15/11.png"></p>
+<p><strong>注意：</strong></p>
+<p>因为 <strong>Irradiance</strong> 是<strong>单位面积的辐射通量</strong>，<strong>Intensity</strong> 是<strong>单位立体角发出的能量</strong>。</p>
+<p>所以 Radiance是<strong>每单位立体角的 Irradiance</strong>，Radiance是<strong>每单位面积的正交 Intensity</strong>。</p>
+<h4 id="1-4-3-1-Incident-Radiance"><a href="#1-4-3-1-Incident-Radiance" class="headerlink" title="1.4.3.1 Incident Radiance"></a>1.4.3.1 Incident Radiance</h4><p>Incident Radiance 是每<strong>单位立体角</strong>的<strong>到达</strong>表面的 <strong>Irradiance</strong>。</p>
+<p><img src="/images/Games101/15/12.png"></p>
+<h4 id="1-4-3-2-Exiting-Radiance"><a href="#1-4-3-2-Exiting-Radiance" class="headerlink" title="1.4.3.2 Exiting Radiance"></a>1.4.3.2 Exiting Radiance</h4><p>Exiting surface radiance 是<strong>每单位面积</strong>向某个角度辐射出的 <strong>Intensity</strong>（这里参考文章里面应该是写错了）。</p>
+<p><img src="/images/Games101/15/13.png"></p>
+<h2 id="1-5-Irradiance-和-Radiance"><a href="#1-5-Irradiance-和-Radiance" class="headerlink" title="1.5 Irradiance 和 Radiance"></a>1.5 Irradiance 和 Radiance</h2><p><strong>Irradiance</strong>：被区域 dA 吸收的所有的能量。</p>
+<p><strong>Radiance</strong>：被区域 dA 的来自d ω 的能量（多了一个立体角）。</p>
+<p><img src="/images/Games101/15/14.png"></p>
+<h2 id="1-6-各向同性点光源-Isotropic-Point-Source"><a href="#1-6-各向同性点光源-Isotropic-Point-Source" class="headerlink" title="1.6 各向同性点光源 Isotropic Point Source"></a>1.6 各向同性点光源 Isotropic Point Source</h2><p>如果点光源均匀的辐射出光，则可以得到点光源的强度 <strong>I</strong> 如下所示。</p>
+<p><img src="/images/Games101/15/15.png"></p>
+<h1 id="2-双向反射分布函数-Bidirectional-Reflectance-Distribution-Function（BRDF）"><a href="#2-双向反射分布函数-Bidirectional-Reflectance-Distribution-Function（BRDF）" class="headerlink" title="2. 双向反射分布函数 Bidirectional Reflectance Distribution Function（BRDF）"></a>2. 双向反射分布函数 Bidirectional Reflectance Distribution Function（BRDF）</h1><p><strong>引入</strong> ：</p>
+<ul>
+<li>来自于 <strong>ωi 立体角</strong>的 <strong>Radiance</strong> 转化成 dA 接受的能量E，然后能量E会变成向着任何其他方向 ω 的 Radiance。</li>
+</ul>
+<p><strong>意义：</strong></p>
+<ul>
+<li><strong>BRDF</strong> 用于<strong>表示某个微小面积 dA 从某个微小立体角 dωi 接受的 Irradiance 会如何被分配到不同的立体角去。</strong></li>
+</ul>
+<p><strong>定义：</strong></p>
+<p><strong>如下图所示，从来自 ωi 立体角的 Irradiance（dE(ωi))，经过单位面积吸收后，向某一立体角 ωr 发射出去，发射出去的 Radiance 是 dLr(x , ωr)</strong></p>
+<p><img src="/images/Games101/15/16.png"></p>
+<p><strong>BRDF 用于表示从每个入射方向进来的光线会每个向出射方向 ωr 反射的能量多少。</strong></p>
+<p><strong>BRDF 就是任何一个出射方向的 Radiance 的微分 除以 在入射点上 Irradiance的微</strong>分，BRDF 如下所示。</p>
+<p><img src="/images/Games101/15/17.png"></p>
+<h2 id="2-1-反射方程（The-Reflection-Equation）"><a href="#2-1-反射方程（The-Reflection-Equation）" class="headerlink" title="2.1 反射方程（The Reflection Equation）"></a>2.1 反射方程（The Reflection Equation）</h2><p>BRDF 是描述光线对物体时如何作用的，所以可以<strong>用于定义不同的材质</strong>。</p>
+<p><strong>把每一个方向对出射方向的贡献积分起来就会获得向某个方向反射出光照的结果。</strong></p>
+<p><img src="/images/Games101/15/18.png"></p>
+<p>反射radiance取决于入射radiance，而入射Radiance不仅取决于光源，还有<strong>被其他物体反射的光</strong>，具有递归关系。</p>
+<p><img src="/images/Games101/15/19.png"></p>
+<h2 id="2-2-渲染方程（The-Rendering-Equation）"><a href="#2-2-渲染方程（The-Rendering-Equation）" class="headerlink" title="2.2 渲染方程（The Rendering Equation）"></a>2.2 渲染方程（The Rendering Equation）</h2><p><strong>渲染方程</strong> &#x3D; <strong>加上自己辐射的 Radiance</strong> + <strong>反射方程</strong></p>
+<p><img src="/images/Games101/15/20.png"></p>
+<p>注意：</p>
+<ul>
+<li><p>这里默认所有的方向 ω 都是向外的。</p>
+</li>
+<li><p>而且此时考虑的照亮到这一点的都是光源</p>
+</li>
+</ul>
+<p><strong>但是实际上照亮这一点的不仅仅有光源的 Radiance，还有可能是其他物体反射过来的 Radiance；</strong></p>
+<p>如果<strong>考虑其他物体反射的radiance</strong>，就把反射物体和反射面当成光源，可以把渲染方程写成更通用的形式。</p>
+<p><img src="/images/Games101/15/21.png"></p>
+<p><strong>以上的式子可以简单的表达为：</strong></p>
+<p><img src="/images/Games101/15/22.png"></p>
+<p><strong>K为反射操作符，进一步简写为：</strong></p>
+<p><img src="/images/Games101/15/23.png"></p>
+<p>可以看出L是递归定义的。</p>
+<h3 id="2-2-1-结论"><a href="#2-2-1-结论" class="headerlink" title="2.2.1 结论"></a>2.2.1 结论</h3><p>简写渲染方程（L&#x3D; E + K L）的目的是解出 L。</p>
+<p><strong>解L的方法如下所示，其中K也可以理解成反射次数，反射次数越多，项越多，K^2 代表光弹射两次。</strong></p>
+<p><img src="/images/Games101/15/24.png"></p>
+<p><strong>全局光照 &#x3D; 直接光照（E） + 间接光照（KE + K^2E + K^3E + …）</strong></p>
+<p><img src="/images/Games101/15/25.png"></p>
+<p><strong>光栅化的着色一般只有 E+EK，而后面的间接光照部分光栅化难以做到，一般使用光线追踪（路径追踪）来进行计算。</strong></p>
+<h1 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h1><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43399489/article/details/121655346?spm=1001.2014.3001.5502">图形学笔记（十三）光线追踪3——双向反射分布函数BRDF（反射方程、递归方程）、辐射度量学基础radiometry、立体角、Radiant Energy、Flux、Irrdiance、Radiance_irrdiance 测量仪-CSDN博客</a></p>
+<p><strong>好难…</strong> </p>
+<p><strong>光做笔记都要写好久好久…</strong></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2024/01/13/games101/Lec%2016/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1725,203 +1922,6 @@
 </ul>
 <h1 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h1><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43399489/article/details/121617338?spm=1001.2014.3001.5502">图形学笔记（十四）光线追踪4——蒙特卡洛（Monte Carlo）积分、路径追踪详细过程（Whitted-Style的问题于RR（俄罗斯轮盘赌）算法、Ray Generation）、照片级真实感渲染_图形学rr-CSDN博客</a></p>
 <p>太难啦</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2024/01/13/games101/Lec%2015/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="FJBQ">
-      <meta itemprop="description" content="坚定 坚持 坚强">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="FJBQ">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2024/01/13/games101/Lec%2015/" class="post-title-link" itemprop="url">【Games 101】Lec 15：光线追踪 3（辐射度量学，光传输，全局光照）</a>
-        </h2>
-
-        <div class="post-meta">
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2024-01-13 13:16:57 / 修改时间：15:01:38" itemprop="dateCreated datePublished" datetime="2024-01-13T13:16:57+08:00">2024-01-13</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">Games 系列</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/Games-101/" itemprop="url" rel="index"><span itemprop="name">Games 101</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="Lecture-15：Ray-Tracing-3-Light-Transport-Global-Illumination"><a href="#Lecture-15：Ray-Tracing-3-Light-Transport-Global-Illumination" class="headerlink" title="Lecture 15：Ray Tracing 3 (Light Transport &amp; Global Illumination)"></a>Lecture 15：Ray Tracing 3 (Light Transport &amp; Global Illumination)</h1><p>这节课讲的是 <strong>Light Transport &amp; Global Illumination</strong> 当然首先包含了上一节课最后的辐射度量学；</p>
-<p>ps：这几节课是真的难…</p>
-<h1 id="1-辐射度量学（Basic-radiometry）"><a href="#1-辐射度量学（Basic-radiometry）" class="headerlink" title="1. 辐射度量学（Basic radiometry）"></a>1. 辐射度量学（Basic radiometry）</h1><h2 id="1-1-概述"><a href="#1-1-概述" class="headerlink" title="1.1 概述"></a>1.1 概述</h2><p><strong>辐射度量学的动机：</strong></p>
-<p>光源中定义L&#x3D;10，但是10代表的是什么无法确定，缺少单位。</p>
-<p><strong>定义：</strong></p>
-<p>辐射度量学就是<strong>在物理上准确度量光照</strong>的方法。</p>
-<p>它定义了一系列的方法和单位，准确的定义了光在空间中的属性：</p>
-<ul>
-<li>Radiant flux（辐射通量）</li>
-<li>intensity（辐射强度）</li>
-<li>irradiance（辐射[照]度）</li>
-<li>radiance（辐[射]亮度）</li>
-</ul>
-<h2 id="1-2-角，立体角（solid-angle），微分立体角"><a href="#1-2-角，立体角（solid-angle），微分立体角" class="headerlink" title="1.2 角，立体角（solid angle），微分立体角"></a>1.2 角，立体角（solid angle），微分立体角</h2><ol>
-<li><strong>角 Angle：</strong> 圆上的弧长与半径的比值。</li>
-</ol>
-<p><img src="/images/Games101/15/01.png"></p>
-<ol start="2">
-<li><strong>立体角（solid angle）：球面上的面积和半径平方的比值。</strong>（弧度制在三维空间的延申）</li>
-</ol>
-<p><img src="/images/Games101/15/02.png"></p>
-<ol start="3">
-<li><strong>微分立体角（Differential）</strong></li>
-</ol>
-<p><img src="/images/Games101/15/03.png"></p>
-<blockquote>
-<p>dA 是球面上的微分面积，近似成长方形</p>
-</blockquote>
-<p>通过积分可以得到，整个球的立体角是 <strong>4π</strong> 。</p>
-<p><img src="/images/Games101/15/04.png"></p>
-<h2 id="1-3-Radiant-Energy-and-Flux-Power"><a href="#1-3-Radiant-Energy-and-Flux-Power" class="headerlink" title="1.3 Radiant Energy and Flux (Power)"></a>1.3 Radiant Energy and Flux (Power)</h2><h3 id="1-3-1-Radiant-Energy"><a href="#1-3-1-Radiant-Energy" class="headerlink" title="1.3.1 Radiant Energy"></a>1.3.1 Radiant Energy</h3><p><strong>定义：Radiant energy是一种电磁辐射的能量。它由 <strong>焦耳</strong>（J&#x3D;Joule）单位来度量，用符号</strong>Q<strong>来表示。</strong></p>
-<p><img src="/images/Games101/15/05.png"></p>
-<h3 id="1-3-2-Radient-Flux-Power"><a href="#1-3-2-Radient-Flux-Power" class="headerlink" title="1.3.2 Radient Flux(Power)"></a>1.3.2 Radient Flux(Power)</h3><p><strong>定义：</strong></p>
-<ul>
-<li><strong>Radient flux(Power) 是单位时间的发射出的、反射的、传播的和接收的能量。</strong></li>
-<li>或者：<strong>单位时间辐射出光子的数量</strong></li>
-</ul>
-<p><img src="/images/Games101/15/06.png"></p>
-<h2 id="1-4-与光相关的物理量"><a href="#1-4-与光相关的物理量" class="headerlink" title="1.4 与光相关的物理量"></a>1.4 与光相关的物理量</h2><p>主要是区别下面三种物理量：</p>
-<ul>
-<li><strong>Radiant Intensity</strong>：光源辐射出的能量；</li>
-<li><strong>Irrdiance</strong>：物体表面接收的光的能量；</li>
-<li><strong>Radiance</strong>：光线在传播过程中的能量；</li>
-</ul>
-<p><img src="/images/Games101/15/07.png"></p>
-<h3 id="1-4-1-Radient-intensity"><a href="#1-4-1-Radient-intensity" class="headerlink" title="1.4.1 Radient intensity"></a>1.4.1 Radient intensity</h3><p><strong>定义：</strong></p>
-<ul>
-<li>Radient intensity是 <strong>每单位立体角</strong> 辐射的能量。</li>
-</ul>
-<p><img src="/images/Games101/15/08.png"></p>
-<h3 id="1-4-2-Irradiance"><a href="#1-4-2-Irradiance" class="headerlink" title="1.4.2 Irradiance"></a>1.4.2 Irradiance</h3><p><strong>定义：</strong></p>
-<ul>
-<li><strong>Irradiance</strong> 是<strong>单位面积的辐射通量</strong>（面必须和光线<strong>垂直</strong>，否则要变成和投影面垂直的）。</li>
-</ul>
-<p><img src="/images/Games101/15/09.png"></p>
-<p><strong>Irradiance 例子：</strong></p>
-<ul>
-<li>冬夏温度之分是因为点光源辐射的能量到达辐射点的角度不同步（阳光和不同区域的夹角不同），导致接收的能量不同。</li>
-<li>Irradiance 会衰减（不是 Intensity 衰减）</li>
-</ul>
-<p><img src="/images/Games101/15/10.png"></p>
-<h3 id="1-4-3-Radiance"><a href="#1-4-3-Radiance" class="headerlink" title="1.4.3 Radiance"></a>1.4.3 Radiance</h3><p>Radiance 描述光线在传播过程中的属性。</p>
-<p><strong>定义：</strong></p>
-<ul>
-<li>单位面积，单位立体角接受的能力；</li>
-<li>或者理解为：<strong>在单位面积，单位立体角 发出的能量</strong>；</li>
-</ul>
-<p><img src="/images/Games101/15/11.png"></p>
-<p><strong>注意：</strong></p>
-<p>因为 <strong>Irradiance</strong> 是<strong>单位面积的辐射通量</strong>，<strong>Intensity</strong> 是<strong>单位立体角发出的能量</strong>。</p>
-<p>所以 Radiance是<strong>每单位立体角的 Irradiance</strong>，Radiance是<strong>每单位面积的正交 Intensity</strong>。</p>
-<h4 id="1-4-3-1-Incident-Radiance"><a href="#1-4-3-1-Incident-Radiance" class="headerlink" title="1.4.3.1 Incident Radiance"></a>1.4.3.1 Incident Radiance</h4><p>Incident Radiance 是每<strong>单位立体角</strong>的<strong>到达</strong>表面的 <strong>Irradiance</strong>。</p>
-<p><img src="/images/Games101/15/12.png"></p>
-<h4 id="1-4-3-2-Exiting-Radiance"><a href="#1-4-3-2-Exiting-Radiance" class="headerlink" title="1.4.3.2 Exiting Radiance"></a>1.4.3.2 Exiting Radiance</h4><p>Exiting surface radiance 是<strong>每单位面积</strong>向某个角度辐射出的 <strong>Intensity</strong>（这里参考文章里面应该是写错了）。</p>
-<p><img src="/images/Games101/15/13.png"></p>
-<h2 id="1-5-Irradiance-和-Radiance"><a href="#1-5-Irradiance-和-Radiance" class="headerlink" title="1.5 Irradiance 和 Radiance"></a>1.5 Irradiance 和 Radiance</h2><p><strong>Irradiance</strong>：被区域 dA 吸收的所有的能量。</p>
-<p><strong>Radiance</strong>：被区域 dA 的来自d ω 的能量（多了一个立体角）。</p>
-<p><img src="/images/Games101/15/14.png"></p>
-<h2 id="1-6-各向同性点光源-Isotropic-Point-Source"><a href="#1-6-各向同性点光源-Isotropic-Point-Source" class="headerlink" title="1.6 各向同性点光源 Isotropic Point Source"></a>1.6 各向同性点光源 Isotropic Point Source</h2><p>如果点光源均匀的辐射出光，则可以得到点光源的强度 <strong>I</strong> 如下所示。</p>
-<p><img src="/images/Games101/15/15.png"></p>
-<h1 id="2-双向反射分布函数-Bidirectional-Reflectance-Distribution-Function（BRDF）"><a href="#2-双向反射分布函数-Bidirectional-Reflectance-Distribution-Function（BRDF）" class="headerlink" title="2. 双向反射分布函数 Bidirectional Reflectance Distribution Function（BRDF）"></a>2. 双向反射分布函数 Bidirectional Reflectance Distribution Function（BRDF）</h1><p><strong>引入</strong> ：</p>
-<ul>
-<li>来自于 <strong>ωi 立体角</strong>的 <strong>Radiance</strong> 转化成 dA 接受的能量E，然后能量E会变成向着任何其他方向 ω 的 Radiance。</li>
-</ul>
-<p><strong>意义：</strong></p>
-<ul>
-<li><strong>BRDF</strong> 用于<strong>表示某个微小面积 dA 从某个微小立体角 dωi 接受的 Irradiance 会如何被分配到不同的立体角去。</strong></li>
-</ul>
-<p><strong>定义：</strong></p>
-<p><strong>如下图所示，从来自 ωi 立体角的 Irradiance（dE(ωi))，经过单位面积吸收后，向某一立体角 ωr 发射出去，发射出去的 Radiance 是 dLr(x , ωr)</strong></p>
-<p><img src="/images/Games101/15/16.png"></p>
-<p><strong>BRDF 用于表示从每个入射方向进来的光线会每个向出射方向 ωr 反射的能量多少。</strong></p>
-<p><strong>BRDF 就是任何一个出射方向的 Radiance 的微分 除以 在入射点上 Irradiance的微</strong>分，BRDF 如下所示。</p>
-<p><img src="/images/Games101/15/17.png"></p>
-<h2 id="2-1-反射方程（The-Reflection-Equation）"><a href="#2-1-反射方程（The-Reflection-Equation）" class="headerlink" title="2.1 反射方程（The Reflection Equation）"></a>2.1 反射方程（The Reflection Equation）</h2><p>BRDF 是描述光线对物体时如何作用的，所以可以<strong>用于定义不同的材质</strong>。</p>
-<p><strong>把每一个方向对出射方向的贡献积分起来就会获得向某个方向反射出光照的结果。</strong></p>
-<p><img src="/images/Games101/15/18.png"></p>
-<p>反射radiance取决于入射radiance，而入射Radiance不仅取决于光源，还有<strong>被其他物体反射的光</strong>，具有递归关系。</p>
-<p><img src="/images/Games101/15/19.png"></p>
-<h2 id="2-2-渲染方程（The-Rendering-Equation）"><a href="#2-2-渲染方程（The-Rendering-Equation）" class="headerlink" title="2.2 渲染方程（The Rendering Equation）"></a>2.2 渲染方程（The Rendering Equation）</h2><p><strong>渲染方程</strong> &#x3D; <strong>加上自己辐射的 Radiance</strong> + <strong>反射方程</strong></p>
-<p><img src="/images/Games101/15/20.png"></p>
-<p>注意：</p>
-<ul>
-<li><p>这里默认所有的方向 ω 都是向外的。</p>
-</li>
-<li><p>而且此时考虑的照亮到这一点的都是光源</p>
-</li>
-</ul>
-<p><strong>但是实际上照亮这一点的不仅仅有光源的 Radiance，还有可能是其他物体反射过来的 Radiance；</strong></p>
-<p>如果<strong>考虑其他物体反射的radiance</strong>，就把反射物体和反射面当成光源，可以把渲染方程写成更通用的形式。</p>
-<p><img src="/images/Games101/15/21.png"></p>
-<p><strong>以上的式子可以简单的表达为：</strong></p>
-<p><img src="/images/Games101/15/22.png"></p>
-<p><strong>K为反射操作符，进一步简写为：</strong></p>
-<p><img src="/images/Games101/15/23.png"></p>
-<p>可以看出L是递归定义的。</p>
-<h3 id="2-2-1-结论"><a href="#2-2-1-结论" class="headerlink" title="2.2.1 结论"></a>2.2.1 结论</h3><p>简写渲染方程（L&#x3D; E + K L）的目的是解出 L。</p>
-<p><strong>解L的方法如下所示，其中K也可以理解成反射次数，反射次数越多，项越多，K^2 代表光弹射两次。</strong></p>
-<p><img src="/images/Games101/15/24.png"></p>
-<p><strong>全局光照 &#x3D; 直接光照（E） + 间接光照（KE + K^2E + K^3E + …）</strong></p>
-<p><img src="/images/Games101/15/25.png"></p>
-<p><strong>光栅化的着色一般只有 E+EK，而后面的间接光照部分光栅化难以做到，一般使用光线追踪（路径追踪）来进行计算。</strong></p>
-<h1 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h1><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43399489/article/details/121655346?spm=1001.2014.3001.5502">图形学笔记（十三）光线追踪3——双向反射分布函数BRDF（反射方程、递归方程）、辐射度量学基础radiometry、立体角、Radiant Energy、Flux、Irrdiance、Radiance_irrdiance 测量仪-CSDN博客</a></p>
-<p><strong>好难…</strong> </p>
-<p><strong>光做笔记都要写好久好久…</strong></p>
 
       
     </div>
