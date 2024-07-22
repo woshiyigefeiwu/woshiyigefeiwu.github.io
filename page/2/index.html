@@ -170,6 +170,82 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/01/27/games101/HomeWork%201/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="FJBQ">
+      <meta itemprop="description" content="坚定 坚持 坚强">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FJBQ">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/01/27/games101/HomeWork%201/" class="post-title-link" itemprop="url">【Games 101】HomeWork 1：旋转与投影</a>
+        </h2>
+
+        <div class="post-meta">
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2024-01-27 23:25:29 / 修改时间：23:59:13" itemprop="dateCreated datePublished" datetime="2024-01-27T23:25:29+08:00">2024-01-27</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">Games 系列</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/Games-101/" itemprop="url" rel="index"><span itemprop="name">Games 101</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="HomeWork-1：旋转与投影"><a href="#HomeWork-1：旋转与投影" class="headerlink" title="HomeWork 1：旋转与投影"></a>HomeWork 1：旋转与投影</h1><h2 id="代码："><a href="#代码：" class="headerlink" title="代码："></a>代码：</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    模型变换：</span></span><br><span class="line"><span class="comment">        逐个元素地构建模型变换矩阵并返回该矩阵。</span></span><br><span class="line"><span class="comment">        在此函数中，你只需要实现三维中绕 z 轴旋转的变换矩阵，而不用处理平移与缩放。</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    分析：</span></span><br><span class="line"><span class="comment">        这个比较简单，提示也说了我们只需要绕着 z 轴旋转就行；</span></span><br><span class="line"><span class="comment">        回顾一下公式：http://fjbq-blog.top/2023/12/30/GAMES%20101%20%E9%9A%8F%E7%AC%94/</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function">Eigen::Matrix4f <span class="title">get_model_matrix</span><span class="params">(<span class="type">float</span> rotation_angle)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 转换为弧度制</span></span><br><span class="line">    <span class="type">float</span> rotation_angle_rad = rotation_angle / <span class="number">180.0</span> * MY_PI;    </span><br><span class="line"></span><br><span class="line">    <span class="comment">// 创建一个 模型变换矩阵，默认初始化矩阵为单位矩阵</span></span><br><span class="line">    Eigen::Matrix4f model = Eigen::Matrix4f::<span class="built_in">Identity</span>();</span><br><span class="line"></span><br><span class="line">    model &lt;&lt; <span class="built_in">cos</span>(rotation_angle_rad), -<span class="built_in">sin</span>(rotation_angle_rad), <span class="number">0</span>, <span class="number">0</span>,</span><br><span class="line">             <span class="built_in">sin</span>(rotation_angle_rad), <span class="built_in">cos</span>(rotation_angle_rad), <span class="number">0</span>, <span class="number">0</span>,</span><br><span class="line">             <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>,</span><br><span class="line">             <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">    //绕x轴</span></span><br><span class="line"><span class="comment">    model &lt;&lt; 1, 0, 0, 0,</span></span><br><span class="line"><span class="comment">             0, cos(angle), -sin(angle), 0,</span></span><br><span class="line"><span class="comment">             0, sin(angle), cos(angle), 0,</span></span><br><span class="line"><span class="comment">             0, 0, 0, 1;</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    //绕y轴（注意是反的哦）</span></span><br><span class="line"><span class="comment">    model &lt;&lt; cos(angle), 0, sin(angle), 0,</span></span><br><span class="line"><span class="comment">             0, 1, 0, 0,</span></span><br><span class="line"><span class="comment">             -sin(angle), 0, cos(angle), 0,</span></span><br><span class="line"><span class="comment">             0, 0, 0, 1;</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> model;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    投影变换：</span></span><br><span class="line"><span class="comment">        使用给定的参数逐个元素地构建透视投影矩阵并返回该矩阵。</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    分析：</span></span><br><span class="line"><span class="comment">        这个感觉就比较复杂一点了...</span></span><br><span class="line"><span class="comment">        首先根据前面的学习，我们知道 透视投影矩阵 = 正交投影矩阵 * 透视压缩矩阵（注意顺序哦）</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">        其中这个 正交投影矩阵 里面用到的参数需要我们去求一下的...</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function">Eigen::Matrix4f <span class="title">get_projection_matrix</span><span class="params">(<span class="type">float</span> eye_fov, <span class="type">float</span> aspect_ratio, <span class="type">float</span> zNear, <span class="type">float</span> zFar)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">    	怎么感觉知乎大佬的代码怪怪的；</span></span><br><span class="line"><span class="comment">    	这个 zNear，zFar 给的是正数；</span></span><br><span class="line"><span class="comment">    	下面计算的都是用的负数，先转换一下？</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    zNear = -zNear;</span><br><span class="line">    zFar = -zFar;</span><br><span class="line">    </span><br><span class="line">    Eigen::Matrix4f projection = Eigen::Matrix4f::<span class="built_in">Identity</span>();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 透视投影压缩矩阵</span></span><br><span class="line">    Eigen::Matrix4f M_persp;</span><br><span class="line">    M_persp &lt;&lt;  zNear, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>,</span><br><span class="line">                <span class="number">0</span>, zNear, <span class="number">0</span>, <span class="number">0</span>,</span><br><span class="line">                <span class="number">0</span>, <span class="number">0</span>, zNear + zFar, -zNear*zFar,</span><br><span class="line">                <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 求一下正交投影矩阵要用到的参数</span></span><br><span class="line">    <span class="type">float</span> alpha = <span class="number">0.5</span> * (eye_fov / <span class="number">180.0f</span> * MY_PI);     <span class="comment">// 视野角度的一半</span></span><br><span class="line">    <span class="type">float</span> yTop = -zNear * std::<span class="built_in">tan</span>(alpha);              <span class="comment">// 因为这里的z给的是负数，所以加负号之后再转换</span></span><br><span class="line">    <span class="type">float</span> yBottom = -yTop;</span><br><span class="line">    <span class="type">float</span> xRight = yTop * aspect_ratio;                 <span class="comment">// aspect_ratio 是 xy 的比例</span></span><br><span class="line">    <span class="type">float</span> xLeft = -xRight;</span><br><span class="line"></span><br><span class="line">    Eigen::Matrix4f M_trans;</span><br><span class="line">    M_trans &lt;&lt;  <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, -(xLeft + xRight) / <span class="number">2</span>,</span><br><span class="line">                <span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>, -(yTop + yBottom) / <span class="number">2</span>,</span><br><span class="line">                <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>, -(zNear + zFar) / <span class="number">2</span>,</span><br><span class="line">                <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    Eigen::Matrix4f M_ortho;</span><br><span class="line">    M_ortho &lt;&lt;  <span class="number">2</span> / (xRight - xLeft), <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>,</span><br><span class="line">                <span class="number">0</span>, <span class="number">2</span> / (yTop - yBottom), <span class="number">0</span>, <span class="number">0</span>,</span><br><span class="line">                <span class="number">0</span>, <span class="number">0</span>, <span class="number">2</span> / (zNear - zFar), <span class="number">0</span>,</span><br><span class="line">                <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 这个就是 正交投影矩阵</span></span><br><span class="line">    M_ortho = M_ortho * M_trans;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 透视投影矩阵 = 正交投影矩阵 * 透视压缩矩阵（注意顺序哦）</span></span><br><span class="line">    projection = M_ortho * M_persp * projection;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> projection;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    进阶 模型变换矩阵：绕任意轴旋转</span></span><br><span class="line"><span class="comment">    参考的是知乎大佬的：https://zhuanlan.zhihu.com/p/448904350</span></span><br><span class="line"><span class="comment">    用 n 表示一个过原点的向量</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function">Eigen::Matrix4f <span class="title">get_random_model_matrix</span><span class="params">(Eigen::Vector3f n,<span class="type">float</span> rotation_angle)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Eigen::Matrix4f model = Eigen::Matrix4f::<span class="built_in">Identity</span>();</span><br><span class="line">    Eigen::Matrix3f I = Eigen::Matrix3f::<span class="built_in">Identity</span>();</span><br><span class="line">    </span><br><span class="line">    <span class="type">float</span> angle = rotation_angle / <span class="number">180.0f</span> * MY_PI ;</span><br><span class="line">    <span class="type">float</span> nx = n[<span class="number">0</span>];</span><br><span class="line">    <span class="type">float</span> ny = n[<span class="number">1</span>];</span><br><span class="line">    <span class="type">float</span> nz = n[<span class="number">2</span>];</span><br><span class="line">    </span><br><span class="line">    Eigen::Matrix3f N;</span><br><span class="line">    N &lt;&lt; <span class="number">0</span>, -nz, ny,</span><br><span class="line">         nz, <span class="number">0</span>, -nx,</span><br><span class="line">         -ny, nx, <span class="number">0</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 公式</span></span><br><span class="line">    Eigen::Matrix3f R = std::<span class="built_in">cos</span>(angle) * I + (<span class="number">1</span> - std::<span class="built_in">cos</span>(angle)) * n * n.<span class="built_in">transpose</span>() + std::<span class="built_in">sin</span>(angle) * N;</span><br><span class="line">    </span><br><span class="line">    model &lt;&lt; <span class="built_in">R</span>(<span class="number">0</span>, <span class="number">0</span>), <span class="built_in">R</span>(<span class="number">0</span>, <span class="number">1</span>), <span class="built_in">R</span>(<span class="number">0</span>, <span class="number">2</span>), <span class="number">0</span>,</span><br><span class="line">             <span class="built_in">R</span>(<span class="number">1</span>, <span class="number">0</span>), <span class="built_in">R</span>(<span class="number">1</span>, <span class="number">1</span>), <span class="built_in">R</span>(<span class="number">1</span>, <span class="number">2</span>), <span class="number">0</span>,</span><br><span class="line">             <span class="built_in">R</span>(<span class="number">2</span>, <span class="number">0</span>), <span class="built_in">R</span>(<span class="number">2</span>, <span class="number">1</span>), <span class="built_in">R</span>(<span class="number">2</span>, <span class="number">2</span>), <span class="number">0</span>,</span><br><span class="line">             <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> model;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="结果："><a href="#结果：" class="headerlink" title="结果："></a>结果：</h2><p><img src="/images/Games101/homework/01/01.png"></p>
+<p><img src="/images/Games101/homework/01/02.png"></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2024/01/21/games101/Lec%2022/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1464,6 +1540,203 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/01/13/games101/Lec%2015/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="FJBQ">
+      <meta itemprop="description" content="坚定 坚持 坚强">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FJBQ">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/01/13/games101/Lec%2015/" class="post-title-link" itemprop="url">【Games 101】Lec 15：光线追踪 3（辐射度量学，光传输，全局光照）</a>
+        </h2>
+
+        <div class="post-meta">
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2024-01-13 13:16:57 / 修改时间：15:01:38" itemprop="dateCreated datePublished" datetime="2024-01-13T13:16:57+08:00">2024-01-13</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">Games 系列</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/Games-101/" itemprop="url" rel="index"><span itemprop="name">Games 101</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Lecture-15：Ray-Tracing-3-Light-Transport-Global-Illumination"><a href="#Lecture-15：Ray-Tracing-3-Light-Transport-Global-Illumination" class="headerlink" title="Lecture 15：Ray Tracing 3 (Light Transport &amp; Global Illumination)"></a>Lecture 15：Ray Tracing 3 (Light Transport &amp; Global Illumination)</h1><p>这节课讲的是 <strong>Light Transport &amp; Global Illumination</strong> 当然首先包含了上一节课最后的辐射度量学；</p>
+<p>ps：这几节课是真的难…</p>
+<h1 id="1-辐射度量学（Basic-radiometry）"><a href="#1-辐射度量学（Basic-radiometry）" class="headerlink" title="1. 辐射度量学（Basic radiometry）"></a>1. 辐射度量学（Basic radiometry）</h1><h2 id="1-1-概述"><a href="#1-1-概述" class="headerlink" title="1.1 概述"></a>1.1 概述</h2><p><strong>辐射度量学的动机：</strong></p>
+<p>光源中定义L&#x3D;10，但是10代表的是什么无法确定，缺少单位。</p>
+<p><strong>定义：</strong></p>
+<p>辐射度量学就是<strong>在物理上准确度量光照</strong>的方法。</p>
+<p>它定义了一系列的方法和单位，准确的定义了光在空间中的属性：</p>
+<ul>
+<li>Radiant flux（辐射通量）</li>
+<li>intensity（辐射强度）</li>
+<li>irradiance（辐射[照]度）</li>
+<li>radiance（辐[射]亮度）</li>
+</ul>
+<h2 id="1-2-角，立体角（solid-angle），微分立体角"><a href="#1-2-角，立体角（solid-angle），微分立体角" class="headerlink" title="1.2 角，立体角（solid angle），微分立体角"></a>1.2 角，立体角（solid angle），微分立体角</h2><ol>
+<li><strong>角 Angle：</strong> 圆上的弧长与半径的比值。</li>
+</ol>
+<p><img src="/images/Games101/15/01.png"></p>
+<ol start="2">
+<li><strong>立体角（solid angle）：球面上的面积和半径平方的比值。</strong>（弧度制在三维空间的延申）</li>
+</ol>
+<p><img src="/images/Games101/15/02.png"></p>
+<ol start="3">
+<li><strong>微分立体角（Differential）</strong></li>
+</ol>
+<p><img src="/images/Games101/15/03.png"></p>
+<blockquote>
+<p>dA 是球面上的微分面积，近似成长方形</p>
+</blockquote>
+<p>通过积分可以得到，整个球的立体角是 <strong>4π</strong> 。</p>
+<p><img src="/images/Games101/15/04.png"></p>
+<h2 id="1-3-Radiant-Energy-and-Flux-Power"><a href="#1-3-Radiant-Energy-and-Flux-Power" class="headerlink" title="1.3 Radiant Energy and Flux (Power)"></a>1.3 Radiant Energy and Flux (Power)</h2><h3 id="1-3-1-Radiant-Energy"><a href="#1-3-1-Radiant-Energy" class="headerlink" title="1.3.1 Radiant Energy"></a>1.3.1 Radiant Energy</h3><p><strong>定义：Radiant energy是一种电磁辐射的能量。它由 <strong>焦耳</strong>（J&#x3D;Joule）单位来度量，用符号</strong>Q<strong>来表示。</strong></p>
+<p><img src="/images/Games101/15/05.png"></p>
+<h3 id="1-3-2-Radient-Flux-Power"><a href="#1-3-2-Radient-Flux-Power" class="headerlink" title="1.3.2 Radient Flux(Power)"></a>1.3.2 Radient Flux(Power)</h3><p><strong>定义：</strong></p>
+<ul>
+<li><strong>Radient flux(Power) 是单位时间的发射出的、反射的、传播的和接收的能量。</strong></li>
+<li>或者：<strong>单位时间辐射出光子的数量</strong></li>
+</ul>
+<p><img src="/images/Games101/15/06.png"></p>
+<h2 id="1-4-与光相关的物理量"><a href="#1-4-与光相关的物理量" class="headerlink" title="1.4 与光相关的物理量"></a>1.4 与光相关的物理量</h2><p>主要是区别下面三种物理量：</p>
+<ul>
+<li><strong>Radiant Intensity</strong>：光源辐射出的能量；</li>
+<li><strong>Irrdiance</strong>：物体表面接收的光的能量；</li>
+<li><strong>Radiance</strong>：光线在传播过程中的能量；</li>
+</ul>
+<p><img src="/images/Games101/15/07.png"></p>
+<h3 id="1-4-1-Radient-intensity"><a href="#1-4-1-Radient-intensity" class="headerlink" title="1.4.1 Radient intensity"></a>1.4.1 Radient intensity</h3><p><strong>定义：</strong></p>
+<ul>
+<li>Radient intensity是 <strong>每单位立体角</strong> 辐射的能量。</li>
+</ul>
+<p><img src="/images/Games101/15/08.png"></p>
+<h3 id="1-4-2-Irradiance"><a href="#1-4-2-Irradiance" class="headerlink" title="1.4.2 Irradiance"></a>1.4.2 Irradiance</h3><p><strong>定义：</strong></p>
+<ul>
+<li><strong>Irradiance</strong> 是<strong>单位面积的辐射通量</strong>（面必须和光线<strong>垂直</strong>，否则要变成和投影面垂直的）。</li>
+</ul>
+<p><img src="/images/Games101/15/09.png"></p>
+<p><strong>Irradiance 例子：</strong></p>
+<ul>
+<li>冬夏温度之分是因为点光源辐射的能量到达辐射点的角度不同步（阳光和不同区域的夹角不同），导致接收的能量不同。</li>
+<li>Irradiance 会衰减（不是 Intensity 衰减）</li>
+</ul>
+<p><img src="/images/Games101/15/10.png"></p>
+<h3 id="1-4-3-Radiance"><a href="#1-4-3-Radiance" class="headerlink" title="1.4.3 Radiance"></a>1.4.3 Radiance</h3><p>Radiance 描述光线在传播过程中的属性。</p>
+<p><strong>定义：</strong></p>
+<ul>
+<li>单位面积，单位立体角接受的能力；</li>
+<li>或者理解为：<strong>在单位面积，单位立体角 发出的能量</strong>；</li>
+</ul>
+<p><img src="/images/Games101/15/11.png"></p>
+<p><strong>注意：</strong></p>
+<p>因为 <strong>Irradiance</strong> 是<strong>单位面积的辐射通量</strong>，<strong>Intensity</strong> 是<strong>单位立体角发出的能量</strong>。</p>
+<p>所以 Radiance是<strong>每单位立体角的 Irradiance</strong>，Radiance是<strong>每单位面积的正交 Intensity</strong>。</p>
+<h4 id="1-4-3-1-Incident-Radiance"><a href="#1-4-3-1-Incident-Radiance" class="headerlink" title="1.4.3.1 Incident Radiance"></a>1.4.3.1 Incident Radiance</h4><p>Incident Radiance 是每<strong>单位立体角</strong>的<strong>到达</strong>表面的 <strong>Irradiance</strong>。</p>
+<p><img src="/images/Games101/15/12.png"></p>
+<h4 id="1-4-3-2-Exiting-Radiance"><a href="#1-4-3-2-Exiting-Radiance" class="headerlink" title="1.4.3.2 Exiting Radiance"></a>1.4.3.2 Exiting Radiance</h4><p>Exiting surface radiance 是<strong>每单位面积</strong>向某个角度辐射出的 <strong>Intensity</strong>（这里参考文章里面应该是写错了）。</p>
+<p><img src="/images/Games101/15/13.png"></p>
+<h2 id="1-5-Irradiance-和-Radiance"><a href="#1-5-Irradiance-和-Radiance" class="headerlink" title="1.5 Irradiance 和 Radiance"></a>1.5 Irradiance 和 Radiance</h2><p><strong>Irradiance</strong>：被区域 dA 吸收的所有的能量。</p>
+<p><strong>Radiance</strong>：被区域 dA 的来自d ω 的能量（多了一个立体角）。</p>
+<p><img src="/images/Games101/15/14.png"></p>
+<h2 id="1-6-各向同性点光源-Isotropic-Point-Source"><a href="#1-6-各向同性点光源-Isotropic-Point-Source" class="headerlink" title="1.6 各向同性点光源 Isotropic Point Source"></a>1.6 各向同性点光源 Isotropic Point Source</h2><p>如果点光源均匀的辐射出光，则可以得到点光源的强度 <strong>I</strong> 如下所示。</p>
+<p><img src="/images/Games101/15/15.png"></p>
+<h1 id="2-双向反射分布函数-Bidirectional-Reflectance-Distribution-Function（BRDF）"><a href="#2-双向反射分布函数-Bidirectional-Reflectance-Distribution-Function（BRDF）" class="headerlink" title="2. 双向反射分布函数 Bidirectional Reflectance Distribution Function（BRDF）"></a>2. 双向反射分布函数 Bidirectional Reflectance Distribution Function（BRDF）</h1><p><strong>引入</strong> ：</p>
+<ul>
+<li>来自于 <strong>ωi 立体角</strong>的 <strong>Radiance</strong> 转化成 dA 接受的能量E，然后能量E会变成向着任何其他方向 ω 的 Radiance。</li>
+</ul>
+<p><strong>意义：</strong></p>
+<ul>
+<li><strong>BRDF</strong> 用于<strong>表示某个微小面积 dA 从某个微小立体角 dωi 接受的 Irradiance 会如何被分配到不同的立体角去。</strong></li>
+</ul>
+<p><strong>定义：</strong></p>
+<p><strong>如下图所示，从来自 ωi 立体角的 Irradiance（dE(ωi))，经过单位面积吸收后，向某一立体角 ωr 发射出去，发射出去的 Radiance 是 dLr(x , ωr)</strong></p>
+<p><img src="/images/Games101/15/16.png"></p>
+<p><strong>BRDF 用于表示从每个入射方向进来的光线会每个向出射方向 ωr 反射的能量多少。</strong></p>
+<p><strong>BRDF 就是任何一个出射方向的 Radiance 的微分 除以 在入射点上 Irradiance的微</strong>分，BRDF 如下所示。</p>
+<p><img src="/images/Games101/15/17.png"></p>
+<h2 id="2-1-反射方程（The-Reflection-Equation）"><a href="#2-1-反射方程（The-Reflection-Equation）" class="headerlink" title="2.1 反射方程（The Reflection Equation）"></a>2.1 反射方程（The Reflection Equation）</h2><p>BRDF 是描述光线对物体时如何作用的，所以可以<strong>用于定义不同的材质</strong>。</p>
+<p><strong>把每一个方向对出射方向的贡献积分起来就会获得向某个方向反射出光照的结果。</strong></p>
+<p><img src="/images/Games101/15/18.png"></p>
+<p>反射radiance取决于入射radiance，而入射Radiance不仅取决于光源，还有<strong>被其他物体反射的光</strong>，具有递归关系。</p>
+<p><img src="/images/Games101/15/19.png"></p>
+<h2 id="2-2-渲染方程（The-Rendering-Equation）"><a href="#2-2-渲染方程（The-Rendering-Equation）" class="headerlink" title="2.2 渲染方程（The Rendering Equation）"></a>2.2 渲染方程（The Rendering Equation）</h2><p><strong>渲染方程</strong> &#x3D; <strong>加上自己辐射的 Radiance</strong> + <strong>反射方程</strong></p>
+<p><img src="/images/Games101/15/20.png"></p>
+<p>注意：</p>
+<ul>
+<li><p>这里默认所有的方向 ω 都是向外的。</p>
+</li>
+<li><p>而且此时考虑的照亮到这一点的都是光源</p>
+</li>
+</ul>
+<p><strong>但是实际上照亮这一点的不仅仅有光源的 Radiance，还有可能是其他物体反射过来的 Radiance；</strong></p>
+<p>如果<strong>考虑其他物体反射的radiance</strong>，就把反射物体和反射面当成光源，可以把渲染方程写成更通用的形式。</p>
+<p><img src="/images/Games101/15/21.png"></p>
+<p><strong>以上的式子可以简单的表达为：</strong></p>
+<p><img src="/images/Games101/15/22.png"></p>
+<p><strong>K为反射操作符，进一步简写为：</strong></p>
+<p><img src="/images/Games101/15/23.png"></p>
+<p>可以看出L是递归定义的。</p>
+<h3 id="2-2-1-结论"><a href="#2-2-1-结论" class="headerlink" title="2.2.1 结论"></a>2.2.1 结论</h3><p>简写渲染方程（L&#x3D; E + K L）的目的是解出 L。</p>
+<p><strong>解L的方法如下所示，其中K也可以理解成反射次数，反射次数越多，项越多，K^2 代表光弹射两次。</strong></p>
+<p><img src="/images/Games101/15/24.png"></p>
+<p><strong>全局光照 &#x3D; 直接光照（E） + 间接光照（KE + K^2E + K^3E + …）</strong></p>
+<p><img src="/images/Games101/15/25.png"></p>
+<p><strong>光栅化的着色一般只有 E+EK，而后面的间接光照部分光栅化难以做到，一般使用光线追踪（路径追踪）来进行计算。</strong></p>
+<h1 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h1><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43399489/article/details/121655346?spm=1001.2014.3001.5502">图形学笔记（十三）光线追踪3——双向反射分布函数BRDF（反射方程、递归方程）、辐射度量学基础radiometry、立体角、Radiant Energy、Flux、Irrdiance、Radiance_irrdiance 测量仪-CSDN博客</a></p>
+<p><strong>好难…</strong> </p>
+<p><strong>光做笔记都要写好久好久…</strong></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2024/01/13/games101/Lec%2016/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1668,203 +1941,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2024/01/13/games101/Lec%2015/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="FJBQ">
-      <meta itemprop="description" content="坚定 坚持 坚强">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="FJBQ">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2024/01/13/games101/Lec%2015/" class="post-title-link" itemprop="url">【Games 101】Lec 15：光线追踪 3（辐射度量学，光传输，全局光照）</a>
-        </h2>
-
-        <div class="post-meta">
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2024-01-13 13:16:57 / 修改时间：15:01:38" itemprop="dateCreated datePublished" datetime="2024-01-13T13:16:57+08:00">2024-01-13</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">Games 系列</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/Games-101/" itemprop="url" rel="index"><span itemprop="name">Games 101</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="Lecture-15：Ray-Tracing-3-Light-Transport-Global-Illumination"><a href="#Lecture-15：Ray-Tracing-3-Light-Transport-Global-Illumination" class="headerlink" title="Lecture 15：Ray Tracing 3 (Light Transport &amp; Global Illumination)"></a>Lecture 15：Ray Tracing 3 (Light Transport &amp; Global Illumination)</h1><p>这节课讲的是 <strong>Light Transport &amp; Global Illumination</strong> 当然首先包含了上一节课最后的辐射度量学；</p>
-<p>ps：这几节课是真的难…</p>
-<h1 id="1-辐射度量学（Basic-radiometry）"><a href="#1-辐射度量学（Basic-radiometry）" class="headerlink" title="1. 辐射度量学（Basic radiometry）"></a>1. 辐射度量学（Basic radiometry）</h1><h2 id="1-1-概述"><a href="#1-1-概述" class="headerlink" title="1.1 概述"></a>1.1 概述</h2><p><strong>辐射度量学的动机：</strong></p>
-<p>光源中定义L&#x3D;10，但是10代表的是什么无法确定，缺少单位。</p>
-<p><strong>定义：</strong></p>
-<p>辐射度量学就是<strong>在物理上准确度量光照</strong>的方法。</p>
-<p>它定义了一系列的方法和单位，准确的定义了光在空间中的属性：</p>
-<ul>
-<li>Radiant flux（辐射通量）</li>
-<li>intensity（辐射强度）</li>
-<li>irradiance（辐射[照]度）</li>
-<li>radiance（辐[射]亮度）</li>
-</ul>
-<h2 id="1-2-角，立体角（solid-angle），微分立体角"><a href="#1-2-角，立体角（solid-angle），微分立体角" class="headerlink" title="1.2 角，立体角（solid angle），微分立体角"></a>1.2 角，立体角（solid angle），微分立体角</h2><ol>
-<li><strong>角 Angle：</strong> 圆上的弧长与半径的比值。</li>
-</ol>
-<p><img src="/images/Games101/15/01.png"></p>
-<ol start="2">
-<li><strong>立体角（solid angle）：球面上的面积和半径平方的比值。</strong>（弧度制在三维空间的延申）</li>
-</ol>
-<p><img src="/images/Games101/15/02.png"></p>
-<ol start="3">
-<li><strong>微分立体角（Differential）</strong></li>
-</ol>
-<p><img src="/images/Games101/15/03.png"></p>
-<blockquote>
-<p>dA 是球面上的微分面积，近似成长方形</p>
-</blockquote>
-<p>通过积分可以得到，整个球的立体角是 <strong>4π</strong> 。</p>
-<p><img src="/images/Games101/15/04.png"></p>
-<h2 id="1-3-Radiant-Energy-and-Flux-Power"><a href="#1-3-Radiant-Energy-and-Flux-Power" class="headerlink" title="1.3 Radiant Energy and Flux (Power)"></a>1.3 Radiant Energy and Flux (Power)</h2><h3 id="1-3-1-Radiant-Energy"><a href="#1-3-1-Radiant-Energy" class="headerlink" title="1.3.1 Radiant Energy"></a>1.3.1 Radiant Energy</h3><p><strong>定义：Radiant energy是一种电磁辐射的能量。它由 <strong>焦耳</strong>（J&#x3D;Joule）单位来度量，用符号</strong>Q<strong>来表示。</strong></p>
-<p><img src="/images/Games101/15/05.png"></p>
-<h3 id="1-3-2-Radient-Flux-Power"><a href="#1-3-2-Radient-Flux-Power" class="headerlink" title="1.3.2 Radient Flux(Power)"></a>1.3.2 Radient Flux(Power)</h3><p><strong>定义：</strong></p>
-<ul>
-<li><strong>Radient flux(Power) 是单位时间的发射出的、反射的、传播的和接收的能量。</strong></li>
-<li>或者：<strong>单位时间辐射出光子的数量</strong></li>
-</ul>
-<p><img src="/images/Games101/15/06.png"></p>
-<h2 id="1-4-与光相关的物理量"><a href="#1-4-与光相关的物理量" class="headerlink" title="1.4 与光相关的物理量"></a>1.4 与光相关的物理量</h2><p>主要是区别下面三种物理量：</p>
-<ul>
-<li><strong>Radiant Intensity</strong>：光源辐射出的能量；</li>
-<li><strong>Irrdiance</strong>：物体表面接收的光的能量；</li>
-<li><strong>Radiance</strong>：光线在传播过程中的能量；</li>
-</ul>
-<p><img src="/images/Games101/15/07.png"></p>
-<h3 id="1-4-1-Radient-intensity"><a href="#1-4-1-Radient-intensity" class="headerlink" title="1.4.1 Radient intensity"></a>1.4.1 Radient intensity</h3><p><strong>定义：</strong></p>
-<ul>
-<li>Radient intensity是 <strong>每单位立体角</strong> 辐射的能量。</li>
-</ul>
-<p><img src="/images/Games101/15/08.png"></p>
-<h3 id="1-4-2-Irradiance"><a href="#1-4-2-Irradiance" class="headerlink" title="1.4.2 Irradiance"></a>1.4.2 Irradiance</h3><p><strong>定义：</strong></p>
-<ul>
-<li><strong>Irradiance</strong> 是<strong>单位面积的辐射通量</strong>（面必须和光线<strong>垂直</strong>，否则要变成和投影面垂直的）。</li>
-</ul>
-<p><img src="/images/Games101/15/09.png"></p>
-<p><strong>Irradiance 例子：</strong></p>
-<ul>
-<li>冬夏温度之分是因为点光源辐射的能量到达辐射点的角度不同步（阳光和不同区域的夹角不同），导致接收的能量不同。</li>
-<li>Irradiance 会衰减（不是 Intensity 衰减）</li>
-</ul>
-<p><img src="/images/Games101/15/10.png"></p>
-<h3 id="1-4-3-Radiance"><a href="#1-4-3-Radiance" class="headerlink" title="1.4.3 Radiance"></a>1.4.3 Radiance</h3><p>Radiance 描述光线在传播过程中的属性。</p>
-<p><strong>定义：</strong></p>
-<ul>
-<li>单位面积，单位立体角接受的能力；</li>
-<li>或者理解为：<strong>在单位面积，单位立体角 发出的能量</strong>；</li>
-</ul>
-<p><img src="/images/Games101/15/11.png"></p>
-<p><strong>注意：</strong></p>
-<p>因为 <strong>Irradiance</strong> 是<strong>单位面积的辐射通量</strong>，<strong>Intensity</strong> 是<strong>单位立体角发出的能量</strong>。</p>
-<p>所以 Radiance是<strong>每单位立体角的 Irradiance</strong>，Radiance是<strong>每单位面积的正交 Intensity</strong>。</p>
-<h4 id="1-4-3-1-Incident-Radiance"><a href="#1-4-3-1-Incident-Radiance" class="headerlink" title="1.4.3.1 Incident Radiance"></a>1.4.3.1 Incident Radiance</h4><p>Incident Radiance 是每<strong>单位立体角</strong>的<strong>到达</strong>表面的 <strong>Irradiance</strong>。</p>
-<p><img src="/images/Games101/15/12.png"></p>
-<h4 id="1-4-3-2-Exiting-Radiance"><a href="#1-4-3-2-Exiting-Radiance" class="headerlink" title="1.4.3.2 Exiting Radiance"></a>1.4.3.2 Exiting Radiance</h4><p>Exiting surface radiance 是<strong>每单位面积</strong>向某个角度辐射出的 <strong>Intensity</strong>（这里参考文章里面应该是写错了）。</p>
-<p><img src="/images/Games101/15/13.png"></p>
-<h2 id="1-5-Irradiance-和-Radiance"><a href="#1-5-Irradiance-和-Radiance" class="headerlink" title="1.5 Irradiance 和 Radiance"></a>1.5 Irradiance 和 Radiance</h2><p><strong>Irradiance</strong>：被区域 dA 吸收的所有的能量。</p>
-<p><strong>Radiance</strong>：被区域 dA 的来自d ω 的能量（多了一个立体角）。</p>
-<p><img src="/images/Games101/15/14.png"></p>
-<h2 id="1-6-各向同性点光源-Isotropic-Point-Source"><a href="#1-6-各向同性点光源-Isotropic-Point-Source" class="headerlink" title="1.6 各向同性点光源 Isotropic Point Source"></a>1.6 各向同性点光源 Isotropic Point Source</h2><p>如果点光源均匀的辐射出光，则可以得到点光源的强度 <strong>I</strong> 如下所示。</p>
-<p><img src="/images/Games101/15/15.png"></p>
-<h1 id="2-双向反射分布函数-Bidirectional-Reflectance-Distribution-Function（BRDF）"><a href="#2-双向反射分布函数-Bidirectional-Reflectance-Distribution-Function（BRDF）" class="headerlink" title="2. 双向反射分布函数 Bidirectional Reflectance Distribution Function（BRDF）"></a>2. 双向反射分布函数 Bidirectional Reflectance Distribution Function（BRDF）</h1><p><strong>引入</strong> ：</p>
-<ul>
-<li>来自于 <strong>ωi 立体角</strong>的 <strong>Radiance</strong> 转化成 dA 接受的能量E，然后能量E会变成向着任何其他方向 ω 的 Radiance。</li>
-</ul>
-<p><strong>意义：</strong></p>
-<ul>
-<li><strong>BRDF</strong> 用于<strong>表示某个微小面积 dA 从某个微小立体角 dωi 接受的 Irradiance 会如何被分配到不同的立体角去。</strong></li>
-</ul>
-<p><strong>定义：</strong></p>
-<p><strong>如下图所示，从来自 ωi 立体角的 Irradiance（dE(ωi))，经过单位面积吸收后，向某一立体角 ωr 发射出去，发射出去的 Radiance 是 dLr(x , ωr)</strong></p>
-<p><img src="/images/Games101/15/16.png"></p>
-<p><strong>BRDF 用于表示从每个入射方向进来的光线会每个向出射方向 ωr 反射的能量多少。</strong></p>
-<p><strong>BRDF 就是任何一个出射方向的 Radiance 的微分 除以 在入射点上 Irradiance的微</strong>分，BRDF 如下所示。</p>
-<p><img src="/images/Games101/15/17.png"></p>
-<h2 id="2-1-反射方程（The-Reflection-Equation）"><a href="#2-1-反射方程（The-Reflection-Equation）" class="headerlink" title="2.1 反射方程（The Reflection Equation）"></a>2.1 反射方程（The Reflection Equation）</h2><p>BRDF 是描述光线对物体时如何作用的，所以可以<strong>用于定义不同的材质</strong>。</p>
-<p><strong>把每一个方向对出射方向的贡献积分起来就会获得向某个方向反射出光照的结果。</strong></p>
-<p><img src="/images/Games101/15/18.png"></p>
-<p>反射radiance取决于入射radiance，而入射Radiance不仅取决于光源，还有<strong>被其他物体反射的光</strong>，具有递归关系。</p>
-<p><img src="/images/Games101/15/19.png"></p>
-<h2 id="2-2-渲染方程（The-Rendering-Equation）"><a href="#2-2-渲染方程（The-Rendering-Equation）" class="headerlink" title="2.2 渲染方程（The Rendering Equation）"></a>2.2 渲染方程（The Rendering Equation）</h2><p><strong>渲染方程</strong> &#x3D; <strong>加上自己辐射的 Radiance</strong> + <strong>反射方程</strong></p>
-<p><img src="/images/Games101/15/20.png"></p>
-<p>注意：</p>
-<ul>
-<li><p>这里默认所有的方向 ω 都是向外的。</p>
-</li>
-<li><p>而且此时考虑的照亮到这一点的都是光源</p>
-</li>
-</ul>
-<p><strong>但是实际上照亮这一点的不仅仅有光源的 Radiance，还有可能是其他物体反射过来的 Radiance；</strong></p>
-<p>如果<strong>考虑其他物体反射的radiance</strong>，就把反射物体和反射面当成光源，可以把渲染方程写成更通用的形式。</p>
-<p><img src="/images/Games101/15/21.png"></p>
-<p><strong>以上的式子可以简单的表达为：</strong></p>
-<p><img src="/images/Games101/15/22.png"></p>
-<p><strong>K为反射操作符，进一步简写为：</strong></p>
-<p><img src="/images/Games101/15/23.png"></p>
-<p>可以看出L是递归定义的。</p>
-<h3 id="2-2-1-结论"><a href="#2-2-1-结论" class="headerlink" title="2.2.1 结论"></a>2.2.1 结论</h3><p>简写渲染方程（L&#x3D; E + K L）的目的是解出 L。</p>
-<p><strong>解L的方法如下所示，其中K也可以理解成反射次数，反射次数越多，项越多，K^2 代表光弹射两次。</strong></p>
-<p><img src="/images/Games101/15/24.png"></p>
-<p><strong>全局光照 &#x3D; 直接光照（E） + 间接光照（KE + K^2E + K^3E + …）</strong></p>
-<p><img src="/images/Games101/15/25.png"></p>
-<p><strong>光栅化的着色一般只有 E+EK，而后面的间接光照部分光栅化难以做到，一般使用光线追踪（路径追踪）来进行计算。</strong></p>
-<h1 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h1><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43399489/article/details/121655346?spm=1001.2014.3001.5502">图形学笔记（十三）光线追踪3——双向反射分布函数BRDF（反射方程、递归方程）、辐射度量学基础radiometry、立体角、Radiant Energy、Flux、Irrdiance、Radiance_irrdiance 测量仪-CSDN博客</a></p>
-<p><strong>好难…</strong> </p>
-<p><strong>光做笔记都要写好久好久…</strong></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2024/01/09/games101/Lec%2014/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2045,240 +2121,10 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2024/01/09/games101/Lec%2013/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="FJBQ">
-      <meta itemprop="description" content="坚定 坚持 坚强">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="FJBQ">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2024/01/09/games101/Lec%2013/" class="post-title-link" itemprop="url">【Games 101】Lec 13：光线追踪 1（Shadow Mapping，Whitted-Style Ray Tracing）</a>
-        </h2>
-
-        <div class="post-meta">
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2024-01-09 21:13:23" itemprop="dateCreated datePublished" datetime="2024-01-09T21:13:23+08:00">2024-01-09</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-01-10 00:24:07" itemprop="dateModified" datetime="2024-01-10T00:24:07+08:00">2024-01-10</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">Games 系列</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Games-%E7%B3%BB%E5%88%97/Games-101/" itemprop="url" rel="index"><span itemprop="name">Games 101</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="Lecture-13：Ray-Tracing-1-Shadow-Mapping，Whitted-Style-Ray-Tracing"><a href="#Lecture-13：Ray-Tracing-1-Shadow-Mapping，Whitted-Style-Ray-Tracing" class="headerlink" title="Lecture 13：Ray Tracing 1 (Shadow Mapping，Whitted-Style Ray Tracing)"></a>Lecture 13：Ray Tracing 1 (Shadow Mapping，Whitted-Style Ray Tracing)</h1><h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>这一节课主要讲了 <strong>阴影</strong> 和 <strong>光线追踪</strong>；</p>
-<p>光纤追踪这一部分有点难啊… </p>
-<p>挺抽象的，不太好理解…</p>
-<h1 id="Shadow-Mapping"><a href="#Shadow-Mapping" class="headerlink" title="Shadow Mapping"></a>Shadow Mapping</h1><h2 id="概述-1"><a href="#概述-1" class="headerlink" title="概述"></a>概述</h2><p>Shadow Mapping<strong>本质是一种图像空间</strong>的算法。</p>
-<p>我们之前学的都没有考虑到<strong>阴影</strong>，现在考虑一下这个东西；</p>
-<h2 id="具体算法"><a href="#具体算法" class="headerlink" title="具体算法"></a>具体算法</h2><ul>
-<li>从光源渲染，从光源看场景，可以求出深度图（点到光源的深度）（z-buffer）</li>
-<li><img src="/images/Games101/13/01.png"></li>
-<li>从相机渲染，也就是从相机发出光线，可以得到我们看到的点，然后求这些点到光源的深度；如果这个深度和从光源渲染的深度是一样的，则说明这个点没有被遮挡；否则说明，这个点被遮挡了；</li>
-<li><img src="/images/Games101/13/02.png"></li>
-</ul>
-<h2 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h2><p><img src="/images/Games101/13/03.png"></p>
-<h2 id="问题分析"><a href="#问题分析" class="headerlink" title="问题分析"></a>问题分析</h2><ul>
-<li>生成的是硬阴影（只对点光源（没有体积））。</li>
-<li>阴影的效果取决于shadow map的分辨率。</li>
-<li>涉及浮点精度比较的问题，导致渲染出来的效果一般。</li>
-</ul>
-<h2 id="软阴影和硬阴影"><a href="#软阴影和硬阴影" class="headerlink" title="软阴影和硬阴影"></a>软阴影和硬阴影</h2><p>下面图中，左上是硬阴影，左下是软阴影；</p>
-<p><img src="/images/Games101/13/04.png"></p>
-<h3 id="软阴影的原理"><a href="#软阴影的原理" class="headerlink" title="软阴影的原理"></a>软阴影的原理</h3><p>由于点光源有大小，会形成<strong>本影（Umbra）区域</strong>和<strong>半影（Penumbra）区域</strong>。所以会形成阴影的过渡。</p>
-<h2 id="进行光线追踪（Ray-Tracing）的原因"><a href="#进行光线追踪（Ray-Tracing）的原因" class="headerlink" title="进行光线追踪（Ray Tracing）的原因"></a>进行光线追踪（Ray Tracing）的原因</h2><p><img src="/images/Games101/13/05.png"></p>
-<ul>
-<li><strong>难以做软阴影</strong>；</li>
-<li><strong>难以表现光线多次弹射，比如间接光照</strong>；</li>
-<li><strong>光栅化很快但是质量较低</strong>；</li>
-<li><strong>光线追踪很准确，但是很慢</strong>；</li>
-</ul>
-<p>光栅化：实时（游戏），光线追踪：离线（动画）。</p>
-<p>光线追踪一帧就要花10K个计算机小时</p>
-<p>光栅化和光线追踪都是成像方式。</p>
-<h1 id="光线追踪（算法）"><a href="#光线追踪（算法）" class="headerlink" title="光线追踪（算法）"></a>光线追踪（算法）</h1><h2 id="光线的一些定义概念"><a href="#光线的一些定义概念" class="headerlink" title="光线的一些定义概念"></a>光线的一些定义概念</h2><ul>
-<li><p>光线沿直线传播。</p>
-</li>
-<li><p>光线和光线不会发生碰撞。</p>
-</li>
-<li><p>光线会从光源发出，打到场景中，经过反射折射等最终进入人眼（光线具有可逆性）。</p>
-</li>
-</ul>
-<h2 id="光线投影（Ray-Casting）"><a href="#光线投影（Ray-Casting）" class="headerlink" title="光线投影（Ray Casting）"></a>光线投影（Ray Casting）</h2><p>光线投射是<strong>光线追踪中用于生成初始光线的第一步。</strong></p>
-<ul>
-<li><p>通过每个像素投射一条光线来生成图像</p>
-</li>
-<li><p>通过向光源发送光线来检查阴影</p>
-</li>
-</ul>
-<p><strong>具体的讲：</strong></p>
-<ul>
-<li>从视点开始经过像素获得与场景中物体最近的交点。</li>
-<li><img src="/images/Games101/13/06.png"></li>
-<li>将交点和和光源连线，判断这个点是否对光源可见，从而确定该点是否是阴影；</li>
-<li><img src="/images/Games101/13/07.png"></li>
-<li>然后计算着色，并将结果写回像素；</li>
-</ul>
-<h2 id="Recursive（Whitted-Style）-Ray-Tracing"><a href="#Recursive（Whitted-Style）-Ray-Tracing" class="headerlink" title="Recursive（Whitted- Style） Ray Tracing"></a>Recursive（Whitted- Style） Ray Tracing</h2><p>这个光线追踪算法可以看成是优化，<strong>它考虑了反射和折射的光线</strong>。</p>
-<p><img src="/images/Games101/13/08.png"></p>
-<p>对<strong>每一个弹射点都要计算着色的值</strong>，然后<strong>把所有着色的值都加到像素的值里面</strong>去。</p>
-<p>当然这里需要考虑能量的衰减：</p>
-<p><img src="/images/Games101/13/09.png"></p>
-<p>光线有不同的分类：</p>
-<p><img src="/images/Games101/13/10.png"></p>
-<p><strong>上面只是讲了大概应该怎么做，下面具体的讲细节。</strong></p>
-<h2 id="光线和表面的交点（Ray-Surface-Intersection）"><a href="#光线和表面的交点（Ray-Surface-Intersection）" class="headerlink" title="光线和表面的交点（Ray-Surface Intersection）"></a>光线和表面的交点（Ray-Surface Intersection）</h2><p>回顾一下上面，首先光线追踪的第一步，是不是要求一条光线和表面的交点？</p>
-<h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><h4 id="光线"><a href="#光线" class="headerlink" title="光线"></a>光线</h4><p>光线在数学上定义成 <strong>有起点和方向的射线</strong>，用 t 来表示时间，则我们可以得到射线的一个表达式：</p>
-<p><img src="/images/Games101/13/11.png"></p>
-<ul>
-<li>r(t)：是 t 时刻射线上的点；</li>
-<li>o：是起始点；</li>
-<li>d：表示方向，感觉可以理解为速度；</li>
-</ul>
-<h4 id="平面"><a href="#平面" class="headerlink" title="平面"></a>平面</h4><p>通过一个<strong>法向量</strong>和一个<strong>平面上的点</strong>来进行定义。</p>
-<p><img src="/images/Games101/13/12.png"></p>
-<p><strong>平面的表达式</strong> 平面是满足下面条件所有p点的集合。</p>
-<h3 id="光线-和-球-求交"><a href="#光线-和-球-求交" class="headerlink" title="光线 和 球 求交"></a>光线 和 球 求交</h3><p>这个很简单，带进去就行；</p>
-<p><img src="/images/Games101/13/13.png"></p>
-<p><img src="/images/Games101/13/14.png"></p>
-<h3 id="光线-和-隐式表面-求交"><a href="#光线-和-隐式表面-求交" class="headerlink" title="光线 和 隐式表面 求交"></a>光线 和 隐式表面 求交</h3><p>也是一样的，带入：</p>
-<p><img src="/images/Games101/13/15.png"></p>
-<h3 id="光线-和-三角形面-求交"><a href="#光线-和-三角形面-求交" class="headerlink" title="光线 和 三角形面 求交"></a>光线 和 三角形面 求交</h3><h4 id="为什么"><a href="#为什么" class="headerlink" title="为什么"></a>为什么</h4><p>光线和三角形求交有如下作用：</p>
-<ul>
-<li>渲染：可见性、阴影、光照…</li>
-<li>几何：可以判断点是再物体内还是物体外。<br>对任何一个封闭的曲面，在内部找一个点，如果点在形状内，那么从这个点发出的任意方向的射线与此物体的交点数量一定是奇数。</li>
-</ul>
-<p><img src="/images/Games101/13/16.png"></p>
-<h4 id="具体算法-1"><a href="#具体算法-1" class="headerlink" title="具体算法"></a>具体算法</h4><p>简单的办法是让场景中的每个三角形与光线进行求交计算，但是有如下严重问题。</p>
-<ul>
-<li>简单但是运算量大。</li>
-<li>可以有0或1个交点。</li>
-</ul>
-<p>因为<strong>三角形在平面内</strong>，所以可以把光线和三角形求交拆成两个问题：</p>
-<ul>
-<li><p>让光线与平面求交（目前与平面求交比与三角形求交容易）。</p>
-</li>
-<li><p>判断与平面的交点是否在三角形内。</p>
-</li>
-</ul>
-<p><strong>也就是说：光线与平面求交再判断是否在三角形内！</strong></p>
-<p><img src="/images/Games101/13/17.png"></p>
-<p>通过上面的图，可以求出 t，进而求出 r(t) （也就是交点）；</p>
-<p>然后再判断交点是否在三角形里面；</p>
-<h4 id="Moller-Trumbore-（MT）算法"><a href="#Moller-Trumbore-（MT）算法" class="headerlink" title="Moller Trumbore （MT）算法"></a>Moller Trumbore （MT）算法</h4><p>通过上面我们可以知道，我们需要两步来求解；</p>
-<p>MT 算法通过<strong>使用重心坐标</strong>来同时判断点是否在三角形里面；</p>
-<p>在下面的式子中，左边是光线的表达式，右边是三角形上一点的重心坐标形式。</p>
-<p><img src="/images/Games101/13/18.png"></p>
-<p>根据上面的等式解出来 <strong>t ，b1 ，b2</strong>（<strong>三个方程，三个未知数</strong>，也可以使用克莱默法则）。</p>
-<p><img src="/images/Games101/13/19.png"></p>
-<p>如果解出来的 <strong>t ，b1 ，b2 ，1-b1-b2</strong> 都<strong>大于0</strong>，则说明解是有意义的。</p>
-<h1 id="包围盒（Bounding-Volumes）"><a href="#包围盒（Bounding-Volumes）" class="headerlink" title="包围盒（Bounding Volumes）"></a>包围盒（Bounding Volumes）</h1><h2 id="概述-2"><a href="#概述-2" class="headerlink" title="概述"></a>概述</h2><p>原始的做法是让每个像素的光线要和<strong>所有三角形面求交点</strong>，计算量太大，那么如何让这个过程加速呢？如果我们圈定包围盒，<strong>连与包围盒都不相交的三角形就不用接着算了</strong>，那么就可以很大的减少计算量。</p>
-<p><img src="/images/Games101/13/20.png"></p>
-<p><strong>基本思想</strong>：使用一个简单的几何体来包围一个复杂的物体，如果光线不能碰到包围盒，那么就不用再计算其与里面物体的（三角形的）交点。</p>
-<p>这样就能少算很多很多 三角形和光线 的求交运算；</p>
-<h2 id="求光线与长方体的交点"><a href="#求光线与长方体的交点" class="headerlink" title="求光线与长方体的交点"></a>求光线与长方体的交点</h2><p>3D物体通常的包围盒是长方体。<br>一个重要理解：<strong>长方体是三对不同的面形成的交集</strong>。</p>
-<p><img src="/images/Games101/13/21.png"></p>
-<p>我们使用的包围盒通常是<strong>轴对齐（AABB）包围盒</strong>。Axis-Aligned Bounding Box(AABB)<br>经过以上分析，现在问题就变成了<strong>求光线和轴对齐包围盒的交点；</strong></p>
-<h2 id="求光线和轴对齐包围盒的交点"><a href="#求光线和轴对齐包围盒的交点" class="headerlink" title="求光线和轴对齐包围盒的交点"></a>求光线和轴对齐包围盒的交点</h2><h3 id="考虑2维的情况"><a href="#考虑2维的情况" class="headerlink" title="考虑2维的情况"></a>考虑2维的情况</h3><p>先分析简单的，2维的长方形；</p>
-<p>由于前面提到的光线方程是参数方程，所以只要我们计算光线什么时候会和一对平行的边有<strong>交点</strong>（计算 <strong>t-min , t-max</strong>），就可以求出<strong>光线进入和离开这个边的时间</strong>。</p>
-<p><img src="/images/Games101/13/22.png"></p>
-<p>看上面的图：</p>
-<p>首先注意到长方形有两对边；</p>
-<p><strong>左边的图</strong>：是求光线和<strong>左右两边</strong>的相交时的<strong>时间</strong>；</p>
-<p><strong>中间的图</strong>：是求光线和<strong>上下两边</strong>的相交时的<strong>时间</strong>；</p>
-<p>然后对这两段<strong>求交集</strong>，，此时 <strong>t-min , t-max</strong> 就分别代表着<strong>光线进入和离开长方体的时间</strong>。</p>
-<h3 id="考虑3维的情况"><a href="#考虑3维的情况" class="headerlink" title="考虑3维的情况"></a>考虑3维的情况</h3><p>根据2维的情况，我们<strong>推导出3维的情况的性质</strong>：</p>
-<ul>
-<li>只有当光线<strong>进入了所有的对面</strong>，才能说光线进入了盒子。</li>
-<li>只要光线<strong>离开任意一个对面</strong>，光线就离开了盒子。</li>
-</ul>
-<hr>
-<p>然后通过上面我们知道，Box 有3对面，也就是每一对面，光线都能和这对面求一组 t-min , t-max；</p>
-<p><strong>所以再根据上面的性质可以求出光线进入 BOX 的 t （t-enter）和 离开 BOX 的 t（t-exit）</strong></p>
-<p><strong>t-enter &#x3D; max( t1-min , t2-min , t3-min )</strong></p>
-<p><strong>t-exit &#x3D; min( t1-max , t2-max , t3-max )</strong></p>
-<p>ti 表示第 i 对面；</p>
-<hr>
-<p><strong>t为负时的意义：</strong></p>
-<ul>
-<li>如果 <strong>t-exit &lt; 0</strong>，说明<strong>盒子在光线背后</strong>，说明<strong>没有交点</strong>。</li>
-<li>如果 <strong>t-exit &gt;&#x3D; 0 &amp;&amp; t-enter &lt; 0</strong>，说明<strong>光线的起点在盒子里</strong>，一定有交点。</li>
-</ul>
-<hr>
-<p><strong>结论：</strong></p>
-<p>如果满足 <strong>t-enter &lt; t-exit &amp;&amp; t-exit &gt;&#x3D; 0</strong>，则说明光线与AABB包围盒有交点。</p>
-<hr>
-<p><img src="/images/Games101/13/23.png"></p>
-<p><img src="/images/Games101/13/24.png"></p>
-<h3 id="使用轴对齐-AABB-概念的原因"><a href="#使用轴对齐-AABB-概念的原因" class="headerlink" title="使用轴对齐(AABB)概念的原因"></a>使用轴对齐(AABB)概念的原因</h3><p>主要目的是<strong>简化计算</strong>。<br>普通情况计算 t：</p>
-<p><img src="/images/Games101/13/25.png"></p>
-<p>轴对齐的情况下计算t（只需要考虑各方向的分量即可）：</p>
-<p><img src="/images/Games101/13/26.png"></p>
-<hr>
-<p>ok，这个就是这一节课的内容…</p>
-<p>这一节课是真的多，写了好久好久…</p>
-<p>关于包围盒只是讲了怎么做，但是还没讲怎么用（下一节？）</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -2346,20 +2192,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">40</span>
+          <span class="site-state-item-count">41</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-count">8</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-count">7</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -2397,7 +2243,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共49.8k字</span>
+  <span class="post-count">博客全站共51.9k字</span>
 </div>
 
 
